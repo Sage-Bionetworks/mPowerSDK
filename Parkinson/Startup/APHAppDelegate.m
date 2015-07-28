@@ -46,7 +46,7 @@ static NSString *const kMyThoughtsSurveyIdentifier                  = @"8-MyThou
 /*********************************************************************************/
 static NSString *const kStudyIdentifier             = @"studyname";
 static NSString *const kAppPrefix                   = @"studyname";
-static NSString* const  kConsentPropertiesFileName  = @"APHConsentSection";
+static NSString *const kConsentPropertiesFileName   = @"APHConsentSection";
 
 static NSString *const kVideoShownKey = @"VideoShown";
 
@@ -180,6 +180,8 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
                                            }];
 
     self.initializationOptions = dictionary;
+    
+    self.showShareAppInOnboarding = YES;
 
     self.profileExtender = [[APHProfileExtender alloc] init];
 }
