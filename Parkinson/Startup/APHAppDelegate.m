@@ -181,7 +181,7 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
 
     self.initializationOptions = dictionary;
     
-    self.showShareAppInOnboarding = YES;
+    self.onboardingManager.showShareAppInOnboarding = YES;
 
     self.profileExtender = [[APHProfileExtender alloc] init];
 }
