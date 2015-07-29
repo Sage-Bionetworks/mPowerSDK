@@ -68,14 +68,10 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
 - (BOOL)application:(UIApplication*) __unused application willFinishLaunchingWithOptions:(NSDictionary*) __unused launchOptions
 {
     [super application:application willFinishLaunchingWithOptions:launchOptions];
+    self.onboardingManager.showShareAppInOnboarding = YES;
 
     [self enableBackgroundDeliveryForHealthKitTypes];
 
-    return YES;
-}
-- (BOOL)application:(UIApplication *) __unused application didFinishLaunchingWithOptions:(NSDictionary *) __unused launchOptions {
-    self.onboardingManager.showShareAppInOnboarding = YES;
-    
     return YES;
 }
 
