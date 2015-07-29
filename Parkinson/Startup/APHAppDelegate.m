@@ -68,6 +68,7 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
 - (BOOL)application:(UIApplication*) __unused application willFinishLaunchingWithOptions:(NSDictionary*) __unused launchOptions
 {
     [super application:application willFinishLaunchingWithOptions:launchOptions];
+    self.onboardingManager.showShareAppInOnboarding = YES;
 
     [self enableBackgroundDeliveryForHealthKitTypes];
 
@@ -145,8 +146,6 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
                                            }];
 
     self.initializationOptions = dictionary;
-    
-    self.onboardingManager.showShareAppInOnboarding = YES;
 
     self.profileExtender = [[APHProfileExtender alloc] init];
 }
