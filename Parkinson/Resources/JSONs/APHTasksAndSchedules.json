@@ -49,18 +49,6 @@
 		    ]
 		},
 		{
-		    "scheduleType"    : "recurring",
-		    "scheduleString"  : "0 5 * * *",
-		    "tasks"           : [
-                {
-                     "taskTitle" : "Medication Tracker",
-                     "taskID": "a-APHMedicationTracker-20EF8ED2-E461-4C20-9024-F43FCAAAF4C3",
-                     "taskClassName" : "APHMedicationTrackerTaskViewController",
-					 "optional" : true
-                }
-		    ]
-		},
-		{
 		    "scheduleType"    : "once",
 		    "scheduleString"  : "0 5 * * *",
 		    "tasks"           : [
