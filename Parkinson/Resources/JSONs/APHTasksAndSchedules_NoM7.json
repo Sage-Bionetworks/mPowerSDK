@@ -6,7 +6,7 @@
 		    "tasks"           : [
         { 
             "taskTitle" : "Walking Activity",
-                    "taskID": "4-APHTimedWalking-80F09109-265A-49C6-9C5D-765E49AAF5D9",
+            "taskID": "4-APHTimedWalking-80F09109-265A-49C6-9C5D-765E49AAF5D9",
             "taskClassName" : "APHWalkingTaskViewController",
             "taskCompletionTimeString" : "1.5 Minutes"
 					}]
@@ -17,7 +17,7 @@
 		    "tasks"           : [
 		    	{
             "taskTitle" : "Voice Activity",
-                    "taskID": "3-APHPhonation-C614A231-A7B7-4173-BDC8-098309354292",
+            "taskID": "3-APHPhonation-C614A231-A7B7-4173-BDC8-098309354292",
             "taskClassName" : "APHPhonationTaskViewController",
             "taskCompletionTimeString" : "20 Seconds"
         },
@@ -52,7 +52,7 @@
 		    "tasks"           : [
                 {
             "taskTitle" : "Background Survey",
-                    "taskID": "1-EnrollmentSurvey-20EF83D2-E461-4C20-9024-F43FCAAAF4C3",
+            "taskID": "EnrollmentSurvey",
             "taskFileName" : "PDenrollment_survey",
             "taskClassName" : "APHenrollmentsurveyViewController",
             "taskCompletionTimeString" : "(One Time) 28 Questions"
@@ -67,7 +67,7 @@
 		    "tasks"           : [
                 {
             "taskTitle" : "PD Questionnaire",
-                    "taskID": "6-PDQ8-20EF83D2-E461-4C20-9024-F43FCAAAF4C8",
+            "taskID": "PDQ8",
             "taskFileName" : "PDQ8",
             "taskClassName" : "APHPDQ8ViewController",
             "taskCompletionTimeString" : "8 Questions"
@@ -82,7 +82,7 @@
 		    "tasks"           : [
                 {
             "taskTitle" : "PD Rating Scale",
-                    "taskID": "5-MDSUPDRS-20EF82D1-E461-4C20-9024-F43FCAAAF4C8",
+            "taskID": "MDSUPDRS",
             "taskFileName" : "PD_MDRUPDRS",
             "taskClassName" : "APHMDRUPDRS",
             "taskCompletionTimeString" : "21 Questions"
@@ -94,7 +94,7 @@
 		    "tasks"           : [
                 {
             "taskTitle" : "My Thoughts",
-            "taskID" : "8-MyThoughts-12ffde40-1551-4b48-aae2-8fef38d61b61",
+            "taskID" : "mythoughts",
             "taskFileName" : "PD_mythoughts",
             "taskClassName" : "APHmythougths",
                     "taskCompletionTimeString" : "2 Questions",
@@ -108,7 +108,7 @@
 		    "tasks"           : [
                 {
             "taskTitle" : "Study Feedback",
-            "taskID" : "9-Feedback-394348ce-ca4f-4abe-b97e-fedbfd7ffb8e",
+            "taskID" : "study_feedback",
             "taskFileName" : "PD_feedback",
             "taskClassName" : "APHfeedback",
                      "taskCompletionTimeString" : "1 Question",
