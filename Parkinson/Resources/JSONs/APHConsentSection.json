@@ -103,7 +103,7 @@
      {
          "sectionType" : "privacy",
          "sectionTitle": "Protecting your Data",
-         "sectionSummary": "We will replace your name with a random code on all your study data.  This code cannot be used to re-identify you. To prevent improper access, the coded data will be encrypted and stored on a secure Cloud server under the control of Sage Bionetworks (nonprofit).",
+         "sectionSummary": "We will replace your name with a random code on all your study data. This code cannot be used to re-identify you. To prevent improper access, the coded data will be encrypted and stored on a secure Cloud server under the control of Sage Bionetworks (nonprofit).",
          "sectionHtmlContent" : "6protectingdata"
      },
      {
@@ -147,7 +147,7 @@
      {
          "sectionType" : "custom",
          "sectionTitle": "Issues to Consider",
-         "sectionSummary": "This research is not a treatment study.   You do not need to respond to questions that make you feel uncomfortable.",
+         "sectionSummary": "This research is not a treatment study. You do not need to respond to questions that make you feel uncomfortable.",
          "sectionHtmlContent" : "13issues_survey",
          "sectionImage": "11_IssuesToConsider1",
          "sectionAnimationUrl":"11_IssuesToConsider1"
