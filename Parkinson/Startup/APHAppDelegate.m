@@ -40,9 +40,7 @@ static NSString *const kVoiceActivitySurveyIdentifier               = @"3-APHPho
 static NSString *const kTappingActivitySurveyIdentifier             = @"2-APHIntervalTapping-7259AC18-D711-47A6-ADBD-6CFCECDED1DF";
 static NSString *const kMemoryActivitySurveyIdentifier              = @"7-APHSpatialSpanMemory-4A04F3D0-AC05-11E4-AB27-0800200C9A66";
 static NSString *const kMyThoughtsSurveyIdentifier                  = @"mythoughts";
-static NSString *const kPDRatingScaleSurveyIdentifier               = @"MDSUPDRS";
 static NSString *const kEnrollmentSurveyIdentifier                  = @"EnrollmentSurvey";
-static NSString *const kPDQuestionnaireSurveyIdentifier             = @"PDQ8";
 static NSString *const kStudyFeedbackSurveyIdentifier               = @"study_feedback";
 
 
@@ -177,9 +175,7 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
     APCTaskReminder *tappingActivityReminder = [[APCTaskReminder alloc] initWithTaskID:kTappingActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Tapping Activity", nil)];
     APCTaskReminder *memoryActivityReminder = [[APCTaskReminder alloc] initWithTaskID:kMemoryActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Memory Activity", nil)];
     APCTaskReminder *myThoughtsSurveyReminder = [[APCTaskReminder alloc] initWithTaskID:kMyThoughtsSurveyIdentifier reminderBody:NSLocalizedString(@"My Thoughts", nil)];
-    APCTaskReminder *pdRatingSurveyReminder = [[APCTaskReminder alloc] initWithTaskID:kPDRatingScaleSurveyIdentifier reminderBody:NSLocalizedString(@"PD Rating Scale", nil)];
     APCTaskReminder *enrollmentSurveyReminder = [[APCTaskReminder alloc] initWithTaskID:kEnrollmentSurveyIdentifier reminderBody:NSLocalizedString(@"Enrollment Survey", nil)];
-    APCTaskReminder *pdQuestionnaireSurveyReminder = [[APCTaskReminder alloc] initWithTaskID:kPDQuestionnaireSurveyIdentifier reminderBody:NSLocalizedString(@"PD Questionnaire", nil)];
     APCTaskReminder *studyFeedbackSurveyReminder = [[APCTaskReminder alloc] initWithTaskID:kStudyFeedbackSurveyIdentifier reminderBody:NSLocalizedString(@"Study Feedback", nil)];
 
     [self.tasksReminder.reminders removeAllObjects];
@@ -188,9 +184,7 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
     [self.tasksReminder manageTaskReminder:tappingActivityReminder];
     [self.tasksReminder manageTaskReminder:memoryActivityReminder];
     [self.tasksReminder manageTaskReminder:myThoughtsSurveyReminder];
-    [self.tasksReminder manageTaskReminder:pdRatingSurveyReminder];
     [self.tasksReminder manageTaskReminder:enrollmentSurveyReminder];
-    [self.tasksReminder manageTaskReminder:pdQuestionnaireSurveyReminder];
     [self.tasksReminder manageTaskReminder:studyFeedbackSurveyReminder];
 
     if ([self doesPersisteStoreExist] == NO)
