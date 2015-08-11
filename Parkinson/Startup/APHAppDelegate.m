@@ -143,6 +143,7 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
 
     dictionary = [self updateOptionsFor5OrOlder:dictionary];
     [dictionary addEntriesFromDictionary:@{
+                                           kNewsFeedTabKey                      : @YES,
                                            kStudyIdentifierKey                  : kStudyIdentifier,
                                            kAppPrefixKey                        : kAppPrefix,
                                            kBridgeEnvironmentKey                : @(self.environment),
