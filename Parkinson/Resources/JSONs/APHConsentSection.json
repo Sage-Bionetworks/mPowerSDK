@@ -73,7 +73,7 @@
      {
          "sectionType" : "custom",
          "sectionTitle": "We'll Test Your Understanding",
-         "sectionSummary": "At the end of this walkthrough, we will ask you a few questions about the details of the study.",
+         "sectionSummary": "Before completing the enrollment it is important to understand what the study is about and what is involved.",
         "sectionImage": "quiz_image",
         "sectionHtmlContent" : "2quiz_headsup"
      },
@@ -103,13 +103,13 @@
      {
          "sectionType" : "privacy",
          "sectionTitle": "Protecting your Data",
-         "sectionSummary": "We will replace your name with a random code on all your study data.  This code cannot be used to re-identify you. To prevent improper access, the coded data will be encrypted and stored on a secure Cloud server under the control of Sage Bionetworks (nonprofit).",
+         "sectionSummary": "We will replace your name with a random code on all your study data. This code cannot be used to re-identify you. To prevent improper access, the coded data will be encrypted and stored on a secure Cloud server under the control of Sage Bionetworks (nonprofit).",
          "sectionHtmlContent" : "6protectingdata"
      },
      {
          "sectionType" : "dataUse",
          "sectionTitle": "Data Transfer & Use",
-         "sectionSummary": "Your coded data will be used for research. It will be transfered to an analysis platform in the United States, and with your permission, it may be shared with other qualified researchers worldwide.",
+         "sectionSummary": "Your coded data will be used for research. It will be transferred to an analysis platform in the United States, and with your permission, it may be shared with qualified researchers worldwide.",
          "sectionHtmlContent" : "7datause"
      },
      {
@@ -121,13 +121,13 @@
      {
          "sectionType" : "studySurvey",
          "sectionTitle" : "Study Survey",
-         "sectionSummary": "We will also ask you to answer brief weekly and monthly surveys about your symptoms to track any changes.",
+         "sectionSummary": "We will ask you to answer brief weekly and monthly surveys about your symptoms to track any changes.",
          "sectionHtmlContent" : "9study_survey"
      },
      {
          "sectionType" : "studyTasks",
          "sectionTitle" : "Study Activities",
-         "sectionSummary": "We will ask you to perform simple activities, like walking a few steps while holding or using your iPhone.",
+         "sectionSummary": "We will also ask you to perform simple activities, like walking a few steps while holding or using your iPhone.",
          "sectionHtmlContent" : "10study_task"
      },
      {
@@ -147,7 +147,7 @@
      {
          "sectionType" : "custom",
          "sectionTitle": "Issues to Consider",
-         "sectionSummary": "This research is not a treatment study.  You do not need to respond to questions that make you feel uncomfortable.",
+         "sectionSummary": "This research is not a treatment study. You do not need to respond to questions that make you feel uncomfortable.",
          "sectionHtmlContent" : "13issues_survey",
          "sectionImage": "11_IssuesToConsider1",
          "sectionAnimationUrl":"11_IssuesToConsider1"
