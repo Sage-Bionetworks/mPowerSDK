@@ -1,19 +1,15 @@
 {
     "schedules":  [
-                   
            {
-           "scheduleType"    : "once",
-           "scheduleString"  : "0 5 * * *",
-           "tasks"           : [
-                    {
-                    "taskTitle" : "Background Survey",
-                    "taskID": "EnrollmentSurvey",
-                    "taskFileName" : "PDenrollment_survey",
-                    "taskClassName" : "APHenrollmentsurveyViewController",
-                    "taskCompletionTimeString" : "(One Time) 28 Questions"
-                    
-                    }
-                ]
+               "scheduleType"    : "recurring",
+               "scheduleString"  : "0 5,11,17 * * *",
+               "tasks"           : [
+                                    {
+                                    "taskTitle" : "Walking Activity",
+                                    "taskID": "4-APHTimedWalking-80F09109-265A-49C6-9C5D-765E49AAF5D9",
+                                    "taskClassName" : "APHWalkingTaskViewController",
+                                    "taskCompletionTimeString" : "1.5 Minutes"
+                                    }]
            }
        ]
 }
