@@ -109,7 +109,7 @@
      {
          "sectionType" : "dataUse",
          "sectionTitle": "Data Transfer & Use",
-         "sectionSummary": "Your coded data will be used for research. It will be transferred to an analysis platform in the United States, and with your permission, it may be shared with qualified researchers worldwide.",
+         "sectionSummary": "Your coded data will be used for research. It will be transferred to an analysis platform in the United States and, with your permission, it may be shared with qualified researchers worldwide.",
          "sectionHtmlContent" : "7datause"
      },
      {
@@ -163,7 +163,7 @@
      {
          "sectionType" : "custom",
          "sectionTitle": "Risk to Privacy",
-         "sectionSummary": "Your coded data, including health information and location data will be transfered to countries that may have different data protection laws than your country of residence.  We will make every effort to protect your information, but total anonymity cannot be guaranteed.",
+         "sectionSummary": "Your coded data, including health information and location data may be transfered to countries that may have different data protection laws than your country of residence.  We will make every effort to protect your information, but total anonymity cannot be guaranteed.",
          "sectionHtmlContent" : "15privacy_risk",
          "sectionImage": "13_RiskToPrivacy",
          "sectionAnimationUrl":"13_RiskToPrivacy"
