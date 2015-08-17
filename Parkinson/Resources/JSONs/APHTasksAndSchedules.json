@@ -1,19 +1,5 @@
 {
     "schedules":  [
-                   
-           {
-           "scheduleType"    : "once",
-           "scheduleString"  : "0 5 * * *",
-           "tasks"           : [
-                    {
-                    "taskTitle" : "Background Survey",
-                    "taskID": "EnrollmentSurvey",
-                    "taskFileName" : "PDenrollment_survey",
-                    "taskClassName" : "APHenrollmentsurveyViewController",
-                    "taskCompletionTimeString" : "(One Time) 28 Questions"
-                    
-                    }
-                ]
-           }
+
        ]
 }

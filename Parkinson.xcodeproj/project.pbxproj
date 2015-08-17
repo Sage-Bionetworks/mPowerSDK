@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		041F52041B69814600FD9F04 /* APHTaskIdToViewControllerMapping.json in Resources */ = {isa = PBXBuildFile; fileRef = 041F52031B69814600FD9F04 /* APHTaskIdToViewControllerMapping.json */; };
-		5A0F98FF1AA409FC00A2A7EB /* PDenrollment_survey.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A0F98FE1AA409FC00A2A7EB /* PDenrollment_survey.json */; };
 		5A0F99021AA40E9100A2A7EB /* APHenrollmentsurveyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0F99011AA40E9100A2A7EB /* APHenrollmentsurveyViewController.m */; };
 		5A0F99131AA4269C00A2A7EB /* PD_feedback.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A0F99111AA4269C00A2A7EB /* PD_feedback.json */; };
 		5A0F99141AA4269C00A2A7EB /* PD_mythoughts.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A0F99121AA4269C00A2A7EB /* PD_mythoughts.json */; };
@@ -219,7 +218,6 @@
 		36EF84D31A951327008C255F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		36EF84D41A951327008C255F /* Parkinson_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Parkinson_Tests.m; sourceTree = "<group>"; };
 		36EF84DE1A951364008C255F /* APCMedTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APCMedTrackerTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		5A0F98FE1AA409FC00A2A7EB /* PDenrollment_survey.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PDenrollment_survey.json; sourceTree = "<group>"; };
 		5A0F99001AA40E9100A2A7EB /* APHenrollmentsurveyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHenrollmentsurveyViewController.h; sourceTree = "<group>"; };
 		5A0F99011AA40E9100A2A7EB /* APHenrollmentsurveyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHenrollmentsurveyViewController.m; sourceTree = "<group>"; };
 		5A0F99111AA4269C00A2A7EB /* PD_feedback.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PD_feedback.json; sourceTree = "<group>"; };
@@ -361,7 +359,6 @@
 			children = (
 				5A0F99111AA4269C00A2A7EB /* PD_feedback.json */,
 				5A0F99121AA4269C00A2A7EB /* PD_mythoughts.json */,
-				5A0F98FE1AA409FC00A2A7EB /* PDenrollment_survey.json */,
 			);
 			path = surveys;
 			sourceTree = "<group>";
@@ -903,7 +900,6 @@
 				5BBDAEF21A350FB40047DF87 /* LocationInfo.json in Resources */,
 				A781167A1A96BC9400CEC822 /* 11_IssuesToConsider1@3x.m4v in Resources */,
 				A78116731A96BC9400CEC822 /* 11_IssuesToConsider1@2x.m4v in Resources */,
-				5A0F98FF1AA409FC00A2A7EB /* PDenrollment_survey.json in Resources */,
 				CFC2D2E819A5417D00170E69 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
