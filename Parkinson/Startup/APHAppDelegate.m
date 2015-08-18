@@ -39,7 +39,11 @@ static NSString *const kWalkingActivitySurveyIdentifier             = @"4-APHTim
 static NSString *const kVoiceActivitySurveyIdentifier               = @"3-APHPhonation-C614A231-A7B7-4173-BDC8-098309354292";
 static NSString *const kTappingActivitySurveyIdentifier             = @"2-APHIntervalTapping-7259AC18-D711-47A6-ADBD-6CFCECDED1DF";
 static NSString *const kMemoryActivitySurveyIdentifier              = @"7-APHSpatialSpanMemory-4A04F3D0-AC05-11E4-AB27-0800200C9A66";
-static NSString *const kMyThoughtsSurveyIdentifier                  = @"8-MyThoughts-12ffde40-1551-4b48-aae2-8fef38d61b61";
+static NSString *const kMyThoughtsSurveyIdentifier                  = @"mythoughts";
+static NSString *const kEnrollmentSurveyIdentifier                  = @"EnrollmentSurvey";
+static NSString *const kStudyFeedbackSurveyIdentifier               = @"study_feedback";
+
+
 
 /*********************************************************************************/
 #pragma mark - Initializations Options
@@ -68,6 +72,7 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
 - (BOOL)application:(UIApplication*) __unused application willFinishLaunchingWithOptions:(NSDictionary*) __unused launchOptions
 {
     [super application:application willFinishLaunchingWithOptions:launchOptions];
+    self.onboardingManager.showShareAppInOnboarding = YES;
 
     [self enableBackgroundDeliveryForHealthKitTypes];
 
@@ -76,8 +81,8 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
 
 - (void)enableBackgroundDeliveryForHealthKitTypes
 {
-    NSArray* dataTypesWithReadPermission = self.initializationOptions[kHKReadPermissionsKey];
-
+    NSArray* dataTypesWithReadPermission = [self healthKitQuantityTypesToRead];
+    
     if (dataTypesWithReadPermission)
     {
         for (id dataType in dataTypesWithReadPermission)
@@ -128,14 +133,7 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
 
 - (void)setUpInitializationOptions
 {
-    NSDictionary *permissionsDescriptions = @{
-                                              @(kAPCSignUpPermissionsTypeLocation) : NSLocalizedString(@"Using your GPS enables the app to accurately determine distances travelled. Your actual location will never be shared.", @""),
-                                              @(kAPCSignUpPermissionsTypeCoremotion) : NSLocalizedString(@"Using the motion co-processor allows the app to determine your activity, helping the study better understand how activity level may influence disease.", @""),
-                                              @(kAPCSignUpPermissionsTypeMicrophone) : NSLocalizedString(@"Access to microphone is required for your Voice Recording Activity.", @""),
-                                              @(kAPCSignUpPermissionsTypeLocalNotifications) : NSLocalizedString(@"Allowing notifications enables the app to show you reminders.", @""),
-                                              @(kAPCSignUpPermissionsTypeHealthKit) : NSLocalizedString(@"On the next screen, you will be prompted to grant mPower access to read and write some of your general and health information, such as height, weight and steps taken so you don't have to enter it again.", @""),
-                                                  };
-
+    
     NSMutableDictionary * dictionary = [super defaultInitializationOptions];
 #ifdef DEBUG
     self.environment = SBBEnvironmentStaging;
@@ -145,43 +143,14 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
 
     dictionary = [self updateOptionsFor5OrOlder:dictionary];
     [dictionary addEntriesFromDictionary:@{
+                                           kNewsFeedTabKey                      : @YES,
                                            kStudyIdentifierKey                  : kStudyIdentifier,
                                            kAppPrefixKey                        : kAppPrefix,
                                            kBridgeEnvironmentKey                : @(self.environment),
-                                           kHKReadPermissionsKey                : @[
-                                                   HKQuantityTypeIdentifierBodyMass,
-                                                   HKQuantityTypeIdentifierHeight,
-                                                   HKQuantityTypeIdentifierStepCount,
-                                                   HKQuantityTypeIdentifierDistanceCycling,
-                                                   HKQuantityTypeIdentifierDistanceWalkingRunning,
-                                                   HKQuantityTypeIdentifierFlightsClimbed,
-                                                   @{kHKWorkoutTypeKey  : HKWorkoutTypeIdentifier},
-                                                   @{kHKCategoryTypeKey : HKCategoryTypeIdentifierSleepAnalysis}
-                                                   ],
-                                           kHKWritePermissionsKey                : @[
-                                                   ],
-                                           kAppServicesListRequiredKey           : @[
-                                                   @(kAPCSignUpPermissionsTypeLocation),
-                                                   @(kAPCSignUpPermissionsTypeCoremotion),
-                                                   @(kAPCSignUpPermissionsTypeMicrophone),
-                                                   @(kAPCSignUpPermissionsTypeLocalNotifications)
-                                                   ],
-                                           kAppServicesDescriptionsKey : permissionsDescriptions,
-                                           kAppProfileElementsListKey            : @[
-                                                   @(kAPCUserInfoItemTypeEmail),
-                                                   @(kAPCUserInfoItemTypeDateOfBirth),
-                                                   @(kAPCUserInfoItemTypeBiologicalSex),
-                                                   @(kAPCUserInfoItemTypeHeight),
-                                                   @(kAPCUserInfoItemTypeWeight),
-                                                   @(kAPCUserInfoItemTypeWakeUpTime),
-                                                   @(kAPCUserInfoItemTypeSleepTime),
-                                                   ],
                                            kShareMessageKey : NSLocalizedString(@"Please take a look at Parkinson mPower, a research study app about Parkinson Disease.  Download it for iPhone at http://apple.co/1FO7Bsi", nil)
                                            }];
 
     self.initializationOptions = dictionary;
-    
-    self.showShareAppInOnboarding = YES;
 
     self.profileExtender = [[APHProfileExtender alloc] init];
 }
@@ -206,16 +175,18 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
     APCTaskReminder *voiceActivityReminder = [[APCTaskReminder alloc] initWithTaskID:kVoiceActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Voice Activity", nil)];
     APCTaskReminder *tappingActivityReminder = [[APCTaskReminder alloc] initWithTaskID:kTappingActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Tapping Activity", nil)];
     APCTaskReminder *memoryActivityReminder = [[APCTaskReminder alloc] initWithTaskID:kMemoryActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Memory Activity", nil)];
-    APCTaskReminder *pdSurveyReminder = [[APCTaskReminder alloc] initWithTaskID:kStudyIdentifier reminderBody:NSLocalizedString(@"PD Survey", nil)];
     APCTaskReminder *myThoughtsSurveyReminder = [[APCTaskReminder alloc] initWithTaskID:kMyThoughtsSurveyIdentifier reminderBody:NSLocalizedString(@"My Thoughts", nil)];
+    APCTaskReminder *enrollmentSurveyReminder = [[APCTaskReminder alloc] initWithTaskID:kEnrollmentSurveyIdentifier reminderBody:NSLocalizedString(@"Enrollment Survey", nil)];
+    APCTaskReminder *studyFeedbackSurveyReminder = [[APCTaskReminder alloc] initWithTaskID:kStudyFeedbackSurveyIdentifier reminderBody:NSLocalizedString(@"Study Feedback", nil)];
 
     [self.tasksReminder.reminders removeAllObjects];
     [self.tasksReminder manageTaskReminder:walkingActivityReminder];
     [self.tasksReminder manageTaskReminder:voiceActivityReminder];
     [self.tasksReminder manageTaskReminder:tappingActivityReminder];
     [self.tasksReminder manageTaskReminder:memoryActivityReminder];
-    [self.tasksReminder manageTaskReminder:pdSurveyReminder];
     [self.tasksReminder manageTaskReminder:myThoughtsSurveyReminder];
+    [self.tasksReminder manageTaskReminder:enrollmentSurveyReminder];
+    [self.tasksReminder manageTaskReminder:studyFeedbackSurveyReminder];
 
     if ([self doesPersisteStoreExist] == NO)
     {
@@ -565,9 +536,9 @@ static NSDate *DetermineConsentDate(id object)
         }
         return stringToWrite;
     };
-
-    NSArray* dataTypesWithReadPermission = self.initializationOptions[kHKReadPermissionsKey];
-
+    
+    NSArray* dataTypesWithReadPermission = [self healthKitQuantityTypesToRead];
+    
     if (!self.passiveDataCollector)
     {
         self.passiveDataCollector = [[APCPassiveDataCollector alloc] init];
@@ -657,7 +628,7 @@ static NSDate *DetermineConsentDate(id object)
 }
 
 /*********************************************************************************/
-#pragma mark - APCOnboardingDelegate Methods
+#pragma mark - APCOnboardingManagerProvider Methods
 /*********************************************************************************/
 
 - (APCScene *)inclusionCriteriaSceneForOnboarding:(APCOnboarding *) __unused onboarding
@@ -668,6 +639,65 @@ static NSDate *DetermineConsentDate(id object)
     scene.bundle = [NSBundle mainBundle];
 
     return scene;
+}
+
+-(APCPermissionsManager * __nonnull)permissionsManager
+{
+    return [[APCPermissionsManager alloc] initWithHealthKitCharacteristicTypesToRead:[self healthKitCharacteristicTypesToRead]
+                                                        healthKitQuantityTypesToRead:[self healthKitQuantityTypesToRead]
+                                                       healthKitQuantityTypesToWrite:[self healthKitQuantityTypesToWrite]
+                                                                   userInfoItemTypes:[self userInfoItemTypes]
+                                                               signUpPermissionTypes:[self signUpPermissionsTypes]];
+}
+
+- (NSArray *)healthKitCharacteristicTypesToRead
+{
+    return @[
+             HKCharacteristicTypeIdentifierBiologicalSex,
+             HKCharacteristicTypeIdentifierDateOfBirth
+             ];
+}
+
+- (NSArray *)healthKitQuantityTypesToWrite
+{
+    return @[];
+}
+
+- (NSArray *)healthKitQuantityTypesToRead
+{
+    return @[
+             HKQuantityTypeIdentifierBodyMass,
+             HKQuantityTypeIdentifierHeight,
+             HKQuantityTypeIdentifierStepCount,
+             HKQuantityTypeIdentifierDistanceCycling,
+             HKQuantityTypeIdentifierDistanceWalkingRunning,
+             HKQuantityTypeIdentifierFlightsClimbed,
+             @{kHKWorkoutTypeKey  : HKWorkoutTypeIdentifier},
+             @{kHKCategoryTypeKey : HKCategoryTypeIdentifierSleepAnalysis}
+             ];
+}
+
+- (NSArray *)signUpPermissionsTypes
+{
+    return @[
+             @(kAPCSignUpPermissionsTypeLocation),
+             @(kAPCSignUpPermissionsTypeCoremotion),
+             @(kAPCSignUpPermissionsTypeMicrophone),
+             @(kAPCSignUpPermissionsTypeLocalNotifications)
+             ];
+}
+
+- (NSArray *)userInfoItemTypes
+{
+    return  @[
+              @(kAPCUserInfoItemTypeEmail),
+              @(kAPCUserInfoItemTypeDateOfBirth),
+              @(kAPCUserInfoItemTypeBiologicalSex),
+              @(kAPCUserInfoItemTypeHeight),
+              @(kAPCUserInfoItemTypeWeight),
+              @(kAPCUserInfoItemTypeWakeUpTime),
+              @(kAPCUserInfoItemTypeSleepTime),
+              ];
 }
 
 /*********************************************************************************/

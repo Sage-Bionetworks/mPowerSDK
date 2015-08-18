@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5A0F98FF1AA409FC00A2A7EB /* PDenrollment_survey.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A0F98FE1AA409FC00A2A7EB /* PDenrollment_survey.json */; };
+		041F52041B69814600FD9F04 /* APHTaskIdToViewControllerMapping.json in Resources */ = {isa = PBXBuildFile; fileRef = 041F52031B69814600FD9F04 /* APHTaskIdToViewControllerMapping.json */; };
 		5A0F99021AA40E9100A2A7EB /* APHenrollmentsurveyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0F99011AA40E9100A2A7EB /* APHenrollmentsurveyViewController.m */; };
 		5A0F99131AA4269C00A2A7EB /* PD_feedback.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A0F99111AA4269C00A2A7EB /* PD_feedback.json */; };
 		5A0F99141AA4269C00A2A7EB /* PD_mythoughts.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A0F99121AA4269C00A2A7EB /* PD_mythoughts.json */; };
@@ -76,6 +76,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		041F520D1B69814600FD9F04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74B713981ABF04B900FE2553 /* BridgeSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 807AE2871B603309002588BB;
+			remoteInfo = BridgeSDKIntegration;
+		};
+		041F520F1B69814600FD9F04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74B713981ABF04B900FE2553 /* BridgeSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 807AE29F1B60330C002588BB;
+			remoteInfo = BridgeSDKIntegrationTests;
+		};
 		743AD0CB1ABE2DE40071C218 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 747F5B671ABE2D3200197B68 /* APCAppCore.xcodeproj */;
@@ -200,10 +214,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		041F52031B69814600FD9F04 /* APHTaskIdToViewControllerMapping.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = APHTaskIdToViewControllerMapping.json; sourceTree = "<group>"; };
 		36EF84D31A951327008C255F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		36EF84D41A951327008C255F /* Parkinson_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Parkinson_Tests.m; sourceTree = "<group>"; };
 		36EF84DE1A951364008C255F /* APCMedTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APCMedTrackerTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		5A0F98FE1AA409FC00A2A7EB /* PDenrollment_survey.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PDenrollment_survey.json; sourceTree = "<group>"; };
 		5A0F99001AA40E9100A2A7EB /* APHenrollmentsurveyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHenrollmentsurveyViewController.h; sourceTree = "<group>"; };
 		5A0F99011AA40E9100A2A7EB /* APHenrollmentsurveyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHenrollmentsurveyViewController.m; sourceTree = "<group>"; };
 		5A0F99111AA4269C00A2A7EB /* PD_feedback.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PD_feedback.json; sourceTree = "<group>"; };
@@ -345,7 +359,6 @@
 			children = (
 				5A0F99111AA4269C00A2A7EB /* PD_feedback.json */,
 				5A0F99121AA4269C00A2A7EB /* PD_mythoughts.json */,
-				5A0F98FE1AA409FC00A2A7EB /* PDenrollment_survey.json */,
 			);
 			path = surveys;
 			sourceTree = "<group>";
@@ -424,6 +437,8 @@
 			children = (
 				74B713A41ABF04B900FE2553 /* BridgeSDK.framework */,
 				74B713A61ABF04B900FE2553 /* BridgeSDKTests.xctest */,
+				041F520E1B69814600FD9F04 /* BridgeSDKIntegration.app */,
+				041F52101B69814600FD9F04 /* BridgeSDKIntegrationTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -580,6 +595,7 @@
 				5BAC200F19D5FEC600451AAE /* StudyOverview.json */,
 				F5D14E4019CC991500650FBB /* APHTasksAndSchedules.json */,
 				6CA576FC1B065DD90074FF16 /* APHTasksAndSchedules_NoM7.json */,
+				041F52031B69814600FD9F04 /* APHTaskIdToViewControllerMapping.json */,
 			);
 			path = JSONs;
 			sourceTree = "<group>";
@@ -773,6 +789,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		041F520E1B69814600FD9F04 /* BridgeSDKIntegration.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = BridgeSDKIntegration.app;
+			remoteRef = 041F520D1B69814600FD9F04 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		041F52101B69814600FD9F04 /* BridgeSDKIntegrationTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = BridgeSDKIntegrationTests.xctest;
+			remoteRef = 041F520F1B69814600FD9F04 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		743AD0CC1ABE2DE40071C218 /* APCAppCore.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -864,12 +894,12 @@
 				5B1D9D451A1BCC6B000F4AD6 /* APHDashboard.storyboard in Resources */,
 				A78116761A96BC9400CEC822 /* 00_Blank_to_Activities@3x.m4v in Resources */,
 				5B975A171A112E2C00A34E42 /* WithdrawStudy.json in Resources */,
+				041F52041B69814600FD9F04 /* APHTaskIdToViewControllerMapping.json in Resources */,
 				A781166F1A96BC9400CEC822 /* 00_Blank_to_Activities@2x.m4v in Resources */,
 				A78116771A96BC9400CEC822 /* 01_Activities_to_SensorData@3x.m4v in Resources */,
 				5BBDAEF21A350FB40047DF87 /* LocationInfo.json in Resources */,
 				A781167A1A96BC9400CEC822 /* 11_IssuesToConsider1@3x.m4v in Resources */,
 				A78116731A96BC9400CEC822 /* 11_IssuesToConsider1@2x.m4v in Resources */,
-				5A0F98FF1AA409FC00A2A7EB /* PDenrollment_survey.json in Resources */,
 				CFC2D2E819A5417D00170E69 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
