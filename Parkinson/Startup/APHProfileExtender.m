@@ -40,6 +40,9 @@
 // kDefaultNumberOfExtraSections to the # required and adjust the decorateCell
 // and didSelectorRowAtIndexPath delegate methods to reflect the new section(s)
 // desired.
+// Also, consider setting kDefaultNumberOfExtraSections to the # of sections
+// desired + 1 if nonzero in order to add an empty row to provide an empty
+// row at the bottom and keep the layout looking uniform.
 // ***************************************************************************
 // ***************************************************************************
 
