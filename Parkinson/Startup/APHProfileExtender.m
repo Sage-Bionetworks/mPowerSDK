@@ -35,8 +35,8 @@
 
 // ***************************************************************************
 // ***************************************************************************
-// Of Note: This class is adding extra sections as of mPower 1.1 because no special
-// options were still required. In order to add special sections, set the
+// Of Note: This class is not adding extra sections as of mPower 1.1 because no
+// special options were still required. In order to add special sections, set the
 // kDefaultNumberOfExtraSections to the # required and adjust the decorateCell
 // and didSelectorRowAtIndexPath delegate methods to reflect the new section(s)
 // desired.
