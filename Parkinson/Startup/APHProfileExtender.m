@@ -33,7 +33,17 @@
  
 #import "APHProfileExtender.h"
 
-static  NSInteger  kDefaultNumberOfExtraSections =  2;
+// ***************************************************************************
+// ***************************************************************************
+// Of Note: This class is adding extra sections as of mPower 1.1 because no special
+// options were still required. In order to add special sections, set the
+// kDefaultNumberOfExtraSections to the # required and adjust the decorateCell
+// and didSelectorRowAtIndexPath delegate methods to reflect the new section(s)
+// desired.
+// ***************************************************************************
+// ***************************************************************************
+
+static  NSInteger  kDefaultNumberOfExtraSections =  0;
 static  CGFloat    kDefaultHeightForExtraRows    = 64.0;
 
 @interface APHProfileExtender ()
