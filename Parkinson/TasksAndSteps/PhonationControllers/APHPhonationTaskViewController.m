@@ -31,7 +31,6 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 // 
 
-@import APCAppCore;
 #import "APHPhonationTaskViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <APCAppCore/APCAppCore.h>

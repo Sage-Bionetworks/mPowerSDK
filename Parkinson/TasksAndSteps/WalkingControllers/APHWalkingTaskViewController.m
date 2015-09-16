@@ -31,7 +31,6 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 // 
 
-@import APCAppCore;
 #import "APHWalkingTaskViewController.h"
 #import <HealthKit/HealthKit.h>
 #import <AVFoundation/AVFoundation.h>
