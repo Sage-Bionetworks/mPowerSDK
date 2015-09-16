@@ -139,9 +139,10 @@ static  NSString       *kScorePostureRecordsKey               = @"ScorePostureRe
                 for (id  object  in  stepResult.results) {
                     if ([object isKindOfClass:[ORKFileResult class]] == YES) {
                         ORKFileResult  *fileResult = object;
-                        if ([fileResult.fileURL.absoluteString.lastPathComponent hasPrefix: @"accel_walking.outbound"]) {
+                        NSString *rawFilename = [ORKFileResult rawFilenameForFileResultIdentifier:fileResult.identifier stepIdentifier:stepResult.identifier];
+                       if ([rawFilename hasPrefix: @"accelerometer_walking.outbound"]) {
                             urlGaitForward = fileResult.fileURL;
-                        } else if ([fileResult.fileURL.absoluteString.lastPathComponent hasPrefix: @"accel_walking.rest"]) {
+                        } else if ([rawFilename hasPrefix: @"accelerometer_walking.rest"]) {
                             urlPosture = fileResult.fileURL;
                         }
                         found = YES;
