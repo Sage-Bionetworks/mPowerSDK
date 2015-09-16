@@ -237,7 +237,7 @@ static  NSString       *kScorePostureRecordsKey               = @"ScorePostureRe
 #pragma  mark  - Settings
 
 - (APCSignUpPermissionsType)requiredPermission {
-    return kAPCSignUpPermissionsTypeMicrophone;
+    return kAPCSignUpPermissionsTypeCoremotion;
 }
 
 #pragma  mark  -  View Controller Methods
