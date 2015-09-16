@@ -30,7 +30,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 // 
- 
+
 #import "APHWalkingTaskViewController.h"
 #import <HealthKit/HealthKit.h>
 #import <AVFoundation/AVFoundation.h>
@@ -232,6 +232,12 @@ static  NSString       *kScorePostureRecordsKey               = @"ScorePostureRe
         }
     }
     [super taskViewController: taskViewController didFinishWithReason: reason error: error];
+}
+
+#pragma  mark  - Settings
+
+- (APCSignUpPermissionsType)requiredPermission {
+    return kAPCSignUpPermissionsTypeCoremotion;
 }
 
 #pragma  mark  -  View Controller Methods

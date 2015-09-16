@@ -1,6 +1,6 @@
 [submodule "AppCore"]
 	path = AppCore
-	url = https://github.com/ResearchKit/AppCore.git
+	url = https://github.com/Sage-Bionetworks/AppCore.git
 [submodule "BridgeSDK"]
 	path = BridgeSDK
 	url = https://github.com/Sage-Bionetworks/Bridge-iOS-SDK.git

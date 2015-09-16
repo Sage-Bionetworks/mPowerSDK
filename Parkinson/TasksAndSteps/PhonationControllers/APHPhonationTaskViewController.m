@@ -30,7 +30,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 // 
- 
+
 #import "APHPhonationTaskViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <APCAppCore/APCAppCore.h>
@@ -170,6 +170,12 @@ static  NSTimeInterval  kGetSoundingAaahhhInterval            = 10.0;
         }
     };
     return nil;
+}
+
+#pragma  mark  - Settings
+
+- (APCSignUpPermissionsType)requiredPermission {
+    return kAPCSignUpPermissionsTypeMicrophone;
 }
 
 #pragma  mark  - View Controller methods
