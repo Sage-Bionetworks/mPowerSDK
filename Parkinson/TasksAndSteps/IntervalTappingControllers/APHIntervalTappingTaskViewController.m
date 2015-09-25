@@ -81,22 +81,23 @@ static  NSTimeInterval  kTappingStepCountdownInterval = 20.0;
 
 #pragma  mark  -  Task Creation Methods
 
-+ (ORKOrderedTask *)createTask:(APCScheduledTask *) __unused scheduledTask
++ (ORKOrderedTask *)createOrkTask:(APCTask *) __unused scheduledTask
 {
-    ORKOrderedTask  *task = [ORKOrderedTask twoFingerTappingIntervalTaskWithIdentifier:kIntervalTappingTitle
-                                                                intendedUseDescription:nil
-                                                                              duration:kTappingStepCountdownInterval
-                                                                                options:0];
+    ORKOrderedTask  *orkTask = [ORKOrderedTask twoFingerTappingIntervalTaskWithIdentifier:kIntervalTappingTitle
+                                                                   intendedUseDescription:nil
+                                                                                 duration:kTappingStepCountdownInterval
+                                                                                  options:0];
     
-    [task.steps[0] setText:NSLocalizedString(@"Speed of finger tapping can reflect severity of motor symptoms in Parkinson disease. "
-                                             @"This activity measures your tapping speed. Your medical provider may measure this differently.", nil)];
-    [task.steps[0] setDetailText:@""];
+    [orkTask.steps[0] setText:NSLocalizedString(@"Speed of finger tapping can reflect severity of motor symptoms in Parkinson disease. "
+                                                @"This activity measures your tapping speed. Your medical provider may measure this differently.", nil)];
+    [orkTask.steps[0] setDetailText:@""];
     
-    [task.steps[3] setTitle:NSLocalizedString(kConclusionStepThankYouTitle, nil)];
-    [task.steps[3] setText:NSLocalizedString(kConclusionStepViewDashboard, nil)];
+    [orkTask.steps[3] setTitle:NSLocalizedString(kConclusionStepThankYouTitle, nil)];
+    [orkTask.steps[3] setText:NSLocalizedString(kConclusionStepViewDashboard, nil)];
     
-    ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:task andTitle:(NSString *)kIntervalTappingTitle];
-
+    ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:orkTask
+                                                                          andTitle:(NSString *)kIntervalTappingTitle];
+    
     [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
     
     return  replacementTask;
