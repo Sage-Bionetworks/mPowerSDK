@@ -100,28 +100,29 @@ static  NSString   *const  kSpatialSpanMemoryGameRecordGameScoreKey     = @"Memo
 
 #pragma  mark  -  Task Creation Methods
 
-+ (ORKOrderedTask *)createTask:(APCScheduledTask *) __unused scheduledTask
++ (ORKOrderedTask *)createOrkTask:(APCTask *) __unused scheduledTask
 {
-        ORKOrderedTask  *task = [ORKOrderedTask spatialSpanMemoryTaskWithIdentifier:kMemorySpanTitle
-            intendedUseDescription:nil
-            initialSpan:kInitialSpan
-            minimumSpan:kMinimumSpan
-            maximumSpan:kMaximumSpan
-            playSpeed:kPlaySpeed
-            maxTests:kMaximumTests
-            maxConsecutiveFailures:kMaxConsecutiveFailures
-            customTargetImage:nil
-            customTargetPluralName:kCustomTargetPluralName
-            requireReversal:kRequiresReversal
-            options:ORKPredefinedTaskOptionNone];
+    ORKOrderedTask  *orkTask = [ORKOrderedTask spatialSpanMemoryTaskWithIdentifier:kMemorySpanTitle
+                                                            intendedUseDescription:nil
+                                                                       initialSpan:kInitialSpan
+                                                                       minimumSpan:kMinimumSpan
+                                                                       maximumSpan:kMaximumSpan
+                                                                         playSpeed:kPlaySpeed
+                                                                          maxTests:kMaximumTests
+                                                            maxConsecutiveFailures:kMaxConsecutiveFailures
+                                                                 customTargetImage:nil
+                                                            customTargetPluralName:kCustomTargetPluralName
+                                                                   requireReversal:kRequiresReversal
+                                                                           options:ORKPredefinedTaskOptionNone];
     
-    [task.steps[3] setTitle:NSLocalizedString(kConclusionStepThankYouTitle, nil)];
-    [task.steps[3] setText:NSLocalizedString(kConclusionStepViewDashboard, nil)];
-
+    [orkTask.steps[3] setTitle:NSLocalizedString(kConclusionStepThankYouTitle, nil)];
+    [orkTask.steps[3] setText:NSLocalizedString(kConclusionStepViewDashboard, nil)];
+    
     [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
     
-    ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:task andTitle:(NSString *)kTaskViewControllerTitle];
-    return  replacementTask;
+    ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:orkTask
+                                                                          andTitle:(NSString *)kTaskViewControllerTitle];
+    return replacementTask;
 }
 
 #pragma  mark  -  Task View Controller Delegate Methods

@@ -45,15 +45,16 @@ static  NSString  *kTaskViewControllerTitle = @"Medication Tracker";
 
 #pragma  mark  -  Task Creation Methods
 
-+ (ORKOrderedTask *)createTask:(APCScheduledTask *) __unused scheduledTask
++ (ORKOrderedTask *)createOrkTask:(APCTask *) __unused scheduledTask
 {
     ORKStep  *step = [[ORKStep alloc] initWithIdentifier:kTaskViewControllerTitle];
     NSArray  *steps = @[ step ];
-    ORKOrderedTask  *task = [[ORKOrderedTask alloc] initWithIdentifier:kTaskViewControllerTitle steps:steps];
-
+    ORKOrderedTask  *orkTask = [[ORKOrderedTask alloc] initWithIdentifier:kTaskViewControllerTitle
+                                                                    steps:steps];
+    
     [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
     
-    return  task;
+    return  orkTask;
 }
 
 #pragma  mark  -  Task View Controller Delegate Methods

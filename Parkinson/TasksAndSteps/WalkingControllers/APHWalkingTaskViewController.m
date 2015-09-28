@@ -76,49 +76,50 @@ static  NSString       *kScorePostureRecordsKey               = @"ScorePostureRe
 
 #pragma  mark  -  Initialisation
 
-+ (ORKOrderedTask *)createTask:(APCScheduledTask *) __unused scheduledTask
++ (ORKOrderedTask *)createOrkTask:(APCTask *) __unused scheduledTask
 {
-    ORKOrderedTask  *task = [ORKOrderedTask shortWalkTaskWithIdentifier:kWalkingActivityTitle
-                                                 intendedUseDescription:nil
-                                                    numberOfStepsPerLeg:kNumberOfStepsPerLeg
-                                                           restDuration:kStandStillDuration
-                                                                options:ORKPredefinedTaskOptionNone];
+    ORKOrderedTask  *orkTask = [ORKOrderedTask shortWalkTaskWithIdentifier:kWalkingActivityTitle
+                                                    intendedUseDescription:nil
+                                                       numberOfStepsPerLeg:kNumberOfStepsPerLeg
+                                                              restDuration:kStandStillDuration
+                                                                   options:ORKPredefinedTaskOptionNone];
     
-        //
-        //    replace various step titles and details with our own verbiage
-        //
-    [task.steps[0] setText:@"This activity measures your gait (walk) and balance, which can be affected by Parkinson disease."];
-    [task.steps[0] setDetailText:@"Please do not continue if you cannot safely walk unassisted."];
+    //
+    //    replace various step titles and details with our own verbiage
+    //
+    [orkTask.steps[0] setText:@"This activity measures your gait (walk) and balance, which can be affected by Parkinson disease."];
+    [orkTask.steps[0] setDetailText:@"Please do not continue if you cannot safely walk unassisted."];
     
     NSString  *titleString = [NSString stringWithFormat:@"Turn around and stand still for %.0f seconds", kStandStillDuration];
     NSString  *spokenInstructionString = [NSString stringWithFormat:@"Turn around and stand still for %.0f seconds", kStandStillDuration];
     
-    [task.steps[5] setTitle:NSLocalizedString(titleString, nil)];
-    [task.steps[5] setSpokenInstruction:NSLocalizedString(spokenInstructionString, nil)];
+    [orkTask.steps[5] setTitle:NSLocalizedString(titleString, nil)];
+    [orkTask.steps[5] setSpokenInstruction:NSLocalizedString(spokenInstructionString, nil)];
     
-    [task.steps[6] setTitle:NSLocalizedString(kConclusionStepThankYouTitle, nil)];
-    [task.steps[6] setText:NSLocalizedString(kConclusionStepViewDashboard, nil)];
+    [orkTask.steps[6] setTitle:NSLocalizedString(kConclusionStepThankYouTitle, nil)];
+    [orkTask.steps[6] setText:NSLocalizedString(kConclusionStepViewDashboard, nil)];
     
-        //
-        //    remove the return walking step
-        //
+    //
+    //    remove the return walking step
+    //
     BOOL        foundReturnStepIdentifier = NO;
     NSUInteger  indexOfReturnStep = 0;
     
-    for (ORKStep *step  in  task.steps) {
+    for (ORKStep *step  in  orkTask.steps) {
         if ([step.identifier isEqualToString:kWalkingReturnStepIdentifier] == YES) {
             foundReturnStepIdentifier = YES;
             break;
         }
         indexOfReturnStep = indexOfReturnStep + 1;
     }
-    NSMutableArray  *copyOfTaskSteps = [task.steps mutableCopy];
+    NSMutableArray  *copyOfTaskSteps = [orkTask.steps mutableCopy];
     if (foundReturnStepIdentifier == YES) {
         [copyOfTaskSteps removeObjectAtIndex:indexOfReturnStep];
     }
-    task = [[ORKOrderedTask alloc] initWithIdentifier:kWalkingActivityTitle steps:copyOfTaskSteps];
-
-    ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:task andTitle:(NSString *)kWalkingActivityTitle];
+    orkTask = [[ORKOrderedTask alloc] initWithIdentifier:kWalkingActivityTitle steps:copyOfTaskSteps];
+    
+    ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:orkTask
+                                                                          andTitle:(NSString *)kWalkingActivityTitle];
     return  replacementTask;
 }
 

@@ -63,39 +63,40 @@ static  NSTimeInterval  kGetSoundingAaahhhInterval            = 10.0;
 
 #pragma  mark  -  Initialisation
 
-+ (ORKOrderedTask *)createTask:(APCScheduledTask *) __unused scheduledTask
++ (ORKOrderedTask *)createOrkTask:(APCTask *) __unused scheduledTask
 {
     NSDictionary  *audioSettings = @{ AVFormatIDKey         : @(kAudioFormatAppleLossless),
                                       AVNumberOfChannelsKey : @(1),
                                       AVSampleRateKey       : @(44100.0)
-                                    };
+                                      };
     
-    ORKOrderedTask  *task = [ORKOrderedTask audioTaskWithIdentifier:kTaskViewControllerTitle
-                                             intendedUseDescription:nil
-                                                  speechInstruction:nil
-                                             shortSpeechInstruction:nil
-                                                           duration:kGetSoundingAaahhhInterval
-                                                  recordingSettings:audioSettings
-                                                            options:0];
+    ORKOrderedTask  *orkTask = [ORKOrderedTask audioTaskWithIdentifier:kTaskViewControllerTitle
+                                                intendedUseDescription:nil
+                                                     speechInstruction:nil
+                                                shortSpeechInstruction:nil
+                                                              duration:kGetSoundingAaahhhInterval
+                                                     recordingSettings:audioSettings
+                                                               options:0];
     
     //  Adjust apperance and text for the task
     [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
-        //
-        //    set up initial steps, which may have an extra step injected
-        //    after the first if the user needs to say where they are in
-        //    their medication schedule
-        //
-    [task.steps[0] setTitle:NSLocalizedString(kTaskName, nil)];
-
-    [task.steps[1] setTitle:NSLocalizedString(kTaskName, nil)];
-    [task.steps[1] setText:NSLocalizedString(@"Take a deep breath and say “Aaaaah” into the microphone for as long as you can. "
-                                             @"Keep a steady volume so the audio bars remain blue.", nil)];
-    [task.steps[1] setDetailText:NSLocalizedString(@"Tap Next to begin the test.", nil)];
-
-    [task.steps[4] setTitle:NSLocalizedString(kConclusionStepThankYouTitle, nil)];
-    [task.steps[4] setText:NSLocalizedString(kConclusionStepViewDashboard, nil)];
-
-    ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:task andTitle:(NSString *)kTaskViewControllerTitle];
+    //
+    //    set up initial steps, which may have an extra step injected
+    //    after the first if the user needs to say where they are in
+    //    their medication schedule
+    //
+    [orkTask.steps[0] setTitle:NSLocalizedString(kTaskName, nil)];
+    
+    [orkTask.steps[1] setTitle:NSLocalizedString(kTaskName, nil)];
+    [orkTask.steps[1] setText:NSLocalizedString(@"Take a deep breath and say “Aaaaah” into the microphone for as long as you can. "
+                                                @"Keep a steady volume so the audio bars remain blue.", nil)];
+    [orkTask.steps[1] setDetailText:NSLocalizedString(@"Tap Next to begin the test.", nil)];
+    
+    [orkTask.steps[4] setTitle:NSLocalizedString(kConclusionStepThankYouTitle, nil)];
+    [orkTask.steps[4] setText:NSLocalizedString(kConclusionStepViewDashboard, nil)];
+    
+    ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:orkTask
+                                                                          andTitle:(NSString *)kTaskViewControllerTitle];
     return  replacementTask;
 }
 
