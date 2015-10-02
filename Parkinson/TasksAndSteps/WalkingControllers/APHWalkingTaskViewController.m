@@ -219,7 +219,13 @@ static  NSString       *kScorePostureRecordsKey               = @"ScorePostureRe
         AVSpeechUtterance  *talk = [AVSpeechUtterance
                                     speechUtteranceWithString:NSLocalizedString(@"You have completed the activity.", @"You have completed the activity.")];
         AVSpeechSynthesizer  *synthesiser = [[AVSpeechSynthesizer alloc] init];
-        talk.rate = 0.1;
+        
+        // see also in ORKVoiceEngine speakText: method. This apparently adjusts for a change between how iOS 8 and 9 interpret the speech rate value.
+        float speechRate = AVSpeechUtteranceDefaultSpeechRate;
+        if (! [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){.majorVersion = 9, .minorVersion = 0, .patchVersion = 0}]) {
+            speechRate = AVSpeechUtteranceDefaultSpeechRate / 2.5;
+        }
+        talk.rate = speechRate;
         [synthesiser speakUtterance:talk];
     }
 }
