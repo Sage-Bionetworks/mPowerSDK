@@ -88,9 +88,10 @@ static  NSTimeInterval  kTappingStepCountdownInterval = 20.0;
                                                                                  duration:kTappingStepCountdownInterval
                                                                                   options:0];
     
-    [orkTask.steps[0] setText:NSLocalizedString(@"Speed of finger tapping can reflect severity of motor symptoms in Parkinson disease. "
-                                                @"This activity measures your tapping speed. Your medical provider may measure this differently.", nil)];
-    [orkTask.steps[0] setDetailText:@""];
+    ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[0];
+    [instructionStep setText:NSLocalizedString(@"Speed of finger tapping can reflect severity of motor symptoms in Parkinson disease. "
+                                               @"This activity measures your tapping speed. Your medical provider may measure this differently.", nil)];
+    [instructionStep setDetailText:@""];
     
     [orkTask.steps[3] setTitle:NSLocalizedString(kConclusionStepThankYouTitle, nil)];
     [orkTask.steps[3] setText:NSLocalizedString(kConclusionStepViewDashboard, nil)];

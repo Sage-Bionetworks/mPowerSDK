@@ -87,10 +87,11 @@ static  NSTimeInterval  kGetSoundingAaahhhInterval            = 10.0;
     //
     [orkTask.steps[0] setTitle:NSLocalizedString(kTaskName, nil)];
     
-    [orkTask.steps[1] setTitle:NSLocalizedString(kTaskName, nil)];
-    [orkTask.steps[1] setText:NSLocalizedString(@"Take a deep breath and say “Aaaaah” into the microphone for as long as you can. "
-                                                @"Keep a steady volume so the audio bars remain blue.", nil)];
-    [orkTask.steps[1] setDetailText:NSLocalizedString(@"Tap Next to begin the test.", nil)];
+    ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[1];
+    [instructionStep setTitle:NSLocalizedString(kTaskName, nil)];
+    [instructionStep setText:NSLocalizedString(@"Take a deep breath and say “Aaaaah” into the microphone for as long as you can. "
+                                               @"Keep a steady volume so the audio bars remain blue.", nil)];
+    [instructionStep setDetailText:NSLocalizedString(@"Tap Next to begin the test.", nil)];
     
     [orkTask.steps[4] setTitle:NSLocalizedString(kConclusionStepThankYouTitle, nil)];
     [orkTask.steps[4] setText:NSLocalizedString(kConclusionStepViewDashboard, nil)];

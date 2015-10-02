@@ -87,14 +87,16 @@ static  NSString       *kScorePostureRecordsKey               = @"ScorePostureRe
     //
     //    replace various step titles and details with our own verbiage
     //
-    [orkTask.steps[0] setText:@"This activity measures your gait (walk) and balance, which can be affected by Parkinson disease."];
-    [orkTask.steps[0] setDetailText:@"Please do not continue if you cannot safely walk unassisted."];
+    ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[0];
+    [instructionStep setText:@"This activity measures your gait (walk) and balance, which can be affected by Parkinson disease."];
+    [instructionStep setDetailText:@"Please do not continue if you cannot safely walk unassisted."];
     
     NSString  *titleString = [NSString stringWithFormat:@"Turn around and stand still for %.0f seconds", kStandStillDuration];
     NSString  *spokenInstructionString = [NSString stringWithFormat:@"Turn around and stand still for %.0f seconds", kStandStillDuration];
     
-    [orkTask.steps[5] setTitle:NSLocalizedString(titleString, nil)];
-    [orkTask.steps[5] setSpokenInstruction:NSLocalizedString(spokenInstructionString, nil)];
+    ORKActiveStep *activeStep = (ORKActiveStep *)orkTask.steps[5];
+    [activeStep setTitle:NSLocalizedString(titleString, nil)];
+    [activeStep setSpokenInstruction:NSLocalizedString(spokenInstructionString, nil)];
     
     [orkTask.steps[6] setTitle:NSLocalizedString(kConclusionStepThankYouTitle, nil)];
     [orkTask.steps[6] setText:NSLocalizedString(kConclusionStepViewDashboard, nil)];
