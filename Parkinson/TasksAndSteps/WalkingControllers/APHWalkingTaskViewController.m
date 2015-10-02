@@ -244,8 +244,18 @@ static  NSString       *kScorePostureRecordsKey               = @"ScorePostureRe
 
 #pragma  mark  - Settings
 
+/*
+ On older iphones that do not have an M7 chip, the CMMotionActivity api is not available. However,
+ this activity will still work just using the accelerometer and gyroscope which do not require
+ special permissions. On iPhones with the M7, we should still be requesting access to CoreMotion.
+ */
 - (APCSignUpPermissionsType)requiredPermission {
-    return kAPCSignUpPermissionsTypeCoremotion;
+    if ([CMMotionActivityManager isActivityAvailable]) {
+        return kAPCSignUpPermissionsTypeCoremotion;
+    } else {
+        return kAPCSignUpPermissionsTypeNone;
+    }
+    
 }
 
 #pragma  mark  -  View Controller Methods
