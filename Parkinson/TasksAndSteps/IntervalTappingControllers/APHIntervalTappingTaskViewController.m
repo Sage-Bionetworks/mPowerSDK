@@ -71,6 +71,8 @@ static  NSString  *const  kAPCTappingResultsFileName                    = @"tapp
 
 static  NSTimeInterval  kTappingStepCountdownInterval = 20.0;
 
+static const NSInteger kTappingActivitySchemaRevision = 6;
+
 @interface APHIntervalTappingTaskViewController  ( ) <NSObject>
 
 @property  (nonatomic, assign)  BOOL                 preferStatusBarShouldBeHidden;
@@ -265,5 +267,11 @@ static  NSTimeInterval  kTappingStepCountdownInterval = 20.0;
     
 }
 
+- (void) updateSchemaRevision
+{
+    if (self.scheduledTask) {
+        self.scheduledTask.taskSchemaRevision = [NSNumber numberWithInteger:kTappingActivitySchemaRevision];
+    }
+}
 
 @end
