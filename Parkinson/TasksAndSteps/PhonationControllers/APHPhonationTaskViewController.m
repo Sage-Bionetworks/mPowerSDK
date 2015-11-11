@@ -55,6 +55,8 @@ static  NSString       *kTaskViewControllerTitle              = @"Voice Activity
 
 static  NSTimeInterval  kGetSoundingAaahhhInterval            = 10.0;
 
+static const NSInteger kPhonationActivitySchemaRevision       = 3;
+
 @interface APHPhonationTaskViewController ( )  <ORKTaskViewControllerDelegate>
 
 @end
@@ -179,6 +181,14 @@ static  NSTimeInterval  kGetSoundingAaahhhInterval            = 10.0;
 - (APCSignUpPermissionsType)requiredPermission {
     return kAPCSignUpPermissionsTypeMicrophone;
 }
+
+- (void) updateSchemaRevision
+{
+    if (self.scheduledTask) {
+        self.scheduledTask.taskSchemaRevision = [NSNumber numberWithInteger:kPhonationActivitySchemaRevision];
+    }
+}
+
 
 #pragma  mark  - View Controller methods
 

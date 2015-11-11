@@ -68,6 +68,8 @@ static  NSString       *kScorePostureRecordsKey               = @"ScorePostureRe
 
         NSString * const kGaitScoreKey                        = @"GaitScoreKey";
 
+static const NSInteger kWalkingActivitySchemaRevision         = 5;
+
 @interface APHWalkingTaskViewController  ( )
 
 @end
@@ -304,5 +306,13 @@ static  NSString       *kScorePostureRecordsKey               = @"ScorePostureRe
     }
     return  results;
 }
+
+- (void) updateSchemaRevision
+{
+    if (self.scheduledTask) {
+        self.scheduledTask.taskSchemaRevision = [NSNumber numberWithInteger:kWalkingActivitySchemaRevision];
+    }
+}
+
 
 @end
