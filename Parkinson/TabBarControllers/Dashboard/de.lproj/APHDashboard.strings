@@ -1,0 +1,33 @@
+
+/* Class = "UILabel"; text = "Today, February 17"; ObjectID = "1xN-0t-APl"; */
+"1xN-0t-APl.text" = "Today, February 17";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "3PS-Ja-Yr4"; */
+"3PS-Ja-Yr4.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Average Score: 222"; ObjectID = "7Bk-FK-8bK"; */
+"7Bk-FK-8bK.text" = "Average Score: 222";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "7ri-Tf-gM4"; */
+"7ri-Tf-gM4.text" = "Label";
+
+/* Class = "UILabel"; text = "Tap and drag to rearrange your graphs"; ObjectID = "Faz-yo-q5x"; */
+"Faz-yo-q5x.text" = "Tap and drag to rearrange your graphs";
+
+/* Class = "UINavigationController"; title = "Dashboard"; ObjectID = "Y3q-0i-ptk"; */
+"Y3q-0i-ptk.title" = "Dashboard";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "eEt-gP-2TY"; */
+"eEt-gP-2TY.text" = "Label";
+
+/* Class = "UITabBarItem"; title = "Dashboard"; ObjectID = "fVl-L3-Mlw"; */
+"fVl-L3-Mlw.title" = "Dashboard";
+
+/* Class = "UILabel"; text = "Activity Completion"; ObjectID = "oDj-xz-C8m"; */
+"oDj-xz-C8m.text" = "Activity Completion";
+
+/* Class = "UINavigationItem"; title = "Dashboard"; ObjectID = "oQf-cg-HNo"; */
+"oQf-cg-HNo.title" = "Dashboard";
+
+/* Class = "UINavigationItem"; title = "Dashboard"; ObjectID = "vev-uc-4M3"; */
+"vev-uc-4M3.title" = "Dashboard";

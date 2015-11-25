@@ -95,8 +95,8 @@ static const NSInteger kTappingActivitySchemaRevision = 6;
                                                @"This activity measures your tapping speed. Your medical provider may measure this differently.", nil)];
     [instructionStep setDetailText:@""];
     
-    [orkTask.steps[3] setTitle:NSLocalizedString(kConclusionStepThankYouTitle, nil)];
-    [orkTask.steps[3] setText:NSLocalizedString(kConclusionStepViewDashboard, nil)];
+    [orkTask.steps[3] setTitle:kConclusionStepThankYouTitle];
+    [orkTask.steps[3] setText:kConclusionStepViewDashboard];
     
     ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:orkTask
                                                                           andTitle:(NSString *)kIntervalTappingTitle];
@@ -210,7 +210,7 @@ static const NSInteger kTappingActivitySchemaRevision = 6;
 {
     [super viewDidLoad];
     
-    self.navigationBar.topItem.title = NSLocalizedString(kTaskViewControllerTitle, nil);
+    self.navigationBar.topItem.title = kTaskViewControllerTitle;
     
     self.preferStatusBarShouldBeHidden = NO;
 }
