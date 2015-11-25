@@ -33,7 +33,6 @@
  
 #import "APHSpatialSpanMemoryGameViewController.h"
 
-static  NSString       *kTaskViewControllerTitle      = @"Memory Activity";
 static  NSString       *kMemorySpanTitle              = @"Memory Activity";
 
     //
@@ -115,13 +114,13 @@ static  NSString   *const  kSpatialSpanMemoryGameRecordGameScoreKey     = @"Memo
                                                                    requireReversal:kRequiresReversal
                                                                            options:ORKPredefinedTaskOptionNone];
     
-    [orkTask.steps[3] setTitle:NSLocalizedString(kConclusionStepThankYouTitle, nil)];
-    [orkTask.steps[3] setText:NSLocalizedString(kConclusionStepViewDashboard, nil)];
+    [orkTask.steps[3] setTitle:kConclusionStepThankYouTitle];
+    [orkTask.steps[3] setText:kConclusionStepViewDashboard];
     
     [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
     
     ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:orkTask
-                                                                          andTitle:(NSString *)kTaskViewControllerTitle];
+                                                                          andTitle:(NSString *)kMemorySpanTitle];
     return replacementTask;
 }
 
@@ -205,7 +204,7 @@ static  NSString   *const  kSpatialSpanMemoryGameRecordGameScoreKey     = @"Memo
 {
     [super viewDidLoad];
     
-    self.navigationBar.topItem.title = NSLocalizedString(kTaskViewControllerTitle, nil);
+    self.navigationBar.topItem.title = NSLocalizedStringWithDefaultValue(@"APH_MEMORY_NAV_TITLE", nil, [NSBundle mainBundle], @"Memory Activity", @"Nav bar title for Memory activity view");
 }
 
 - (void)didReceiveMemoryWarning

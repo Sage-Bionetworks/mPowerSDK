@@ -39,40 +39,39 @@
     //        into Parkinson Activities to ask the Patient if they
     //        have taken their medications
     //
-NSString  *const  kMomentInDayStepIdentifier             = @"momentInDay";
+NSString  *const kMomentInDayStepIdentifier             = @"momentInDay";
 
-NSString  *const  kMomentInDayFormat                     = @"momentInDayFormat";
+NSString  *const kMomentInDayFormat                     = @"momentInDayFormat";
 
-NSString  *const  kMomentInDayFormatTitle                = @"We would like to understand how your performance on"
-                                                                " this activity could be affected by the timing of your medication.";
+NSString  *kMomentInDayFormatTitle;
 
-NSString  *const  kMomentInDayFormatItemText             = @"When are you performing this Activity?";
+NSString  *kMomentInDayFormatItemText;
 
-NSString  *const  kMomentInDayFormatChoiceJustWokeUp     = @"Immediately before Parkinson medication";
-NSString  *const  kMomentInDayFormatChoiceTookMyMedicine = @"Just after Parkinson medication (at your best)";
-NSString  *const  kMomentInDayFormatChoiceEvening        = @"Another time";
-NSString  *const  kMomentInDayFormatChoiceNone           = @"I don't take Parkinson medications";
+NSString  *kMomentInDayFormatChoiceJustWokeUp;
+NSString  *kMomentInDayFormatChoiceTookMyMedicine;
+NSString  *kMomentInDayFormatChoiceEvening;
+NSString  *kMomentInDayFormatChoiceNone;
 
     //
     //    key for Parkinson Stashed Question Result
     //        from 'When Did You Take Your Medicine' Pre-Survey Question
     //
-NSString  *const  kMomentInDayUserDefaultsKey            = @"MomentInDayUserDefaults";
+NSString  *const kMomentInDayUserDefaultsKey            = @"MomentInDayUserDefaults";
     //
     //    keys for Parkinson Stashed Question Result Dictionary
     //        from 'When Did You Take Your Medicine' Pre-Survey Question
     //
-NSString  *const  kMomentInDayChoiceAnswerKey            = @"MomentInDayChoiceAnswer";
-NSString  *const  kMomentInDayQuestionTypeKey            = @"MomentInDayQuestionType";
-NSString  *const  kMomentInDayIdentifierKey              = @"MomentInDayIdentifier";
-NSString  *const  kMomentInDayStartDateKey               = @"MomentInDayStartDate";
-NSString  *const  kMomentInDayEndDateKey                 = @"MomentInDayEndDate";
+NSString  *const kMomentInDayChoiceAnswerKey            = @"MomentInDayChoiceAnswer";
+NSString  *const kMomentInDayQuestionTypeKey            = @"MomentInDayQuestionType";
+NSString  *const kMomentInDayIdentifierKey              = @"MomentInDayIdentifier";
+NSString  *const kMomentInDayStartDateKey               = @"MomentInDayStartDate";
+NSString  *const kMomentInDayEndDateKey                 = @"MomentInDayEndDate";
 
     //
     //    keys for Parkinson Conclusion Step View Controller
     //
-NSString  *const  kConclusionStepThankYouTitle           = @"Thank You!";
-NSString  *const  kConclusionStepViewDashboard           = @"The results of this activity can be viewed on the dashboard";
+NSString  *kConclusionStepThankYouTitle;
+NSString  *kConclusionStepViewDashboard;
 
     //
     //    elapsed time delay before asking the patient if they took their medications
@@ -110,6 +109,38 @@ static  double  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
     //
 @implementation APHParkinsonActivityViewController
 
++ (void)initialize
+{
+    void (^localizeBlock)() = [^{
+        //
+        //    keys for the extra step ('Pre-Survey') that;'s injected
+        //        into Parkinson Activities to ask the Patient if they
+        //        have taken their medications
+        //
+        
+        kMomentInDayFormatTitle                = NSLocalizedString(@"We would like to understand how your performance on"
+        " this activity could be affected by the timing of your medication.", @"Explanation of purpose of pre-activity medication timing survey.");
+        
+        kMomentInDayFormatItemText             = NSLocalizedString(@"When are you performing this Activity?", @"Prompt for timing of medication in pre-activity medication timing survey.");
+        
+        kMomentInDayFormatChoiceJustWokeUp     = NSLocalizedString(@"Immediately before Parkinson medication", @"Timing option text in pre-activity medication timing survey.");
+        kMomentInDayFormatChoiceTookMyMedicine = NSLocalizedString(@"Just after Parkinson medication (at your best)", @"Timing option text in pre-activity medication timing survey.");
+        kMomentInDayFormatChoiceEvening        = NSLocalizedString(@"Another time", @"Timing option text in pre-activity medication timing survey.");
+        kMomentInDayFormatChoiceNone           = NSLocalizedString(@"I don't take Parkinson medications", @"Timing option text in pre-activity medication timing survey.");
+        
+        //
+        //    keys for Parkinson Conclusion Step View Controller
+        //
+        kConclusionStepThankYouTitle           = NSLocalizedString(@"Thank You!", @"Main text shown to participant upon completion of an activity.");
+        kConclusionStepViewDashboard           = NSLocalizedString(@"The results of this activity can be viewed on the dashboard", @"Detail text shown to participant upon completion of an activity.");
+    } copy];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSCurrentLocaleDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull __unused note) {
+        localizeBlock();
+    }];
+    localizeBlock();
+}
+
 + (ORKOrderedTask *)modifyTaskWithPreSurveyStepIfRequired:(ORKOrderedTask *)task andTitle:(NSString *)taskTitle
 {
     APHAppDelegate  *appDelegate = (APHAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -122,23 +153,23 @@ static  double  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
     
         NSMutableArray  *stepQuestions = [NSMutableArray array];
         
-        ORKFormStep  *step = [[ORKFormStep alloc] initWithIdentifier:kMomentInDayStepIdentifier title:nil text:NSLocalizedString(kMomentInDayFormatTitle, nil)];
+        ORKFormStep  *step = [[ORKFormStep alloc] initWithIdentifier:kMomentInDayStepIdentifier title:nil text:kMomentInDayFormatTitle];
         
         step.optional = NO;
         
         {
             NSArray *choices = @[
-                                 NSLocalizedString(kMomentInDayFormatChoiceJustWokeUp, nil),
-                                 NSLocalizedString(kMomentInDayFormatChoiceTookMyMedicine, nil),
-                                 NSLocalizedString(kMomentInDayFormatChoiceEvening, nil),
-                                 NSLocalizedString(kMomentInDayFormatChoiceNone, nil)
+                                 kMomentInDayFormatChoiceJustWokeUp,
+                                 kMomentInDayFormatChoiceTookMyMedicine,
+                                 kMomentInDayFormatChoiceEvening,
+                                 kMomentInDayFormatChoiceNone
                                  ];
             ORKAnswerFormat  *format = [ORKTextChoiceAnswerFormat
                                         choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
                                                          textChoices:choices];
             
             ORKFormItem  *item = [[ORKFormItem alloc] initWithIdentifier:kMomentInDayFormat
-                                                                   text:NSLocalizedString(kMomentInDayFormatItemText, nil)
+                                                                   text:kMomentInDayFormatItemText
                                                            answerFormat:format];
             [stepQuestions addObject:item];
         }

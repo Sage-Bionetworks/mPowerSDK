@@ -38,45 +38,49 @@
 
 #import <ResearchKit/ResearchKit.h>
 
+#define APHLocalizedStringFromNumber(number) \
+[NSNumberFormatter localizedStringFromNumber:@([number integerValue]) numberStyle:NSNumberFormatterNoStyle]
+
+
     //
     //    keys for the extra step ('Pre-Survey') that;'s injected
     //        into Parkinson Activities to ask the Patient if they
     //        have taken their medications
     //
 
-extern  NSString  *const  kMomentInDayStepIdentifier;
+extern  NSString  *const kMomentInDayStepIdentifier;
 
-extern  NSString  *const  kMomentInDayFormat;
+extern  NSString  *const kMomentInDayFormat;
 
-extern  NSString  *const  kMomentInDayFormatTitle;
+extern  NSString  *kMomentInDayFormatTitle;
 
-extern  NSString  *const  kMomentInDayFormatItemText;
-extern  NSString  *const  kMomentInDayFormatChoiceJustWokeUp;
-extern  NSString  *const  kMomentInDayFormatChoiceTookMyMedicine;
-extern  NSString  *const  kMomentInDayFormatChoiceEvening;
-extern  NSString  *const  kMomentInDayFormatChoiceNone;
+extern  NSString  *kMomentInDayFormatItemText;
+extern  NSString  *kMomentInDayFormatChoiceJustWokeUp;
+extern  NSString  *kMomentInDayFormatChoiceTookMyMedicine;
+extern  NSString  *kMomentInDayFormatChoiceEvening;
+extern  NSString  *kMomentInDayFormatChoiceNone;
 
     //
     //    key for Parkinson Stashed Question Result
     //        from 'When Did You Take Your Medicine' Pre-Survey Question
     //
-extern  NSString  *const  kMomentInDayUserDefaultsKey;
+extern  NSString  *const kMomentInDayUserDefaultsKey;
     //
     //    keys for Parkinson Stashed Question Result Dictionary
     //        from 'When Did You Take Your Medicine' Pre-Survey Question
     //
-extern  NSString  *const  kMomentInDayChoiceAnswerKey;
-extern  NSString  *const  kMomentInDayQuestionTypeKey;
-extern  NSString  *const  kMomentInDayIdentifierKey;
-extern  NSString  *const  kMomentInDaystartDateKey;
-extern  NSString  *const  kMomentInDayendDateKey;
+extern  NSString  *const kMomentInDayChoiceAnswerKey;
+extern  NSString  *const kMomentInDayQuestionTypeKey;
+extern  NSString  *const kMomentInDayIdentifierKey;
+extern  NSString  *const kMomentInDaystartDateKey;
+extern  NSString  *const kMomentInDayendDateKey;
 
 
     //
     //    keys for Parkinson Conclusion Step View Controller
     //
-extern  NSString  *const  kConclusionStepThankYouTitle;
-extern  NSString  *const  kConclusionStepViewDashboard;
+extern  NSString  *kConclusionStepThankYouTitle;
+extern  NSString  *kConclusionStepViewDashboard;
 
 @interface APHParkinsonActivityViewController : APCBaseTaskViewController
 

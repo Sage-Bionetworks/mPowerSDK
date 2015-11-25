@@ -38,6 +38,7 @@
 #import "APHSpatialSpanMemoryGameViewController.h"
 #import "APHWalkingTaskViewController.h"
 
+
 static NSString * const kAPCBasicTableViewCellIdentifier       = @"APCBasicTableViewCell";
 static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetailTableViewCell";
 
@@ -219,8 +220,8 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryYellowColor];
                     
-                    NSString *info = [NSString stringWithFormat:@"This chart plots the index of your %@ against the index of your %@. For more comparisons, click the series name.", self.correlatedScoring.series1Name, self.correlatedScoring.series2Name];
-                    item.info = NSLocalizedString(info, nil);
+                    NSString *infoFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_CORRELATION_INFO", nil, [NSBundle mainBundle], @"This chart plots the index of your %@ against the index of your %@. For more comparisons, click the series name.", @"Format of caption for correlation plot comparing indices of two series, to be filled in with the names of the series being compared.");
+                    item.info = [NSString stringWithFormat:infoFormat, self.correlatedScoring.series1Name, self.correlatedScoring.series2Name];
                     item.detailText = @"";
                     item.legend = [APCTableViewDashboardGraphItem legendForSeries1:self.correlatedScoring.series1Name series2:self.correlatedScoring.series2Name];
                     APCTableViewRow *row = [APCTableViewRow new];
@@ -242,9 +243,9 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     double avgValue = [[self.tapScoring averageDataPoint] doubleValue];
                     
                     if (avgValue > 0) {
-                        NSString  *detail = [NSString stringWithFormat:@"Min: %0.0f  Max: %0.0f",
-                                             [[self.tapScoring minimumDataPoint] doubleValue], [[self.tapScoring maximumDataPoint] doubleValue]];
-                        item.detailText = NSLocalizedString(detail, @"");
+                        NSString *detailFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MINMAX_DETAIL", nil, [NSBundle mainBundle], @"Min: %@  Max: %@", @"Format of detail text showing participant's minimum and maximum scores on relevant activity, to be filled in with their minimum and maximum scores");
+                        item.detailText = [NSString stringWithFormat:detailFormat,
+                                           APHLocalizedStringFromNumber([self.tapScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.tapScoring maximumDataPoint])];
                     }
                     
                     item.identifier =  kAPCDashboardGraphTableViewCellIdentifier;
@@ -271,9 +272,9 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     double avgValue = [[self.gaitScoring averageDataPoint] doubleValue];
                     
                     if (avgValue > 0) {
-                        NSString  *detail = [NSString stringWithFormat:@"Min: %0.0f  Max: %0.0f",
-                                             [[self.gaitScoring minimumDataPoint] doubleValue], [[self.gaitScoring maximumDataPoint] doubleValue]];
-                        item.detailText = NSLocalizedString(detail, @"");
+                        NSString *detailFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MINMAX_DETAIL", nil, [NSBundle mainBundle], @"Min: %@  Max: %@", @"Format of detail text showing participant's minimum and maximum scores on relevant activity, to be filled in with their minimum and maximum scores");
+                        item.detailText = [NSString stringWithFormat:detailFormat,
+                                           APHLocalizedStringFromNumber([self.gaitScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.gaitScoring maximumDataPoint])];
                     }
                     
                     item.identifier = kAPCDashboardGraphTableViewCellIdentifier;
@@ -299,9 +300,9 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     double avgValue = [[self.memoryScoring averageDataPoint] doubleValue];
                     
                     if (avgValue > 0) {
-                        NSString  *detail = [NSString stringWithFormat:@"Min: %0.0f  Max: %0.0f",
-                                             [[self.memoryScoring minimumDataPoint] doubleValue], [[self.memoryScoring maximumDataPoint] doubleValue]];
-                        item.detailText = NSLocalizedString(detail, @"");
+                        NSString *detailFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MINMAX_DETAIL", nil, [NSBundle mainBundle], @"Min: %@  Max: %@", @"Format of detail text showing participant's minimum and maximum scores on relevant activity, to be filled in with their minimum and maximum scores");
+                        item.detailText = [NSString stringWithFormat:detailFormat,
+                                           APHLocalizedStringFromNumber([self.memoryScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.memoryScoring maximumDataPoint])];
                     }
                     
                     item.identifier = kAPCDashboardGraphTableViewCellIdentifier;
@@ -327,9 +328,9 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     double avgValue = [[self.phonationScoring averageDataPoint] doubleValue];
                     
                     if (avgValue > 0) {
-                        NSString  *detail = [NSString stringWithFormat:@"Min: %0.0f  Max: %0.0f",
-                                             [[self.phonationScoring minimumDataPoint] doubleValue], [[self.phonationScoring maximumDataPoint] doubleValue]];
-                        item.detailText = NSLocalizedString(detail, @"");
+                        NSString *detailFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MINMAX_DETAIL", nil, [NSBundle mainBundle], @"Min: %@  Max: %@", @"Format of detail text showing participant's minimum and maximum scores on relevant activity, to be filled in with their minimum and maximum scores");
+                        item.detailText = [NSString stringWithFormat:detailFormat,
+                                           APHLocalizedStringFromNumber([self.phonationScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.phonationScoring maximumDataPoint])];
                     }
                     
                     item.identifier = kAPCDashboardGraphTableViewCellIdentifier;
@@ -354,8 +355,9 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     double avgValue = [[self.stepScoring averageDataPoint] doubleValue];
                     
                     if (avgValue > 0) {
-                        NSString  *detail = [NSString stringWithFormat:@"Average: %0.0f", avgValue];
-                        item.detailText = NSLocalizedString(detail, @"Average: {value} steps");
+                        NSString *detailFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_AVG_DETAIL", nil, [NSBundle mainBundle], @"Average: %@", @"Format of detail text showing participant's average score on relevant activity, to be filled in with their average score");
+                        item.detailText = [NSString stringWithFormat:detailFormat,
+                                           APHLocalizedStringFromNumber([self.stepScoring averageDataPoint])];
                     }
                     
                     item.identifier = kAPCDashboardGraphTableViewCellIdentifier;
