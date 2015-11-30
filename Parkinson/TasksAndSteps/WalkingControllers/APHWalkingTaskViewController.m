@@ -46,6 +46,8 @@ static NSString* const  kNumberOfStepsTotalOnReturn           = @"numberOfSteps"
 static NSString* const  kNumberOfStepsTotalOnReturnKey        = @"numberOfSteps";
 static NSString* const  kPedometerPrefixFileIdentifier        = @"pedometer";
 
+static  NSString       *kWalkingActivityTitle                 = @"Walking Activity";
+
 static  NSUInteger      kNumberOfStepsPerLeg                  = 20;
 static  NSTimeInterval  kStandStillDuration                   = 30.0;
 

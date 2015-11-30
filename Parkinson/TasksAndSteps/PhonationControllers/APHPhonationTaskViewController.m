@@ -83,7 +83,7 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
     //    after the first if the user needs to say where they are in
     //    their medication schedule
     //
-    NSString *localizedTaskName = NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_TITLE", nil, [NSBundle mainBundle], @"Voice", @"Title for Voice activity")
+    NSString *localizedTaskName = NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_TITLE", nil, [NSBundle mainBundle], @"Voice", @"Title for Voice activity");
     [orkTask.steps[0] setTitle:localizedTaskName];
     
     ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[1];
