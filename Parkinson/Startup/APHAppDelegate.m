@@ -59,6 +59,7 @@ static NSString *const kJsonScheduleStringKey           = @"scheduleString";
 static NSString *const kJsonTasksKey                    = @"tasks";
 static NSString *const kJsonScheduleTaskIDKey           = @"taskID";
 static NSString *const kJsonSchedulesKey                = @"schedules";
+static NSString *const kAppStoreLink                    = @"https://appsto.re/us/GxN85.i";
 
 @interface APHAppDelegate ()
 
@@ -77,6 +78,14 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
     [self enableBackgroundDeliveryForHealthKitTypes];
 
     return YES;
+}
+
+- (NSURL *)appStoreLinkURL
+{
+    // The general link to the app store that is returned by using the app name will, in this case,
+    // return a list of apps that meet the "mpower" search. Instead, override the default implementation
+    // and link directly.
+    return [NSURL URLWithString:kAppStoreLink];
 }
 
 - (void)enableBackgroundDeliveryForHealthKitTypes
