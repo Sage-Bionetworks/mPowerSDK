@@ -205,7 +205,7 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
         }
 
         if ([[UIApplication sharedApplication] currentUserNotificationSettings].types != UIUserNotificationTypeNone) {
-            [self.tasksReminder setReminderOn:@YES];
+            [self.tasksReminder setReminderOn:YES];
         }
     }
 }
@@ -437,8 +437,9 @@ static NSDate *DetermineConsentDate(id object)
         NSString*           startDateTimeStamp  = [qtySample.startDate toStringInISO8601Format];
         NSString*           endDateTimeStamp    = [qtySample.endDate toStringInISO8601Format];
         NSString*           healthKitType       = qtySample.quantityType.identifier;
-        NSString*           quantityValueRep    = [NSString stringWithFormat:@"%@", qtySample.quantity];
-        NSArray*            valueSplit          = [quantityValueRep componentsSeparatedByString:@" "];
+        // TODO: syoung 12/03/2015 Are these values suppose to be used?
+        //NSString*           quantityValueRep    = [NSString stringWithFormat:@"%@", qtySample.quantity];
+        //NSArray*            valueSplit          = [quantityValueRep componentsSeparatedByString:@" "];
         NSNumber*           quantityValue       = @([qtySample.quantity doubleValueForUnit:unit]);
         NSString*           quantityUnit        = unit.unitString;
         NSString*           sourceIdentifier    = qtySample.source.bundleIdentifier;
