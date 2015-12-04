@@ -96,7 +96,7 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
     NSString  *titleFormat = NSLocalizedStringWithDefaultValue(@"APH_WALKING_STAND_STILL_TEXT_INSTRUCTION", nil, [NSBundle mainBundle], @"Turn around and stand still for %@ seconds", @"Written instructions for the standing-still step of the walking activity, to be filled in with the number of seconds to stand still.");
     NSString  *titleString = [NSString stringWithFormat:titleFormat, APHLocalizedStringFromNumber(@(kStandStillDuration))];
     NSString  *spokenInstructionFormat = NSLocalizedStringWithDefaultValue(@"APH_WALKING_STAND_STILL_SPOKEN_INSTRUCTION", nil, [NSBundle mainBundle], @"Turn around and stand still for %@ seconds", @"Spoken instructions for the standing-still step of the walking activity, to be filled in with the number of seconds to stand still.");
-    NSString  *spokenInstructionString = [NSString stringWithFormat:titleFormat, APHLocalizedStringFromNumber(@(kStandStillDuration))];
+    NSString  *spokenInstructionString = [NSString stringWithFormat:spokenInstructionFormat, APHLocalizedStringFromNumber(@(kStandStillDuration))];
     
     ORKActiveStep *activeStep = (ORKActiveStep *)orkTask.steps[5];
     [activeStep setTitle:titleString];

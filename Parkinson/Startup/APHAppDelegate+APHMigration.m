@@ -53,7 +53,7 @@
     
     //Enable reminders if notifications permitted
     if ([[UIApplication sharedApplication] currentUserNotificationSettings].types != UIUserNotificationTypeNone){
-        [self.tasksReminder setReminderOn:@YES];
+        [self.tasksReminder setReminderOn:YES];
     }
     return self.tasksReminder.reminders.count;
 }
