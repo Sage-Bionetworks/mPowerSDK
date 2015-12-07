@@ -90,13 +90,14 @@ static const NSInteger kTappingActivitySchemaRevision = 6;
                                                                                  duration:kTappingStepCountdownInterval
                                                                                   options:0];
     
-    ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[0];
+    ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps.firstObject;
     [instructionStep setText:NSLocalizedString(@"Speed of finger tapping can reflect severity of motor symptoms in Parkinson disease. "
                                                @"This activity measures your tapping speed. Your medical provider may measure this differently.", nil)];
     [instructionStep setDetailText:@""];
     
-    [orkTask.steps[3] setTitle:kConclusionStepThankYouTitle];
-    [orkTask.steps[3] setText:kConclusionStepViewDashboard];
+    ORKStep *finalStep = orkTask.steps.lastObject;
+    [finalStep setTitle:kConclusionStepThankYouTitle];
+    [finalStep setText:kConclusionStepViewDashboard];
     
     ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:orkTask
                                                                           andTitle:(NSString *)kIntervalTappingTitle];
