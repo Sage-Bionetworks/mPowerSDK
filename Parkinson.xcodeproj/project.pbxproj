@@ -98,7 +98,6 @@
 		A781167A1A96BC9400CEC822 /* 11_IssuesToConsider1@3x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = A781166C1A96BC9400CEC822 /* 11_IssuesToConsider1@3x.m4v */; };
 		A781167B1A96BC9400CEC822 /* 12_IssuesToConside2@3x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = A781166D1A96BC9400CEC822 /* 12_IssuesToConside2@3x.m4v */; };
 		A781167C1A96BC9400CEC822 /* 13_RiskToPrivacy@3x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = A781166E1A96BC9400CEC822 /* 13_RiskToPrivacy@3x.m4v */; };
-		CF2BF9931A76A3E300AC4ADD /* APHIntervalTappingRecorderDataKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2BF9921A76A3E300AC4ADD /* APHIntervalTappingRecorderDataKeys.m */; };
 		CF53B6561B3CC16700558044 /* APHParkinsonActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF53B6551B3CC16700558044 /* APHParkinsonActivityViewController.m */; };
 		CFA2ABBC19A7C3A9000DB961 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFA2ABBB19A7C3A9000DB961 /* CoreData.framework */; };
 		CFA2ABBE19A7C3C2000DB961 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFA2ABBD19A7C3C2000DB961 /* Security.framework */; };
@@ -118,6 +117,7 @@
 		F5D14F3919CC9C0000650FBB /* APHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D14F3819CC9C0000650FBB /* APHAppDelegate.m */; };
 		F5DCAD3E19D088330096DEC0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5DCAD3D19D088330096DEC0 /* LaunchScreen.xib */; };
 		F5F32C7C19D0D4C1007F9015 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFA2ABB519A7C229000DB961 /* HealthKit.framework */; };
+		FF9469631C1A0DA900CF7075 /* APHDataKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9469621C1A0DA900CF7075 /* APHDataKeys.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -363,8 +363,6 @@
 		A781166C1A96BC9400CEC822 /* 11_IssuesToConsider1@3x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "11_IssuesToConsider1@3x.m4v"; sourceTree = "<group>"; };
 		A781166D1A96BC9400CEC822 /* 12_IssuesToConside2@3x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "12_IssuesToConside2@3x.m4v"; sourceTree = "<group>"; };
 		A781166E1A96BC9400CEC822 /* 13_RiskToPrivacy@3x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "13_RiskToPrivacy@3x.m4v"; sourceTree = "<group>"; };
-		CF2BF9911A76A3E300AC4ADD /* APHIntervalTappingRecorderDataKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHIntervalTappingRecorderDataKeys.h; sourceTree = "<group>"; };
-		CF2BF9921A76A3E300AC4ADD /* APHIntervalTappingRecorderDataKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHIntervalTappingRecorderDataKeys.m; sourceTree = "<group>"; };
 		CF53B6541B3CC16700558044 /* APHParkinsonActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHParkinsonActivityViewController.h; sourceTree = "<group>"; };
 		CF53B6551B3CC16700558044 /* APHParkinsonActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHParkinsonActivityViewController.m; sourceTree = "<group>"; };
 		CFA2ABB519A7C229000DB961 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
@@ -395,6 +393,8 @@
 		F5D14F3719CC9C0000650FBB /* APHAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHAppDelegate.h; sourceTree = "<group>"; };
 		F5D14F3819CC9C0000650FBB /* APHAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHAppDelegate.m; sourceTree = "<group>"; };
 		F5DCAD3D19D088330096DEC0 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		FF9469611C1A0DA900CF7075 /* APHDataKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDataKeys.h; sourceTree = "<group>"; };
+		FF9469621C1A0DA900CF7075 /* APHDataKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHDataKeys.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -673,6 +673,8 @@
 		CFC2D2D919A5417D00170E69 /* Parkinson */ = {
 			isa = PBXGroup;
 			children = (
+				FF9469611C1A0DA900CF7075 /* APHDataKeys.h */,
+				FF9469621C1A0DA900CF7075 /* APHDataKeys.m */,
 				F5D14F3619CC9C0000650FBB /* Startup */,
 				F5D14E7719CC9B8100650FBB /* Onboarding */,
 				F5D14E8F19CC9B9100650FBB /* TabBarControllers */,
@@ -804,8 +806,6 @@
 			children = (
 				F5D14EF319CC9BC900650FBB /* APHIntervalTappingTaskViewController.h */,
 				F5D14EF419CC9BC900650FBB /* APHIntervalTappingTaskViewController.m */,
-				CF2BF9911A76A3E300AC4ADD /* APHIntervalTappingRecorderDataKeys.h */,
-				CF2BF9921A76A3E300AC4ADD /* APHIntervalTappingRecorderDataKeys.m */,
 			);
 			path = IntervalTappingControllers;
 			sourceTree = "<group>";
@@ -1103,13 +1103,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF2BF9931A76A3E300AC4ADD /* APHIntervalTappingRecorderDataKeys.m in Sources */,
 				F5D14F2719CC9BC900650FBB /* APHPhonationTaskViewController.m in Sources */,
 				5B1D9D461A1BCC6B000F4AD6 /* APHDashboardEditViewController.m in Sources */,
 				5B1D9D471A1BCC6B000F4AD6 /* APHDashboardViewController.m in Sources */,
 				F5D14F3919CC9C0000650FBB /* APHAppDelegate.m in Sources */,
 				A74615B31A98077D00323AD1 /* ConverterForPDScores.m in Sources */,
 				5B29CE5419D4C8FD00E2FD62 /* APHInclusionCriteriaViewController.m in Sources */,
+				FF9469631C1A0DA900CF7075 /* APHDataKeys.m in Sources */,
 				5A0F991A1AA426F300A2A7EB /* APHfeedback.m in Sources */,
 				5A0F99171AA426D900A2A7EB /* APHmythougths.m in Sources */,
 				F5D14F2319CC9BC900650FBB /* APHIntervalTappingTaskViewController.m in Sources */,
