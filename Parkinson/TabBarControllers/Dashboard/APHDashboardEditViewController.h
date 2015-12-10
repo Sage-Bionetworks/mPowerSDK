@@ -34,7 +34,8 @@
 @import APCAppCore;
 
 typedef NS_ENUM(APCTableViewItemType, APHDashboardItemType) {
-    kAPHDashboardItemTypeIntervalTapping,
+    kAPHDashboardItemTypeIntervalTappingRight,
+    kAPHDashboardItemTypeIntervalTappingLeft,
     kAPHDashboardItemTypeSpatialMemory,
     kAPHDashboardItemTypeGait,
     kAPHDashboardItemTypePhonation,

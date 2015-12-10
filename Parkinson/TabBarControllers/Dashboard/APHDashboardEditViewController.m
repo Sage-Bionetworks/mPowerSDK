@@ -32,6 +32,7 @@
 // 
  
 #import "APHDashboardEditViewController.h"
+#import "APHDataKeys.h"
 
 @implementation APHDashboardEditViewController
 
@@ -52,11 +53,14 @@
             APHDashboardItemType rowType = typeNumber.integerValue;
             
             switch (rowType) {
-                case kAPHDashboardItemTypeIntervalTapping:
+                case kAPHDashboardItemTypeIntervalTappingRight:
+                case kAPHDashboardItemTypeIntervalTappingLeft:
                 {
                     APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
-                    item.caption = NSLocalizedString(@"Tapping", @"");
-                    item.taskId = @"2-APHIntervalTapping-7259AC18-D711-47A6-ADBD-6CFCECDED1DF";
+                    item.caption = (rowType == kAPHDashboardItemTypeIntervalTappingRight)  ?
+                        NSLocalizedString(@"Tapping - Right", @"") :
+                        NSLocalizedString(@"Tapping - Left", @"");
+                    item.taskId = APHTappingActivitySurveyIdentifier;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                     
                     [self.items addObject:item];
@@ -67,7 +71,7 @@
                     
                     APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
                     item.caption = NSLocalizedString(@"Gait", @"");
-                    item.taskId = @"4-APHTimedWalking-80F09109-265A-49C6-9C5D-765E49AAF5D9";
+                    item.taskId = APHWalkingActivitySurveyIdentifier;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                     
                     [self.items addObject:item];
@@ -77,7 +81,7 @@
                     
                     APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
                     item.caption = NSLocalizedString(@"Memory", @"");
-                    item.taskId = @"7-APHSpatialSpanMemory-4A04F3D0-AC05-11E4-AB27-0800200C9A66";
+                    item.taskId = APHMemoryActivitySurveyIdentifier;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                     
                     [self.items addObject:item];
@@ -87,7 +91,7 @@
                     
                     APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
                     item.caption = NSLocalizedString(@"Voice", @"");
-                    item.taskId = @"3-APHPhonation-C614A231-A7B7-4173-BDC8-098309354292";
+                    item.taskId = APHVoiceActivitySurveyIdentifier;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                     
                     [self.items addObject:item];
