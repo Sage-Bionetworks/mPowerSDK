@@ -9,4 +9,4 @@
 	url = https://github.com/Sage-Bionetworks/PDScores.git
 [submodule "ResearchKit"]
 	path = ResearchKit
-	url = https://github.com/ResearchKit/ResearchKit.git
+	url = https://github.com/Sage-Bionetworks/ResearchKit.git
