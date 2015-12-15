@@ -32,17 +32,16 @@
 // 
  
 #import "APHIntervalTappingTaskViewController.h"
-#import "APHIntervalTappingRecorderDataKeys.h"
 #import <PDScores/PDScores.h>
 #import "ConverterForPDScores.h"
 #import <AVFoundation/AVFoundation.h>
+#import "APHDataKeys.h"
 
     //
     //        Step Identifiers
     //
 static NSString *const kIntroductionStepIdentifier    = @"instruction";
 static NSString *const kInstruction1StepIdentifier    = @"instruction1";
-static NSString *const kTapTappingStepIdentifier      = @"tapping";
 static NSString *const kConclusionStepIdentifier      = @"conclusion";
 
 static  NSString       *kTaskViewControllerTitle      = @"Tapping Activity";
@@ -54,24 +53,10 @@ static NSString * const kStartDateKey               = @"startDate";
 static NSString * const kEndDateKey                 = @"endDate";
 static NSString * const kUserInfoKey                = @"userInfo";
 
-//
-//    Interval Tapping Dictionary Keys
-//
-static  NSString  *const  kTappingViewSizeKey                           = @"TappingViewSize";
-static  NSString  *const  kButtonRectLeftKey                            = @"ButtonRectLeft";
-static  NSString  *const  kButtonRectRightKey                           = @"ButtonRectRight";
-static  NSString  *const  kTappingSamplesKey                            = @"TappingSamples";
-static  NSString  *const  kTappedButtonIdKey                            = @"TappedButtonId";
-static  NSString  *const  kTappedButtonNoneKey                          = @"TappedButtonNone";
-static  NSString  *const  kTappedButtonLeftKey                          = @"TappedButtonLeft";
-static  NSString  *const  kTappedButtonRightKey                         = @"TappedButtonRight";
-static  NSString  *const  kTapTimeStampKey                              = @"TapTimeStamp";
-static  NSString  *const  kTapCoordinateKey                             = @"TapCoordinate";
-static  NSString  *const  kAPCTappingResultsFileName                    = @"tapping_results.json";
 
 static  NSTimeInterval  kTappingStepCountdownInterval = 20.0;
 
-static const NSInteger kTappingActivitySchemaRevision = 6;
+static const NSInteger kTappingActivitySchemaRevision = 7;
 
 @interface APHIntervalTappingTaskViewController  ( ) <NSObject>
 
@@ -88,15 +73,21 @@ static const NSInteger kTappingActivitySchemaRevision = 6;
     ORKOrderedTask  *orkTask = [ORKOrderedTask twoFingerTappingIntervalTaskWithIdentifier:kIntervalTappingTitle
                                                                    intendedUseDescription:nil
                                                                                  duration:kTappingStepCountdownInterval
-                                                                                  options:0];
+                                                                                  options:0
+                                                                              handOptions:APCTapHandOptionBoth];
     
-    ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[0];
-    [instructionStep setText:NSLocalizedString(@"Speed of finger tapping can reflect severity of motor symptoms in Parkinson disease. "
-                                               @"This activity measures your tapping speed. Your medical provider may measure this differently.", nil)];
-    [instructionStep setDetailText:@""];
+    // Modify the first step to explain why this activity is valuable to the Parkinson's study
+    ORKInstructionStep *firstStep = (ORKInstructionStep *)orkTask.steps.firstObject;
+    [firstStep setText:NSLocalizedString(@"Speed of finger tapping can reflect severity of motor symptoms in Parkinson disease. "
+                                               @"This activity measures your tapping speed for each hand. Your medical provider may measure this differently.", nil)];
+    [firstStep setDetailText:@""];
     
-    [orkTask.steps[3] setTitle:kConclusionStepThankYouTitle];
-    [orkTask.steps[3] setText:kConclusionStepViewDashboard];
+    // Modify the last step to change the language of the conclusion
+    ORKStep *finalStep = orkTask.steps.lastObject;
+    [finalStep setTitle:kConclusionStepThankYouTitle];
+    [finalStep setText:kConclusionStepViewDashboard];
+    
+
     
     ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:orkTask
                                                                           andTitle:(NSString *)kIntervalTappingTitle];
@@ -113,40 +104,45 @@ static const NSInteger kTappingActivitySchemaRevision = 6;
 {
     ORKTaskResult  *taskResults = self.result;
     self.createResultSummaryBlock = ^(NSManagedObjectContext * context) {
-        ORKTappingIntervalResult  *tapsterResults = nil;
-        BOOL  foundIntervalResult = NO;
+
+        // Start with a dictionary that has all the required keys preset to zero
+        __block NSMutableDictionary *summary = [@{ APHRightSummaryNumberOfRecordsKey: @(0),
+                                                   APHLeftSummaryNumberOfRecordsKey:  @(0),
+                                                   APHRightScoreSummaryOfRecordsKey:  @(0),
+                                                   APHLeftScoreSummaryOfRecordsKey:   @(0)} mutableCopy];
+        
+        // Use a block to morph the keys if a tapping result is found
+        void (^addResult)(ORKTappingIntervalResult*) = ^(ORKTappingIntervalResult  * _Nonnull tapsterResults) {
+
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF = 0"];
+            NSArray *allSamples = [tapsterResults.samples valueForKey:@"buttonIdentifier"];
+            NSArray *tapSamples = [allSamples filteredArrayUsingPredicate:predicate];
+            
+            NSArray * totalScore = [ConverterForPDScores convertTappings:tapsterResults];
+            double scoreSummary = [PDScores scoreFromTappingTest:totalScore];
+            
+            scoreSummary = isnan(scoreSummary) ? 0 : scoreSummary;
+            
+            NSUInteger  numberOfSamples = allSamples.count - tapSamples.count;
+            
+            BOOL rightHand = [tapsterResults.identifier hasSuffix:APCRightHandIdentifier];
+            NSString *numRecordsKey = rightHand ? APHRightSummaryNumberOfRecordsKey : APHLeftSummaryNumberOfRecordsKey;
+            NSString *scoreKey = rightHand ? APHRightScoreSummaryOfRecordsKey : APHLeftScoreSummaryOfRecordsKey;
+            summary[numRecordsKey] = @(numberOfSamples);
+            summary[scoreKey] = @(scoreSummary);
+        };
+        
+        // Iterate through all the steps to look for tapping results
         for (ORKStepResult  *stepResult  in  taskResults.results) {
-            if (stepResult.results.count > 0) {
-                for (id  object  in  stepResult.results) {
-                    if ([object isKindOfClass:[ORKTappingIntervalResult class]] == YES) {
-                        foundIntervalResult = YES;
-                        tapsterResults = object;
-                        break;
-                    }
-                }
-                if (foundIntervalResult == YES) {
-                    break;
+            for (id  object  in  stepResult.results) {
+                if ([object isKindOfClass:[ORKTappingIntervalResult class]] == YES) {
+                    addResult(object);
+                    break;  // if result is found, break
                 }
             }
         }
-        
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF = 0"];
-        NSArray *allSamples = [tapsterResults.samples valueForKey:@"buttonIdentifier"];
-        NSArray *tapSamples = [allSamples filteredArrayUsingPredicate:predicate];
-        
-        NSArray * totalScore = [ConverterForPDScores convertTappings:tapsterResults];
-        double scoreSummary = [PDScores scoreFromTappingTest:totalScore];
-        
-        scoreSummary = isnan(scoreSummary) ? 0 : scoreSummary;
-        
-        NSUInteger  numberOfSamples = 0;
-        NSDictionary  *summary = nil;
-        if (tapsterResults == nil) {
-            summary = @{ kSummaryNumberOfRecordsKey : @(numberOfSamples), kScoreSummaryOfRecordsKey : @(scoreSummary)};
-        } else {
-            numberOfSamples = allSamples.count - tapSamples.count;
-            summary = @{ kSummaryNumberOfRecordsKey : @(numberOfSamples), kScoreSummaryOfRecordsKey : @(scoreSummary)};
-        }
+
+        // Convert the dictionary into json serializaed data and then to UTF8 string
         NSError  *error = nil;
         NSData  *data = [NSJSONSerialization dataWithJSONObject:summary options:0 error:&error];
         NSString  *contentString = nil;
@@ -156,6 +152,7 @@ static const NSInteger kTappingActivitySchemaRevision = 6;
             contentString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         }
         
+        // If string length is non-zero then update result summary
         if (contentString.length > 0)
         {
             [APCResult updateResultSummary:contentString forTaskResult:taskResults inContext:context];
@@ -168,16 +165,7 @@ static const NSInteger kTappingActivitySchemaRevision = 6;
 
 - (void)taskViewController:(ORKTaskViewController *) __unused taskViewController stepViewControllerWillAppear:(ORKStepViewController *)stepViewController
 {
-    if ([stepViewController.step.identifier isEqualToString:kInstruction1StepIdentifier] == YES) {
-        UILabel *label = ((UILabel *)((UIView *)((UIView *)((UIView *) ((UIScrollView *)stepViewController.view.subviews[0]).subviews[0]).subviews[0]).subviews[0]).subviews[2]);
-        label.text = NSLocalizedString(@"Rest your phone on a flat surface. "
-                                       @"Then use two fingers on the same hand to alternately tap the buttons that appear. "
-                                       @"Keep tapping for 20 seconds and time your taps to be as consistent as possible.\n\n"
-                                       @"Tap Next to begin the test.",
-                                       @"Instruction text for tapping activity in Parkinson");
-    }
-    
-    if ([stepViewController.step.identifier isEqualToString:kTapTappingStepIdentifier] == YES) {
+    if ([stepViewController.step.identifier hasPrefix:APCTapTappingStepIdentifier] == YES) {
         self.preferStatusBarShouldBeHidden = YES;
         [[UIApplication sharedApplication] setStatusBarHidden: YES];
     }
@@ -224,48 +212,7 @@ static const NSInteger kTappingActivitySchemaRevision = 6;
 #pragma mark - Add Task-Specific Results — Interval Tapping
 /*********************************************************************************/
 
-- (void)addTappingResultsToArchive:(ORKTappingIntervalResult *)result
-{
-    NSMutableDictionary  *rawTappingResults = [NSMutableDictionary dictionary];
-    
-    NSString  *tappingViewSize = NSStringFromCGSize(result.stepViewSize);
-    rawTappingResults[kTappingViewSizeKey] = tappingViewSize;
-    
-    rawTappingResults[kStartDateKey] = result.startDate;
-    rawTappingResults[kEndDateKey]   = result.endDate;
-    
-    NSString  *leftButtonRect = NSStringFromCGRect(result.buttonRect1);
-    rawTappingResults[kButtonRectLeftKey] = leftButtonRect;
-    
-    NSString  *rightButtonRect = NSStringFromCGRect(result.buttonRect2);
-    rawTappingResults[kButtonRectRightKey] = rightButtonRect;
-    
-    NSArray  *samples = result.samples;
-    NSMutableArray  *sampleResults = [NSMutableArray array];
-    for (ORKTappingSample *sample  in  samples) {
-        NSMutableDictionary  *aSampleDictionary = [NSMutableDictionary dictionary];
-        
-        aSampleDictionary[kTapTimeStampKey]     = @(sample.timestamp);
-        
-        aSampleDictionary[kTapCoordinateKey]   = NSStringFromCGPoint(sample.location);
-        
-        if (sample.buttonIdentifier == ORKTappingButtonIdentifierNone) {
-            aSampleDictionary[kTappedButtonIdKey] = kTappedButtonNoneKey;
-        } else if (sample.buttonIdentifier == ORKTappingButtonIdentifierLeft) {
-            aSampleDictionary[kTappedButtonIdKey] = kTappedButtonLeftKey;
-        } else if (sample.buttonIdentifier == ORKTappingButtonIdentifierRight) {
-            aSampleDictionary[kTappedButtonIdKey] = kTappedButtonRightKey;
-        }
-        [sampleResults addObject:aSampleDictionary];
-    }
-    rawTappingResults[kTappingSamplesKey] = sampleResults;
-    rawTappingResults[kItemKey] = kAPCTappingResultsFileName;
-    
-    NSDictionary *serializableData = [APCJSONSerializer serializableDictionaryFromSourceDictionary: rawTappingResults];
-    
-    [self.archive insertIntoArchive:serializableData filename:kAPCTappingResultsFileName];
-    
-}
+
 
 - (void) updateSchemaRevision
 {

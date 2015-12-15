@@ -35,8 +35,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import <APCAppCore/APCAppCore.h>
 #import <PDScores/PDScores.h>
-#import "APHIntervalTappingRecorderDataKeys.h"
 #import "APHAppDelegate.h"
+#import "APHDataKeys.h"
 
     //
     //        Step Identifiers
@@ -92,8 +92,8 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
                                                @"Keep a steady volume so the audio bars remain blue.", nil)];
     [instructionStep setDetailText:NSLocalizedString(@"Tap Next to begin the test.", nil)];
     
-    [orkTask.steps[4] setTitle:kConclusionStepThankYouTitle];
-    [orkTask.steps[4] setText:kConclusionStepViewDashboard];
+    [orkTask.steps.lastObject setTitle:kConclusionStepThankYouTitle];
+    [orkTask.steps.lastObject setText:kConclusionStepViewDashboard];
     
     ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:orkTask
                                                                           andTitle:(NSString *)kTaskIdentifier];
@@ -154,7 +154,7 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
         double scoreSummary = [PDScores scoreFromPhonationTest: fileResult.fileURL];
         scoreSummary = isnan(scoreSummary) ? 0 : scoreSummary;
         
-        NSDictionary  *summary = @{kScoreSummaryOfRecordsKey : @(scoreSummary)};
+        NSDictionary  *summary = @{APHPhonationScoreSummaryOfRecordsKey : @(scoreSummary)};
         
         NSError  *error = nil;
         NSData  *data = [NSJSONSerialization dataWithJSONObject:summary options:0 error:&error];

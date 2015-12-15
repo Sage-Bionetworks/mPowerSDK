@@ -34,7 +34,7 @@
 /* Controllers */
 #import "APHDashboardViewController.h"
 #import "APHDashboardEditViewController.h"
-#import "APHIntervalTappingRecorderDataKeys.h"
+#import "APHDataKeys.h"
 #import "APHSpatialSpanMemoryGameViewController.h"
 #import "APHWalkingTaskViewController.h"
 
@@ -46,7 +46,8 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
 
 @property (nonatomic, strong) NSMutableArray *rowItemsOrder;
 
-@property (nonatomic, strong) APCScoring *tapScoring;
+@property (nonatomic, strong) APCScoring *tapRightScoring;
+@property (nonatomic, strong) APCScoring *tapLeftScoring;
 @property (nonatomic, strong) APCScoring *gaitScoring;
 @property (nonatomic, strong) APCScoring *stepScoring;
 @property (nonatomic, strong) APCScoring *memoryScoring;
@@ -69,7 +70,8 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
             _rowItemsOrder = [[NSMutableArray alloc] initWithArray:@[
                                                                      @(kAPHDashboardItemTypeCorrelation),
                                                                      @(kAPHDashboardItemTypeSteps),
-                                                                     @(kAPHDashboardItemTypeIntervalTapping),
+                                                                     @(kAPHDashboardItemTypeIntervalTappingRight),
+                                                                     @(kAPHDashboardItemTypeIntervalTappingLeft),
                                                                      @(kAPHDashboardItemTypeSpatialMemory),@(kAPHDashboardItemTypePhonation),]];
             
             if ([APCDeviceHardware isiPhone5SOrNewer]) {
@@ -129,41 +131,45 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
 
 - (void)prepareScoringObjects
 {
-    self.tapScoring = [[APCScoring alloc] initWithTask:@"2-APHIntervalTapping-7259AC18-D711-47A6-ADBD-6CFCECDED1DF"
+    self.tapRightScoring = [[APCScoring alloc] initWithTask:APHTappingActivitySurveyIdentifier
                                           numberOfDays:-kNumberOfDaysToDisplay
-                                              valueKey:kSummaryNumberOfRecordsKey];
-    self.tapScoring.caption = NSLocalizedString(@"Tapping", @"");
+                                              valueKey:APHRightSummaryNumberOfRecordsKey];
+    self.tapRightScoring.caption = NSLocalizedString(@"Tapping - Right", @"Dashboard caption for tapping with right hand");
     
-    self.gaitScoring = [[APCScoring alloc] initWithTask:@"4-APHTimedWalking-80F09109-265A-49C6-9C5D-765E49AAF5D9"
+    self.tapLeftScoring = [[APCScoring alloc] initWithTask:APHTappingActivitySurveyIdentifier
+                                          numberOfDays:-kNumberOfDaysToDisplay
+                                              valueKey:APHLeftSummaryNumberOfRecordsKey];
+    self.tapLeftScoring.caption = NSLocalizedString(@"Tapping - Left", @"Dashboard caption for tapping with left hand");
+    
+    self.gaitScoring = [[APCScoring alloc] initWithTask:APHWalkingActivitySurveyIdentifier
                                            numberOfDays:-kNumberOfDaysToDisplay
                                                valueKey:kGaitScoreKey];
-    self.gaitScoring.caption = NSLocalizedString(@"Gait", @"");
+    self.gaitScoring.caption = NSLocalizedString(@"Gait", @"Dashboard caption for walking activity");
     
-    self.memoryScoring = [[APCScoring alloc] initWithTask:@"7-APHSpatialSpanMemory-4A04F3D0-AC05-11E4-AB27-0800200C9A66"
-                                             numberOfDays:-kNumberOfDaysToDisplay
-                                                 valueKey:kSpatialMemoryScoreSummaryKey
+    self.memoryScoring = [[APCScoring alloc] initWithTask:APHMemoryActivitySurveyIdentifier
+                                           numberOfDays:-kNumberOfDaysToDisplay
+                                               valueKey:kSpatialMemoryScoreSummaryKey
                                                latestOnly:NO];
-    self.memoryScoring.caption = NSLocalizedString(@"Memory", @"");
+    self.memoryScoring.caption = NSLocalizedString(@"Memory", @"Dashboard caption for memory activity");
     
-    self.phonationScoring = [[APCScoring alloc] initWithTask:@"3-APHPhonation-C614A231-A7B7-4173-BDC8-098309354292"
-                                                numberOfDays:-kNumberOfDaysToDisplay
-                                                    valueKey:kScoreSummaryOfRecordsKey];
-    self.phonationScoring.caption = NSLocalizedString(@"Voice", @"");
+    self.phonationScoring = [[APCScoring alloc] initWithTask:APHVoiceActivitySurveyIdentifier
+                                             numberOfDays:-kNumberOfDaysToDisplay
+                                                 valueKey:APHPhonationScoreSummaryOfRecordsKey];
+    self.phonationScoring.caption = NSLocalizedString(@"Voice", @"Dashboard caption for voice activity");
     
     HKQuantityType *hkQuantity = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
     self.stepScoring = [[APCScoring alloc] initWithHealthKitQuantityType:hkQuantity
                                                                     unit:[HKUnit countUnit]
                                                             numberOfDays:-kNumberOfDaysToDisplay];
-    self.stepScoring.caption = NSLocalizedString(@"Steps", @"Steps");
+    self.stepScoring.caption = NSLocalizedString(@"Steps", @"Dashboard caption for steps score.");
     
     if (!self.correlatedScoring) {
         [self prepareCorrelatedScoring];
     }
 }
 
-- (void)prepareCorrelatedScoring
-{
-    self.correlatedScoring = [[APCScoring alloc] initWithTask:@"4-APHTimedWalking-80F09109-265A-49C6-9C5D-765E49AAF5D9"
+- (void)prepareCorrelatedScoring{
+    self.correlatedScoring = [[APCScoring alloc] initWithTask:APHWalkingActivitySurveyIdentifier
                                                  numberOfDays:-kNumberOfDaysToDisplay
                                                      valueKey:kGaitScoreKey];
     
@@ -232,20 +238,22 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                 }
                     break;
                     
-                case kAPHDashboardItemTypeIntervalTapping:
+                case kAPHDashboardItemTypeIntervalTappingRight:
+                case kAPHDashboardItemTypeIntervalTappingLeft:
                 {
+                    APCScoring *tapScoring = (rowType == kAPHDashboardItemTypeIntervalTappingRight) ? self.tapRightScoring : self.tapLeftScoring;
                     APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
-                    item.caption = self.tapScoring.caption;
-                    item.taskId = @"2-APHIntervalTapping-7259AC18-D711-47A6-ADBD-6CFCECDED1DF";
-                    item.graphData = self.tapScoring;
+                    item.caption = tapScoring.caption;
+                    item.taskId = APHTappingActivitySurveyIdentifier;
+                    item.graphData = tapScoring;
                     item.graphType = kAPCDashboardGraphTypeDiscrete;
                     
-                    double avgValue = [[self.tapScoring averageDataPoint] doubleValue];
+                    double avgValue = [[tapScoring averageDataPoint] doubleValue];
                     
                     if (avgValue > 0) {
                         NSString *detailFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MINMAX_DETAIL", nil, [NSBundle mainBundle], @"Min: %@  Max: %@", @"Format of detail text showing participant's minimum and maximum scores on relevant activity, to be filled in with their minimum and maximum scores");
                         item.detailText = [NSString stringWithFormat:detailFormat,
-                                           APHLocalizedStringFromNumber([self.tapScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.tapScoring maximumDataPoint])];
+                                           APHLocalizedStringFromNumber([tapScoring minimumDataPoint]), APHLocalizedStringFromNumber([tapScoring maximumDataPoint])];
                     }
                     
                     item.identifier =  kAPCDashboardGraphTableViewCellIdentifier;
@@ -265,7 +273,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                 {
                     APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
                     item.caption = self.gaitScoring.caption;
-                    item.taskId = @"4-APHTimedWalking-80F09109-265A-49C6-9C5D-765E49AAF5D9";
+                    item.taskId = APHWalkingActivitySurveyIdentifier;
                     item.graphData = self.gaitScoring;
                     item.graphType = kAPCDashboardGraphTypeDiscrete;
                     
@@ -293,7 +301,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                 {
                     APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
                     item.caption = self.memoryScoring.caption;
-                    item.taskId = @"7-APHSpatialSpanMemory-4A04F3D0-AC05-11E4-AB27-0800200C9A66";
+                    item.taskId = APHMemoryActivitySurveyIdentifier;
                     item.graphData = self.memoryScoring;
                     item.graphType = kAPCDashboardGraphTypeDiscrete;
                     
@@ -321,7 +329,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                 {
                     APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
                     item.caption = self.phonationScoring.caption;
-                    item.taskId = @"3-APHPhonation-C614A231-A7B7-4173-BDC8-098309354292";
+                    item.taskId = APHVoiceActivitySurveyIdentifier;
                     item.graphData = self.phonationScoring;
                     item.graphType = kAPCDashboardGraphTypeDiscrete;
                     
@@ -390,10 +398,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
     
 - (void)dashboardTableViewCellDidTapLegendTitle:(APCDashboardTableViewCell *)__unused cell
 {
-    APCCorrelationsSelectorViewController *correlationSelector = [[APCCorrelationsSelectorViewController alloc]
-                                                                  initWithScoringObjects:[NSArray arrayWithObjects:self.tapScoring,
-                                                                                          self.gaitScoring, self.stepScoring,
-                                                                                          self.memoryScoring, self.phonationScoring, nil]];
+    APCCorrelationsSelectorViewController *correlationSelector = [[APCCorrelationsSelectorViewController alloc]initWithScoringObjects:@[self.tapRightScoring, self.tapLeftScoring, self.gaitScoring, self.stepScoring, self.memoryScoring, self.phonationScoring]];
     correlationSelector.delegate = self;
     [self.navigationController pushViewController:correlationSelector animated:YES];
 }

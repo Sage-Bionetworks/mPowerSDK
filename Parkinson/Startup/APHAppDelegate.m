@@ -34,11 +34,8 @@
 @import APCAppCore;
 #import "APHAppDelegate.h"
 #import "APHProfileExtender.h"
+#import "APHDataKeys.h"
 
-static NSString *const kWalkingActivitySurveyIdentifier             = @"4-APHTimedWalking-80F09109-265A-49C6-9C5D-765E49AAF5D9";
-static NSString *const kVoiceActivitySurveyIdentifier               = @"3-APHPhonation-C614A231-A7B7-4173-BDC8-098309354292";
-static NSString *const kTappingActivitySurveyIdentifier             = @"2-APHIntervalTapping-7259AC18-D711-47A6-ADBD-6CFCECDED1DF";
-static NSString *const kMemoryActivitySurveyIdentifier              = @"7-APHSpatialSpanMemory-4A04F3D0-AC05-11E4-AB27-0800200C9A66";
 static NSString *const kMyThoughtsSurveyIdentifier                  = @"mythoughts";
 static NSString *const kEnrollmentSurveyIdentifier                  = @"EnrollmentSurvey";
 static NSString *const kStudyFeedbackSurveyIdentifier               = @"study_feedback";
@@ -180,10 +177,10 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 
 - (void)setUpTasksReminder
 {
-    APCTaskReminder *walkingActivityReminder = [[APCTaskReminder alloc] initWithTaskID:kWalkingActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Walking Activity", nil)];
-    APCTaskReminder *voiceActivityReminder = [[APCTaskReminder alloc] initWithTaskID:kVoiceActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Voice Activity", nil)];
-    APCTaskReminder *tappingActivityReminder = [[APCTaskReminder alloc] initWithTaskID:kTappingActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Tapping Activity", nil)];
-    APCTaskReminder *memoryActivityReminder = [[APCTaskReminder alloc] initWithTaskID:kMemoryActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Memory Activity", nil)];
+    APCTaskReminder *walkingActivityReminder = [[APCTaskReminder alloc] initWithTaskID:APHWalkingActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Walking Activity", nil)];
+    APCTaskReminder *voiceActivityReminder = [[APCTaskReminder alloc] initWithTaskID:APHVoiceActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Voice Activity", nil)];
+    APCTaskReminder *tappingActivityReminder = [[APCTaskReminder alloc] initWithTaskID:APHTappingActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Tapping Activity", nil)];
+    APCTaskReminder *memoryActivityReminder = [[APCTaskReminder alloc] initWithTaskID:APHMemoryActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Memory Activity", nil)];
     APCTaskReminder *myThoughtsSurveyReminder = [[APCTaskReminder alloc] initWithTaskID:kMyThoughtsSurveyIdentifier reminderBody:NSLocalizedString(@"My Thoughts", nil)];
     APCTaskReminder *enrollmentSurveyReminder = [[APCTaskReminder alloc] initWithTaskID:kEnrollmentSurveyIdentifier reminderBody:NSLocalizedString(@"Enrollment Survey", nil)];
     APCTaskReminder *studyFeedbackSurveyReminder = [[APCTaskReminder alloc] initWithTaskID:kStudyFeedbackSurveyIdentifier reminderBody:NSLocalizedString(@"Study Feedback", nil)];
@@ -214,14 +211,14 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 {
     [APCAppearanceInfo setAppearanceDictionary:@{
                                                  kPrimaryAppColorKey : [UIColor colorWithRed:255 / 255.0f green:0.0 blue:56 / 255.0f alpha:1.000],
-                                                 @"2-APHIntervalTapping-7259AC18-D711-47A6-ADBD-6CFCECDED1DF" : [UIColor appTertiaryPurpleColor],
-                                                 @"7-APHSpatialSpanMemory-4A04F3D0-AC05-11E4-AB27-0800200C9A66" : [UIColor appTertiaryRedColor],
-                                                 @"3-APHPhonation-C614A231-A7B7-4173-BDC8-098309354292" : [UIColor appTertiaryBlueColor],
-                                                 @"4-APHTimedWalking-80F09109-265A-49C6-9C5D-765E49AAF5D9" : [UIColor appTertiaryYellowColor],
-                                                 @"1-EnrollmentSurvey-20EF83D2-E461-4C20-9024-F43FCAAAF4C3": [UIColor lightGrayColor],
-                                                 @"8-MyThoughts-12ffde40-1551-4b48-aae2-8fef38d61b61": [UIColor lightGrayColor],
-                                                 @"9-Feedback-394348ce-ca4f-4abe-b97e-fedbfd7ffb8e": [UIColor lightGrayColor],
-                                                 @"a-APHMedicationTracker-20EF8ED2-E461-4C20-9024-F43FCAAAF4C3": [UIColor colorWithRed:0.933
+                                                 APHTappingActivitySurveyIdentifier : [UIColor appTertiaryPurpleColor],
+                                                 APHMemoryActivitySurveyIdentifier : [UIColor appTertiaryRedColor],
+                                                 APHVoiceActivitySurveyIdentifier : [UIColor appTertiaryBlueColor],
+                                                 APHWalkingActivitySurveyIdentifier : [UIColor appTertiaryYellowColor],
+                                                 APHEnrollmentSurveyIdentifier: [UIColor lightGrayColor],
+                                                 APHMyThoughtsSurveyIdentifier: [UIColor lightGrayColor],
+                                                 APHFeedbackSurveyIdentifier: [UIColor lightGrayColor],
+                                                 APHMedicationTrackerSurveyIdentifier: [UIColor colorWithRed:0.933
                                                                                                                                green:0.267
                                                                                                                                 blue:0.380
                                                                                                                                alpha:1.000]
