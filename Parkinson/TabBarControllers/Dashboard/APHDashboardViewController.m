@@ -134,34 +134,34 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
     self.tapRightScoring = [[APCScoring alloc] initWithTask:APHTappingActivitySurveyIdentifier
                                           numberOfDays:-kNumberOfDaysToDisplay
                                               valueKey:APHRightSummaryNumberOfRecordsKey];
-    self.tapRightScoring.caption = NSLocalizedString(@"Tapping - Right", @"");
+    self.tapRightScoring.caption = NSLocalizedString(@"Tapping - Right", @"Dashboard caption for tapping with right hand");
     
     self.tapLeftScoring = [[APCScoring alloc] initWithTask:APHTappingActivitySurveyIdentifier
                                           numberOfDays:-kNumberOfDaysToDisplay
                                               valueKey:APHLeftSummaryNumberOfRecordsKey];
-    self.tapLeftScoring.caption = NSLocalizedString(@"Tapping - Left", @"");
+    self.tapLeftScoring.caption = NSLocalizedString(@"Tapping - Left", @"Dashboard caption for tapping with left hand");
     
     self.gaitScoring = [[APCScoring alloc] initWithTask:APHWalkingActivitySurveyIdentifier
                                            numberOfDays:-kNumberOfDaysToDisplay
                                                valueKey:kGaitScoreKey];
-    self.gaitScoring.caption = NSLocalizedString(@"Gait", @"");
+    self.gaitScoring.caption = NSLocalizedString(@"Gait", @"Dashboard caption for walking activity");
     
     self.memoryScoring = [[APCScoring alloc] initWithTask:APHMemoryActivitySurveyIdentifier
                                            numberOfDays:-kNumberOfDaysToDisplay
                                                valueKey:kSpatialMemoryScoreSummaryKey
                                                latestOnly:NO];
-    self.memoryScoring.caption = NSLocalizedString(@"Memory", @"");
+    self.memoryScoring.caption = NSLocalizedString(@"Memory", @"Dashboard caption for memory activity");
     
     self.phonationScoring = [[APCScoring alloc] initWithTask:APHVoiceActivitySurveyIdentifier
                                              numberOfDays:-kNumberOfDaysToDisplay
                                                  valueKey:APHPhonationScoreSummaryOfRecordsKey];
-    self.phonationScoring.caption = NSLocalizedString(@"Voice", @"");
+    self.phonationScoring.caption = NSLocalizedString(@"Voice", @"Dashboard caption for voice activity");
     
     HKQuantityType *hkQuantity = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
     self.stepScoring = [[APCScoring alloc] initWithHealthKitQuantityType:hkQuantity
                                                                     unit:[HKUnit countUnit]
                                                             numberOfDays:-kNumberOfDaysToDisplay];
-    self.stepScoring.caption = NSLocalizedString(@"Steps", @"Steps");
+    self.stepScoring.caption = NSLocalizedString(@"Steps", @"Dashboard caption for steps score.");
     
     if (!self.correlatedScoring) {
         [self prepareCorrelatedScoring];
