@@ -56,7 +56,7 @@ static NSString * const kUserInfoKey                = @"userInfo";
 
 static  NSTimeInterval  kTappingStepCountdownInterval = 20.0;
 
-static const NSInteger kTappingActivitySchemaRevision = 7;
+static const NSInteger kTappingActivitySchemaRevision = 9;
 
 @interface APHIntervalTappingTaskViewController  ( ) <NSObject>
 
