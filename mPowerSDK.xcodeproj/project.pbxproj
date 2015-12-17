@@ -10,6 +10,14 @@
 		FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA242E1C2351D600727DA8 /* mPowerSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFFA24361C2351D600727DA8 /* mPowerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */; };
 		FFFA243B1C2351D600727DA8 /* mPowerSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA243A1C2351D600727DA8 /* mPowerSDKTests.m */; };
+		FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA24711C23657700727DA8 /* APHAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FFFA24741C23657700727DA8 /* APHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA24721C23657700727DA8 /* APHAppDelegate.m */; };
+		FFFA24851C23664500727DA8 /* APHAppDelegate+APHMigration.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA24831C23664500727DA8 /* APHAppDelegate+APHMigration.h */; };
+		FFFA24861C23664500727DA8 /* APHAppDelegate+APHMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA24841C23664500727DA8 /* APHAppDelegate+APHMigration.m */; };
+		FFFA248D1C236AE700727DA8 /* APHDataKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA248B1C236AE700727DA8 /* APHDataKeys.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FFFA248E1C236AE700727DA8 /* APHDataKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA248C1C236AE700727DA8 /* APHDataKeys.m */; };
+		FFFA24911C236E9A00727DA8 /* APHProfileExtender.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA248F1C236E9A00727DA8 /* APHProfileExtender.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FFFA24921C236E9A00727DA8 /* APHProfileExtender.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA24901C236E9A00727DA8 /* APHProfileExtender.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +37,14 @@
 		FFFA24351C2351D600727DA8 /* mPowerSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mPowerSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFFA243A1C2351D600727DA8 /* mPowerSDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mPowerSDKTests.m; sourceTree = "<group>"; };
 		FFFA243C1C2351D600727DA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FFFA24711C23657700727DA8 /* APHAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHAppDelegate.h; sourceTree = "<group>"; };
+		FFFA24721C23657700727DA8 /* APHAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHAppDelegate.m; sourceTree = "<group>"; };
+		FFFA24831C23664500727DA8 /* APHAppDelegate+APHMigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "APHAppDelegate+APHMigration.h"; sourceTree = "<group>"; };
+		FFFA24841C23664500727DA8 /* APHAppDelegate+APHMigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "APHAppDelegate+APHMigration.m"; sourceTree = "<group>"; };
+		FFFA248B1C236AE700727DA8 /* APHDataKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDataKeys.h; sourceTree = "<group>"; };
+		FFFA248C1C236AE700727DA8 /* APHDataKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHDataKeys.m; sourceTree = "<group>"; };
+		FFFA248F1C236E9A00727DA8 /* APHProfileExtender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHProfileExtender.h; sourceTree = "<group>"; };
+		FFFA24901C236E9A00727DA8 /* APHProfileExtender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHProfileExtender.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +89,9 @@
 			children = (
 				FFFA242E1C2351D600727DA8 /* mPowerSDK.h */,
 				FFFA24301C2351D600727DA8 /* Info.plist */,
+				FFFA248B1C236AE700727DA8 /* APHDataKeys.h */,
+				FFFA248C1C236AE700727DA8 /* APHDataKeys.m */,
+				FFFA24701C23650900727DA8 /* Startup */,
 			);
 			path = mPowerSDK;
 			sourceTree = "<group>";
@@ -86,6 +105,27 @@
 			path = mPowerSDKTests;
 			sourceTree = "<group>";
 		};
+		FFFA24701C23650900727DA8 /* Startup */ = {
+			isa = PBXGroup;
+			children = (
+				FFFA248F1C236E9A00727DA8 /* APHProfileExtender.h */,
+				FFFA24901C236E9A00727DA8 /* APHProfileExtender.m */,
+				FFFA24711C23657700727DA8 /* APHAppDelegate.h */,
+				FFFA24721C23657700727DA8 /* APHAppDelegate.m */,
+				FFFA24821C23658F00727DA8 /* Migration */,
+			);
+			path = Startup;
+			sourceTree = "<group>";
+		};
+		FFFA24821C23658F00727DA8 /* Migration */ = {
+			isa = PBXGroup;
+			children = (
+				FFFA24831C23664500727DA8 /* APHAppDelegate+APHMigration.h */,
+				FFFA24841C23664500727DA8 /* APHAppDelegate+APHMigration.m */,
+			);
+			name = Migration;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -94,6 +134,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */,
+				FFFA24911C236E9A00727DA8 /* APHProfileExtender.h in Headers */,
+				FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */,
+				FFFA248D1C236AE700727DA8 /* APHDataKeys.h in Headers */,
+				FFFA24851C23664500727DA8 /* APHAppDelegate+APHMigration.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,6 +237,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFFA24921C236E9A00727DA8 /* APHProfileExtender.m in Sources */,
+				FFFA24741C23657700727DA8 /* APHAppDelegate.m in Sources */,
+				FFFA24861C23664500727DA8 /* APHAppDelegate+APHMigration.m in Sources */,
+				FFFA248E1C236AE700727DA8 /* APHDataKeys.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

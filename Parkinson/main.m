@@ -32,7 +32,7 @@
 // 
  
 #import <UIKit/UIKit.h>
-#import "APHAppDelegate.h"
+@import mPowerSDK;
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {

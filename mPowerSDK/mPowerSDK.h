@@ -14,6 +14,8 @@ FOUNDATION_EXPORT double mPowerSDKVersionNumber;
 //! Project version string for mPowerSDK.
 FOUNDATION_EXPORT const unsigned char mPowerSDKVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <mPowerSDK/PublicHeader.h>
+#import <mPowerSDK/APHAppDelegate.h>
+#import <mPowerSDK/APHDataKeys.h>
+#import <mPowerSDK/APHProfileExtender.h>
 
 

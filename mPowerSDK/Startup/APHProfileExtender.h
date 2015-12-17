@@ -52,4 +52,6 @@
 
 @property (nonatomic, strong) APCProfileViewController *profileViewController;
 
+- (UIViewController *)copyrightInfoViewController;
+
 @end

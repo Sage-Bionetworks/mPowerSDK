@@ -46,7 +46,7 @@
 // ***************************************************************************
 // ***************************************************************************
 
-static  NSInteger  kDefaultNumberOfExtraSections =  0;
+static  NSInteger  kDefaultNumberOfExtraSections =  1;
 static  CGFloat    kDefaultHeightForExtraRows    = 64.0;
 
 @interface APHProfileExtender ()
@@ -55,26 +55,17 @@ static  CGFloat    kDefaultHeightForExtraRows    = 64.0;
 
 @implementation APHProfileExtender
 
-- (instancetype) init {
-    self = [super init];
-
-    if (self) {
-        
-    }
-    
-    return self;
+- (UIViewController *)copyrightInfoViewController
+{
+    // Default implementation - Private App implementation should use category override
+    return [UIViewController new];
 }
+
+#pragma mark - APCProfileViewControllerDelegate
 
 - (BOOL)willDisplayCell:(NSIndexPath *) __unused indexPath {
     return YES;
 }
-
-//This is all the content (rows, sections) that is prepared at the appCore level
-/*
-- (NSArray *)preparedContent:(NSArray *)array {
-    return array;
-}
-*/
 
     //
     //    return  kDefaultNumberOfExtraSections  extra sections for a nicer layout in profile
@@ -103,7 +94,7 @@ static  CGFloat    kDefaultHeightForExtraRows    = 64.0;
 - (UITableViewCell *)decorateCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)__unused indexPath
 {
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.text = NSLocalizedString(@"Medication Tracker Setup", nil);
+    cell.textLabel.text = NSLocalizedString(@"Copyright Information", nil);
     cell.detailTextLabel.text = @"";
     cell.selectionStyle = self.isEditing ? UITableViewCellSelectionStyleGray : UITableViewCellSelectionStyleNone;
     
@@ -129,12 +120,14 @@ static  CGFloat    kDefaultHeightForExtraRows    = 64.0;
     //
 - (void)navigationController:(UINavigationController *)navigationController didSelectRowAtIndexPath:(NSIndexPath *) __unused indexPath
 {
-    APCMedicationTrackerSetupViewController  *controller = [[APCMedicationTrackerSetupViewController alloc] initWithNibName:nil bundle:[NSBundle appleCoreBundle]];
-    
-    controller.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Medication Tracker Setup", @"");
-    controller.hidesBottomBarWhenPushed = YES;
-    
-    [navigationController pushViewController:controller animated:YES];
+    if (!self.isEditing) {
+        UIViewController *controller = [self copyrightInfoViewController];
+        
+        controller.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Copyright Information", @"");
+        controller.hidesBottomBarWhenPushed = YES;
+        
+        [navigationController pushViewController:controller animated:YES];
+    }
 }
 
 - (void)hasStartedEditing {

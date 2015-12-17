@@ -15,7 +15,6 @@
 		5B1D9D461A1BCC6B000F4AD6 /* APHDashboardEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1D9D421A1BCC6B000F4AD6 /* APHDashboardEditViewController.m */; };
 		5B1D9D471A1BCC6B000F4AD6 /* APHDashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1D9D441A1BCC6B000F4AD6 /* APHDashboardViewController.m */; };
 		5B29CE5419D4C8FD00E2FD62 /* APHInclusionCriteriaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B29CE5319D4C8FD00E2FD62 /* APHInclusionCriteriaViewController.m */; };
-		6C86453C1AF3FD9000B46C49 /* APHAppDelegate+APHMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C86453B1AF3FD9000B46C49 /* APHAppDelegate+APHMigration.m */; };
 		744996AD1AF000D800E0D7E7 /* libPDScores.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 744996A91AF0009000E0D7E7 /* libPDScores.a */; };
 		74B713EB1AC0722D00FE2553 /* BridgeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74B713A41ABF04B900FE2553 /* BridgeSDK.framework */; };
 		74B713EC1AC0722D00FE2553 /* BridgeSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 74B713A41ABF04B900FE2553 /* BridgeSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -23,7 +22,6 @@
 		74B713F31AC0722E00FE2553 /* ResearchKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 743AD0D81ABE2DE40071C218 /* ResearchKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		74B713F71AC0722E00FE2553 /* APCAppCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743AD0CC1ABE2DE40071C218 /* APCAppCore.framework */; };
 		74B713F81AC0722E00FE2553 /* APCAppCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 743AD0CC1ABE2DE40071C218 /* APCAppCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		7B9898CA1A926F36003B4181 /* APHProfileExtender.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9898C91A926F36003B4181 /* APHProfileExtender.m */; };
 		80CBAFA71C05395D00E50D06 /* APHOnboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80CBAFA91C05395D00E50D06 /* APHOnboarding.storyboard */; };
 		80CBAFB51C053A8900E50D06 /* APHDashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80CBAFB71C053A8900E50D06 /* APHDashboard.storyboard */; };
 		80CBB0741C0CD9FA00E50D06 /* asthma_document.png in Resources */ = {isa = PBXBuildFile; fileRef = 80CBB0461C0CD9FA00E50D06 /* asthma_document.png */; };
@@ -114,10 +112,10 @@
 		F5D14F2319CC9BC900650FBB /* APHIntervalTappingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D14EF419CC9BC900650FBB /* APHIntervalTappingTaskViewController.m */; };
 		F5D14F2719CC9BC900650FBB /* APHPhonationTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D14EFD19CC9BC900650FBB /* APHPhonationTaskViewController.m */; };
 		F5D14F3519CC9BC900650FBB /* APHWalkingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D14F1819CC9BC900650FBB /* APHWalkingTaskViewController.m */; };
-		F5D14F3919CC9C0000650FBB /* APHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D14F3819CC9C0000650FBB /* APHAppDelegate.m */; };
 		F5DCAD3E19D088330096DEC0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5DCAD3D19D088330096DEC0 /* LaunchScreen.xib */; };
 		F5F32C7C19D0D4C1007F9015 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFA2ABB519A7C229000DB961 /* HealthKit.framework */; };
-		FF9469631C1A0DA900CF7075 /* APHDataKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9469621C1A0DA900CF7075 /* APHDataKeys.m */; };
+		FFFA24871C23679600727DA8 /* mPowerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFA245F1C235BE800727DA8 /* mPowerSDK.framework */; };
+		FFFA24881C23679600727DA8 /* mPowerSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FFFA245F1C235BE800727DA8 /* mPowerSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -254,6 +252,13 @@
 			remoteGlobalIDString = FFFA24351C2351D600727DA8;
 			remoteInfo = mPowerSDKTests;
 		};
+		FFFA24891C23679600727DA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FFFA24591C235BE800727DA8 /* mPowerSDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = FFFA242A1C2351D600727DA8;
+			remoteInfo = mPowerSDK;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -266,6 +271,7 @@
 				74B713F31AC0722E00FE2553 /* ResearchKit.framework in Embed Frameworks */,
 				74B713EC1AC0722D00FE2553 /* BridgeSDK.framework in Embed Frameworks */,
 				74B713F81AC0722E00FE2553 /* APCAppCore.framework in Embed Frameworks */,
+				FFFA24881C23679600727DA8 /* mPowerSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -290,14 +296,10 @@
 		5B1D9D441A1BCC6B000F4AD6 /* APHDashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHDashboardViewController.m; sourceTree = "<group>"; };
 		5B29CE5219D4C8FD00E2FD62 /* APHInclusionCriteriaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHInclusionCriteriaViewController.h; sourceTree = "<group>"; };
 		5B29CE5319D4C8FD00E2FD62 /* APHInclusionCriteriaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHInclusionCriteriaViewController.m; sourceTree = "<group>"; };
-		6C86453A1AF3FD9000B46C49 /* APHAppDelegate+APHMigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "APHAppDelegate+APHMigration.h"; sourceTree = "<group>"; };
-		6C86453B1AF3FD9000B46C49 /* APHAppDelegate+APHMigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "APHAppDelegate+APHMigration.m"; sourceTree = "<group>"; };
 		744996A31AF0009000E0D7E7 /* PDScores.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PDScores.xcodeproj; path = PDScores/PDScores/PDScores.xcodeproj; sourceTree = SOURCE_ROOT; };
 		747F5B671ABE2D3200197B68 /* APCAppCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = APCAppCore.xcodeproj; path = ../AppCore/APCAppCore/APCAppCore.xcodeproj; sourceTree = "<group>"; };
 		747F5B721ABE2D3E00197B68 /* ResearchKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ResearchKit.xcodeproj; path = ../researchkit/ResearchKit.xcodeproj; sourceTree = "<group>"; };
 		74B713981ABF04B900FE2553 /* BridgeSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BridgeSDK.xcodeproj; path = BridgeSDK/BridgeSDK.xcodeproj; sourceTree = SOURCE_ROOT; };
-		7B9898C81A926F36003B4181 /* APHProfileExtender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHProfileExtender.h; sourceTree = "<group>"; };
-		7B9898C91A926F36003B4181 /* APHProfileExtender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHProfileExtender.m; sourceTree = "<group>"; };
 		80CBAFA81C05395D00E50D06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/APHOnboarding.storyboard; sourceTree = "<group>"; };
 		80CBAFB61C053A8900E50D06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/APHDashboard.storyboard; sourceTree = "<group>"; };
 		80CBAFB81C053AC300E50D06 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/APHOnboarding.strings; sourceTree = "<group>"; };
@@ -404,11 +406,7 @@
 		F5D14EFD19CC9BC900650FBB /* APHPhonationTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHPhonationTaskViewController.m; sourceTree = "<group>"; };
 		F5D14F1719CC9BC900650FBB /* APHWalkingTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHWalkingTaskViewController.h; sourceTree = "<group>"; };
 		F5D14F1819CC9BC900650FBB /* APHWalkingTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHWalkingTaskViewController.m; sourceTree = "<group>"; };
-		F5D14F3719CC9C0000650FBB /* APHAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHAppDelegate.h; sourceTree = "<group>"; };
-		F5D14F3819CC9C0000650FBB /* APHAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHAppDelegate.m; sourceTree = "<group>"; };
 		F5DCAD3D19D088330096DEC0 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		FF9469611C1A0DA900CF7075 /* APHDataKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDataKeys.h; sourceTree = "<group>"; };
-		FF9469621C1A0DA900CF7075 /* APHDataKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHDataKeys.m; sourceTree = "<group>"; };
 		FFFA24591C235BE800727DA8 /* mPowerSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = mPowerSDK.xcodeproj; path = mPowerSDK/mPowerSDK.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -420,6 +418,7 @@
 				744996AD1AF000D800E0D7E7 /* libPDScores.a in Frameworks */,
 				5B18CEF71A2D3A57001A905E /* MapKit.framework in Frameworks */,
 				74B713F71AC0722E00FE2553 /* APCAppCore.framework in Frameworks */,
+				FFFA24871C23679600727DA8 /* mPowerSDK.framework in Frameworks */,
 				74B713EB1AC0722D00FE2553 /* BridgeSDK.framework in Frameworks */,
 				F5F32C7C19D0D4C1007F9015 /* HealthKit.framework in Frameworks */,
 				CFA2ABC019A7C3EB000DB961 /* AVFoundation.framework in Frameworks */,
@@ -503,15 +502,6 @@
 				5B1D9D421A1BCC6B000F4AD6 /* APHDashboardEditViewController.m */,
 			);
 			path = Dashboard;
-			sourceTree = "<group>";
-		};
-		6C8645471AF3FD9500B46C49 /* Migration */ = {
-			isa = PBXGroup;
-			children = (
-				6C86453A1AF3FD9000B46C49 /* APHAppDelegate+APHMigration.h */,
-				6C86453B1AF3FD9000B46C49 /* APHAppDelegate+APHMigration.m */,
-			);
-			name = Migration;
 			sourceTree = "<group>";
 		};
 		743AD0C71ABE2DE40071C218 /* Products */ = {
@@ -689,8 +679,6 @@
 		CFC2D2D919A5417D00170E69 /* Parkinson */ = {
 			isa = PBXGroup;
 			children = (
-				FF9469611C1A0DA900CF7075 /* APHDataKeys.h */,
-				FF9469621C1A0DA900CF7075 /* APHDataKeys.m */,
 				F5D14F3619CC9C0000650FBB /* Startup */,
 				F5D14E7719CC9B8100650FBB /* Onboarding */,
 				F5D14E8F19CC9B9100650FBB /* TabBarControllers */,
@@ -849,11 +837,6 @@
 			children = (
 				F5C1DC1F19D22E6F006527EA /* Main.storyboard */,
 				F5DCAD3D19D088330096DEC0 /* LaunchScreen.xib */,
-				F5D14F3719CC9C0000650FBB /* APHAppDelegate.h */,
-				F5D14F3819CC9C0000650FBB /* APHAppDelegate.m */,
-				6C8645471AF3FD9500B46C49 /* Migration */,
-				7B9898C81A926F36003B4181 /* APHProfileExtender.h */,
-				7B9898C91A926F36003B4181 /* APHProfileExtender.m */,
 			);
 			path = Startup;
 			sourceTree = "<group>";
@@ -889,6 +872,7 @@
 				74B713EE1AC0722E00FE2553 /* PBXTargetDependency */,
 				74B713F51AC0722E00FE2553 /* PBXTargetDependency */,
 				74B713FA1AC0722E00FE2553 /* PBXTargetDependency */,
+				FFFA248A1C23679600727DA8 /* PBXTargetDependency */,
 			);
 			name = Parkinson;
 			productName = Parkinson;
@@ -1149,18 +1133,14 @@
 				F5D14F2719CC9BC900650FBB /* APHPhonationTaskViewController.m in Sources */,
 				5B1D9D461A1BCC6B000F4AD6 /* APHDashboardEditViewController.m in Sources */,
 				5B1D9D471A1BCC6B000F4AD6 /* APHDashboardViewController.m in Sources */,
-				F5D14F3919CC9C0000650FBB /* APHAppDelegate.m in Sources */,
 				A74615B31A98077D00323AD1 /* ConverterForPDScores.m in Sources */,
 				5B29CE5419D4C8FD00E2FD62 /* APHInclusionCriteriaViewController.m in Sources */,
-				FF9469631C1A0DA900CF7075 /* APHDataKeys.m in Sources */,
 				5A0F991A1AA426F300A2A7EB /* APHfeedback.m in Sources */,
 				5A0F99171AA426D900A2A7EB /* APHmythougths.m in Sources */,
 				F5D14F2319CC9BC900650FBB /* APHIntervalTappingTaskViewController.m in Sources */,
 				CF53B6561B3CC16700558044 /* APHParkinsonActivityViewController.m in Sources */,
 				CFF1A5101A81976500EAEE0E /* APHSpatialSpanMemoryGameViewController.m in Sources */,
-				7B9898CA1A926F36003B4181 /* APHProfileExtender.m in Sources */,
 				CFDA47A81A97BF8800B32C34 /* APHMedicationTrackerTaskViewController.m in Sources */,
-				6C86453C1AF3FD9000B46C49 /* APHAppDelegate+APHMigration.m in Sources */,
 				5A0F99021AA40E9100A2A7EB /* APHenrollmentsurveyViewController.m in Sources */,
 				F5D14F3519CC9BC900650FBB /* APHWalkingTaskViewController.m in Sources */,
 				F5D14EDC19CC9BA700650FBB /* NSString+CustomMethods.m in Sources */,
@@ -1205,6 +1185,11 @@
 			isa = PBXTargetDependency;
 			name = APCAppCore;
 			targetProxy = 74B713F91AC0722E00FE2553 /* PBXContainerItemProxy */;
+		};
+		FFFA248A1C23679600727DA8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = mPowerSDK;
+			targetProxy = FFFA24891C23679600727DA8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
