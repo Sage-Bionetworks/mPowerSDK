@@ -12,8 +12,6 @@
 		5A0F99171AA426D900A2A7EB /* APHmythougths.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0F99161AA426D900A2A7EB /* APHmythougths.m */; };
 		5A0F991A1AA426F300A2A7EB /* APHfeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0F99191AA426F300A2A7EB /* APHfeedback.m */; };
 		5B18CEF71A2D3A57001A905E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B18CEF61A2D3A56001A905E /* MapKit.framework */; };
-		5B1D9D461A1BCC6B000F4AD6 /* APHDashboardEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1D9D421A1BCC6B000F4AD6 /* APHDashboardEditViewController.m */; };
-		5B1D9D471A1BCC6B000F4AD6 /* APHDashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1D9D441A1BCC6B000F4AD6 /* APHDashboardViewController.m */; };
 		744996AD1AF000D800E0D7E7 /* libPDScores.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 744996A91AF0009000E0D7E7 /* libPDScores.a */; };
 		74B713EB1AC0722D00FE2553 /* BridgeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74B713A41ABF04B900FE2553 /* BridgeSDK.framework */; };
 		74B713EC1AC0722D00FE2553 /* BridgeSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 74B713A41ABF04B900FE2553 /* BridgeSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -21,7 +19,6 @@
 		74B713F31AC0722E00FE2553 /* ResearchKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 743AD0D81ABE2DE40071C218 /* ResearchKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		74B713F71AC0722E00FE2553 /* APCAppCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743AD0CC1ABE2DE40071C218 /* APCAppCore.framework */; };
 		74B713F81AC0722E00FE2553 /* APCAppCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 743AD0CC1ABE2DE40071C218 /* APCAppCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		80CBAFB51C053A8900E50D06 /* APHDashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80CBAFB71C053A8900E50D06 /* APHDashboard.storyboard */; };
 		80CBB0741C0CD9FA00E50D06 /* asthma_document.png in Resources */ = {isa = PBXBuildFile; fileRef = 80CBB0461C0CD9FA00E50D06 /* asthma_document.png */; };
 		80CBB0761C0CD9FA00E50D06 /* consent_section_PD.css in Resources */ = {isa = PBXBuildFile; fileRef = 80CBB0481C0CD9FA00E50D06 /* consent_section_PD.css */; };
 		80CBB0781C0CD9FA00E50D06 /* disease_information_top.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80CBB04A1C0CD9FA00E50D06 /* disease_information_top.jpg */; };
@@ -288,17 +285,10 @@
 		5A0F99181AA426F300A2A7EB /* APHfeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHfeedback.h; sourceTree = "<group>"; };
 		5A0F99191AA426F300A2A7EB /* APHfeedback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHfeedback.m; sourceTree = "<group>"; };
 		5B18CEF61A2D3A56001A905E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		5B1D9D411A1BCC6B000F4AD6 /* APHDashboardEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDashboardEditViewController.h; sourceTree = "<group>"; };
-		5B1D9D421A1BCC6B000F4AD6 /* APHDashboardEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHDashboardEditViewController.m; sourceTree = "<group>"; };
-		5B1D9D431A1BCC6B000F4AD6 /* APHDashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDashboardViewController.h; sourceTree = "<group>"; };
-		5B1D9D441A1BCC6B000F4AD6 /* APHDashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHDashboardViewController.m; sourceTree = "<group>"; };
 		744996A31AF0009000E0D7E7 /* PDScores.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PDScores.xcodeproj; path = PDScores/PDScores/PDScores.xcodeproj; sourceTree = SOURCE_ROOT; };
 		747F5B671ABE2D3200197B68 /* APCAppCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = APCAppCore.xcodeproj; path = ../AppCore/APCAppCore/APCAppCore.xcodeproj; sourceTree = "<group>"; };
 		747F5B721ABE2D3E00197B68 /* ResearchKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ResearchKit.xcodeproj; path = ../researchkit/ResearchKit.xcodeproj; sourceTree = "<group>"; };
 		74B713981ABF04B900FE2553 /* BridgeSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BridgeSDK.xcodeproj; path = BridgeSDK/BridgeSDK.xcodeproj; sourceTree = SOURCE_ROOT; };
-		80CBAFB61C053A8900E50D06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/APHDashboard.storyboard; sourceTree = "<group>"; };
-		80CBAFB91C053AC400E50D06 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/APHDashboard.strings; sourceTree = "<group>"; };
-		80CBAFBB1C053ACE00E50D06 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/APHDashboard.strings; sourceTree = "<group>"; };
 		80CBB0461C0CD9FA00E50D06 /* asthma_document.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asthma_document.png; sourceTree = "<group>"; };
 		80CBB0481C0CD9FA00E50D06 /* consent_section_PD.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = consent_section_PD.css; sourceTree = "<group>"; };
 		80CBB04A1C0CD9FA00E50D06 /* disease_information_top.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = disease_information_top.jpg; sourceTree = "<group>"; };
@@ -485,18 +475,6 @@
 			path = PDF;
 			sourceTree = "<group>";
 		};
-		5B1D9D3F1A1BCC6B000F4AD6 /* Dashboard */ = {
-			isa = PBXGroup;
-			children = (
-				80CBAFB71C053A8900E50D06 /* APHDashboard.storyboard */,
-				5B1D9D431A1BCC6B000F4AD6 /* APHDashboardViewController.h */,
-				5B1D9D441A1BCC6B000F4AD6 /* APHDashboardViewController.m */,
-				5B1D9D411A1BCC6B000F4AD6 /* APHDashboardEditViewController.h */,
-				5B1D9D421A1BCC6B000F4AD6 /* APHDashboardEditViewController.m */,
-			);
-			path = Dashboard;
-			sourceTree = "<group>";
-		};
 		743AD0C71ABE2DE40071C218 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -673,7 +651,6 @@
 			isa = PBXGroup;
 			children = (
 				F5D14F3619CC9C0000650FBB /* Startup */,
-				F5D14E8F19CC9B9100650FBB /* TabBarControllers */,
 				F5D14EE019CC9BC900650FBB /* TasksAndSteps */,
 				F5D14ED119CC9BA700650FBB /* Library */,
 				255D2F4619C40F25002137F1 /* Resources */,
@@ -743,14 +720,6 @@
 				041F52031B69814600FD9F04 /* APHTaskIdToViewControllerMapping.json */,
 			);
 			path = JSONs;
-			sourceTree = "<group>";
-		};
-		F5D14E8F19CC9B9100650FBB /* TabBarControllers */ = {
-			isa = PBXGroup;
-			children = (
-				5B1D9D3F1A1BCC6B000F4AD6 /* Dashboard */,
-			);
-			path = TabBarControllers;
 			sourceTree = "<group>";
 		};
 		F5D14ED119CC9BA700650FBB /* Library */ = {
@@ -1079,7 +1048,6 @@
 				80CBB0D61C0CE01700E50D06 /* AboutStudy_intro.html in Resources */,
 				F5DCAD3E19D088330096DEC0 /* LaunchScreen.xib in Resources */,
 				80CBB0881C0CD9FA00E50D06 /* PDvideo_cover.PNG in Resources */,
-				80CBAFB51C053A8900E50D06 /* APHDashboard.storyboard in Resources */,
 				A78116761A96BC9400CEC822 /* 00_Blank_to_Activities@3x.m4v in Resources */,
 				80CBB1121C0CE16500E50D06 /* WithdrawStudy.json in Resources */,
 				041F52041B69814600FD9F04 /* APHTaskIdToViewControllerMapping.json in Resources */,
@@ -1112,8 +1080,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5D14F2719CC9BC900650FBB /* APHPhonationTaskViewController.m in Sources */,
-				5B1D9D461A1BCC6B000F4AD6 /* APHDashboardEditViewController.m in Sources */,
-				5B1D9D471A1BCC6B000F4AD6 /* APHDashboardViewController.m in Sources */,
 				A74615B31A98077D00323AD1 /* ConverterForPDScores.m in Sources */,
 				5A0F991A1AA426F300A2A7EB /* APHfeedback.m in Sources */,
 				5A0F99171AA426D900A2A7EB /* APHmythougths.m in Sources */,
@@ -1174,16 +1140,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		80CBAFB71C053A8900E50D06 /* APHDashboard.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				80CBAFB61C053A8900E50D06 /* Base */,
-				80CBAFB91C053AC400E50D06 /* fr */,
-				80CBAFBB1C053ACE00E50D06 /* de */,
-			);
-			name = APHDashboard.storyboard;
-			sourceTree = "<group>";
-		};
 		80CBB09A1C0CDFBD00E50D06 /* 10study_task.html */ = {
 			isa = PBXVariantGroup;
 			children = (
