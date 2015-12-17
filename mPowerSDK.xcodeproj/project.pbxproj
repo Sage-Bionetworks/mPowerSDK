@@ -18,6 +18,9 @@
 		FFFA248E1C236AE700727DA8 /* APHDataKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA248C1C236AE700727DA8 /* APHDataKeys.m */; };
 		FFFA24911C236E9A00727DA8 /* APHProfileExtender.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA248F1C236E9A00727DA8 /* APHProfileExtender.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFFA24921C236E9A00727DA8 /* APHProfileExtender.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA24901C236E9A00727DA8 /* APHProfileExtender.m */; };
+		FFFA249F1C23773900727DA8 /* APHInclusionCriteriaViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA24981C23773900727DA8 /* APHInclusionCriteriaViewController.h */; };
+		FFFA24A01C23773900727DA8 /* APHInclusionCriteriaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA24991C23773900727DA8 /* APHInclusionCriteriaViewController.m */; };
+		FFFA24A51C2377B200727DA8 /* APHOnboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFFA24A31C2377B200727DA8 /* APHOnboarding.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +48,11 @@
 		FFFA248C1C236AE700727DA8 /* APHDataKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHDataKeys.m; sourceTree = "<group>"; };
 		FFFA248F1C236E9A00727DA8 /* APHProfileExtender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHProfileExtender.h; sourceTree = "<group>"; };
 		FFFA24901C236E9A00727DA8 /* APHProfileExtender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHProfileExtender.m; sourceTree = "<group>"; };
+		FFFA24981C23773900727DA8 /* APHInclusionCriteriaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHInclusionCriteriaViewController.h; sourceTree = "<group>"; };
+		FFFA24991C23773900727DA8 /* APHInclusionCriteriaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHInclusionCriteriaViewController.m; sourceTree = "<group>"; };
+		FFFA24A41C2377B200727DA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/APHOnboarding.storyboard; sourceTree = "<group>"; };
+		FFFA24A81C2377D700727DA8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/APHOnboarding.strings; sourceTree = "<group>"; };
+		FFFA24A91C2377DE00727DA8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/APHOnboarding.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +100,7 @@
 				FFFA248B1C236AE700727DA8 /* APHDataKeys.h */,
 				FFFA248C1C236AE700727DA8 /* APHDataKeys.m */,
 				FFFA24701C23650900727DA8 /* Startup */,
+				FFFA24971C23773900727DA8 /* Onboarding */,
 			);
 			path = mPowerSDK;
 			sourceTree = "<group>";
@@ -126,6 +135,16 @@
 			name = Migration;
 			sourceTree = "<group>";
 		};
+		FFFA24971C23773900727DA8 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				FFFA24A31C2377B200727DA8 /* APHOnboarding.storyboard */,
+				FFFA24981C23773900727DA8 /* APHInclusionCriteriaViewController.h */,
+				FFFA24991C23773900727DA8 /* APHInclusionCriteriaViewController.m */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -136,6 +155,7 @@
 				FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */,
 				FFFA24911C236E9A00727DA8 /* APHProfileExtender.h in Headers */,
 				FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */,
+				FFFA249F1C23773900727DA8 /* APHInclusionCriteriaViewController.h in Headers */,
 				FFFA248D1C236AE700727DA8 /* APHDataKeys.h in Headers */,
 				FFFA24851C23664500727DA8 /* APHAppDelegate+APHMigration.h in Headers */,
 			);
@@ -203,6 +223,9 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
+				de,
+				fr,
 			);
 			mainGroup = FFFA24211C2351D600727DA8;
 			productRefGroup = FFFA242C1C2351D600727DA8 /* Products */;
@@ -220,6 +243,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFFA24A51C2377B200727DA8 /* APHOnboarding.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +264,7 @@
 				FFFA24921C236E9A00727DA8 /* APHProfileExtender.m in Sources */,
 				FFFA24741C23657700727DA8 /* APHAppDelegate.m in Sources */,
 				FFFA24861C23664500727DA8 /* APHAppDelegate+APHMigration.m in Sources */,
+				FFFA24A01C23773900727DA8 /* APHInclusionCriteriaViewController.m in Sources */,
 				FFFA248E1C236AE700727DA8 /* APHDataKeys.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,6 +286,19 @@
 			targetProxy = FFFA24371C2351D600727DA8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FFFA24A31C2377B200727DA8 /* APHOnboarding.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FFFA24A41C2377B200727DA8 /* Base */,
+				FFFA24A81C2377D700727DA8 /* de */,
+				FFFA24A91C2377DE00727DA8 /* fr */,
+			);
+			name = APHOnboarding.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		FFFA243D1C2351D600727DA8 /* Debug */ = {
