@@ -240,6 +240,20 @@
 			remoteGlobalIDString = F5179B2819D09128001DCCB7;
 			remoteInfo = APCAppCore;
 		};
+		FFFA245E1C235BE800727DA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FFFA24591C235BE800727DA8 /* mPowerSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FFFA242B1C2351D600727DA8;
+			remoteInfo = mPowerSDK;
+		};
+		FFFA24601C235BE800727DA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FFFA24591C235BE800727DA8 /* mPowerSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FFFA24351C2351D600727DA8;
+			remoteInfo = mPowerSDKTests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -395,6 +409,7 @@
 		F5DCAD3D19D088330096DEC0 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		FF9469611C1A0DA900CF7075 /* APHDataKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDataKeys.h; sourceTree = "<group>"; };
 		FF9469621C1A0DA900CF7075 /* APHDataKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHDataKeys.m; sourceTree = "<group>"; };
+		FFFA24591C235BE800727DA8 /* mPowerSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = mPowerSDK.xcodeproj; path = mPowerSDK/mPowerSDK.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -637,6 +652,7 @@
 		CFA2ABB419A7C1C1000DB961 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FFFA24591C235BE800727DA8 /* mPowerSDK.xcodeproj */,
 				744996A31AF0009000E0D7E7 /* PDScores.xcodeproj */,
 				74B713981ABF04B900FE2553 /* BridgeSDK.xcodeproj */,
 				747F5B721ABE2D3E00197B68 /* ResearchKit.xcodeproj */,
@@ -842,6 +858,15 @@
 			path = Startup;
 			sourceTree = "<group>";
 		};
+		FFFA245A1C235BE800727DA8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FFFA245F1C235BE800727DA8 /* mPowerSDK.framework */,
+				FFFA24611C235BE800727DA8 /* mPowerSDKTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -918,6 +943,10 @@
 				{
 					ProductGroup = 74B713991ABF04B900FE2553 /* Products */;
 					ProjectRef = 74B713981ABF04B900FE2553 /* BridgeSDK.xcodeproj */;
+				},
+				{
+					ProductGroup = FFFA245A1C235BE800727DA8 /* Products */;
+					ProjectRef = FFFA24591C235BE800727DA8 /* mPowerSDK.xcodeproj */;
 				},
 				{
 					ProductGroup = 744996A41AF0009000E0D7E7 /* Products */;
@@ -1004,6 +1033,20 @@
 			fileType = wrapper.cfbundle;
 			path = BridgeSDKTests.xctest;
 			remoteRef = 74B713A51ABF04B900FE2553 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FFFA245F1C235BE800727DA8 /* mPowerSDK.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = mPowerSDK.framework;
+			remoteRef = FFFA245E1C235BE800727DA8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FFFA24611C235BE800727DA8 /* mPowerSDKTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = mPowerSDKTests.xctest;
+			remoteRef = FFFA24601C235BE800727DA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
