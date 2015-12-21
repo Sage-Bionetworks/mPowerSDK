@@ -40,32 +40,77 @@ static NSString *const kMyThoughtsSurveyIdentifier                  = @"mythough
 static NSString *const kEnrollmentSurveyIdentifier                  = @"EnrollmentSurvey";
 static NSString *const kStudyFeedbackSurveyIdentifier               = @"study_feedback";
 
-
-
 /*********************************************************************************/
 #pragma mark - Initializations Options
 /*********************************************************************************/
-static NSString *const kStudyIdentifier             = @"studyname";
-static NSString *const kAppPrefix                   = @"studyname";
 static NSString *const kConsentPropertiesFileName   = @"APHConsentSection";
 
 static NSString *const kVideoShownKey = @"VideoShown";
-
 
 static NSString *const kJsonScheduleStringKey           = @"scheduleString";
 static NSString *const kJsonTasksKey                    = @"tasks";
 static NSString *const kJsonScheduleTaskIDKey           = @"taskID";
 static NSString *const kJsonSchedulesKey                = @"schedules";
+
 static NSString *const kAppStoreLink                    = @"https://appsto.re/us/GxN85.i";
 
 @interface APHAppDelegate ()
-
 @property  (nonatomic, strong)  APHProfileExtender* profileExtender;
-@property  (nonatomic, assign)  NSInteger           environment;
-
 @end
 
 @implementation APHAppDelegate
+
+#pragma mark - Private repo Overrides
+
+- (NSString * _Nonnull)studyIdentifier {
+    return @"studyname";
+}
+
+- (NSString * _Nonnull)appPrefix {
+    return @"studyname";
+}
+
+- (HKUpdateFrequency)updateFrequency {
+    return HKUpdateFrequencyImmediate;
+}
+
+- (NSInteger)environment {
+#if DEBUG
+    return SBBEnvironmentStaging;
+#else
+    return SBBEnvironmentProd;
+#endif
+}
+
+- (NSArray <APCTaskReminder *> * _Nonnull)allTaskReminders {
+    return @[
+             [[APCTaskReminder alloc] initWithTaskID:APHWalkingActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Walking Activity", nil)],
+             [[APCTaskReminder alloc] initWithTaskID:APHVoiceActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Voice Activity", nil)],
+             [[APCTaskReminder alloc] initWithTaskID:APHTappingActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Tapping Activity", nil)],
+             [[APCTaskReminder alloc] initWithTaskID:APHMemoryActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Memory Activity", nil)],
+             [[APCTaskReminder alloc] initWithTaskID:kMyThoughtsSurveyIdentifier reminderBody:NSLocalizedString(@"My Thoughts", nil)],
+             [[APCTaskReminder alloc] initWithTaskID:kEnrollmentSurveyIdentifier reminderBody:NSLocalizedString(@"Enrollment Survey", nil)],
+             [[APCTaskReminder alloc] initWithTaskID:kStudyFeedbackSurveyIdentifier reminderBody:NSLocalizedString(@"Study Feedback", nil)]];
+}
+
+- (NSDictionary * _Nonnull)appearanceInfo {
+    return @{
+             kPrimaryAppColorKey : [UIColor colorWithRed:255 / 255.0f green:0.0 blue:56 / 255.0f alpha:1.000],
+             APHTappingActivitySurveyIdentifier : [UIColor appTertiaryPurpleColor],
+             APHMemoryActivitySurveyIdentifier : [UIColor appTertiaryRedColor],
+             APHVoiceActivitySurveyIdentifier : [UIColor appTertiaryBlueColor],
+             APHWalkingActivitySurveyIdentifier : [UIColor appTertiaryYellowColor],
+             APHEnrollmentSurveyIdentifier: [UIColor lightGrayColor],
+             APHMyThoughtsSurveyIdentifier: [UIColor lightGrayColor],
+             APHFeedbackSurveyIdentifier: [UIColor lightGrayColor],
+             APHMedicationTrackerSurveyIdentifier: [UIColor colorWithRed:0.933
+                                                                   green:0.267
+                                                                    blue:0.380
+                                                                   alpha:1.000]
+             };
+}
+
+#pragma mark
 
 - (BOOL)application:(UIApplication*) __unused application willFinishLaunchingWithOptions:(NSDictionary*) __unused launchOptions
 {
@@ -117,7 +162,7 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
             if (sampleType)
             {
                 [self.dataSubstrate.healthStore enableBackgroundDeliveryForType:sampleType
-                                                                      frequency:HKUpdateFrequencyImmediate
+                                                                      frequency:self.updateFrequency
                                                                  withCompletion:^(BOOL success, NSError *error)
                  {
                      if (!success)
@@ -139,26 +184,18 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 
 - (void)setUpInitializationOptions
 {
-    
     NSMutableDictionary * dictionary = [super defaultInitializationOptions];
-#ifdef DEBUG
-    self.environment = SBBEnvironmentStaging;
-#else
-    self.environment = SBBEnvironmentProd;
-#endif
 
     dictionary = [self updateOptionsFor5OrOlder:dictionary];
     [dictionary addEntriesFromDictionary:@{
                                            kNewsFeedTabKey                      : @YES,
-                                           kStudyIdentifierKey                  : kStudyIdentifier,
-                                           kAppPrefixKey                        : kAppPrefix,
+                                           kStudyIdentifierKey                  : self.studyIdentifier,
+                                           kAppPrefixKey                        : self.appPrefix,
                                            kBridgeEnvironmentKey                : @(self.environment),
                                            kShareMessageKey : NSLocalizedString(@"Please take a look at Parkinson mPower, a research study app about Parkinson Disease.  Download it for iPhone at http://apple.co/1FO7Bsi", nil)
                                            }];
 
     self.initializationOptions = dictionary;
-
-    self.profileExtender = [[APHProfileExtender alloc] init];
 }
 
 - (NSDictionary*)researcherSpecifiedUnits
@@ -177,22 +214,11 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 
 - (void)setUpTasksReminder
 {
-    APCTaskReminder *walkingActivityReminder = [[APCTaskReminder alloc] initWithTaskID:APHWalkingActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Walking Activity", nil)];
-    APCTaskReminder *voiceActivityReminder = [[APCTaskReminder alloc] initWithTaskID:APHVoiceActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Voice Activity", nil)];
-    APCTaskReminder *tappingActivityReminder = [[APCTaskReminder alloc] initWithTaskID:APHTappingActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Tapping Activity", nil)];
-    APCTaskReminder *memoryActivityReminder = [[APCTaskReminder alloc] initWithTaskID:APHMemoryActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Memory Activity", nil)];
-    APCTaskReminder *myThoughtsSurveyReminder = [[APCTaskReminder alloc] initWithTaskID:kMyThoughtsSurveyIdentifier reminderBody:NSLocalizedString(@"My Thoughts", nil)];
-    APCTaskReminder *enrollmentSurveyReminder = [[APCTaskReminder alloc] initWithTaskID:kEnrollmentSurveyIdentifier reminderBody:NSLocalizedString(@"Enrollment Survey", nil)];
-    APCTaskReminder *studyFeedbackSurveyReminder = [[APCTaskReminder alloc] initWithTaskID:kStudyFeedbackSurveyIdentifier reminderBody:NSLocalizedString(@"Study Feedback", nil)];
-
+    // setup the task reminders
     [self.tasksReminder.reminders removeAllObjects];
-    [self.tasksReminder manageTaskReminder:walkingActivityReminder];
-    [self.tasksReminder manageTaskReminder:voiceActivityReminder];
-    [self.tasksReminder manageTaskReminder:tappingActivityReminder];
-    [self.tasksReminder manageTaskReminder:memoryActivityReminder];
-    [self.tasksReminder manageTaskReminder:myThoughtsSurveyReminder];
-    [self.tasksReminder manageTaskReminder:enrollmentSurveyReminder];
-    [self.tasksReminder manageTaskReminder:studyFeedbackSurveyReminder];
+    for (APCTaskReminder *reminder in self.allTaskReminders) {
+        [self.tasksReminder manageTaskReminder:reminder];
+    }
 
     if ([self doesPersisteStoreExist] == NO)
     {
@@ -204,38 +230,27 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
         if ([[UIApplication sharedApplication] currentUserNotificationSettings].types != UIUserNotificationTypeNone) {
             [self.tasksReminder setReminderOn:YES];
         }
+        
+        [[NSUserDefaults standardUserDefaults]synchronize];
     }
 }
 
 - (void)setUpAppAppearance
 {
-    [APCAppearanceInfo setAppearanceDictionary:@{
-                                                 kPrimaryAppColorKey : [UIColor colorWithRed:255 / 255.0f green:0.0 blue:56 / 255.0f alpha:1.000],
-                                                 APHTappingActivitySurveyIdentifier : [UIColor appTertiaryPurpleColor],
-                                                 APHMemoryActivitySurveyIdentifier : [UIColor appTertiaryRedColor],
-                                                 APHVoiceActivitySurveyIdentifier : [UIColor appTertiaryBlueColor],
-                                                 APHWalkingActivitySurveyIdentifier : [UIColor appTertiaryYellowColor],
-                                                 APHEnrollmentSurveyIdentifier: [UIColor lightGrayColor],
-                                                 APHMyThoughtsSurveyIdentifier: [UIColor lightGrayColor],
-                                                 APHFeedbackSurveyIdentifier: [UIColor lightGrayColor],
-                                                 APHMedicationTrackerSurveyIdentifier: [UIColor colorWithRed:0.933
-                                                                                                                               green:0.267
-                                                                                                                                blue:0.380
-                                                                                                                               alpha:1.000]
-                                                 }];
+    [APCAppearanceInfo setAppearanceDictionary:self.appearanceInfo];
     [[UINavigationBar appearance] setTintColor:[UIColor appPrimaryColor]];
     [[UINavigationBar appearance] setTitleTextAttributes: @{
                                                             NSForegroundColorAttributeName : [UIColor appSecondaryColor2],
                                                             NSFontAttributeName : [UIFont appNavBarTitleFont]
                                                             }];
     [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
-
-    self.dataSubstrate.parameters.bypassServer = YES;
-    self.dataSubstrate.parameters.hideExampleConsent = NO;
 }
 
 - (id <APCProfileViewControllerDelegate>)profileExtenderDelegate
 {
+    if (self.profileExtender == nil) {
+        self.profileExtender = [[APHProfileExtender alloc] init];
+    }
     return self.profileExtender;
 }
 
@@ -279,7 +294,7 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 #pragma mark - Helper Method for Datasubstrate Delegate Methods
 /*********************************************************************************/
 
-static NSDate *DetermineConsentDate(id object)
+static NSDate *determineConsentDate(id object)
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString      *filePath    = [[object applicationDocumentsDirectory] stringByAppendingPathComponent:@"db.sqlite"];
@@ -343,7 +358,7 @@ static NSDate *DetermineConsentDate(id object)
         }
         else
         {
-            consentDate = DetermineConsentDate(self);
+            consentDate = determineConsentDate(self);
                 }
         return consentDate;
     };
@@ -408,7 +423,7 @@ static NSDate *DetermineConsentDate(id object)
         }
         else
         {
-            consentDate = DetermineConsentDate(self);
+            consentDate = determineConsentDate(self);
         }
         return consentDate;
     };
@@ -418,13 +433,14 @@ static NSDate *DetermineConsentDate(id object)
         NSString  *answer = nil;
         if (source == nil) {
             answer = @"not available";
-        } else if ([UIDevice.currentDevice.name isEqualToString:source] == YES) {
+        }
+        else if ([UIDevice.currentDevice.name isEqualToString:source] == YES) {
             if ([APCDeviceHardware platformString] != nil) {
                 answer = [APCDeviceHardware platformString];
             } else {
                 answer = @"iPhone";    //    theoretically should not happen
-                }
-                }
+            }
+        }
         return answer;
     };
 
@@ -434,9 +450,6 @@ static NSDate *DetermineConsentDate(id object)
         NSString*           startDateTimeStamp  = [qtySample.startDate toStringInISO8601Format];
         NSString*           endDateTimeStamp    = [qtySample.endDate toStringInISO8601Format];
         NSString*           healthKitType       = qtySample.quantityType.identifier;
-        // TODO: syoung 12/03/2015 Are these values suppose to be used?
-        //NSString*           quantityValueRep    = [NSString stringWithFormat:@"%@", qtySample.quantity];
-        //NSArray*            valueSplit          = [quantityValueRep componentsSeparatedByString:@" "];
         NSNumber*           quantityValue       = @([qtySample.quantity doubleValueForUnit:unit]);
         NSString*           quantityUnit        = unit.unitString;
         NSString*           sourceIdentifier    = qtySample.source.bundleIdentifier;
@@ -528,9 +541,13 @@ static NSDate *DetermineConsentDate(id object)
 
             quantitySource = determineQuantitySource(quantitySource);
 
-            // Get difference in seconds between start and end date for sample
-            NSTimeInterval secondsSpentInBedOrAsleep = [catSample.endDate timeIntervalSinceDate:catSample.startDate];
-            NSString*           quantityValue   = [NSString stringWithFormat:@"%ld", (long)secondsSpentInBedOrAsleep];
+            // Get the difference in seconds between the start and end date for the sample
+            // Note: syoung 12/21/2015 merging from mPower-AppStore version commit 46de15ca7683a4c6a68af878212900af7ab4e848
+            NSDateComponents* secondsSpentInBedOrAsleep = [[NSCalendar currentCalendar] components:NSCalendarUnitSecond
+                                                                                          fromDate:catSample.startDate
+                                                                                            toDate:catSample.endDate
+                                                                                           options:NSCalendarWrapComponents];
+            NSString*           quantityValue   = [NSString stringWithFormat:@"%ld", (long)secondsSpentInBedOrAsleep.second];
 
             stringToWrite = [NSString stringWithFormat:@"%@,%@,%@,%@,%@,%@,%@\n",
                              startDateTime,

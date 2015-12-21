@@ -32,10 +32,10 @@
 // 
  
 #import <UIKit/UIKit.h>
-@import mPowerSDK;
+#import "APHFinalAppDelegate.h"
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([APHAppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([APHFinalAppDelegate class]));
     }
 }
