@@ -1,5 +1,5 @@
 // 
-//  APHmythougths.h 
+//  ConverterForPDScores.h 
 //  mPower 
 // 
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved. 
@@ -31,8 +31,22 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 // 
  
-#import <APCAppCore/APCAppCore.h>
+#import <Foundation/Foundation.h>
+@import APCAppCore;
 
-@interface APHmythougths : APCGenericSurveyTaskViewController
+@interface APHScoreCalculator : NSObject
+
++ (APHScoreCalculator *)sharedCalculator;
+
+- (double)scoreFromTappingResult:(ORKTappingIntervalResult *)result;
+- (double)scoreFromTappingTest:(NSArray *)tappingData;
+
+- (double)scoreFromPhonationTest:(NSURL *)phonationAudioFile;
+
+- (double)scoreFromGaitURL:(NSURL *)url;
+- (double)scoreFromGaitTest:(NSArray *)gaitData;
+
+- (double)scoreFromPostureURL:(NSURL *)url;
+- (double)scoreFromPostureTest:(NSArray *)postureData;
 
 @end

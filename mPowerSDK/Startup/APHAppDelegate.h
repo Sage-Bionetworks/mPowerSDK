@@ -35,6 +35,7 @@
 @import APCAppCore;
 
 @class APHProfileExtender;
+@class APHScoreCalculator;
 
 @interface APHAppDelegate : APCAppDelegate
 
@@ -44,6 +45,7 @@
 @property  (nonatomic, readonly) NSInteger environment;
 @property  (nonatomic, readonly) NSArray <APCTaskReminder *> * _Nonnull allTaskReminders;
 @property  (nonatomic, readonly) NSDictionary * _Nonnull appearanceInfo;
+@property  (nonatomic, readonly) APHScoreCalculator * _Nonnull scoreCalculator;
 
 @end
 

@@ -31,7 +31,8 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 // 
  
-#import "ConverterForPDScores.h"
+#import "APHScoreCalculator.h"
+#import "APHAppDelegate.h"
 
 NSString *const kTappingViewSizeKey   = @"TappingViewSize";
 NSString *const kStartDateKey         = @"startDate";
@@ -58,9 +59,15 @@ NSString *const kItemKey              = @"item";
 
 static  NSString  *kTappingSamplesKey = @"TappingSamples";
 
-@implementation ConverterForPDScores
+@implementation APHScoreCalculator
 
-+ (NSArray*)convertTappings:(ORKTappingIntervalResult *)result
++ (APHScoreCalculator *)sharedCalculator
+{
+    APHAppDelegate *appDelegate = (APHAppDelegate *) [[UIApplication sharedApplication] delegate];
+    return appDelegate.scoreCalculator;
+}
+
+- (NSArray*)convertTappings:(ORKTappingIntervalResult *)result
 {
     NSMutableDictionary  *rawTappingResults = [NSMutableDictionary dictionary];
     
@@ -97,7 +104,7 @@ static  NSString  *kTappingSamplesKey = @"TappingSamples";
     return sampleResults;
 }
 
-+ (NSArray*)convertPostureOrGain:(NSURL *)url
+- (NSArray*)convertPostureOrGain:(NSURL *)url
 {
     NSArray  *gaitItems = nil;
     if (url != nil) {
@@ -106,6 +113,63 @@ static  NSString  *kTappingSamplesKey = @"TappingSamples";
         gaitItems = [json objectForKey:@"items"];
     }
     return  gaitItems;
+}
+
+- (double)scoreFromTappingResult:(ORKTappingIntervalResult *)result
+{
+    NSArray *data = [self convertTappings:result];
+    if (data.count > 0) {
+        return 0.0;
+    }
+    else {
+        return [self scoreFromTappingTest:data];
+    }
+}
+
+- (double)scoreFromGaitURL:(NSURL *)url
+{
+    NSArray *data = [self convertPostureOrGain:url];
+    if (data.count > 0) {
+        return 0.0;
+    }
+    else {
+        return [self scoreFromGaitTest:data];
+    }
+}
+
+- (double)scoreFromPostureURL:(NSURL *)url
+{
+    NSArray *data = [self convertPostureOrGain:url];
+    if (data.count > 0) {
+        return 0.0;
+    }
+    else {
+        return [self scoreFromPostureTest:data];
+    }
+}
+
+- (double)scoreFromTappingTest:(NSArray *)tappingData
+{
+    NSAssert(NO, @"abstract method for defining score. App implementation should override.");
+    return 0;//[PDScores scoreFromTappingTest:tappingData];
+}
+
+- (double)scoreFromPhonationTest:(NSURL *)phonationAudioFile
+{
+    NSAssert(NO, @"abstract method for defining score. App implementation should override.");
+    return 0;//[PDScores scoreFromPhonationTest:phonationAudioFile];
+}
+
+- (double)scoreFromGaitTest:(NSArray *)gaitData
+{
+    NSAssert(NO, @"abstract method for defining score. App implementation should override.");
+    return 0;//[PDScores scoreFromGaitTest:gaitData];
+}
+
+- (double)scoreFromPostureTest:(NSArray *)postureData
+{
+    NSAssert(NO, @"abstract method for defining score. App implementation should override.");
+    return 0;//[PDScores scoreFromPostureTest:postureData];
 }
 
 @end

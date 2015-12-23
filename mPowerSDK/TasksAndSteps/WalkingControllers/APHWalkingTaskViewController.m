@@ -34,8 +34,7 @@
 #import "APHWalkingTaskViewController.h"
 #import <HealthKit/HealthKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import "ConverterForPDScores.h"
-#import <PDScores/PDScores.h>
+#import "APHScoreCalculator.h"
 #import "APHAppDelegate.h"
 
     //
@@ -159,18 +158,10 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
             }
         }
         
-        NSArray  *forwardSteps = [ConverterForPDScores convertPostureOrGain:urlGaitForward];
-        double  forwardScores = 0.0;
-        if (forwardSteps != nil) {
-            forwardScores = [PDScores scoreFromGaitTest: forwardSteps];
-        }
+        double  forwardScores = [[APHScoreCalculator sharedCalculator] scoreFromGaitURL:urlGaitForward];
         forwardScores = isnan(forwardScores) ? 0.0 : forwardScores;
         
-        NSArray  *posture = [ConverterForPDScores convertPostureOrGain:urlPosture];
-        double  postureScores = 0.0;
-        if (posture != nil) {
-            postureScores = [PDScores scoreFromPostureTest: posture];
-        }
+        double  postureScores = [[APHScoreCalculator sharedCalculator] scoreFromPostureURL:urlPosture];
         postureScores = isnan(postureScores) ? 0.0 : postureScores;
         
         double  avgScores = (forwardScores + postureScores) / 2.0;

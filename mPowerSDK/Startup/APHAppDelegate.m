@@ -60,6 +60,11 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 
 @implementation APHAppDelegate
 
+- (NSBundle*)storyboardBundle
+{
+    return [NSBundle bundleForClass:[APHAppDelegate class]];
+}
+
 #pragma mark - Private repo Overrides
 
 - (NSString * _Nonnull)studyIdentifier {
@@ -658,9 +663,9 @@ static NSDate *determineConsentDate(id object)
 - (APCScene *)inclusionCriteriaSceneForOnboarding:(APCOnboarding *) __unused onboarding
 {
     APCScene *scene = [APCScene new];
-    scene.name = @"APHInclusionCriteriaViewController";
+    scene.storyboardId = @"APHInclusionCriteriaViewController";
     scene.storyboardName = @"APHOnboarding";
-    scene.bundle = [NSBundle mainBundle];
+    scene.bundle = [self storyboardBundle];
 
     return scene;
 }
@@ -735,6 +740,23 @@ static NSDate *determineConsentDate(id object)
     ORKTaskViewController*  consentVC = [[ORKTaskViewController alloc] initWithTask:task
                                                                         taskRunUUID:[NSUUID UUID]];
     return consentVC;
+}
+
+/*********************************************************************************/
+#pragma mark - Tab Bar Stuff
+/*********************************************************************************/
+
+
+- (NSMutableArray <APCScene *> *)tabBarScenes
+{
+    NSMutableArray *scenes = [super tabBarScenes];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %@", NSStringFromSelector(@selector(identifier)), kDashBoardStoryBoardKey];
+    APCScene *scene = [[scenes filteredArrayUsingPredicate:predicate] firstObject];
+    scene.storyboardName = @"APHDashboard";
+    scene.bundle = [self storyboardBundle];
+    
+    return scenes;
 }
 
 @end

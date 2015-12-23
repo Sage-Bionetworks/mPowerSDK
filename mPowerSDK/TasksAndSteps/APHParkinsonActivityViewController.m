@@ -266,4 +266,16 @@ static  double  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
     return  taskResult;
 }
 
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    // Point the task result archiver at the shared filename translator
+    self.taskResultArchiver = [[APCTaskResultArchiver alloc] init];
+    NSString *path = [[NSBundle bundleForClass:[APHParkinsonActivityViewController class]] pathForResource:@"APHTaskResultFilenameTranslation" ofType:@"json"];
+    [self.taskResultArchiver setFilenameTranslationDictionaryWithJSONFileAtPath:path];
+    
+}
+
 @end

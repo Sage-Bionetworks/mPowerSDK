@@ -32,8 +32,7 @@
 // 
  
 #import "APHIntervalTappingTaskViewController.h"
-#import <PDScores/PDScores.h>
-#import "ConverterForPDScores.h"
+#import "APHScoreCalculator.h"
 #import <AVFoundation/AVFoundation.h>
 #import "APHDataKeys.h"
 
@@ -118,8 +117,7 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
             NSArray *allSamples = [tapsterResults.samples valueForKey:@"buttonIdentifier"];
             NSArray *tapSamples = [allSamples filteredArrayUsingPredicate:predicate];
             
-            NSArray * totalScore = [ConverterForPDScores convertTappings:tapsterResults];
-            double scoreSummary = [PDScores scoreFromTappingTest:totalScore];
+            double scoreSummary = [[APHScoreCalculator sharedCalculator] scoreFromTappingResult:tapsterResults];
             
             scoreSummary = isnan(scoreSummary) ? 0 : scoreSummary;
             

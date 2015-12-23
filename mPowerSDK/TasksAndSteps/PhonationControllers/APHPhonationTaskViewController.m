@@ -34,9 +34,9 @@
 #import "APHPhonationTaskViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <APCAppCore/APCAppCore.h>
-#import <PDScores/PDScores.h>
 #import "APHAppDelegate.h"
 #import "APHDataKeys.h"
+#import "APHScoreCalculator.h"
 
     //
     //        Step Identifiers
@@ -151,7 +151,7 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
             }
         }
         
-        double scoreSummary = [PDScores scoreFromPhonationTest: fileResult.fileURL];
+        double scoreSummary = [[APHScoreCalculator sharedCalculator] scoreFromPhonationTest: fileResult.fileURL];
         scoreSummary = isnan(scoreSummary) ? 0 : scoreSummary;
         
         NSDictionary  *summary = @{APHPhonationScoreSummaryOfRecordsKey : @(scoreSummary)};
