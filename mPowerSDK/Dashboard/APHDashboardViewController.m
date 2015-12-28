@@ -35,6 +35,7 @@
 #import "APHDashboardViewController.h"
 #import "APHDashboardEditViewController.h"
 #import "APHDataKeys.h"
+#import "APHLocalization.h"
 #import "APHSpatialSpanMemoryGameViewController.h"
 #import "APHWalkingTaskViewController.h"
 
@@ -82,7 +83,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
             
         }
         
-        self.title = NSLocalizedString(@"Dashboard", @"Dashboard");
+        self.title = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TITLE", @"mPowerSDK", APHBundle(), @"Dashboard", @"Title for the Dashboard view controller.");
     }
     
     return self;
@@ -134,35 +135,35 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
     self.tapRightScoring = [[APCScoring alloc] initWithTask:APHTappingActivitySurveyIdentifier
                                           numberOfDays:-kNumberOfDaysToDisplay
                                               valueKey:APHRightSummaryNumberOfRecordsKey];
-    self.tapRightScoring.caption = NSLocalizedString(@"Tapping - Right", @"Dashboard caption for tapping with right hand");
-    
+    self.tapRightScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TAPPING_RIGHT_CAPTION", @"mPowerSDK", APHBundle(), @"Tapping - Right", @"Dashboard caption for results of right hand tapping activity.");
+
     self.tapLeftScoring = [[APCScoring alloc] initWithTask:APHTappingActivitySurveyIdentifier
                                           numberOfDays:-kNumberOfDaysToDisplay
                                               valueKey:APHLeftSummaryNumberOfRecordsKey];
-    self.tapLeftScoring.caption = NSLocalizedString(@"Tapping - Left", @"Dashboard caption for tapping with left hand");
+    self.tapLeftScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TAPPING_LEFT_CAPTION", @"mPowerSDK", APHBundle(), @"Tapping - Left", @"Dashboard caption for results of left hand tapping activity.");
     
     self.gaitScoring = [[APCScoring alloc] initWithTask:APHWalkingActivitySurveyIdentifier
                                            numberOfDays:-kNumberOfDaysToDisplay
                                                valueKey:kGaitScoreKey];
-    self.gaitScoring.caption = NSLocalizedString(@"Gait", @"Dashboard caption for walking activity");
+    self.gaitScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_WALKING_CAPTION", @"mPowerSDK", APHBundle(), @"Gait", @"Dashboard caption for results of walking activity.");
     
 
     self.memoryScoring = [[APCScoring alloc] initWithTask:APHMemoryActivitySurveyIdentifier
                                            numberOfDays:-kNumberOfDaysToDisplay
                                                valueKey:kSpatialMemoryScoreSummaryKey
                                                latestOnly:NO];
-    self.memoryScoring.caption = NSLocalizedString(@"Memory", @"Dashboard caption for memory activity");
+    self.memoryScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_MEMORY_CAPTION", @"mPowerSDK", APHBundle(), @"Memory", @"Dashboard caption for results of memory activity.");
 
     self.phonationScoring = [[APCScoring alloc] initWithTask:APHVoiceActivitySurveyIdentifier
                                              numberOfDays:-kNumberOfDaysToDisplay
                                                  valueKey:APHPhonationScoreSummaryOfRecordsKey];
-    self.phonationScoring.caption = NSLocalizedString(@"Voice", @"Dashboard caption for voice activity");
+    self.phonationScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_VOICE_CAPTION", @"mPowerSDK", APHBundle(), @"Voice", @"Dashboard caption for results of voice activity.");
     
     HKQuantityType *hkQuantity = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
     self.stepScoring = [[APCScoring alloc] initWithHealthKitQuantityType:hkQuantity
                                                                     unit:[HKUnit countUnit]
                                                             numberOfDays:-kNumberOfDaysToDisplay];
-    self.stepScoring.caption = NSLocalizedString(@"Steps", @"Dashboard caption for steps score.");
+    self.stepScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_STEPS_CAPTION", @"mPowerSDK", APHBundle(), @"Steps", @"Dashboard caption for results of steps score.");
     
     if (!self.correlatedScoring) {
         [self prepareCorrelatedScoring];
@@ -180,7 +181,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                                                                                                     unit:[HKUnit countUnit]
                                                                                             numberOfDays:-kNumberOfDaysToDisplay]];
     
-    self.correlatedScoring.caption = NSLocalizedString(@"Data Correlations", nil);
+    self.correlatedScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", @"mPowerSDK", APHBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
     
     //default series
     self.correlatedScoring.series1Name = self.gaitScoring.caption;
@@ -202,15 +203,18 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
             item.identifier = kAPCDashboardProgressTableViewCellIdentifier;
             item.editable = NO;
             item.progress = (CGFloat)completedScheduledTasks/allScheduledTasks;
-            item.caption = NSLocalizedString(@"Activity Completion", @"Activity Completion");
-            
-            item.info = NSLocalizedString(@"This graph shows the percent of Today's activities that you completed. You can complete more of your tasks in the Activities tab.", @"Dashboard tooltip item info text for Activity Completion in Parkinson");
+            item.caption = NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_COMPLETION_CAPTION", @"mPowerSDK", APHBundle(), @"Activity Completion", @"Dashboard caption for the activities completed.");
+
+            item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_ACTIVITY_COMPLETION_INFO", @"mPowerSDK", APHBundle(), @"This graph shows the percent of Today's activities that you completed. You can complete more of your tasks in the Activities tab.", @"Dashboard tooltip item info text for Activity Completion in Parkinson");
             
             APCTableViewRow *row = [APCTableViewRow new];
             row.item = item;
             row.itemType = kAPCTableViewDashboardItemTypeProgress;
             [rowItems addObject:row];
         }
+        
+        NSString *detailMinMaxFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MINMAX_DETAIL", @"mPowerSDK", APHBundle(), @"Min: %@  Max: %@", @"Format of detail text showing participant's minimum and maximum scores on relevant activity, to be filled in with their minimum and maximum scores");
+        NSString *detailAvgFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_AVG_DETAIL", @"mPowerSDK", APHBundle(), @"Average: %@", @"Format of detail text showing participant's average score on relevant activity, to be filled in with their average score");
         
         for (NSNumber *typeNumber in self.rowItemsOrder) {
             
@@ -221,14 +225,14 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                 case kAPHDashboardItemTypeCorrelation:{
                     
                     APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
-                    item.caption = NSLocalizedString(@"Data Correlations", @"");
+                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", @"mPowerSDK", APHBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
                     item.graphData = self.correlatedScoring;
                     item.graphType = kAPCDashboardGraphTypeLine;
                     item.identifier = kAPCDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryYellowColor];
                     
-                    NSString *infoFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_CORRELATION_INFO", nil, [NSBundle mainBundle], @"This chart plots the index of your %@ against the index of your %@. For more comparisons, click the series name.", @"Format of caption for correlation plot comparing indices of two series, to be filled in with the names of the series being compared.");
+                    NSString *infoFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_CORRELATION_INFO", @"mPowerSDK", APHBundle(), @"This chart plots the index of your %@ against the index of your %@. For more comparisons, click the series name.", @"Format of caption for correlation plot comparing indices of two series, to be filled in with the names of the series being compared.");
                     item.info = [NSString stringWithFormat:infoFormat, self.correlatedScoring.series1Name, self.correlatedScoring.series2Name];
                     item.detailText = @"";
                     item.legend = [APCTableViewDashboardGraphItem legendForSeries1:self.correlatedScoring.series1Name series2:self.correlatedScoring.series2Name];
@@ -253,8 +257,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     double avgValue = [[tapScoring averageDataPoint] doubleValue];
                     
                     if (avgValue > 0) {
-                        NSString *detailFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MINMAX_DETAIL", nil, [NSBundle mainBundle], @"Min: %@  Max: %@", @"Format of detail text showing participant's minimum and maximum scores on relevant activity, to be filled in with their minimum and maximum scores");
-                        item.detailText = [NSString stringWithFormat:detailFormat,
+                        item.detailText = [NSString stringWithFormat:detailMinMaxFormat,
                                            APHLocalizedStringFromNumber([tapScoring minimumDataPoint]), APHLocalizedStringFromNumber([tapScoring maximumDataPoint])];
                     }
                     
@@ -262,7 +265,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                 
-                    item.info = NSLocalizedString(@"This plot shows your finger tapping speed each day as measured by the Tapping Interval Activity. The length and position of each vertical bar represents the range in the number of taps you made in 20 seconds for a given day. Any differences in length or position over time reflect variations and trends in your tapping speed, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Tapping in Parkinson");
+                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TAPPING_INFO", @"mPowerSDK", APHBundle(), @"This plot shows your finger tapping speed each day as measured by the Tapping Interval Activity. The length and position of each vertical bar represents the range in the number of taps you made in 20 seconds for a given day. Any differences in length or position over time reflect variations and trends in your tapping speed, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Tapping in Parkinson");
                     
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
@@ -282,8 +285,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     double avgValue = [[self.gaitScoring averageDataPoint] doubleValue];
                     
                     if (avgValue > 0) {
-                        NSString *detailFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MINMAX_DETAIL", nil, [NSBundle mainBundle], @"Min: %@  Max: %@", @"Format of detail text showing participant's minimum and maximum scores on relevant activity, to be filled in with their minimum and maximum scores");
-                        item.detailText = [NSString stringWithFormat:detailFormat,
+                        item.detailText = [NSString stringWithFormat:detailMinMaxFormat,
                                            APHLocalizedStringFromNumber([self.gaitScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.gaitScoring maximumDataPoint])];
                     }
                     
@@ -291,7 +293,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                     
-                    item.info = NSLocalizedString(@"This plot combines several accelerometer-based measures for the Walking Activity. The length and position of each vertical bar represents the range of measures for a given day. Any differences in length or position over time reflect variations and trends in your Walking measure, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Gait in Parkinson");
+                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_WALKING_INFO", @"mPowerSDK", APHBundle(), @"This plot combines several accelerometer-based measures for the Walking Activity. The length and position of each vertical bar represents the range of measures for a given day. Any differences in length or position over time reflect variations and trends in your Walking measure, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Gait in Parkinson");
                     
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
@@ -310,8 +312,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     double avgValue = [[self.memoryScoring averageDataPoint] doubleValue];
                     
                     if (avgValue > 0) {
-                        NSString *detailFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MINMAX_DETAIL", nil, [NSBundle mainBundle], @"Min: %@  Max: %@", @"Format of detail text showing participant's minimum and maximum scores on relevant activity, to be filled in with their minimum and maximum scores");
-                        item.detailText = [NSString stringWithFormat:detailFormat,
+                        item.detailText = [NSString stringWithFormat:detailMinMaxFormat,
                                            APHLocalizedStringFromNumber([self.memoryScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.memoryScoring maximumDataPoint])];
                     }
                     
@@ -319,7 +320,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                     
-                    item.info = NSLocalizedString(@"This plot shows the score you received each day for the Memory Game. The length and position of each vertical bar represents the range of scores for a given day. Any differences in length or position over time reflect variations and trends in your score, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Memory in Parkinson");
+                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MEMORY_INFO", @"mPowerSDK", APHBundle(), @"This plot shows the score you received each day for the Memory Game. The length and position of each vertical bar represents the range of scores for a given day. Any differences in length or position over time reflect variations and trends in your score, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Memory in Parkinson");
                     
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
@@ -338,8 +339,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     double avgValue = [[self.phonationScoring averageDataPoint] doubleValue];
                     
                     if (avgValue > 0) {
-                        NSString *detailFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MINMAX_DETAIL", nil, [NSBundle mainBundle], @"Min: %@  Max: %@", @"Format of detail text showing participant's minimum and maximum scores on relevant activity, to be filled in with their minimum and maximum scores");
-                        item.detailText = [NSString stringWithFormat:detailFormat,
+                        item.detailText = [NSString stringWithFormat:detailMinMaxFormat,
                                            APHLocalizedStringFromNumber([self.phonationScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.phonationScoring maximumDataPoint])];
                     }
                     
@@ -347,7 +347,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                     
-                    item.info = NSLocalizedString(@"This plot combines several microphone-based measures as a single score for the Voice Activity. The length and position of each vertical bar represents the range of measures for a given day. Any differences in length or position over time reflect variations and trends in your Voice measure, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Voice in Parkinson");
+                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_VOICE_INFO", @"mPowerSDK", APHBundle(), @"This plot combines several microphone-based measures as a single score for the Voice Activity. The length and position of each vertical bar represents the range of measures for a given day. Any differences in length or position over time reflect variations and trends in your Voice measure, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Voice in Parkinson");
                     
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
@@ -365,8 +365,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     double avgValue = [[self.stepScoring averageDataPoint] doubleValue];
                     
                     if (avgValue > 0) {
-                        NSString *detailFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_AVG_DETAIL", nil, [NSBundle mainBundle], @"Average: %@", @"Format of detail text showing participant's average score on relevant activity, to be filled in with their average score");
-                        item.detailText = [NSString stringWithFormat:detailFormat,
+                        item.detailText = [NSString stringWithFormat:detailAvgFormat,
                                            APHLocalizedStringFromNumber([self.stepScoring averageDataPoint])];
                     }
                     
@@ -374,7 +373,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryGreenColor];
                     
-                    item.info = NSLocalizedString(@"This graph shows how many steps you took each day, according to your phone's motion sensors. Remember that for this number to be accurate, you should have the phone on you as frequently as possible.", @"Dashboard tooltip item info text for Steps in Parkinson");
+                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_STEPS_INFO", @"mPowerSDK", APHBundle(), @"This graph shows how many steps you took each day, according to your phone's motion sensors. Remember that for this number to be accurate, you should have the phone on you as frequently as possible.", @"Dashboard tooltip item info text for Steps in Parkinson");
                     
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
@@ -390,7 +389,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
         
         APCTableViewSection *section = [APCTableViewSection new];
         section.rows = [NSArray arrayWithArray:rowItems];
-        section.sectionTitle = NSLocalizedString(@"Recent Activity", @"");
+        section.sectionTitle = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_RECENT_ACTIVITY_TITLE", @"mPowerSDK", APHBundle(), @"Recent Activity", @"Title for the recent activity section of the dashboard table.");
         [self.items addObject:section];
     }
     

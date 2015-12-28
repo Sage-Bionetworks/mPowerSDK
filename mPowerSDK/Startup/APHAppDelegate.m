@@ -35,6 +35,7 @@
 #import "APHAppDelegate.h"
 #import "APHProfileExtender.h"
 #import "APHDataKeys.h"
+#import "APHLocalization.h"
 
 static NSString *const kMyThoughtsSurveyIdentifier                  = @"mythoughts";
 static NSString *const kEnrollmentSurveyIdentifier                  = @"EnrollmentSurvey";
@@ -52,7 +53,7 @@ static NSString *const kJsonTasksKey                    = @"tasks";
 static NSString *const kJsonScheduleTaskIDKey           = @"taskID";
 static NSString *const kJsonSchedulesKey                = @"schedules";
 
-static NSString *const kAppStoreLink                    = @"https://appsto.re/us/GxN85.i";
+static NSString *const kAppStoreLink                    = @"http://apple.co/1FO7Bsi";
 
 @interface APHAppDelegate ()
 @property  (nonatomic, strong)  APHProfileExtender* profileExtender;
@@ -89,13 +90,13 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 
 - (NSArray <APCTaskReminder *> * _Nonnull)allTaskReminders {
     return @[
-             [[APCTaskReminder alloc] initWithTaskID:APHWalkingActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Walking Activity", nil)],
-             [[APCTaskReminder alloc] initWithTaskID:APHVoiceActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Voice Activity", nil)],
-             [[APCTaskReminder alloc] initWithTaskID:APHTappingActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Tapping Activity", nil)],
-             [[APCTaskReminder alloc] initWithTaskID:APHMemoryActivitySurveyIdentifier reminderBody:NSLocalizedString(@"Memory Activity", nil)],
-             [[APCTaskReminder alloc] initWithTaskID:kMyThoughtsSurveyIdentifier reminderBody:NSLocalizedString(@"My Thoughts", nil)],
-             [[APCTaskReminder alloc] initWithTaskID:kEnrollmentSurveyIdentifier reminderBody:NSLocalizedString(@"Enrollment Survey", nil)],
-             [[APCTaskReminder alloc] initWithTaskID:kStudyFeedbackSurveyIdentifier reminderBody:NSLocalizedString(@"Study Feedback", nil)]];
+             [[APCTaskReminder alloc] initWithTaskID:APHWalkingActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_WALKING_ACTIVITY_LABEL", @"mPowerSDK", APHBundle(), @"Walking Activity", @"Task reminder label for the walking activity.")],
+             [[APCTaskReminder alloc] initWithTaskID:APHVoiceActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_VOICE_ACTIVITY_LABEL", @"mPowerSDK", APHBundle(), @"Voice Activity", @"Task reminder label for the voice activity.")],
+             [[APCTaskReminder alloc] initWithTaskID:APHTappingActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_TAPPING_ACTIVITY_LABEL", @"mPowerSDK", APHBundle(), @"Tapping Activity", @"Task reminder label for the tapping activity.")],
+             [[APCTaskReminder alloc] initWithTaskID:APHMemoryActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_MEMORY_ACTIVITY_LABEL", @"mPowerSDK", APHBundle(), @"Memory Activity", @"Task reminder label for the memory activity.")],
+             [[APCTaskReminder alloc] initWithTaskID:kMyThoughtsSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_MY_THOUGHTS_LABEL", @"mPowerSDK", APHBundle(), @"My Thoughts", @"Task reminder label for the my thoughts survey.")],
+             [[APCTaskReminder alloc] initWithTaskID:kEnrollmentSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_ENROLLMENT_SURVEY_LABEL", @"mPowerSDK", APHBundle(), @"Enrollment Survey", @"Task reminder label for the enrollment survey.")],
+             [[APCTaskReminder alloc] initWithTaskID:kStudyFeedbackSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_STUDY_FEEDBACK_LABEL", @"mPowerSDK", APHBundle(), @"Study Feedback", @"Task reminder label for study feedback.")]];
 }
 
 - (NSDictionary * _Nonnull)appearanceInfo {
@@ -190,6 +191,9 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 - (void)setUpInitializationOptions
 {
     NSMutableDictionary * dictionary = [super defaultInitializationOptions];
+    
+    NSString *shareMessageFormat = NSLocalizedStringWithDefaultValue(@"APH_SHARE_MESSAGE_FORMAT", @"mPowerSDK", APHBundle(), @"Please take a look at Parkinson mPower, a research study app about Parkinson Disease.  Download it for iPhone at %@", @"Sharing message format where %@ is the URL for the Parkinson app");
+    NSString *shareMessage = [NSString stringWithFormat:shareMessageFormat, kAppStoreLink];
 
     dictionary = [self updateOptionsFor5OrOlder:dictionary];
     [dictionary addEntriesFromDictionary:@{
@@ -197,7 +201,7 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
                                            kStudyIdentifierKey                  : self.studyIdentifier,
                                            kAppPrefixKey                        : self.appPrefix,
                                            kBridgeEnvironmentKey                : @(self.environment),
-                                           kShareMessageKey : NSLocalizedString(@"Please take a look at Parkinson mPower, a research study app about Parkinson Disease.  Download it for iPhone at http://apple.co/1FO7Bsi", nil)
+                                           kShareMessageKey                     : shareMessage
                                            }];
 
     self.initializationOptions = dictionary;
@@ -289,7 +293,8 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 {
     NSArray *allSetBlockOfText = nil;
 
-    NSString *activitiesAdditionalText = NSLocalizedString(@"Please perform the activites each day when you are at your lowest before you take your Parkinson medications, after your medications take effect, and then a third time during the day.", nil);
+    NSString *activitiesAdditionalText = NSLocalizedStringWithDefaultValue(@"APH_ACTIVITIES_ADDITIONAL_INSTRUCTION", @"mPowerSDK", APHBundle(), @"Please perform the activites each day when you are at your lowest before you take your Parkinson medications, after your medications take effect, and then a third time during the day.", @"Additional instructions for when to perform each of the activities.");
+    
     allSetBlockOfText = @[@{kAllSetActivitiesTextAdditional: activitiesAdditionalText}];
 
     return allSetBlockOfText;

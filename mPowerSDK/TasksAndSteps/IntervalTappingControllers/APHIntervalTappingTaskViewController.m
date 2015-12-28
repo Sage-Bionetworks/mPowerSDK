@@ -35,6 +35,7 @@
 #import "APHScoreCalculator.h"
 #import <AVFoundation/AVFoundation.h>
 #import "APHDataKeys.h"
+#import "APHLocalization.h"
 
     //
     //        Step Identifiers
@@ -77,8 +78,7 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
     
     // Modify the first step to explain why this activity is valuable to the Parkinson's study
     ORKInstructionStep *firstStep = (ORKInstructionStep *)orkTask.steps.firstObject;
-    [firstStep setText:NSLocalizedString(@"Speed of finger tapping can reflect severity of motor symptoms in Parkinson disease. "
-                                               @"This activity measures your tapping speed for each hand. Your medical provider may measure this differently.", nil)];
+    [firstStep setText:NSLocalizedStringWithDefaultValue(@"APH_TAPPING_INTRO_TEXT", @"mPowerSDK", APHBundle(), @"Speed of finger tapping can reflect severity of motor symptoms in Parkinson disease. This activity measures your tapping speed for each hand. Your medical provider may measure this differently.", @"Introductory text for the tapping activity.")];
     [firstStep setDetailText:@""];
     
     // Modify the last step to change the language of the conclusion

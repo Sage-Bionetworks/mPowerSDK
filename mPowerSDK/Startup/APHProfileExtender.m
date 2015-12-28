@@ -32,6 +32,7 @@
 // 
  
 #import "APHProfileExtender.h"
+#import "APHLocalization.h"
 
 // ***************************************************************************
 // ***************************************************************************
@@ -94,7 +95,7 @@ static  CGFloat    kDefaultHeightForExtraRows    = 64.0;
 - (UITableViewCell *)decorateCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)__unused indexPath
 {
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.text = NSLocalizedString(@"Copyright Information", nil);
+    cell.textLabel.text = NSLocalizedStringWithDefaultValue(@"APH_COPYRIGHT_INFO_TITLE", @"mPowerSDK", APHBundle(), @"Copyright Information", @"Title for copyright information.");
     cell.detailTextLabel.text = @"";
     cell.selectionStyle = self.isEditing ? UITableViewCellSelectionStyleGray : UITableViewCellSelectionStyleNone;
     
@@ -123,7 +124,7 @@ static  CGFloat    kDefaultHeightForExtraRows    = 64.0;
     if (!self.isEditing) {
         UIViewController *controller = [self copyrightInfoViewController];
         
-        controller.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Copyright Information", @"");
+        controller.navigationController.navigationBar.topItem.title = NSLocalizedStringWithDefaultValue(@"APH_COPYRIGHT_INFO_TITLE", @"mPowerSDK", APHBundle(), @"Copyright Information", @"Title for copyright information.");
         controller.hidesBottomBarWhenPushed = YES;
         
         [navigationController pushViewController:controller animated:YES];

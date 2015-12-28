@@ -20,6 +20,8 @@
 		FF0B4ACA1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4ABC1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m */; };
 		FF0B4ACB1C29FCB800224EF7 /* APHWalkingTaskViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4ABE1C29FCB800224EF7 /* APHWalkingTaskViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF0B4ACC1C29FCB800224EF7 /* APHWalkingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4ABF1C29FCB800224EF7 /* APHWalkingTaskViewController.m */; };
+		FF2D34421C31B7DC0033838A /* APHLocalization.h in Headers */ = {isa = PBXBuildFile; fileRef = FF2D34401C31B7DC0033838A /* APHLocalization.h */; };
+		FF2D34431C31B7DC0033838A /* APHLocalization.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D34411C31B7DC0033838A /* APHLocalization.m */; };
 		FF51E5D11C2A05BD0091E1A0 /* APCAppCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */; };
 		FF51E5D31C2A05C60091E1A0 /* BridgeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */; };
 		FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA242E1C2351D600727DA8 /* mPowerSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -67,6 +69,8 @@
 		FF0B4ABC1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHSpatialSpanMemoryGameViewController.m; sourceTree = "<group>"; };
 		FF0B4ABE1C29FCB800224EF7 /* APHWalkingTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHWalkingTaskViewController.h; sourceTree = "<group>"; };
 		FF0B4ABF1C29FCB800224EF7 /* APHWalkingTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHWalkingTaskViewController.m; sourceTree = "<group>"; };
+		FF2D34401C31B7DC0033838A /* APHLocalization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHLocalization.h; sourceTree = "<group>"; };
+		FF2D34411C31B7DC0033838A /* APHLocalization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHLocalization.m; sourceTree = "<group>"; };
 		FF51E5CE1C2A05B40091E1A0 /* libPDScores.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPDScores.a; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/libPDScores.a"; sourceTree = "<group>"; };
 		FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = APCAppCore.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/APCAppCore.framework"; sourceTree = "<group>"; };
 		FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BridgeSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/BridgeSDK.framework"; sourceTree = "<group>"; };
@@ -181,6 +185,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FF2D343F1C31B7410033838A /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				FF2D34401C31B7DC0033838A /* APHLocalization.h */,
+				FF2D34411C31B7DC0033838A /* APHLocalization.m */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
 		FFFA24211C2351D600727DA8 = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +224,7 @@
 				FFFA24971C23773900727DA8 /* Onboarding */,
 				FFFA24BB1C237E1500727DA8 /* Dashboard */,
 				FF0B4AAD1C29FCB800224EF7 /* TasksAndSteps */,
+				FF2D343F1C31B7410033838A /* Localization */,
 			);
 			path = mPowerSDK;
 			sourceTree = "<group>";
@@ -279,6 +293,7 @@
 				FF0B4AC91C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.h in Headers */,
 				FFFA24911C236E9A00727DA8 /* APHProfileExtender.h in Headers */,
 				FFFA24C71C237E1500727DA8 /* APHDashboardViewController.h in Headers */,
+				FF2D34421C31B7DC0033838A /* APHLocalization.h in Headers */,
 				FFFA24C51C237E1500727DA8 /* APHDashboardEditViewController.h in Headers */,
 				FF0B4ACB1C29FCB800224EF7 /* APHWalkingTaskViewController.h in Headers */,
 				FF0B4AC51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.h in Headers */,
@@ -397,6 +412,7 @@
 				FFFA24C61C237E1500727DA8 /* APHDashboardEditViewController.m in Sources */,
 				FF0B4AC31C29FCB800224EF7 /* APHScoreCalculator.m in Sources */,
 				FF0B4ACA1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m in Sources */,
+				FF2D34431C31B7DC0033838A /* APHLocalization.m in Sources */,
 				FF0B4AC11C29FCB800224EF7 /* APHParkinsonActivityViewController.m in Sources */,
 				FF0B4AC81C29FCB800224EF7 /* APHPhonationTaskViewController.m in Sources */,
 				FFFA24921C236E9A00727DA8 /* APHProfileExtender.m in Sources */,

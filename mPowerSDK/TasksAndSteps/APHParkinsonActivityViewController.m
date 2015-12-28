@@ -112,6 +112,10 @@ static  double  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
 + (void)initialize
 {
     void (^localizeBlock)() = [^{
+        
+        // TODO: syoung 12/28/2015 Fix localization in this file. Doing so now would clobber the changes I have stashed
+        // for changing the language of this question.
+        
         //
         //    keys for the extra step ('Pre-Survey') that;'s injected
         //        into Parkinson Activities to ask the Patient if they

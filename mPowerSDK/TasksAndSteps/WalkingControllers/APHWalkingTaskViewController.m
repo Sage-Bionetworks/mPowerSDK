@@ -36,6 +36,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "APHScoreCalculator.h"
 #import "APHAppDelegate.h"
+#import "APHLocalization.h"
 
     //
     //        Step Identifiers
@@ -89,12 +90,12 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
     //    replace various step titles and details with our own verbiage
     //
     ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[0];
-    [instructionStep setText:NSLocalizedStringWithDefaultValue(@"APH_WALKING_DESCRIPTION", nil, [NSBundle mainBundle], @"This activity measures your gait (walk) and balance, which can be affected by Parkinson disease.", @"Description of purpose of walking activity.")];
-    [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_WALKING_CAUTION", nil, [NSBundle mainBundle], @"Please do not continue if you cannot safely walk unassisted.", @"Warning regarding performing walking activity.")];
+    [instructionStep setText:NSLocalizedStringWithDefaultValue(@"APH_WALKING_DESCRIPTION", @"mPowerSDK", APHBundle(), @"This activity measures your gait (walk) and balance, which can be affected by Parkinson disease.", @"Description of purpose of walking activity.")];
+    [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_WALKING_CAUTION", @"mPowerSDK", APHBundle(), @"Please do not continue if you cannot safely walk unassisted.", @"Warning regarding performing walking activity.")];
     
-    NSString  *titleFormat = NSLocalizedStringWithDefaultValue(@"APH_WALKING_STAND_STILL_TEXT_INSTRUCTION", nil, [NSBundle mainBundle], @"Turn around and stand still for %@ seconds", @"Written instructions for the standing-still step of the walking activity, to be filled in with the number of seconds to stand still.");
+    NSString  *titleFormat = NSLocalizedStringWithDefaultValue(@"APH_WALKING_STAND_STILL_TEXT_INSTRUCTION", @"mPowerSDK", APHBundle(), @"Turn around and stand still for %@ seconds", @"Written instructions for the standing-still step of the walking activity, to be filled in with the number of seconds to stand still.");
     NSString  *titleString = [NSString stringWithFormat:titleFormat, APHLocalizedStringFromNumber(@(kStandStillDuration))];
-    NSString  *spokenInstructionFormat = NSLocalizedStringWithDefaultValue(@"APH_WALKING_STAND_STILL_SPOKEN_INSTRUCTION", nil, [NSBundle mainBundle], @"Turn around and stand still for %@ seconds", @"Spoken instructions for the standing-still step of the walking activity, to be filled in with the number of seconds to stand still.");
+    NSString  *spokenInstructionFormat = NSLocalizedStringWithDefaultValue(@"APH_WALKING_STAND_STILL_SPOKEN_INSTRUCTION", @"mPowerSDK", APHBundle(), @"Turn around and stand still for %@ seconds", @"Spoken instructions for the standing-still step of the walking activity, to be filled in with the number of seconds to stand still.");
     NSString  *spokenInstructionString = [NSString stringWithFormat:spokenInstructionFormat, APHLocalizedStringFromNumber(@(kStandStillDuration))];
     
     ORKActiveStep *activeStep = (ORKActiveStep *)orkTask.steps[5];
@@ -214,7 +215,7 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
     if ([stepViewController.step.identifier isEqualToString: kConclusionStepIdentifier]) {
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
         AVSpeechUtterance  *talk = [AVSpeechUtterance
-                                    speechUtteranceWithString:NSLocalizedString(@"You have completed the activity.", @"Spoken message that the participant has completed the Walking activity.")];
+                                    speechUtteranceWithString:NSLocalizedStringWithDefaultValue(@"APH_COMPLETED_SPOKEN_INSTRUCTION", @"mPowerSDK", APHBundle(), @"You have completed the activity.", @"Spoken message that the participant has completed the Walking activity.")];
         AVSpeechSynthesizer  *synthesiser = [[AVSpeechSynthesizer alloc] init];
         
         // see also in ORKVoiceEngine speakText: method. This apparently adjusts for a change between how iOS 8 and 9 interpret the speech rate value.
@@ -261,7 +262,7 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
 {
     [super viewDidLoad];
     
-    self.navigationBar.topItem.title = NSLocalizedStringWithDefaultValue(@"APH_WALKING_NAV_TITLE", nil, [NSBundle mainBundle], @"Walking Activity", @"Nav bar title for Walking activity view");
+    self.navigationBar.topItem.title = NSLocalizedStringWithDefaultValue(@"APH_WALKING_NAV_TITLE", @"mPowerSDK", APHBundle(), @"Walking Activity", @"Nav bar title for Walking activity view");
 }
 
 - (void)viewWillAppear:(BOOL)animated
