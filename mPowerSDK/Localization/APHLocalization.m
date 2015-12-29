@@ -7,15 +7,32 @@
 //
 
 #import "APHLocalization.h"
-#import "APHAppDelegate.h"
 
-NSBundle *APHBundle() {
-    static NSBundle *__bundle;
-    
+static NSBundle *__bundle;
+
+NSBundle *APHLocaleBundle() {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        __bundle = [NSBundle bundleForClass:[APHAppDelegate class]];
+        if (__bundle == nil) {
+            __bundle = [NSBundle bundleForClass:[APHLocalization class]];
+        }
     });
-    
     return __bundle;
 }
+
+@implementation APHLocalization
+
++ (void)setLocalization:(NSString*)localization {
+    
+    // Find the path to the bundle based on the locale
+    NSBundle *frameworkBundle = [NSBundle bundleForClass:[APHLocalization class]];
+    NSString *bundlePath = [frameworkBundle pathForResource:@"Localizable" ofType:@"strings" inDirectory:nil forLocalization:localization];
+    
+    // Load the requested bundle (if it exists)
+    NSBundle *localizedBundle = [[NSBundle alloc] initWithPath:[bundlePath stringByDeletingLastPathComponent]];
+    if (localizedBundle != nil) {
+        __bundle = localizedBundle;
+    }
+}
+
+@end

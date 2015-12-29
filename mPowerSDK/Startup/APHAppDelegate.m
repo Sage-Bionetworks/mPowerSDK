@@ -90,13 +90,13 @@ static NSString *const kAppStoreLink                    = @"http://apple.co/1FO7
 
 - (NSArray <APCTaskReminder *> * _Nonnull)allTaskReminders {
     return @[
-             [[APCTaskReminder alloc] initWithTaskID:APHWalkingActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_WALKING_ACTIVITY_LABEL", @"mPowerSDK", APHBundle(), @"Walking Activity", @"Task reminder label for the walking activity.")],
-             [[APCTaskReminder alloc] initWithTaskID:APHVoiceActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_VOICE_ACTIVITY_LABEL", @"mPowerSDK", APHBundle(), @"Voice Activity", @"Task reminder label for the voice activity.")],
-             [[APCTaskReminder alloc] initWithTaskID:APHTappingActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_TAPPING_ACTIVITY_LABEL", @"mPowerSDK", APHBundle(), @"Tapping Activity", @"Task reminder label for the tapping activity.")],
-             [[APCTaskReminder alloc] initWithTaskID:APHMemoryActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_MEMORY_ACTIVITY_LABEL", @"mPowerSDK", APHBundle(), @"Memory Activity", @"Task reminder label for the memory activity.")],
-             [[APCTaskReminder alloc] initWithTaskID:kMyThoughtsSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_MY_THOUGHTS_LABEL", @"mPowerSDK", APHBundle(), @"My Thoughts", @"Task reminder label for the my thoughts survey.")],
-             [[APCTaskReminder alloc] initWithTaskID:kEnrollmentSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_ENROLLMENT_SURVEY_LABEL", @"mPowerSDK", APHBundle(), @"Enrollment Survey", @"Task reminder label for the enrollment survey.")],
-             [[APCTaskReminder alloc] initWithTaskID:kStudyFeedbackSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_STUDY_FEEDBACK_LABEL", @"mPowerSDK", APHBundle(), @"Study Feedback", @"Task reminder label for study feedback.")]];
+             [[APCTaskReminder alloc] initWithTaskID:APHWalkingActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_WALKING_ACTIVITY_LABEL", nil, APHLocaleBundle(), @"Walking Activity", @"Task reminder label for the walking activity.")],
+             [[APCTaskReminder alloc] initWithTaskID:APHVoiceActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_VOICE_ACTIVITY_LABEL", nil, APHLocaleBundle(), @"Voice Activity", @"Task reminder label for the voice activity.")],
+             [[APCTaskReminder alloc] initWithTaskID:APHTappingActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_TAPPING_ACTIVITY_LABEL", nil, APHLocaleBundle(), @"Tapping Activity", @"Task reminder label for the tapping activity.")],
+             [[APCTaskReminder alloc] initWithTaskID:APHMemoryActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_MEMORY_ACTIVITY_LABEL", nil, APHLocaleBundle(), @"Memory Activity", @"Task reminder label for the memory activity.")],
+             [[APCTaskReminder alloc] initWithTaskID:kMyThoughtsSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_MY_THOUGHTS_LABEL", nil, APHLocaleBundle(), @"My Thoughts", @"Task reminder label for the my thoughts survey.")],
+             [[APCTaskReminder alloc] initWithTaskID:kEnrollmentSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_ENROLLMENT_SURVEY_LABEL", nil, APHLocaleBundle(), @"Enrollment Survey", @"Task reminder label for the enrollment survey.")],
+             [[APCTaskReminder alloc] initWithTaskID:kStudyFeedbackSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_STUDY_FEEDBACK_LABEL", nil, APHLocaleBundle(), @"Study Feedback", @"Task reminder label for study feedback.")]];
 }
 
 - (NSDictionary * _Nonnull)appearanceInfo {
@@ -192,7 +192,7 @@ static NSString *const kAppStoreLink                    = @"http://apple.co/1FO7
 {
     NSMutableDictionary * dictionary = [super defaultInitializationOptions];
     
-    NSString *shareMessageFormat = NSLocalizedStringWithDefaultValue(@"APH_SHARE_MESSAGE_FORMAT", @"mPowerSDK", APHBundle(), @"Please take a look at Parkinson mPower, a research study app about Parkinson Disease.  Download it for iPhone at %@", @"Sharing message format where %@ is the URL for the Parkinson app");
+    NSString *shareMessageFormat = NSLocalizedStringWithDefaultValue(@"APH_SHARE_MESSAGE_FORMAT", nil, APHLocaleBundle(), @"Please take a look at Parkinson mPower, a research study app about Parkinson Disease.  Download it for iPhone at %@", @"Sharing message format where %@ is the URL for the Parkinson app");
     NSString *shareMessage = [NSString stringWithFormat:shareMessageFormat, kAppStoreLink];
 
     dictionary = [self updateOptionsFor5OrOlder:dictionary];
@@ -293,7 +293,7 @@ static NSString *const kAppStoreLink                    = @"http://apple.co/1FO7
 {
     NSArray *allSetBlockOfText = nil;
 
-    NSString *activitiesAdditionalText = NSLocalizedStringWithDefaultValue(@"APH_ACTIVITIES_ADDITIONAL_INSTRUCTION", @"mPowerSDK", APHBundle(), @"Please perform the activites each day when you are at your lowest before you take your Parkinson medications, after your medications take effect, and then a third time during the day.", @"Additional instructions for when to perform each of the activities.");
+    NSString *activitiesAdditionalText = NSLocalizedStringWithDefaultValue(@"APH_ACTIVITIES_ADDITIONAL_INSTRUCTION", nil, APHLocaleBundle(), @"Please perform the activites each day when you are at your lowest before you take your Parkinson medications, after your medications take effect, and then a third time during the day.", @"Additional instructions for when to perform each of the activities.");
     
     allSetBlockOfText = @[@{kAllSetActivitiesTextAdditional: activitiesAdditionalText}];
 

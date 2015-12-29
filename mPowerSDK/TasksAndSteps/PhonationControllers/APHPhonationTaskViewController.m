@@ -84,13 +84,13 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
     //    after the first if the user needs to say where they are in
     //    their medication schedule
     //
-    NSString *localizedTaskName = NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_TITLE", @"mPowerSDK", APHBundle(),  @"Voice", @"Title for Voice activity");
+    NSString *localizedTaskName = NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_TITLE", nil, APHLocaleBundle(),  @"Voice", @"Title for Voice activity");
     [orkTask.steps[0] setTitle:localizedTaskName];
     
     ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[1];
     [instructionStep setTitle:localizedTaskName];
-    [instructionStep setText:NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_INSTRUCTION", @"mPowerSDK", APHBundle(), @"Take a deep breath and say “Aaaaah” into the microphone for as long as you can. Keep a steady volume so the audio bars remain blue.", @"Instructions for performing the voice activity.")];
-    [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_NEXT_STEP_INSTRUCTION", @"mPowerSDK", APHBundle(), @"Tap Next to begin the test.", @"Detail insctruction for how to begin a task.")];
+    [instructionStep setText:NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Take a deep breath and say “Aaaaah” into the microphone for as long as you can. Keep a steady volume so the audio bars remain blue.", @"Instructions for performing the voice activity.")];
+    [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_NEXT_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Tap Next to begin the test.", @"Detail insctruction for how to begin a task.")];
     
     [orkTask.steps.lastObject setTitle:kConclusionStepThankYouTitle];
     [orkTask.steps.lastObject setText:kConclusionStepViewDashboard];
@@ -193,7 +193,7 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
 {
     [super viewDidLoad];
     
-    self.navigationBar.topItem.title = NSLocalizedStringWithDefaultValue(@"APH_PHONATION_NAV_TITLE", @"mPowerSDK", APHBundle(), @"Voice Activity", @"Nav bar title for Voice activity view");
+    self.navigationBar.topItem.title = NSLocalizedStringWithDefaultValue(@"APH_PHONATION_NAV_TITLE", nil, APHLocaleBundle(), @"Voice Activity", @"Nav bar title for Voice activity view");
    
    // Once you give Audio permission to the application. Your app will not show permission prompt again.
     [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
@@ -202,7 +202,7 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
         } else {
             // Microphone disabled
             //Inform the user that they will to enable the Microphone
-            UIAlertController * alert = [UIAlertController simpleAlertWithTitle:NSLocalizedStringWithDefaultValue(@"APH_PHONATION_ENABLE_MIC_ALERT_MSG", @"mPowerSDK", APHBundle(), @"You need to enable access to microphone.", @"Alert message when microphone access not enabled for this app when trying to perform Voice activity.") message:nil];
+            UIAlertController * alert = [UIAlertController simpleAlertWithTitle:NSLocalizedStringWithDefaultValue(@"APH_PHONATION_ENABLE_MIC_ALERT_MSG", nil, APHLocaleBundle(), @"You need to enable access to microphone.", @"Alert message when microphone access not enabled for this app when trying to perform Voice activity.") message:nil];
             [self presentViewController:alert animated:YES completion:nil];
         }
     }];

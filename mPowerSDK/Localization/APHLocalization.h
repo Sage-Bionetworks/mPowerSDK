@@ -16,4 +16,13 @@
 #endif
 #endif
 
-APH_EXTERN NSBundle *APHBundle();
+APH_EXTERN NSBundle *APHLocaleBundle();
+
+#define APHLocalizedStringFromNumber(number) \
+[NSNumberFormatter localizedStringFromNumber:@([number integerValue]) numberStyle:NSNumberFormatterNoStyle]
+
+@interface APHLocalization : NSObject
+
++ (void)setLocalization:(NSString*)localization;
+
+@end

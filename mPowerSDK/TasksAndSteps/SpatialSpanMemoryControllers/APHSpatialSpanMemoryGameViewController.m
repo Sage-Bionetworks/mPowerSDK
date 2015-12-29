@@ -109,7 +109,7 @@ static NSString * const kItemKey                    = @"item";
   
     if ([stepViewController.step.identifier isEqualToString:kInstructionStepIdentifier]) {
         UILabel *label = ((UILabel *)((UIView *)((UIView *)((UIView *) ((UIScrollView *)stepViewController.view.subviews[0]).subviews[0]).subviews[0]).subviews[0]).subviews[2]);
-        label.text = NSLocalizedStringWithDefaultValue(@"APH_MEMORY_STEP_INSTRUCTION", @"mPowerSDK", APHBundle(),
+        label.text = NSLocalizedStringWithDefaultValue(@"APH_MEMORY_STEP_INSTRUCTION", nil, APHLocaleBundle(),
                                                        @"Some of the flowers will light up one at a time. "
                                                        @"Tap those flowers in the same order they lit up.\n\n"
                                                        @"To begin, tap Next, then watch closely.",
@@ -178,7 +178,7 @@ static NSString * const kItemKey                    = @"item";
 {
     [super viewDidLoad];
     
-    self.navigationBar.topItem.title = NSLocalizedStringWithDefaultValue(@"APH_MEMORY_NAV_TITLE", @"mPowerSDK", APHBundle(), @"Memory Activity", @"Nav bar title for Memory activity view");
+    self.navigationBar.topItem.title = NSLocalizedStringWithDefaultValue(@"APH_MEMORY_NAV_TITLE", nil, APHLocaleBundle(), @"Memory Activity", @"Nav bar title for Memory activity view");
 }
 
 - (void)didReceiveMemoryWarning

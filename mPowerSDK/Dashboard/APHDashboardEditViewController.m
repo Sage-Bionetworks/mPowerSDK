@@ -59,10 +59,10 @@
                 {
                     APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
                     if (rowType == kAPHDashboardItemTypeIntervalTappingRight) {
-                        item.caption = NSLocalizedStringWithDefaultValue(@"APH_TAPPING_RIGHT_CAPTION", @"mPowerSDK", APHBundle(), @"Tapping - Right", @"Dashboard caption for results of right hand tapping activity.");
+                        item.caption = NSLocalizedStringWithDefaultValue(@"APH_TAPPING_RIGHT_CAPTION", nil, APHLocaleBundle(), @"Tapping - Right", @"Dashboard caption for results of right hand tapping activity.");
                     }
                     else {
-                        item.caption = NSLocalizedStringWithDefaultValue(@"APH_TAPPING_LEFT_CAPTION", @"mPowerSDK", APHBundle(), @"Tapping - Left", @"Dashboard caption for results of left hand tapping activity.");
+                        item.caption = NSLocalizedStringWithDefaultValue(@"APH_TAPPING_LEFT_CAPTION", nil, APHLocaleBundle(), @"Tapping - Left", @"Dashboard caption for results of left hand tapping activity.");
                     }
                     item.taskId = APHTappingActivitySurveyIdentifier;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
@@ -74,7 +74,7 @@
                 case kAPHDashboardItemTypeGait:{
                     
                     APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
-                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_WALKING_CAPTION", @"mPowerSDK", APHBundle(), @"Gait", @"Dashboard caption for results of walking activity.");
+                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_WALKING_CAPTION", nil, APHLocaleBundle(), @"Gait", @"Dashboard caption for results of walking activity.");
                     item.taskId = APHWalkingActivitySurveyIdentifier;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                     
@@ -84,7 +84,7 @@
                 case kAPHDashboardItemTypeSpatialMemory:{
                     
                     APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
-                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_MEMORY_CAPTION", @"mPowerSDK", APHBundle(), @"Memory", @"Dashboard caption for results of memory activity.");
+                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_MEMORY_CAPTION", nil, APHLocaleBundle(), @"Memory", @"Dashboard caption for results of memory activity.");
                     item.taskId = APHMemoryActivitySurveyIdentifier;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                     
@@ -94,7 +94,7 @@
                 case kAPHDashboardItemTypePhonation:{
                     
                     APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
-                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_VOICE_CAPTION", @"mPowerSDK", APHBundle(), @"Voice", @"Dashboard caption for results of voice activity.");
+                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_VOICE_CAPTION", nil, APHLocaleBundle(), @"Voice", @"Dashboard caption for results of voice activity.");
                     item.taskId = APHVoiceActivitySurveyIdentifier;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                     
@@ -104,7 +104,7 @@
                 case kAPHDashboardItemTypeSteps:{
                     
                     APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
-                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_STEPS_CAPTION", @"mPowerSDK", APHBundle(), @"Steps", @"Dashboard caption for results of steps score.");
+                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_STEPS_CAPTION", nil, APHLocaleBundle(), @"Steps", @"Dashboard caption for results of steps score.");
                     item.tintColor = [UIColor appTertiaryGreenColor];
                     
                     [self.items addObject:item];
@@ -114,7 +114,7 @@
                 case kAPHDashboardItemTypeCorrelation:
                 {
                     APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
-                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", @"mPowerSDK", APHBundle(), @"Steps", @"Dashboard caption for data correlation.");
+                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Steps", @"Dashboard caption for data correlation.");
                     item.tintColor = [UIColor appTertiaryPurpleColor];
                     
                     [self.items addObject:item];

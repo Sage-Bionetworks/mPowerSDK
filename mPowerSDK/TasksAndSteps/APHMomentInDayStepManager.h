@@ -1,6 +1,6 @@
 //
-//  APHParkinsonActivityViewController.h
-//  mPower
+//  APHMomentInDayStepManager.h
+//  mPowerSDK
 //
 //  Copyright (c) 2015 Apple, Inc. All rights reserved.
 //
@@ -31,22 +31,17 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-
-#import <APCAppCore/APCAppCore.h>
-#import <Foundation/Foundation.h>
 #import <ResearchKit/ResearchKit.h>
 
-    //
-    //    keys for Parkinson Conclusion Step View Controller
-    //
-extern  NSString  *kConclusionStepThankYouTitle;
-extern  NSString  *kConclusionStepViewDashboard;
+extern NSString * _Nonnull const kMomentInDayStepIdentifier;
 
-@class APHMomentInDayStepManager;
+@interface APHMomentInDayStepManager : NSObject
 
-@interface APHParkinsonActivityViewController : APCBaseTaskViewController
++ (instancetype _Nonnull)defaultManager;
 
-// TODO: syoung 12/28/2015 Refactor this to be an instance method rather than a class method
-+ (ORKOrderedTask *)modifyTaskWithPreSurveyStepIfRequired:(ORKOrderedTask *)task andTitle:(NSString *)taskTitle;
+- (ORKFormStep * _Nonnull)createMomentInDayStep;
+- (BOOL)shouldIncludeMomentInDayStep:(NSDate * _Nullable)lastCompletionDate;
+- (void)saveMomentInDayResult:(ORKStepResult * _Nullable)stepResult;
+- (ORKChoiceQuestionResult * _Nullable)stashedMomentInDayResult;
 
 @end
