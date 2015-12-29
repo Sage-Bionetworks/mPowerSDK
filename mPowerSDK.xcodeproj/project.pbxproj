@@ -22,14 +22,13 @@
 		FF0B4ACC1C29FCB800224EF7 /* APHWalkingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4ABF1C29FCB800224EF7 /* APHWalkingTaskViewController.m */; };
 		FF2D34421C31B7DC0033838A /* APHLocalization.h in Headers */ = {isa = PBXBuildFile; fileRef = FF2D34401C31B7DC0033838A /* APHLocalization.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF2D34431C31B7DC0033838A /* APHLocalization.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D34411C31B7DC0033838A /* APHLocalization.m */; };
-		FF2D344B1C3200AC0033838A /* APHParkinsonActivityViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D344A1C3200AC0033838A /* APHParkinsonActivityViewControllerTests.m */; };
-		FF2D344E1C3207060033838A /* APHMomentInDayStepManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FF2D344C1C3207060033838A /* APHMomentInDayStepManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FF2D344F1C3207060033838A /* APHMomentInDayStepManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D344D1C3207060033838A /* APHMomentInDayStepManager.m */; };
+		FF2D344B1C3200AC0033838A /* APHActivityManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D344A1C3200AC0033838A /* APHActivityManagerTests.m */; };
+		FF2D344E1C3207060033838A /* APHActivityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FF2D344C1C3207060033838A /* APHActivityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF2D344F1C3207060033838A /* APHActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D344D1C3207060033838A /* APHActivityManager.m */; };
 		FF51E5D11C2A05BD0091E1A0 /* APCAppCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */; };
 		FF51E5D31C2A05C60091E1A0 /* BridgeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */; };
 		FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA242E1C2351D600727DA8 /* mPowerSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFFA24361C2351D600727DA8 /* mPowerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */; };
-		FFFA243B1C2351D600727DA8 /* mPowerSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA243A1C2351D600727DA8 /* mPowerSDKTests.m */; };
 		FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA24711C23657700727DA8 /* APHAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFFA24741C23657700727DA8 /* APHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA24721C23657700727DA8 /* APHAppDelegate.m */; };
 		FFFA24851C23664500727DA8 /* APHAppDelegate+APHMigration.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA24831C23664500727DA8 /* APHAppDelegate+APHMigration.h */; };
@@ -74,9 +73,9 @@
 		FF0B4ABF1C29FCB800224EF7 /* APHWalkingTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHWalkingTaskViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FF2D34401C31B7DC0033838A /* APHLocalization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHLocalization.h; sourceTree = "<group>"; };
 		FF2D34411C31B7DC0033838A /* APHLocalization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHLocalization.m; sourceTree = "<group>"; };
-		FF2D344A1C3200AC0033838A /* APHParkinsonActivityViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHParkinsonActivityViewControllerTests.m; sourceTree = "<group>"; };
-		FF2D344C1C3207060033838A /* APHMomentInDayStepManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHMomentInDayStepManager.h; sourceTree = "<group>"; };
-		FF2D344D1C3207060033838A /* APHMomentInDayStepManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHMomentInDayStepManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		FF2D344A1C3200AC0033838A /* APHActivityManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHActivityManagerTests.m; sourceTree = "<group>"; };
+		FF2D344C1C3207060033838A /* APHActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHActivityManager.h; sourceTree = "<group>"; };
+		FF2D344D1C3207060033838A /* APHActivityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHActivityManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FF51E5CE1C2A05B40091E1A0 /* libPDScores.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPDScores.a; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/libPDScores.a"; sourceTree = "<group>"; };
 		FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = APCAppCore.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/APCAppCore.framework"; sourceTree = "<group>"; };
 		FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BridgeSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/BridgeSDK.framework"; sourceTree = "<group>"; };
@@ -84,7 +83,6 @@
 		FFFA242E1C2351D600727DA8 /* mPowerSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mPowerSDK.h; sourceTree = "<group>"; };
 		FFFA24301C2351D600727DA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FFFA24351C2351D600727DA8 /* mPowerSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mPowerSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FFFA243A1C2351D600727DA8 /* mPowerSDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mPowerSDKTests.m; sourceTree = "<group>"; };
 		FFFA243C1C2351D600727DA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FFFA24711C23657700727DA8 /* APHAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHAppDelegate.h; sourceTree = "<group>"; };
 		FFFA24721C23657700727DA8 /* APHAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -132,8 +130,8 @@
 		FF0B4AAD1C29FCB800224EF7 /* TasksAndSteps */ = {
 			isa = PBXGroup;
 			children = (
-				FF2D344C1C3207060033838A /* APHMomentInDayStepManager.h */,
-				FF2D344D1C3207060033838A /* APHMomentInDayStepManager.m */,
+				FF2D344C1C3207060033838A /* APHActivityManager.h */,
+				FF2D344D1C3207060033838A /* APHActivityManager.m */,
 				FF0B4AAE1C29FCB800224EF7 /* APHParkinsonActivityViewController.h */,
 				FF0B4AAF1C29FCB800224EF7 /* APHParkinsonActivityViewController.m */,
 				FF0B4AB01C29FCB800224EF7 /* APHScoreCalculator.h */,
@@ -240,8 +238,7 @@
 		FFFA24391C2351D600727DA8 /* mPowerSDKTests */ = {
 			isa = PBXGroup;
 			children = (
-				FF2D344A1C3200AC0033838A /* APHParkinsonActivityViewControllerTests.m */,
-				FFFA243A1C2351D600727DA8 /* mPowerSDKTests.m */,
+				FF2D344A1C3200AC0033838A /* APHActivityManagerTests.m */,
 				FFFA243C1C2351D600727DA8 /* Info.plist */,
 			);
 			path = mPowerSDKTests;
@@ -301,7 +298,7 @@
 				FF0B4AC01C29FCB800224EF7 /* APHParkinsonActivityViewController.h in Headers */,
 				FF0B4AC91C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.h in Headers */,
 				FFFA24911C236E9A00727DA8 /* APHProfileExtender.h in Headers */,
-				FF2D344E1C3207060033838A /* APHMomentInDayStepManager.h in Headers */,
+				FF2D344E1C3207060033838A /* APHActivityManager.h in Headers */,
 				FFFA24C71C237E1500727DA8 /* APHDashboardViewController.h in Headers */,
 				FF2D34421C31B7DC0033838A /* APHLocalization.h in Headers */,
 				FFFA24C51C237E1500727DA8 /* APHDashboardEditViewController.h in Headers */,
@@ -431,7 +428,7 @@
 				FFFA24741C23657700727DA8 /* APHAppDelegate.m in Sources */,
 				FFFA24861C23664500727DA8 /* APHAppDelegate+APHMigration.m in Sources */,
 				FFFA24A01C23773900727DA8 /* APHInclusionCriteriaViewController.m in Sources */,
-				FF2D344F1C3207060033838A /* APHMomentInDayStepManager.m in Sources */,
+				FF2D344F1C3207060033838A /* APHActivityManager.m in Sources */,
 				FFFA248E1C236AE700727DA8 /* APHDataKeys.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -440,8 +437,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FFFA243B1C2351D600727DA8 /* mPowerSDKTests.m in Sources */,
-				FF2D344B1C3200AC0033838A /* APHParkinsonActivityViewControllerTests.m in Sources */,
+				FF2D344B1C3200AC0033838A /* APHActivityManagerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

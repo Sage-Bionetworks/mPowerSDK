@@ -42,11 +42,8 @@
 extern  NSString  *kConclusionStepThankYouTitle;
 extern  NSString  *kConclusionStepViewDashboard;
 
-@class APHMomentInDayStepManager;
+@class APHActivityManager;
 
 @interface APHParkinsonActivityViewController : APCBaseTaskViewController
-
-// TODO: syoung 12/28/2015 Refactor this to be an instance method rather than a class method
-+ (ORKOrderedTask *)modifyTaskWithPreSurveyStepIfRequired:(ORKOrderedTask *)task andTitle:(NSString *)taskTitle;
 
 @end

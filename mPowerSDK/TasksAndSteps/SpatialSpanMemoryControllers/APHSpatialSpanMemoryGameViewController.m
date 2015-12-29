@@ -33,6 +33,7 @@
  
 #import "APHSpatialSpanMemoryGameViewController.h"
 #import "APHLocalization.h"
+#import "APHActivityManager.h"
 
 static  NSString       *kMemorySpanTitle              = @"Memory Activity";
 
@@ -92,7 +93,7 @@ static NSString * const kItemKey                    = @"item";
     
     [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
     
-    ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:orkTask
+    ORKOrderedTask  *replacementTask = [[APHActivityManager defaultManager] modifyTaskWithPreSurveyStepIfRequired:orkTask
                                                                           andTitle:(NSString *)kMemorySpanTitle];
     return replacementTask;
 }

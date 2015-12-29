@@ -34,7 +34,7 @@
 #import "APHParkinsonActivityViewController.h"
 #import "APHAppDelegate.h"
 #import "APHLocalization.h"
-#import "APHMomentInDayStepManager.h"
+#import "APHActivityManager.h"
 
     //
     //    keys for Parkinson Conclusion Step View Controller
@@ -45,7 +45,8 @@ NSString  *kConclusionStepViewDashboard;
 
 @interface APHParkinsonActivityViewController ()
 
-@property  (nonatomic, strong)  NSArray  *stashedSteps;
+@property (nonatomic, strong) NSMutableArray * _Nullable stashedResults;
+@property (nonatomic, strong) APHActivityManager *activityManager;
 
 @end
 
@@ -91,38 +92,12 @@ NSString  *kConclusionStepViewDashboard;
     localizeBlock();
 }
 
-#pragma mark - modify task
-
-// TODO: syoung 12/28/2015 replace this with an instance property once the superclass
-// has been refactored to use an instance method for the task creation rather than a class method.
-+ (APHMomentInDayStepManager *)momentInDayStepManager
+- (APHActivityManager *)activityManager
 {
-    static APHMomentInDayStepManager * __manager;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        __manager = [[APHMomentInDayStepManager alloc] init];
-    });
-    return __manager;
-}
-
-+ (ORKOrderedTask *)modifyTaskWithPreSurveyStepIfRequired:(ORKOrderedTask *)task andTitle:(NSString *)taskTitle
-{
-    APHAppDelegate  *appDelegate = (APHAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSDate          *lastCompletionDate = appDelegate.dataSubstrate.currentUser.taskCompletion;
-    
-    ORKOrderedTask  *replacementTask = task;
-    
-    if ([[self momentInDayStepManager] shouldIncludeMomentInDayStep:lastCompletionDate])
-    {
-        ORKStep *step = [[self momentInDayStepManager] createMomentInDayStep];
-        NSMutableArray  *newSteps = [task.steps mutableCopy];
-        if ([newSteps count] >= 1) {
-            [newSteps insertObject:step atIndex:1];
-        }
-        replacementTask = [[ORKOrderedTask alloc] initWithIdentifier:taskTitle steps:newSteps];
+    if (_activityManager == nil) {
+        _activityManager = [APHActivityManager defaultManager];
     }
-                         
-    return  replacementTask;
+    return _activityManager;
 }
 
 
@@ -132,24 +107,19 @@ NSString  *kConclusionStepViewDashboard;
 {
     if (reason == ORKTaskViewControllerFinishReasonCompleted) {
         
-        ORKResult  *stepResult = [[taskViewController result] resultForIdentifier:kMomentInDayStepIdentifier];
+        ORKTaskResult *taskResult = [taskViewController result];
+        ORKResult  *stepResult = [taskResult resultForIdentifier:kMomentInDayStepIdentifier];
     
         if (stepResult != nil && [stepResult isKindOfClass:[ORKStepResult class]]) {
-            [[APHParkinsonActivityViewController momentInDayStepManager]  saveMomentInDayResult:(ORKStepResult*)stepResult];
+            [[self activityManager]  saveMomentInDayResult:(ORKStepResult*)stepResult];
         }
         else {
-            ORKChoiceQuestionResult  *aResult = [[APHParkinsonActivityViewController momentInDayStepManager]  stashedMomentInDayResult];
-            if (aResult != nil) {
-                NSMutableArray  *stepResults = [NSMutableArray array];
-                ORKStepResult  *aStepResult = [[ORKStepResult alloc] initWithStepIdentifier:kMomentInDayStepIdentifier results: @[ aResult ]];
-                [stepResults addObject:aStepResult];
-                for (ORKStepResult *stepResult in self.result.results) {
-                    [stepResults addObject:stepResult];
-                }
-                self.stashedSteps = stepResults;
+            ORKStepResult *momentStepResult = [[self activityManager]  stashedMomentInDayResult];
+            if (momentStepResult != nil) {
+                self.stashedResults = [taskResult.results mutableCopy];
+                [self.stashedResults insertObject:momentStepResult atIndex:0];
             }
         }
-        
         
         APHAppDelegate *appDelegate = (APHAppDelegate *) [UIApplication sharedApplication].delegate;
         appDelegate.dataSubstrate.currentUser.taskCompletion = [NSDate date];
@@ -163,12 +133,12 @@ NSString  *kConclusionStepViewDashboard;
 
 -(ORKTaskResult * __nonnull)result
 {
-    ORKTaskResult  *taskResult = [super result];
-    
-    if (self.stashedSteps != nil) {
-        [taskResult setResults:self.stashedSteps];
+    ORKTaskResult *result = [super result];
+    if (self.stashedResults != nil) {
+        // Because this is readonly, we need to modify it to include the stashed results if they exist
+        [result setResults:[self.stashedResults copy]];
     }
-    return  taskResult;
+    return result;
 }
 
 
@@ -178,7 +148,7 @@ NSString  *kConclusionStepViewDashboard;
     
     // Point the task result archiver at the shared filename translator
     self.taskResultArchiver = [[APCTaskResultArchiver alloc] init];
-    NSString *path = [APHLocaleBundle() pathForResource:@"APHTaskResultFilenameTranslation" ofType:@"json"];
+    NSString *path = [[NSBundle bundleForClass:[APHAppDelegate class]] pathForResource:@"APHTaskResultFilenameTranslation" ofType:@"json"];
     [self.taskResultArchiver setFilenameTranslationDictionaryWithJSONFileAtPath:path];
     
 }

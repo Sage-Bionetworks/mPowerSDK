@@ -37,6 +37,7 @@
 #import "APHScoreCalculator.h"
 #import "APHAppDelegate.h"
 #import "APHLocalization.h"
+#import "APHActivityManager.h"
 
     //
     //        Step Identifiers
@@ -124,7 +125,7 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
     }
     orkTask = [[ORKOrderedTask alloc] initWithIdentifier:kWalkingActivityTitle steps:copyOfTaskSteps];
     
-    ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:orkTask
+    ORKOrderedTask  *replacementTask = [[APHActivityManager defaultManager] modifyTaskWithPreSurveyStepIfRequired:orkTask
                                                                           andTitle:(NSString *)kWalkingActivityTitle];
     return  replacementTask;
 }

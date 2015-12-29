@@ -19,7 +19,7 @@ FOUNDATION_EXPORT const unsigned char mPowerSDKVersionString[];
 #import <mPowerSDK/APHLocalization.h>
 #import <mPowerSDK/APHProfileExtender.h>
 #import <mPowerSDK/APHScoreCalculator.h>
-#import <mPowerSDK/APHMomentInDayStepManager.h>
+#import <mPowerSDK/APHActivityManager.h>
 #import <mPowerSDK/APHParkinsonActivityViewController.h>
 #import <mPowerSDK/APHIntervalTappingTaskViewController.h>
 #import <mPowerSDK/APHPhonationTaskViewController.h>

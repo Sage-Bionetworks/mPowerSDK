@@ -36,6 +36,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "APHDataKeys.h"
 #import "APHLocalization.h"
+#import "APHActivityManager.h"
 
     //
     //        Step Identifiers
@@ -88,7 +89,7 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
     
 
     
-    ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:orkTask
+    ORKOrderedTask  *replacementTask = [[APHActivityManager defaultManager] modifyTaskWithPreSurveyStepIfRequired:orkTask
                                                                           andTitle:(NSString *)kIntervalTappingTitle];
     
     [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];

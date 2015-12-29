@@ -33,15 +33,22 @@
 
 #import <ResearchKit/ResearchKit.h>
 
-extern NSString * _Nonnull const kMomentInDayStepIdentifier;
+NS_ASSUME_NONNULL_BEGIN
 
-@interface APHMomentInDayStepManager : NSObject
+extern NSString * const kMomentInDayStepIdentifier;
 
-+ (instancetype _Nonnull)defaultManager;
+@interface APHActivityManager : NSObject
 
-- (ORKFormStep * _Nonnull)createMomentInDayStep;
-- (BOOL)shouldIncludeMomentInDayStep:(NSDate * _Nullable)lastCompletionDate;
++ (instancetype)defaultManager;
+
+- (ORKOrderedTask *)modifyTaskWithPreSurveyStepIfRequired:(ORKOrderedTask *)task andTitle:(NSString *)taskTitle;
 - (void)saveMomentInDayResult:(ORKStepResult * _Nullable)stepResult;
-- (ORKChoiceQuestionResult * _Nullable)stashedMomentInDayResult;
+- (ORKStepResult * _Nullable)stashedMomentInDayResult;
+
+//@protected
+- (ORKFormStep *)createMomentInDayStep;
+- (BOOL)shouldIncludeMomentInDayStep:(NSDate * _Nullable)lastCompletionDate;
 
 @end
+
+NS_ASSUME_NONNULL_END

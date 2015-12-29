@@ -38,6 +38,7 @@
 #import "APHDataKeys.h"
 #import "APHScoreCalculator.h"
 #import "APHLocalization.h"
+#import "APHActivityManager.h"
 
     //
     //        Step Identifiers
@@ -95,7 +96,7 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
     [orkTask.steps.lastObject setTitle:kConclusionStepThankYouTitle];
     [orkTask.steps.lastObject setText:kConclusionStepViewDashboard];
     
-    ORKOrderedTask  *replacementTask = [self modifyTaskWithPreSurveyStepIfRequired:orkTask
+    ORKOrderedTask  *replacementTask = [[APHActivityManager defaultManager] modifyTaskWithPreSurveyStepIfRequired:orkTask
                                                                           andTitle:(NSString *)kTaskIdentifier];
     return  replacementTask;
 }
