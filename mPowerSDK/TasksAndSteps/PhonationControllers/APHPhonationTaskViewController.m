@@ -49,10 +49,6 @@ static  NSString *const kCountdownStepIdentifier              = @"countdown";
 static  NSString *const kAudioStepIdentifier                  = @"audio";
 static  NSString *const kConclusionStepIdentifier             = @"conclusion";
 
-static  NSString *kTaskIdentifier                             = @"Voice Activity";
-
-static  NSTimeInterval  kGetSoundingAaahhhInterval            = 10.0;
-
 static const NSInteger kPhonationActivitySchemaRevision       = 3;
 
 @interface APHPhonationTaskViewController ( )  <ORKTaskViewControllerDelegate>
@@ -65,40 +61,10 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
 
 + (ORKOrderedTask *)createOrkTask:(APCTask *) __unused scheduledTask
 {
-    NSDictionary  *audioSettings = @{ AVFormatIDKey         : @(kAudioFormatAppleLossless),
-                                      AVNumberOfChannelsKey : @(1),
-                                      AVSampleRateKey       : @(44100.0)
-                                      };
-    
-    ORKOrderedTask  *orkTask = [ORKOrderedTask audioTaskWithIdentifier:kTaskIdentifier
-                                                intendedUseDescription:nil
-                                                     speechInstruction:nil
-                                                shortSpeechInstruction:nil
-                                                              duration:kGetSoundingAaahhhInterval
-                                                     recordingSettings:audioSettings
-                                                               options:0];
-    
     //  Adjust apperance and text for the task
     [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
-    //
-    //    set up initial steps, which may have an extra step injected
-    //    after the first if the user needs to say where they are in
-    //    their medication schedule
-    //
-    NSString *localizedTaskName = NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_TITLE", nil, APHLocaleBundle(),  @"Voice", @"Title for Voice activity");
-    [orkTask.steps[0] setTitle:localizedTaskName];
     
-    ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[1];
-    [instructionStep setTitle:localizedTaskName];
-    [instructionStep setText:NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Take a deep breath and say “Aaaaah” into the microphone for as long as you can. Keep a steady volume so the audio bars remain blue.", @"Instructions for performing the voice activity.")];
-    [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_NEXT_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Tap Next to begin the test.", @"Detail insctruction for how to begin a task.")];
-    
-    [orkTask.steps.lastObject setTitle:kConclusionStepThankYouTitle];
-    [orkTask.steps.lastObject setText:kConclusionStepViewDashboard];
-    
-    ORKOrderedTask  *replacementTask = [[APHActivityManager defaultManager] modifyTaskWithPreSurveyStepIfRequired:orkTask
-                                                                          andTitle:(NSString *)kTaskIdentifier];
-    return  replacementTask;
+    return  [[APHActivityManager defaultManager] createOrderedTaskForSurveyId:APHVoiceActivitySurveyIdentifier];
 }
 
 #pragma  mark  -  Task View Controller Delegate Methods

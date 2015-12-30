@@ -36,12 +36,6 @@
 #import <Foundation/Foundation.h>
 #import <ResearchKit/ResearchKit.h>
 
-    //
-    //    keys for Parkinson Conclusion Step View Controller
-    //
-extern  NSString  *kConclusionStepThankYouTitle;
-extern  NSString  *kConclusionStepViewDashboard;
-
 @class APHActivityManager;
 
 @interface APHParkinsonActivityViewController : APCBaseTaskViewController

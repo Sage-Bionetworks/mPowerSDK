@@ -32,8 +32,10 @@
 //
 
 #import "APHActivityManager.h"
+#import <AVFoundation/AVFoundation.h>
 #import "APHLocalization.h"
 #import "APHAppDelegate.h"
+
 
 //
 //    keys for the extra step ('Pre-Survey') that;'s injected
@@ -62,6 +64,40 @@ NSString  *const kMomentInDayEndDateKey                 = @"MomentInDayEndDate";
 NSString  *const kMomentInDayChoiceNoneKey              = @"MomentInDayNoneChoice";
 
 //
+// constants for setting up the tapping activity
+//
+NSString       *const kIntervalTappingTitleIdentifier       = @"Tapping Activity";
+NSTimeInterval  const kTappingStepCountdownInterval         = 20.0;
+
+//
+// constants for setting up the tapping activity
+//
+NSString       *const kVoiceTitleIdentifier                 = @"Voice Activity";
+NSTimeInterval  const kGetSoundingAaahhhInterval            = 10.0;
+
+//
+// constants for setting up the memory activity
+//
+NSString       *const kMemorySpanTitleIdentifier            = @"Memory Activity";
+NSInteger       const kInitialSpan                          =  3;
+NSInteger       const kMinimumSpan                          =  2;
+NSInteger       const kMaximumSpan                          =  15;
+NSTimeInterval  const kPlaySpeed                            = 1.0;
+NSInteger       const kMaximumTests                         = 5;
+NSInteger       const kMaxConsecutiveFailures               = 3;
+BOOL            const kRequiresReversal                     = NO;
+
+//
+// constants for setting up the walking activity
+//
+static  NSString * const kWalkingOutboundStepIdentifier       = @"walking.outbound";
+static  NSString * const kWalkingReturnStepIdentifier         = @"walking.return";
+static  NSString * const kWalkingRestStepIdentifier           = @"walking.rest";
+static  NSString       *kWalkingActivityTitle                 = @"Walking Activity";
+static  NSUInteger      kNumberOfStepsPerLeg                  = 20;
+static  NSTimeInterval  kStandStillDuration                   = 30.0;
+
+//
 //    elapsed time delay before asking the patient if they took their medications
 //
 static  NSTimeInterval  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
@@ -82,13 +118,14 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurveyIfNoMeds = 30.0 * 24.0 *
 
 + (instancetype)defaultManager
 {
-    static APHActivityManager * __manager;
+    static id __manager;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        __manager = [[APHActivityManager alloc] init];
+        __manager = [[self alloc] init];
     });
     return __manager;
 }
+
 
 #pragma mark - private properties
 
@@ -131,7 +168,136 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurveyIfNoMeds = 30.0 * 24.0 *
 
 #pragma mark - task manipulation
 
-- (ORKOrderedTask *)modifyTaskWithPreSurveyStepIfRequired:(ORKOrderedTask *)task andTitle:(NSString *)taskTitle
+- (ORKOrderedTask *)createOrderedTaskForSurveyId:(NSString *)surveyId
+{
+    ORKOrderedTask *task = nil;
+    
+    if ([surveyId isEqualToString:APHTappingActivitySurveyIdentifier]) {
+        task = [self createCustomTappingTask];
+    }
+    else if ([surveyId isEqualToString:APHVoiceActivitySurveyIdentifier]) {
+        task = [self createCustomVoiceTask];
+    }
+    else if ([surveyId isEqualToString:APHMemoryActivitySurveyIdentifier]) {
+        task = [self createCustomMemoryTask];
+    }
+    else if ([surveyId isEqualToString:APHWalkingActivitySurveyIdentifier]) {
+        task = [self createCustomWalkingTask];
+    }
+    
+    return [self modifyTaskIfRequired:task];
+}
+
+- (ORKOrderedTask *)createCustomTappingTask
+{
+    ORKOrderedTask  *orkTask = [ORKOrderedTask twoFingerTappingIntervalTaskWithIdentifier:kIntervalTappingTitleIdentifier
+                                                                   intendedUseDescription:nil
+                                                                                 duration:kTappingStepCountdownInterval
+                                                                                  options:0
+                                                                              handOptions:APCTapHandOptionBoth];
+    
+    // Modify the first step to explain why this activity is valuable to the Parkinson's study
+    ORKInstructionStep *firstStep = (ORKInstructionStep *)orkTask.steps.firstObject;
+    [firstStep setText:NSLocalizedStringWithDefaultValue(@"APH_TAPPING_INTRO_TEXT", nil, APHLocaleBundle(), @"Speed of finger tapping can reflect severity of motor symptoms in Parkinson disease. This activity measures your tapping speed for each hand. Your medical provider may measure this differently.", @"Introductory text for the tapping activity.")];
+    [firstStep setDetailText:@""];
+    
+    return  orkTask;
+}
+
+- (ORKOrderedTask *)createCustomVoiceTask
+{
+    NSDictionary  *audioSettings = @{ AVFormatIDKey         : @(kAudioFormatAppleLossless),
+                                      AVNumberOfChannelsKey : @(1),
+                                      AVSampleRateKey       : @(44100.0)
+                                      };
+    
+    ORKOrderedTask  *orkTask = [ORKOrderedTask audioTaskWithIdentifier:kVoiceTitleIdentifier
+                                                intendedUseDescription:nil
+                                                     speechInstruction:nil
+                                                shortSpeechInstruction:nil
+                                                              duration:kGetSoundingAaahhhInterval
+                                                     recordingSettings:audioSettings
+                                                               options:0];
+    
+    //
+    //    set up initial steps, which may have an extra step injected
+    //    after the first if the user needs to say where they are in
+    //    their medication schedule
+    //
+    NSString *localizedTaskName = NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_TITLE", nil, APHLocaleBundle(),  @"Voice", @"Title for Voice activity");
+    [orkTask.steps[0] setTitle:localizedTaskName];
+    
+    ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[1];
+    [instructionStep setTitle:localizedTaskName];
+    [instructionStep setText:NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Take a deep breath and say “Aaaaah” into the microphone for as long as you can. Keep a steady volume so the audio bars remain blue.", @"Instructions for performing the voice activity.")];
+    [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_NEXT_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Tap Next to begin the test.", @"Detail insctruction for how to begin a task.")];
+
+    return  orkTask;
+}
+
+- (ORKOrderedTask *)createCustomMemoryTask
+{
+    return [ORKOrderedTask spatialSpanMemoryTaskWithIdentifier:kMemorySpanTitleIdentifier
+                                        intendedUseDescription:nil
+                                                   initialSpan:kInitialSpan
+                                                   minimumSpan:kMinimumSpan
+                                                   maximumSpan:kMaximumSpan
+                                                     playSpeed:kPlaySpeed
+                                                      maxTests:kMaximumTests
+                                        maxConsecutiveFailures:kMaxConsecutiveFailures
+                                             customTargetImage:nil
+                                        customTargetPluralName:nil
+                                               requireReversal:kRequiresReversal
+                                                       options:ORKPredefinedTaskOptionNone];
+}
+
+- (ORKOrderedTask *)createCustomWalkingTask
+{
+    ORKOrderedTask  *orkTask = [ORKOrderedTask shortWalkTaskWithIdentifier:kWalkingActivityTitle
+                                                    intendedUseDescription:nil
+                                                       numberOfStepsPerLeg:kNumberOfStepsPerLeg
+                                                              restDuration:kStandStillDuration
+                                                                   options:ORKPredefinedTaskOptionNone];
+    
+    //
+    //    replace various step titles and details with our own verbiage
+    //
+    ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[0];
+    [instructionStep setText:NSLocalizedStringWithDefaultValue(@"APH_WALKING_DESCRIPTION", nil, APHLocaleBundle(), @"This activity measures your gait (walk) and balance, which can be affected by Parkinson disease.", @"Description of purpose of walking activity.")];
+    [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_WALKING_CAUTION", nil, APHLocaleBundle(), @"Please do not continue if you cannot safely walk unassisted.", @"Warning regarding performing walking activity.")];
+    
+    NSString  *titleFormat = NSLocalizedStringWithDefaultValue(@"APH_WALKING_STAND_STILL_TEXT_INSTRUCTION", nil, APHLocaleBundle(), @"Turn around and stand still for %@ seconds", @"Written instructions for the standing-still step of the walking activity, to be filled in with the number of seconds to stand still.");
+    NSString  *titleString = [NSString stringWithFormat:titleFormat, APHLocalizedStringFromNumber(@(kStandStillDuration))];
+    NSString  *spokenInstructionFormat = NSLocalizedStringWithDefaultValue(@"APH_WALKING_STAND_STILL_SPOKEN_INSTRUCTION", nil, APHLocaleBundle(), @"Turn around and stand still for %@ seconds", @"Spoken instructions for the standing-still step of the walking activity, to be filled in with the number of seconds to stand still.");
+    NSString  *spokenInstructionString = [NSString stringWithFormat:spokenInstructionFormat, APHLocalizedStringFromNumber(@(kStandStillDuration))];
+    
+    ORKActiveStep *activeStep = (ORKActiveStep *)orkTask.steps[5];
+    [activeStep setTitle:titleString];
+    [activeStep setSpokenInstruction:spokenInstructionString];
+    
+    //
+    //    remove the return walking step
+    //
+    BOOL        foundReturnStepIdentifier = NO;
+    NSUInteger  indexOfReturnStep = 0;
+    
+    for (ORKStep *step  in  orkTask.steps) {
+        if ([step.identifier isEqualToString:kWalkingReturnStepIdentifier] == YES) {
+            foundReturnStepIdentifier = YES;
+            break;
+        }
+        indexOfReturnStep = indexOfReturnStep + 1;
+    }
+    NSMutableArray  *copyOfTaskSteps = [orkTask.steps mutableCopy];
+    if (foundReturnStepIdentifier == YES) {
+        [copyOfTaskSteps removeObjectAtIndex:indexOfReturnStep];
+    }
+    orkTask = [[ORKOrderedTask alloc] initWithIdentifier:kWalkingActivityTitle steps:copyOfTaskSteps];
+    
+    return  orkTask;
+}
+
+- (ORKOrderedTask *)modifyTaskIfRequired:(ORKOrderedTask *)task
 {
     ORKOrderedTask  *replacementTask = task;
     
@@ -142,8 +308,12 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurveyIfNoMeds = 30.0 * 24.0 *
         if ([newSteps count] >= 1) {
             [newSteps insertObject:step atIndex:1];
         }
-        replacementTask = [[ORKOrderedTask alloc] initWithIdentifier:taskTitle steps:newSteps];
+        replacementTask = [[ORKOrderedTask alloc] initWithIdentifier:task.identifier steps:newSteps];
     }
+    
+    // Replace the language in the last step
+    [replacementTask.steps.lastObject setTitle:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Thank You!", @"Main text shown to participant upon completion of an activity.") ];
+    [replacementTask.steps.lastObject setText:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_DETAIL", nil, APHLocaleBundle(), @"The results of this activity can be viewed on the dashboard", @"Detail text shown to participant upon completion of an activity.")];
     
     return  replacementTask;
 }

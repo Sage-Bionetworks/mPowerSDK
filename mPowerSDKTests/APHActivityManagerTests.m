@@ -42,6 +42,78 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
     [super tearDown];
 }
 
+#pragma mark - test factory to create task
+
+- (void)testCreateOrderedTask_Tapping_English
+{
+    [APHLocalization setLocalization:@"en"];
+    
+    APHActivityManager *manager = [self managerWithStoredResult:nil];
+    ORKOrderedTask *task = [manager createOrderedTaskForSurveyId:APHTappingActivitySurveyIdentifier];
+    XCTAssertNotNil(task);
+    XCTAssertNotNil([task stepWithIdentifier:kMomentInDayStepIdentifier]);
+    XCTAssertNotNil([task stepWithIdentifier:@"tapping.right"]);
+    XCTAssertNotNil([task stepWithIdentifier:@"tapping.left"]);
+    
+    // Check that the final step uses the expected language
+    ORKStep *finalStep = task.steps.lastObject;
+    XCTAssertEqualObjects(finalStep.title, @"Thank You!");
+    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard");
+}
+
+- (void)testCreateOrderedTask_Voice_English
+{
+    [APHLocalization setLocalization:@"en"];
+    
+    APHActivityManager *manager = [self managerWithStoredResult:nil];
+    ORKOrderedTask *task = [manager createOrderedTaskForSurveyId:APHVoiceActivitySurveyIdentifier];
+    XCTAssertNotNil(task);
+    XCTAssertNotNil([task stepWithIdentifier:kMomentInDayStepIdentifier]);
+    XCTAssertNotNil([task stepWithIdentifier:@"audio"]);
+    
+    // Check that the final step uses the expected language
+    ORKStep *finalStep = task.steps.lastObject;
+    XCTAssertEqualObjects(finalStep.title, @"Thank You!");
+    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard");
+}
+
+- (void)testCreateOrderedTask_Memory_English
+{
+    [APHLocalization setLocalization:@"en"];
+    
+    APHActivityManager *manager = [self managerWithStoredResult:nil];
+    ORKOrderedTask *task = [manager createOrderedTaskForSurveyId:APHMemoryActivitySurveyIdentifier];
+    XCTAssertNotNil(task);
+    XCTAssertNotNil([task stepWithIdentifier:kMomentInDayStepIdentifier]);
+    XCTAssertNotNil([task stepWithIdentifier:@"cognitive.memory.spatialspan"]);
+    
+    // Check that the final step uses the expected language
+    ORKStep *finalStep = task.steps.lastObject;
+    XCTAssertEqualObjects(finalStep.title, @"Thank You!");
+    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard");
+}
+
+- (void)testCreateOrderedTask_Walking_English
+{
+    [APHLocalization setLocalization:@"en"];
+    
+    APHActivityManager *manager = [self managerWithStoredResult:nil];
+    ORKOrderedTask *task = [manager createOrderedTaskForSurveyId:APHWalkingActivitySurveyIdentifier];
+    XCTAssertNotNil(task);
+    XCTAssertNotNil([task stepWithIdentifier:kMomentInDayStepIdentifier]);
+    XCTAssertNotNil([task stepWithIdentifier:@"walking.outbound"]);
+    XCTAssertNotNil([task stepWithIdentifier:@"walking.rest"]);
+    
+    // Return step should be removed
+    XCTAssertNil([task stepWithIdentifier:@"walking.return"]);
+    
+    // Check that the final step uses the expected language
+    ORKStep *finalStep = task.steps.lastObject;
+    XCTAssertEqualObjects(finalStep.title, @"Thank You!");
+    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard");
+}
+
+
 #pragma mark - test modification of task if required
 
 - (void)testModifyTaskWithPreSurveyStep_Required
@@ -54,9 +126,10 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
                                                               restDuration:10
                                                                    options:ORKPredefinedTaskOptionNone];
     
-    ORKOrderedTask *outputTask = [manager modifyTaskWithPreSurveyStepIfRequired:inputTask andTitle:@"Title"];
+    ORKOrderedTask *outputTask = [manager modifyTaskIfRequired:inputTask];
     
     XCTAssertNotNil(outputTask);
+    XCTAssertEqualObjects(outputTask.identifier, @"abc123");
     XCTAssertNotEqualObjects(inputTask, outputTask);
     XCTAssertNotNil([outputTask stepWithIdentifier:kMomentInDayStepIdentifier]);
 }
@@ -72,9 +145,10 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
                                                                 restDuration:10
                                                                      options:ORKPredefinedTaskOptionNone];
     
-    ORKOrderedTask *outputTask = [manager modifyTaskWithPreSurveyStepIfRequired:inputTask andTitle:@"Title"];
+    ORKOrderedTask *outputTask = [manager modifyTaskIfRequired:inputTask];
     
     XCTAssertNotNil(outputTask);
+    XCTAssertEqualObjects(outputTask.identifier, @"abc123");
     XCTAssertEqualObjects(inputTask, outputTask);
     XCTAssertNil([outputTask stepWithIdentifier:kMomentInDayStepIdentifier]);
 }
@@ -267,14 +341,8 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
 
 - (APHParkinsonActivityViewController *)viewControllerIncludingMomentInDay:(BOOL)includeMomentInDay {
 
-    ORKOrderedTask  *task = [ORKOrderedTask shortWalkTaskWithIdentifier:@"abc123"
-                                                 intendedUseDescription:nil
-                                                    numberOfStepsPerLeg:20
-                                                           restDuration:10
-                                                                options:ORKPredefinedTaskOptionNone];
-    if (includeMomentInDay) {
-        task = [[APHActivityManager defaultManager] modifyTaskWithPreSurveyStepIfRequired:task andTitle:@"Title"];
-    }
+    APHActivityManager *manager = includeMomentInDay ? [self managerWithStoredResult:nil] : [self managerWithStoredResult:@"momentInDay"];
+    ORKOrderedTask  *task = [manager createOrderedTaskForSurveyId:APHWalkingActivitySurveyIdentifier];
     
     APHParkinsonActivityViewController_Test *vc = [[APHParkinsonActivityViewController_Test alloc] initWithTask:task taskRunUUID:[NSUUID UUID]];
     
@@ -283,14 +351,8 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
     fileResult.fileURL = [NSURL URLWithString:@"http://test.org/12345"];
     ORKStepResult *stepResult = [[ORKStepResult alloc] initWithStepIdentifier:@"abc123" results:@[fileResult]];
     
-    if (includeMomentInDay) {
-        vc.activityManager = [self managerWithStoredResult:nil];
-        vc.initialResults = @[[self momentInDayStepResult:@"momentInDay"], stepResult];
-    }
-    else {
-        vc.activityManager = [self managerWithStoredResult:@"momentInDay"];
-        vc.initialResults = @[stepResult];
-    }
+    vc.activityManager = manager;
+    vc.initialResults = includeMomentInDay ? @[[self momentInDayStepResult:@"momentInDay"], stepResult] : @[stepResult];
     
     return vc;
 }

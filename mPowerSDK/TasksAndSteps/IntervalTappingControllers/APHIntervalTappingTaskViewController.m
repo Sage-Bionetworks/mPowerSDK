@@ -45,17 +45,12 @@ static NSString *const kIntroductionStepIdentifier    = @"instruction";
 static NSString *const kInstruction1StepIdentifier    = @"instruction1";
 static NSString *const kConclusionStepIdentifier      = @"conclusion";
 
-static  NSString       *kTaskViewControllerTitle      = @"Tapping Activity";
-static  NSString       *kIntervalTappingTitle         = @"Tapping Activity";
-
 static NSString * const kItemKey                    = @"item";
 static NSString * const kIdentifierKey              = @"identifier";
 static NSString * const kStartDateKey               = @"startDate";
 static NSString * const kEndDateKey                 = @"endDate";
 static NSString * const kUserInfoKey                = @"userInfo";
 
-
-static  NSTimeInterval  kTappingStepCountdownInterval = 20.0;
 
 static const NSInteger kTappingActivitySchemaRevision = 9;
 
@@ -71,30 +66,7 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
 
 + (ORKOrderedTask *)createOrkTask:(APCTask *) __unused scheduledTask
 {
-    ORKOrderedTask  *orkTask = [ORKOrderedTask twoFingerTappingIntervalTaskWithIdentifier:kIntervalTappingTitle
-                                                                   intendedUseDescription:nil
-                                                                                 duration:kTappingStepCountdownInterval
-                                                                                  options:0
-                                                                              handOptions:APCTapHandOptionBoth];
-    
-    // Modify the first step to explain why this activity is valuable to the Parkinson's study
-    ORKInstructionStep *firstStep = (ORKInstructionStep *)orkTask.steps.firstObject;
-    [firstStep setText:NSLocalizedStringWithDefaultValue(@"APH_TAPPING_INTRO_TEXT", nil, APHLocaleBundle(), @"Speed of finger tapping can reflect severity of motor symptoms in Parkinson disease. This activity measures your tapping speed for each hand. Your medical provider may measure this differently.", @"Introductory text for the tapping activity.")];
-    [firstStep setDetailText:@""];
-    
-    // Modify the last step to change the language of the conclusion
-    ORKStep *finalStep = orkTask.steps.lastObject;
-    [finalStep setTitle:kConclusionStepThankYouTitle];
-    [finalStep setText:kConclusionStepViewDashboard];
-    
-
-    
-    ORKOrderedTask  *replacementTask = [[APHActivityManager defaultManager] modifyTaskWithPreSurveyStepIfRequired:orkTask
-                                                                          andTitle:(NSString *)kIntervalTappingTitle];
-    
-    [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
-    
-    return  replacementTask;
+    return  [[APHActivityManager defaultManager] createOrderedTaskForSurveyId:APHTappingActivitySurveyIdentifier];
 }
 
 
@@ -197,7 +169,9 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
 {
     [super viewDidLoad];
     
-    self.navigationBar.topItem.title = kTaskViewControllerTitle;
+    [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
+    
+    self.navigationBar.topItem.title = NSLocalizedStringWithDefaultValue(@"APH_TAPPING_NAV_TITLE", nil, APHLocaleBundle(), @"Tapping Activity", @"Nav bar title for the tapping activity view.");
     
     self.preferStatusBarShouldBeHidden = NO;
 }

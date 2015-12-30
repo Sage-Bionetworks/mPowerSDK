@@ -36,11 +36,7 @@
 #import "APHLocalization.h"
 #import "APHActivityManager.h"
 
-    //
-    //    keys for Parkinson Conclusion Step View Controller
-    //
-NSString  *kConclusionStepThankYouTitle;
-NSString  *kConclusionStepViewDashboard;
+
 
 
 @interface APHParkinsonActivityViewController ()
@@ -75,22 +71,7 @@ NSString  *kConclusionStepViewDashboard;
     //
 @implementation APHParkinsonActivityViewController
 
-+ (void)initialize
-{
-    void (^localizeBlock)() = [^{
-        
-        //
-        //    keys for Parkinson Conclusion Step View Controller
-        //
-        kConclusionStepThankYouTitle           = NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Thank You!", @"Main text shown to participant upon completion of an activity.");
-        kConclusionStepViewDashboard           = NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_DETAIL", nil, APHLocaleBundle(), @"The results of this activity can be viewed on the dashboard", @"Detail text shown to participant upon completion of an activity.");
-    } copy];
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:NSCurrentLocaleDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull __unused note) {
-        localizeBlock();
-    }];
-    localizeBlock();
-}
+
 
 - (APHActivityManager *)activityManager
 {

@@ -35,8 +35,6 @@
 #import "APHLocalization.h"
 #import "APHActivityManager.h"
 
-static  NSString       *kMemorySpanTitle              = @"Memory Activity";
-
     //
     //        Step Identifiers
     //
@@ -44,15 +42,6 @@ static  NSString *const kInstructionStepIdentifier    = @"instruction1";
 static  NSString       *kConclusionStepIdentifier     = @"conclusion";
 
         NSString *const kSpatialMemoryScoreSummaryKey = @"spatialMemoryScoreSummaryKey";
-
-static  NSInteger       kInitialSpan                  =  3;
-static  NSInteger       kMinimumSpan                  =  2;
-static  NSInteger       kMaximumSpan                  =  15;
-static  NSTimeInterval  kPlaySpeed                    = 1.0;
-static  NSInteger       kMaximumTests                 = 5;
-static  NSInteger       kMaxConsecutiveFailures       = 3;
-static  NSString       *kCustomTargetPluralName       = nil;
-static  BOOL            kRequiresReversal             = NO;
 
 static NSString * const kIdentifierKey              = @"identifier";
 static NSString * const kStartDateKey               = @"startDate";
@@ -75,27 +64,9 @@ static NSString * const kItemKey                    = @"item";
 
 + (ORKOrderedTask *)createOrkTask:(APCTask *) __unused scheduledTask
 {
-    ORKOrderedTask  *orkTask = [ORKOrderedTask spatialSpanMemoryTaskWithIdentifier:kMemorySpanTitle
-                                                            intendedUseDescription:nil
-                                                                       initialSpan:kInitialSpan
-                                                                       minimumSpan:kMinimumSpan
-                                                                       maximumSpan:kMaximumSpan
-                                                                         playSpeed:kPlaySpeed
-                                                                          maxTests:kMaximumTests
-                                                            maxConsecutiveFailures:kMaxConsecutiveFailures
-                                                                 customTargetImage:nil
-                                                            customTargetPluralName:kCustomTargetPluralName
-                                                                   requireReversal:kRequiresReversal
-                                                                           options:ORKPredefinedTaskOptionNone];
-    
-    [orkTask.steps[3] setTitle:kConclusionStepThankYouTitle];
-    [orkTask.steps[3] setText:kConclusionStepViewDashboard];
-    
     [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
     
-    ORKOrderedTask  *replacementTask = [[APHActivityManager defaultManager] modifyTaskWithPreSurveyStepIfRequired:orkTask
-                                                                          andTitle:(NSString *)kMemorySpanTitle];
-    return replacementTask;
+    return [[APHActivityManager defaultManager] createOrderedTaskForSurveyId:APHMemoryActivitySurveyIdentifier];
 }
 
 #pragma  mark  -  Task View Controller Delegate Methods

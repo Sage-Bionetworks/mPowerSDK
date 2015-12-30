@@ -47,10 +47,7 @@ static NSString* const  kNumberOfStepsTotalOnReturn           = @"numberOfSteps"
 static NSString* const  kNumberOfStepsTotalOnReturnKey        = @"numberOfSteps";
 static NSString* const  kPedometerPrefixFileIdentifier        = @"pedometer";
 
-static  NSString       *kWalkingActivityTitle                 = @"Walking Activity";
 
-static  NSUInteger      kNumberOfStepsPerLeg                  = 20;
-static  NSTimeInterval  kStandStillDuration                   = 30.0;
 
     //
     //    Walking Activity Step Identifier Keys
@@ -81,53 +78,7 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
 
 + (ORKOrderedTask *)createOrkTask:(APCTask *) __unused scheduledTask
 {
-    ORKOrderedTask  *orkTask = [ORKOrderedTask shortWalkTaskWithIdentifier:kWalkingActivityTitle
-                                                    intendedUseDescription:nil
-                                                       numberOfStepsPerLeg:kNumberOfStepsPerLeg
-                                                              restDuration:kStandStillDuration
-                                                                   options:ORKPredefinedTaskOptionNone];
-    
-    //
-    //    replace various step titles and details with our own verbiage
-    //
-    ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[0];
-    [instructionStep setText:NSLocalizedStringWithDefaultValue(@"APH_WALKING_DESCRIPTION", nil, APHLocaleBundle(), @"This activity measures your gait (walk) and balance, which can be affected by Parkinson disease.", @"Description of purpose of walking activity.")];
-    [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_WALKING_CAUTION", nil, APHLocaleBundle(), @"Please do not continue if you cannot safely walk unassisted.", @"Warning regarding performing walking activity.")];
-    
-    NSString  *titleFormat = NSLocalizedStringWithDefaultValue(@"APH_WALKING_STAND_STILL_TEXT_INSTRUCTION", nil, APHLocaleBundle(), @"Turn around and stand still for %@ seconds", @"Written instructions for the standing-still step of the walking activity, to be filled in with the number of seconds to stand still.");
-    NSString  *titleString = [NSString stringWithFormat:titleFormat, APHLocalizedStringFromNumber(@(kStandStillDuration))];
-    NSString  *spokenInstructionFormat = NSLocalizedStringWithDefaultValue(@"APH_WALKING_STAND_STILL_SPOKEN_INSTRUCTION", nil, APHLocaleBundle(), @"Turn around and stand still for %@ seconds", @"Spoken instructions for the standing-still step of the walking activity, to be filled in with the number of seconds to stand still.");
-    NSString  *spokenInstructionString = [NSString stringWithFormat:spokenInstructionFormat, APHLocalizedStringFromNumber(@(kStandStillDuration))];
-    
-    ORKActiveStep *activeStep = (ORKActiveStep *)orkTask.steps[5];
-    [activeStep setTitle:titleString];
-    [activeStep setSpokenInstruction:spokenInstructionString];
-    
-    [orkTask.steps[6] setTitle:kConclusionStepThankYouTitle];
-    [orkTask.steps[6] setText:kConclusionStepViewDashboard];
-    
-    //
-    //    remove the return walking step
-    //
-    BOOL        foundReturnStepIdentifier = NO;
-    NSUInteger  indexOfReturnStep = 0;
-    
-    for (ORKStep *step  in  orkTask.steps) {
-        if ([step.identifier isEqualToString:kWalkingReturnStepIdentifier] == YES) {
-            foundReturnStepIdentifier = YES;
-            break;
-        }
-        indexOfReturnStep = indexOfReturnStep + 1;
-    }
-    NSMutableArray  *copyOfTaskSteps = [orkTask.steps mutableCopy];
-    if (foundReturnStepIdentifier == YES) {
-        [copyOfTaskSteps removeObjectAtIndex:indexOfReturnStep];
-    }
-    orkTask = [[ORKOrderedTask alloc] initWithIdentifier:kWalkingActivityTitle steps:copyOfTaskSteps];
-    
-    ORKOrderedTask  *replacementTask = [[APHActivityManager defaultManager] modifyTaskWithPreSurveyStepIfRequired:orkTask
-                                                                          andTitle:(NSString *)kWalkingActivityTitle];
-    return  replacementTask;
+    return [[APHActivityManager defaultManager] createOrderedTaskForSurveyId:APHWalkingActivitySurveyIdentifier];
 }
 
 #pragma  mark  -  Create Dashboard Summary Results
