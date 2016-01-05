@@ -67,6 +67,26 @@
                </Test>
             </SkippedTests>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FFFA24341C2351D600727DA8"
+               BuildableName = "mPowerSDKTests.xctest"
+               BlueprintName = "mPowerSDKTests"
+               ReferencedContainer = "container:mPowerSDK/mPowerSDK.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "80855F5A19BE258C006601C7"
+               BuildableName = "BridgeSDKTests.xctest"
+               BlueprintName = "BridgeSDKTests"
+               ReferencedContainer = "container:BridgeSDK/BridgeSDK.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

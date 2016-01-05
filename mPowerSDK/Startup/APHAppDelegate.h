@@ -1,5 +1,5 @@
 // 
-//  main.m 
+//  APHAppDelegate.h 
 //  mPower 
 // 
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved. 
@@ -32,10 +32,19 @@
 // 
  
 #import <UIKit/UIKit.h>
-#import "APHFinalAppDelegate.h"
+@import APCAppCore;
 
-int main(int argc, char * argv[]) {
-    @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([APHFinalAppDelegate class]));
-    }
-}
+@class APHProfileExtender;
+@class APHScoreCalculator;
+
+@interface APHAppDelegate : APCAppDelegate
+
+@property  (nonatomic, readonly) NSString * _Nonnull studyIdentifier;
+@property  (nonatomic, readonly) NSString * _Nonnull appPrefix;
+@property  (nonatomic, readonly) HKUpdateFrequency updateFrequency;
+@property  (nonatomic, readonly) NSInteger environment;
+@property  (nonatomic, readonly) NSArray <APCTaskReminder *> * _Nonnull allTaskReminders;
+@property  (nonatomic, readonly) NSDictionary * _Nonnull appearanceInfo;
+
+@end
+

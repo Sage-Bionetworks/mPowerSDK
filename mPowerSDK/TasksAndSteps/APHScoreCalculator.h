@@ -1,5 +1,5 @@
 // 
-//  main.m 
+//  ConverterForPDScores.h 
 //  mPower 
 // 
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved. 
@@ -31,11 +31,22 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 // 
  
-#import <UIKit/UIKit.h>
-#import "APHFinalAppDelegate.h"
+#import <Foundation/Foundation.h>
+@import APCAppCore;
 
-int main(int argc, char * argv[]) {
-    @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([APHFinalAppDelegate class]));
-    }
-}
+@interface APHScoreCalculator : NSObject
+
++ (APHScoreCalculator *)sharedCalculator;
+
+- (double)scoreFromTappingResult:(ORKTappingIntervalResult *)result;
+- (double)scoreFromTappingTest:(NSArray *)tappingData;
+
+- (double)scoreFromPhonationTest:(NSURL *)phonationAudioFile;
+
+- (double)scoreFromGaitURL:(NSURL *)url;
+- (double)scoreFromGaitTest:(NSArray *)gaitData;
+
+- (double)scoreFromPostureURL:(NSURL *)url;
+- (double)scoreFromPostureTest:(NSArray *)postureData;
+
+@end

@@ -1,5 +1,5 @@
 // 
-//  main.m 
+//  APHProfileExtender.h 
 //  mPower 
 // 
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved. 
@@ -31,11 +31,27 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 // 
  
-#import <UIKit/UIKit.h>
-#import "APHFinalAppDelegate.h"
+#import <Foundation/Foundation.h>
+@import APCAppCore;
 
-int main(int argc, char * argv[]) {
-    @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([APHFinalAppDelegate class]));
-    }
-}
+// ***************************************************************************
+// ***************************************************************************
+// Of Note: This class is not adding extra sections as of mPower 1.1 because no
+// special options were still required. In order to add special sections, set the
+// kDefaultNumberOfExtraSections to the # required and adjust the decorateCell
+// and didSelectorRowAtIndexPath delegate methods to reflect the new section(s)
+// desired.
+// Also, consider setting kDefaultNumberOfExtraSections to the # of sections
+// desired + 1 if nonzero in order to add an empty row to provide an empty
+// row at the bottom and keep the layout looking uniform.
+// ***************************************************************************
+// ***************************************************************************
+
+
+@interface APHProfileExtender : NSObject <APCProfileViewControllerDelegate>
+
+@property (nonatomic, strong) APCProfileViewController *profileViewController;
+
+- (UIViewController *)copyrightInfoViewController;
+
+@end

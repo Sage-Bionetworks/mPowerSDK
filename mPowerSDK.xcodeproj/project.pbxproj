@@ -1,0 +1,663 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FF0B4AC01C29FCB800224EF7 /* APHParkinsonActivityViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4AAE1C29FCB800224EF7 /* APHParkinsonActivityViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF0B4AC11C29FCB800224EF7 /* APHParkinsonActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4AAF1C29FCB800224EF7 /* APHParkinsonActivityViewController.m */; };
+		FF0B4AC21C29FCB800224EF7 /* APHScoreCalculator.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4AB01C29FCB800224EF7 /* APHScoreCalculator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF0B4AC31C29FCB800224EF7 /* APHScoreCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4AB11C29FCB800224EF7 /* APHScoreCalculator.m */; };
+		FF0B4AC41C29FCB800224EF7 /* APHTaskResultFilenameTranslation.json in Resources */ = {isa = PBXBuildFile; fileRef = FF0B4AB21C29FCB800224EF7 /* APHTaskResultFilenameTranslation.json */; };
+		FF0B4AC51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4AB41C29FCB800224EF7 /* APHIntervalTappingTaskViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF0B4AC61C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4AB51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m */; };
+		FF0B4AC71C29FCB800224EF7 /* APHPhonationTaskViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4AB81C29FCB800224EF7 /* APHPhonationTaskViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF0B4AC81C29FCB800224EF7 /* APHPhonationTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4AB91C29FCB800224EF7 /* APHPhonationTaskViewController.m */; };
+		FF0B4AC91C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4ABB1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF0B4ACA1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4ABC1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m */; };
+		FF0B4ACB1C29FCB800224EF7 /* APHWalkingTaskViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4ABE1C29FCB800224EF7 /* APHWalkingTaskViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF0B4ACC1C29FCB800224EF7 /* APHWalkingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4ABF1C29FCB800224EF7 /* APHWalkingTaskViewController.m */; };
+		FF2D34421C31B7DC0033838A /* APHLocalization.h in Headers */ = {isa = PBXBuildFile; fileRef = FF2D34401C31B7DC0033838A /* APHLocalization.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF2D34431C31B7DC0033838A /* APHLocalization.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D34411C31B7DC0033838A /* APHLocalization.m */; };
+		FF2D344B1C3200AC0033838A /* APHActivityManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D344A1C3200AC0033838A /* APHActivityManagerTests.m */; };
+		FF2D344E1C3207060033838A /* APHActivityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FF2D344C1C3207060033838A /* APHActivityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF2D344F1C3207060033838A /* APHActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D344D1C3207060033838A /* APHActivityManager.m */; };
+		FF2D345D1C3C4C6A0033838A /* APHScoreCalculatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D345C1C3C4C6A0033838A /* APHScoreCalculatorTests.m */; };
+		FF2D345F1C3C56CC0033838A /* libPDScores.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF2D345E1C3C56CC0033838A /* libPDScores.a */; };
+		FF51E5D11C2A05BD0091E1A0 /* APCAppCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */; };
+		FF51E5D31C2A05C60091E1A0 /* BridgeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */; };
+		FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA242E1C2351D600727DA8 /* mPowerSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FFFA24361C2351D600727DA8 /* mPowerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */; };
+		FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA24711C23657700727DA8 /* APHAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FFFA24741C23657700727DA8 /* APHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA24721C23657700727DA8 /* APHAppDelegate.m */; };
+		FFFA24851C23664500727DA8 /* APHAppDelegate+APHMigration.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA24831C23664500727DA8 /* APHAppDelegate+APHMigration.h */; };
+		FFFA24861C23664500727DA8 /* APHAppDelegate+APHMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA24841C23664500727DA8 /* APHAppDelegate+APHMigration.m */; };
+		FFFA248D1C236AE700727DA8 /* APHDataKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA248B1C236AE700727DA8 /* APHDataKeys.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FFFA248E1C236AE700727DA8 /* APHDataKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA248C1C236AE700727DA8 /* APHDataKeys.m */; };
+		FFFA24911C236E9A00727DA8 /* APHProfileExtender.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA248F1C236E9A00727DA8 /* APHProfileExtender.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FFFA24921C236E9A00727DA8 /* APHProfileExtender.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA24901C236E9A00727DA8 /* APHProfileExtender.m */; };
+		FFFA249F1C23773900727DA8 /* APHInclusionCriteriaViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA24981C23773900727DA8 /* APHInclusionCriteriaViewController.h */; };
+		FFFA24A01C23773900727DA8 /* APHInclusionCriteriaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA24991C23773900727DA8 /* APHInclusionCriteriaViewController.m */; };
+		FFFA24A51C2377B200727DA8 /* APHOnboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFFA24A31C2377B200727DA8 /* APHOnboarding.storyboard */; };
+		FFFA24C51C237E1500727DA8 /* APHDashboardEditViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA24BC1C237E1500727DA8 /* APHDashboardEditViewController.h */; };
+		FFFA24C61C237E1500727DA8 /* APHDashboardEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA24BD1C237E1500727DA8 /* APHDashboardEditViewController.m */; };
+		FFFA24C71C237E1500727DA8 /* APHDashboardViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA24BE1C237E1500727DA8 /* APHDashboardViewController.h */; };
+		FFFA24C81C237E1500727DA8 /* APHDashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFA24BF1C237E1500727DA8 /* APHDashboardViewController.m */; };
+		FFFA24C91C237E1500727DA8 /* APHDashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFFA24C01C237E1500727DA8 /* APHDashboard.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FFFA24371C2351D600727DA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FFFA24221C2351D600727DA8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FFFA242A1C2351D600727DA8;
+			remoteInfo = mPowerSDK;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		FF0B4AAE1C29FCB800224EF7 /* APHParkinsonActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHParkinsonActivityViewController.h; sourceTree = "<group>"; };
+		FF0B4AAF1C29FCB800224EF7 /* APHParkinsonActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHParkinsonActivityViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		FF0B4AB01C29FCB800224EF7 /* APHScoreCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHScoreCalculator.h; sourceTree = "<group>"; };
+		FF0B4AB11C29FCB800224EF7 /* APHScoreCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHScoreCalculator.m; sourceTree = "<group>"; };
+		FF0B4AB21C29FCB800224EF7 /* APHTaskResultFilenameTranslation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = APHTaskResultFilenameTranslation.json; sourceTree = "<group>"; };
+		FF0B4AB41C29FCB800224EF7 /* APHIntervalTappingTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHIntervalTappingTaskViewController.h; sourceTree = "<group>"; };
+		FF0B4AB51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHIntervalTappingTaskViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		FF0B4AB81C29FCB800224EF7 /* APHPhonationTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHPhonationTaskViewController.h; sourceTree = "<group>"; };
+		FF0B4AB91C29FCB800224EF7 /* APHPhonationTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHPhonationTaskViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		FF0B4ABB1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHSpatialSpanMemoryGameViewController.h; sourceTree = "<group>"; };
+		FF0B4ABC1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHSpatialSpanMemoryGameViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		FF0B4ABE1C29FCB800224EF7 /* APHWalkingTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHWalkingTaskViewController.h; sourceTree = "<group>"; };
+		FF0B4ABF1C29FCB800224EF7 /* APHWalkingTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHWalkingTaskViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		FF2D34401C31B7DC0033838A /* APHLocalization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHLocalization.h; sourceTree = "<group>"; };
+		FF2D34411C31B7DC0033838A /* APHLocalization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHLocalization.m; sourceTree = "<group>"; };
+		FF2D344A1C3200AC0033838A /* APHActivityManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHActivityManagerTests.m; sourceTree = "<group>"; };
+		FF2D344C1C3207060033838A /* APHActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHActivityManager.h; sourceTree = "<group>"; };
+		FF2D344D1C3207060033838A /* APHActivityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHActivityManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		FF2D345C1C3C4C6A0033838A /* APHScoreCalculatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHScoreCalculatorTests.m; sourceTree = "<group>"; };
+		FF2D345E1C3C56CC0033838A /* libPDScores.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPDScores.a; path = "../PDScores/PDScores/build/Debug-iphoneos/libPDScores.a"; sourceTree = "<group>"; };
+		FF51E5CE1C2A05B40091E1A0 /* libPDScores.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPDScores.a; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/libPDScores.a"; sourceTree = "<group>"; };
+		FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = APCAppCore.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/APCAppCore.framework"; sourceTree = "<group>"; };
+		FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BridgeSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/BridgeSDK.framework"; sourceTree = "<group>"; };
+		FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = mPowerSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFFA242E1C2351D600727DA8 /* mPowerSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mPowerSDK.h; sourceTree = "<group>"; };
+		FFFA24301C2351D600727DA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FFFA24351C2351D600727DA8 /* mPowerSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mPowerSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFFA243C1C2351D600727DA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FFFA24711C23657700727DA8 /* APHAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHAppDelegate.h; sourceTree = "<group>"; };
+		FFFA24721C23657700727DA8 /* APHAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		FFFA24831C23664500727DA8 /* APHAppDelegate+APHMigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "APHAppDelegate+APHMigration.h"; sourceTree = "<group>"; };
+		FFFA24841C23664500727DA8 /* APHAppDelegate+APHMigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "APHAppDelegate+APHMigration.m"; sourceTree = "<group>"; };
+		FFFA248B1C236AE700727DA8 /* APHDataKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDataKeys.h; sourceTree = "<group>"; };
+		FFFA248C1C236AE700727DA8 /* APHDataKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHDataKeys.m; sourceTree = "<group>"; };
+		FFFA248F1C236E9A00727DA8 /* APHProfileExtender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHProfileExtender.h; sourceTree = "<group>"; };
+		FFFA24901C236E9A00727DA8 /* APHProfileExtender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHProfileExtender.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		FFFA24981C23773900727DA8 /* APHInclusionCriteriaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHInclusionCriteriaViewController.h; sourceTree = "<group>"; };
+		FFFA24991C23773900727DA8 /* APHInclusionCriteriaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHInclusionCriteriaViewController.m; sourceTree = "<group>"; };
+		FFFA24A41C2377B200727DA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/APHOnboarding.storyboard; sourceTree = "<group>"; };
+		FFFA24A81C2377D700727DA8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/APHOnboarding.strings; sourceTree = "<group>"; };
+		FFFA24A91C2377DE00727DA8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/APHOnboarding.strings; sourceTree = "<group>"; };
+		FFFA24BC1C237E1500727DA8 /* APHDashboardEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDashboardEditViewController.h; sourceTree = "<group>"; };
+		FFFA24BD1C237E1500727DA8 /* APHDashboardEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHDashboardEditViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		FFFA24BE1C237E1500727DA8 /* APHDashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDashboardViewController.h; sourceTree = "<group>"; };
+		FFFA24BF1C237E1500727DA8 /* APHDashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHDashboardViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		FFFA24C11C237E1500727DA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/APHDashboard.storyboard; sourceTree = "<group>"; };
+		FFFA24CB1C237E3000727DA8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/APHDashboard.strings; sourceTree = "<group>"; };
+		FFFA24CC1C237E3700727DA8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/APHDashboard.strings; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FFFA24271C2351D600727DA8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF2D345F1C3C56CC0033838A /* libPDScores.a in Frameworks */,
+				FF51E5D31C2A05C60091E1A0 /* BridgeSDK.framework in Frameworks */,
+				FF51E5D11C2A05BD0091E1A0 /* APCAppCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFFA24321C2351D600727DA8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFFA24361C2351D600727DA8 /* mPowerSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FF0B4AAD1C29FCB800224EF7 /* TasksAndSteps */ = {
+			isa = PBXGroup;
+			children = (
+				FF2D344C1C3207060033838A /* APHActivityManager.h */,
+				FF2D344D1C3207060033838A /* APHActivityManager.m */,
+				FF0B4AAE1C29FCB800224EF7 /* APHParkinsonActivityViewController.h */,
+				FF0B4AAF1C29FCB800224EF7 /* APHParkinsonActivityViewController.m */,
+				FF0B4AB01C29FCB800224EF7 /* APHScoreCalculator.h */,
+				FF0B4AB11C29FCB800224EF7 /* APHScoreCalculator.m */,
+				FF0B4AB21C29FCB800224EF7 /* APHTaskResultFilenameTranslation.json */,
+				FF0B4AB31C29FCB800224EF7 /* IntervalTappingControllers */,
+				FF0B4AB71C29FCB800224EF7 /* PhonationControllers */,
+				FF0B4ABA1C29FCB800224EF7 /* SpatialSpanMemoryControllers */,
+				FF0B4ABD1C29FCB800224EF7 /* WalkingControllers */,
+			);
+			path = TasksAndSteps;
+			sourceTree = "<group>";
+		};
+		FF0B4AB31C29FCB800224EF7 /* IntervalTappingControllers */ = {
+			isa = PBXGroup;
+			children = (
+				FF0B4AB41C29FCB800224EF7 /* APHIntervalTappingTaskViewController.h */,
+				FF0B4AB51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m */,
+			);
+			path = IntervalTappingControllers;
+			sourceTree = "<group>";
+		};
+		FF0B4AB71C29FCB800224EF7 /* PhonationControllers */ = {
+			isa = PBXGroup;
+			children = (
+				FF0B4AB81C29FCB800224EF7 /* APHPhonationTaskViewController.h */,
+				FF0B4AB91C29FCB800224EF7 /* APHPhonationTaskViewController.m */,
+			);
+			path = PhonationControllers;
+			sourceTree = "<group>";
+		};
+		FF0B4ABA1C29FCB800224EF7 /* SpatialSpanMemoryControllers */ = {
+			isa = PBXGroup;
+			children = (
+				FF0B4ABB1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.h */,
+				FF0B4ABC1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m */,
+			);
+			path = SpatialSpanMemoryControllers;
+			sourceTree = "<group>";
+		};
+		FF0B4ABD1C29FCB800224EF7 /* WalkingControllers */ = {
+			isa = PBXGroup;
+			children = (
+				FF0B4ABE1C29FCB800224EF7 /* APHWalkingTaskViewController.h */,
+				FF0B4ABF1C29FCB800224EF7 /* APHWalkingTaskViewController.m */,
+			);
+			path = WalkingControllers;
+			sourceTree = "<group>";
+		};
+		FF2D342A1C2A06110033838A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FF2D345E1C3C56CC0033838A /* libPDScores.a */,
+				FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */,
+				FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */,
+				FF51E5CE1C2A05B40091E1A0 /* libPDScores.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FF2D343F1C31B7410033838A /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				FF2D34401C31B7DC0033838A /* APHLocalization.h */,
+				FF2D34411C31B7DC0033838A /* APHLocalization.m */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		FFFA24211C2351D600727DA8 = {
+			isa = PBXGroup;
+			children = (
+				FFFA242D1C2351D600727DA8 /* mPowerSDK */,
+				FFFA24391C2351D600727DA8 /* mPowerSDKTests */,
+				FF2D342A1C2A06110033838A /* Frameworks */,
+				FFFA242C1C2351D600727DA8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FFFA242C1C2351D600727DA8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */,
+				FFFA24351C2351D600727DA8 /* mPowerSDKTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FFFA242D1C2351D600727DA8 /* mPowerSDK */ = {
+			isa = PBXGroup;
+			children = (
+				FFFA242E1C2351D600727DA8 /* mPowerSDK.h */,
+				FFFA24301C2351D600727DA8 /* Info.plist */,
+				FFFA248B1C236AE700727DA8 /* APHDataKeys.h */,
+				FFFA248C1C236AE700727DA8 /* APHDataKeys.m */,
+				FFFA24701C23650900727DA8 /* Startup */,
+				FFFA24971C23773900727DA8 /* Onboarding */,
+				FFFA24BB1C237E1500727DA8 /* Dashboard */,
+				FF0B4AAD1C29FCB800224EF7 /* TasksAndSteps */,
+				FF2D343F1C31B7410033838A /* Localization */,
+			);
+			path = mPowerSDK;
+			sourceTree = "<group>";
+		};
+		FFFA24391C2351D600727DA8 /* mPowerSDKTests */ = {
+			isa = PBXGroup;
+			children = (
+				FF2D344A1C3200AC0033838A /* APHActivityManagerTests.m */,
+				FF2D345C1C3C4C6A0033838A /* APHScoreCalculatorTests.m */,
+				FFFA243C1C2351D600727DA8 /* Info.plist */,
+			);
+			path = mPowerSDKTests;
+			sourceTree = "<group>";
+		};
+		FFFA24701C23650900727DA8 /* Startup */ = {
+			isa = PBXGroup;
+			children = (
+				FFFA248F1C236E9A00727DA8 /* APHProfileExtender.h */,
+				FFFA24901C236E9A00727DA8 /* APHProfileExtender.m */,
+				FFFA24711C23657700727DA8 /* APHAppDelegate.h */,
+				FFFA24721C23657700727DA8 /* APHAppDelegate.m */,
+				FFFA24821C23658F00727DA8 /* Migration */,
+			);
+			path = Startup;
+			sourceTree = "<group>";
+		};
+		FFFA24821C23658F00727DA8 /* Migration */ = {
+			isa = PBXGroup;
+			children = (
+				FFFA24831C23664500727DA8 /* APHAppDelegate+APHMigration.h */,
+				FFFA24841C23664500727DA8 /* APHAppDelegate+APHMigration.m */,
+			);
+			name = Migration;
+			sourceTree = "<group>";
+		};
+		FFFA24971C23773900727DA8 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				FFFA24A31C2377B200727DA8 /* APHOnboarding.storyboard */,
+				FFFA24981C23773900727DA8 /* APHInclusionCriteriaViewController.h */,
+				FFFA24991C23773900727DA8 /* APHInclusionCriteriaViewController.m */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		FFFA24BB1C237E1500727DA8 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				FFFA24C01C237E1500727DA8 /* APHDashboard.storyboard */,
+				FFFA24BC1C237E1500727DA8 /* APHDashboardEditViewController.h */,
+				FFFA24BD1C237E1500727DA8 /* APHDashboardEditViewController.m */,
+				FFFA24BE1C237E1500727DA8 /* APHDashboardViewController.h */,
+				FFFA24BF1C237E1500727DA8 /* APHDashboardViewController.m */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		FFFA24281C2351D600727DA8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */,
+				FF0B4AC01C29FCB800224EF7 /* APHParkinsonActivityViewController.h in Headers */,
+				FF0B4AC91C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.h in Headers */,
+				FFFA24911C236E9A00727DA8 /* APHProfileExtender.h in Headers */,
+				FF2D344E1C3207060033838A /* APHActivityManager.h in Headers */,
+				FFFA24C71C237E1500727DA8 /* APHDashboardViewController.h in Headers */,
+				FF2D34421C31B7DC0033838A /* APHLocalization.h in Headers */,
+				FFFA24C51C237E1500727DA8 /* APHDashboardEditViewController.h in Headers */,
+				FF0B4ACB1C29FCB800224EF7 /* APHWalkingTaskViewController.h in Headers */,
+				FF0B4AC51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.h in Headers */,
+				FF0B4AC71C29FCB800224EF7 /* APHPhonationTaskViewController.h in Headers */,
+				FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */,
+				FFFA249F1C23773900727DA8 /* APHInclusionCriteriaViewController.h in Headers */,
+				FFFA248D1C236AE700727DA8 /* APHDataKeys.h in Headers */,
+				FF0B4AC21C29FCB800224EF7 /* APHScoreCalculator.h in Headers */,
+				FFFA24851C23664500727DA8 /* APHAppDelegate+APHMigration.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		FFFA242A1C2351D600727DA8 /* mPowerSDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FFFA243F1C2351D600727DA8 /* Build configuration list for PBXNativeTarget "mPowerSDK" */;
+			buildPhases = (
+				FFFA24261C2351D600727DA8 /* Sources */,
+				FFFA24271C2351D600727DA8 /* Frameworks */,
+				FFFA24281C2351D600727DA8 /* Headers */,
+				FFFA24291C2351D600727DA8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = mPowerSDK;
+			productName = mPowerSDK;
+			productReference = FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		FFFA24341C2351D600727DA8 /* mPowerSDKTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FFFA24421C2351D600727DA8 /* Build configuration list for PBXNativeTarget "mPowerSDKTests" */;
+			buildPhases = (
+				FFFA24311C2351D600727DA8 /* Sources */,
+				FFFA24321C2351D600727DA8 /* Frameworks */,
+				FFFA24331C2351D600727DA8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FFFA24381C2351D600727DA8 /* PBXTargetDependency */,
+			);
+			name = mPowerSDKTests;
+			productName = mPowerSDKTests;
+			productReference = FFFA24351C2351D600727DA8 /* mPowerSDKTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FFFA24221C2351D600727DA8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "Sage Bionetworks";
+				TargetAttributes = {
+					FFFA242A1C2351D600727DA8 = {
+						CreatedOnToolsVersion = 7.1;
+					};
+					FFFA24341C2351D600727DA8 = {
+						CreatedOnToolsVersion = 7.1;
+					};
+				};
+			};
+			buildConfigurationList = FFFA24251C2351D600727DA8 /* Build configuration list for PBXProject "mPowerSDK" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				de,
+				fr,
+			);
+			mainGroup = FFFA24211C2351D600727DA8;
+			productRefGroup = FFFA242C1C2351D600727DA8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FFFA242A1C2351D600727DA8 /* mPowerSDK */,
+				FFFA24341C2351D600727DA8 /* mPowerSDKTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FFFA24291C2351D600727DA8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFFA24A51C2377B200727DA8 /* APHOnboarding.storyboard in Resources */,
+				FFFA24C91C237E1500727DA8 /* APHDashboard.storyboard in Resources */,
+				FF0B4AC41C29FCB800224EF7 /* APHTaskResultFilenameTranslation.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFFA24331C2351D600727DA8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FFFA24261C2351D600727DA8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF0B4ACC1C29FCB800224EF7 /* APHWalkingTaskViewController.m in Sources */,
+				FFFA24C61C237E1500727DA8 /* APHDashboardEditViewController.m in Sources */,
+				FF0B4AC31C29FCB800224EF7 /* APHScoreCalculator.m in Sources */,
+				FF0B4ACA1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m in Sources */,
+				FF2D34431C31B7DC0033838A /* APHLocalization.m in Sources */,
+				FF0B4AC11C29FCB800224EF7 /* APHParkinsonActivityViewController.m in Sources */,
+				FF0B4AC81C29FCB800224EF7 /* APHPhonationTaskViewController.m in Sources */,
+				FFFA24921C236E9A00727DA8 /* APHProfileExtender.m in Sources */,
+				FF0B4AC61C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m in Sources */,
+				FFFA24C81C237E1500727DA8 /* APHDashboardViewController.m in Sources */,
+				FFFA24741C23657700727DA8 /* APHAppDelegate.m in Sources */,
+				FFFA24861C23664500727DA8 /* APHAppDelegate+APHMigration.m in Sources */,
+				FFFA24A01C23773900727DA8 /* APHInclusionCriteriaViewController.m in Sources */,
+				FF2D344F1C3207060033838A /* APHActivityManager.m in Sources */,
+				FFFA248E1C236AE700727DA8 /* APHDataKeys.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFFA24311C2351D600727DA8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF2D345D1C3C4C6A0033838A /* APHScoreCalculatorTests.m in Sources */,
+				FF2D344B1C3200AC0033838A /* APHActivityManagerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FFFA24381C2351D600727DA8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FFFA242A1C2351D600727DA8 /* mPowerSDK */;
+			targetProxy = FFFA24371C2351D600727DA8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FFFA24A31C2377B200727DA8 /* APHOnboarding.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FFFA24A41C2377B200727DA8 /* Base */,
+				FFFA24A81C2377D700727DA8 /* de */,
+				FFFA24A91C2377DE00727DA8 /* fr */,
+			);
+			name = APHOnboarding.storyboard;
+			sourceTree = "<group>";
+		};
+		FFFA24C01C237E1500727DA8 /* APHDashboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FFFA24C11C237E1500727DA8 /* Base */,
+				FFFA24CB1C237E3000727DA8 /* de */,
+				FFFA24CC1C237E3700727DA8 /* fr */,
+			);
+			name = APHDashboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FFFA243D1C2351D600727DA8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		FFFA243E1C2351D600727DA8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		FFFA24401C2351D600727DA8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = mPowerSDK/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_BUNDLE_IDENTIFIER = org.sagebase.mPowerSDK;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		FFFA24411C2351D600727DA8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = mPowerSDK/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_BUNDLE_IDENTIFIER = org.sagebase.mPowerSDK;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		FFFA24431C2351D600727DA8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = mPowerSDKTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.sagebase.mPowerSDKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FFFA24441C2351D600727DA8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = mPowerSDKTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.sagebase.mPowerSDKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FFFA24251C2351D600727DA8 /* Build configuration list for PBXProject "mPowerSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFFA243D1C2351D600727DA8 /* Debug */,
+				FFFA243E1C2351D600727DA8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FFFA243F1C2351D600727DA8 /* Build configuration list for PBXNativeTarget "mPowerSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFFA24401C2351D600727DA8 /* Debug */,
+				FFFA24411C2351D600727DA8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FFFA24421C2351D600727DA8 /* Build configuration list for PBXNativeTarget "mPowerSDKTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFFA24431C2351D600727DA8 /* Debug */,
+				FFFA24441C2351D600727DA8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FFFA24221C2351D600727DA8 /* Project object */;
+}
