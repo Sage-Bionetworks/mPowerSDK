@@ -53,7 +53,7 @@ static NSString *const kJsonTasksKey                    = @"tasks";
 static NSString *const kJsonScheduleTaskIDKey           = @"taskID";
 static NSString *const kJsonSchedulesKey                = @"schedules";
 
-static NSString *const kAppStoreLink                    = @"http://apple.co/1FO7Bsi";
+static NSString *const kAppStoreLink                    = @"https://appsto.re/us/GxN85.i";
 
 @interface APHAppDelegate ()
 @property  (nonatomic, strong)  APHProfileExtender* profileExtender;
