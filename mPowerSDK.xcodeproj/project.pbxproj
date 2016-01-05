@@ -25,6 +25,7 @@
 		FF2D344B1C3200AC0033838A /* APHActivityManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D344A1C3200AC0033838A /* APHActivityManagerTests.m */; };
 		FF2D344E1C3207060033838A /* APHActivityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FF2D344C1C3207060033838A /* APHActivityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF2D344F1C3207060033838A /* APHActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D344D1C3207060033838A /* APHActivityManager.m */; };
+		FF2D345D1C3C4C6A0033838A /* APHScoreCalculatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D345C1C3C4C6A0033838A /* APHScoreCalculatorTests.m */; };
 		FF51E5D11C2A05BD0091E1A0 /* APCAppCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */; };
 		FF51E5D31C2A05C60091E1A0 /* BridgeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */; };
 		FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA242E1C2351D600727DA8 /* mPowerSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -76,6 +77,7 @@
 		FF2D344A1C3200AC0033838A /* APHActivityManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHActivityManagerTests.m; sourceTree = "<group>"; };
 		FF2D344C1C3207060033838A /* APHActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHActivityManager.h; sourceTree = "<group>"; };
 		FF2D344D1C3207060033838A /* APHActivityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHActivityManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		FF2D345C1C3C4C6A0033838A /* APHScoreCalculatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHScoreCalculatorTests.m; sourceTree = "<group>"; };
 		FF51E5CE1C2A05B40091E1A0 /* libPDScores.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPDScores.a; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/libPDScores.a"; sourceTree = "<group>"; };
 		FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = APCAppCore.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/APCAppCore.framework"; sourceTree = "<group>"; };
 		FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BridgeSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/BridgeSDK.framework"; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				FF2D344A1C3200AC0033838A /* APHActivityManagerTests.m */,
+				FF2D345C1C3C4C6A0033838A /* APHScoreCalculatorTests.m */,
 				FFFA243C1C2351D600727DA8 /* Info.plist */,
 			);
 			path = mPowerSDKTests;
@@ -437,6 +440,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF2D345D1C3C4C6A0033838A /* APHScoreCalculatorTests.m in Sources */,
 				FF2D344B1C3200AC0033838A /* APHActivityManagerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

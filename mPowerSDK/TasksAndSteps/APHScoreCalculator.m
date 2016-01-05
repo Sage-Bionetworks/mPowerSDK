@@ -118,7 +118,7 @@ static  NSString  *kTappingSamplesKey = @"TappingSamples";
 - (double)scoreFromTappingResult:(ORKTappingIntervalResult *)result
 {
     NSArray *data = [self convertTappings:result];
-    if (data.count > 0) {
+    if (data.count == 0) {
         return 0.0;
     }
     else {
@@ -129,7 +129,7 @@ static  NSString  *kTappingSamplesKey = @"TappingSamples";
 - (double)scoreFromGaitURL:(NSURL *)url
 {
     NSArray *data = [self convertPostureOrGain:url];
-    if (data.count > 0) {
+    if (data.count == 0) {
         return 0.0;
     }
     else {
@@ -140,7 +140,7 @@ static  NSString  *kTappingSamplesKey = @"TappingSamples";
 - (double)scoreFromPostureURL:(NSURL *)url
 {
     NSArray *data = [self convertPostureOrGain:url];
-    if (data.count > 0) {
+    if (data.count == 0) {
         return 0.0;
     }
     else {
