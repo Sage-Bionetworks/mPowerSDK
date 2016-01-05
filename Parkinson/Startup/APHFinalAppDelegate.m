@@ -32,7 +32,6 @@
 //
 
 #import "APHFinalAppDelegate.h"
-#import "APHScoreCalculatorPDScoresWrapper.h"
 
 
 @implementation APHFinalAppDelegate
@@ -43,15 +42,6 @@
     
     self.dataSubstrate.parameters.bypassServer = YES;
     self.dataSubstrate.parameters.hideExampleConsent = NO;
-}
-
-@synthesize scoreCalculator = _scoreCalculator;
-- (APHScoreCalculator *)scoreCalculator
-{
-    if (_scoreCalculator == nil) {
-        _scoreCalculator = [[APHScoreCalculatorPDScoresWrapper alloc] init];
-    }
-    return _scoreCalculator;
 }
 
 @end

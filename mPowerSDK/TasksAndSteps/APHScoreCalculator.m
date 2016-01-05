@@ -33,6 +33,7 @@
  
 #import "APHScoreCalculator.h"
 #import "APHAppDelegate.h"
+#import <PDScores/PDScores.h>
 
 NSString *const kTappingViewSizeKey   = @"TappingViewSize";
 NSString *const kStartDateKey         = @"startDate";
@@ -63,8 +64,12 @@ static  NSString  *kTappingSamplesKey = @"TappingSamples";
 
 + (APHScoreCalculator *)sharedCalculator
 {
-    APHAppDelegate *appDelegate = (APHAppDelegate *) [[UIApplication sharedApplication] delegate];
-    return appDelegate.scoreCalculator;
+    static id __defaultInstance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        __defaultInstance = [[self alloc] init];
+    });
+    return __defaultInstance;
 }
 
 - (NSArray*)convertTappings:(ORKTappingIntervalResult *)result
@@ -150,26 +155,22 @@ static  NSString  *kTappingSamplesKey = @"TappingSamples";
 
 - (double)scoreFromTappingTest:(NSArray *)tappingData
 {
-    NSAssert(NO, @"abstract method for defining score. App implementation should override.");
-    return 0;//[PDScores scoreFromTappingTest:tappingData];
+    return [PDScores scoreFromTappingTest:tappingData];
 }
 
 - (double)scoreFromPhonationTest:(NSURL *)phonationAudioFile
 {
-    NSAssert(NO, @"abstract method for defining score. App implementation should override.");
-    return 0;//[PDScores scoreFromPhonationTest:phonationAudioFile];
+    return [PDScores scoreFromPhonationTest:phonationAudioFile];
 }
 
 - (double)scoreFromGaitTest:(NSArray *)gaitData
 {
-    NSAssert(NO, @"abstract method for defining score. App implementation should override.");
-    return 0;//[PDScores scoreFromGaitTest:gaitData];
+    return [PDScores scoreFromGaitTest:gaitData];
 }
 
 - (double)scoreFromPostureTest:(NSArray *)postureData
 {
-    NSAssert(NO, @"abstract method for defining score. App implementation should override.");
-    return 0;//[PDScores scoreFromPostureTest:postureData];
+    return [PDScores scoreFromPostureTest:postureData];
 }
 
 @end

@@ -98,7 +98,6 @@
 		F5C1DC2019D22E6F006527EA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5C1DC1F19D22E6F006527EA /* Main.storyboard */; };
 		F5DCAD3E19D088330096DEC0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5DCAD3D19D088330096DEC0 /* LaunchScreen.xib */; };
 		F5F32C7C19D0D4C1007F9015 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFA2ABB519A7C229000DB961 /* HealthKit.framework */; };
-		FF2D343A1C2A0E610033838A /* APHScoreCalculatorPDScoresWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D34391C2A0E610033838A /* APHScoreCalculatorPDScoresWrapper.m */; };
 		FF4C352A1C24D24800B664B5 /* APHFinalAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FF4C35291C24D24800B664B5 /* APHFinalAppDelegate.m */; };
 		FFFA24871C23679600727DA8 /* mPowerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFA245F1C235BE800727DA8 /* mPowerSDK.framework */; };
 		FFFA24881C23679600727DA8 /* mPowerSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FFFA245F1C235BE800727DA8 /* mPowerSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -359,8 +358,6 @@
 		F5C11A2E19DCBE95003278FF /* APCParameters.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = APCParameters.json; sourceTree = "<group>"; };
 		F5C1DC1F19D22E6F006527EA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		F5DCAD3D19D088330096DEC0 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		FF2D34381C2A0E610033838A /* APHScoreCalculatorPDScoresWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APHScoreCalculatorPDScoresWrapper.h; path = TasksAndSteps/APHScoreCalculatorPDScoresWrapper.h; sourceTree = "<group>"; };
-		FF2D34391C2A0E610033838A /* APHScoreCalculatorPDScoresWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APHScoreCalculatorPDScoresWrapper.m; path = TasksAndSteps/APHScoreCalculatorPDScoresWrapper.m; sourceTree = "<group>"; };
 		FF4C35281C24D24800B664B5 /* APHFinalAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHFinalAppDelegate.h; sourceTree = "<group>"; };
 		FF4C35291C24D24800B664B5 /* APHFinalAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHFinalAppDelegate.m; sourceTree = "<group>"; };
 		FFFA24591C235BE800727DA8 /* mPowerSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = mPowerSDK.xcodeproj; path = mPowerSDK/mPowerSDK.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -611,7 +608,6 @@
 			isa = PBXGroup;
 			children = (
 				F5D14F3619CC9C0000650FBB /* Startup */,
-				FF2D342B1C2A0DD50033838A /* TasksAndSteps */,
 				255D2F4619C40F25002137F1 /* Resources */,
 				CFC2D2DA19A5417D00170E69 /* Supporting Files */,
 			);
@@ -672,15 +668,6 @@
 				FF4C35291C24D24800B664B5 /* APHFinalAppDelegate.m */,
 			);
 			path = Startup;
-			sourceTree = "<group>";
-		};
-		FF2D342B1C2A0DD50033838A /* TasksAndSteps */ = {
-			isa = PBXGroup;
-			children = (
-				FF2D34381C2A0E610033838A /* APHScoreCalculatorPDScoresWrapper.h */,
-				FF2D34391C2A0E610033838A /* APHScoreCalculatorPDScoresWrapper.m */,
-			);
-			name = TasksAndSteps;
 			sourceTree = "<group>";
 		};
 		FFFA245A1C235BE800727DA8 /* Products */ = {
@@ -970,7 +957,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF2D343A1C2A0E610033838A /* APHScoreCalculatorPDScoresWrapper.m in Sources */,
 				FF4C352A1C24D24800B664B5 /* APHFinalAppDelegate.m in Sources */,
 				CFC2D2DD19A5417D00170E69 /* main.m in Sources */,
 			);
