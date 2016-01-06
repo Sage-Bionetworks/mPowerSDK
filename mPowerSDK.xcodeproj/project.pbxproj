@@ -11,7 +11,6 @@
 		FF0B4AC11C29FCB800224EF7 /* APHParkinsonActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4AAF1C29FCB800224EF7 /* APHParkinsonActivityViewController.m */; };
 		FF0B4AC21C29FCB800224EF7 /* APHScoreCalculator.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4AB01C29FCB800224EF7 /* APHScoreCalculator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF0B4AC31C29FCB800224EF7 /* APHScoreCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4AB11C29FCB800224EF7 /* APHScoreCalculator.m */; };
-		FF0B4AC41C29FCB800224EF7 /* APHTaskResultFilenameTranslation.json in Resources */ = {isa = PBXBuildFile; fileRef = FF0B4AB21C29FCB800224EF7 /* APHTaskResultFilenameTranslation.json */; };
 		FF0B4AC51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4AB41C29FCB800224EF7 /* APHIntervalTappingTaskViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF0B4AC61C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4AB51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m */; };
 		FF0B4AC71C29FCB800224EF7 /* APHPhonationTaskViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4AB81C29FCB800224EF7 /* APHPhonationTaskViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -27,6 +26,17 @@
 		FF2D344F1C3207060033838A /* APHActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D344D1C3207060033838A /* APHActivityManager.m */; };
 		FF2D345D1C3C4C6A0033838A /* APHScoreCalculatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D345C1C3C4C6A0033838A /* APHScoreCalculatorTests.m */; };
 		FF2D345F1C3C56CC0033838A /* libPDScores.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF2D345E1C3C56CC0033838A /* libPDScores.a */; };
+		FF2D34921C3DBD540033838A /* APCParameters.json in Resources */ = {isa = PBXBuildFile; fileRef = FF2D347F1C3DBD540033838A /* APCParameters.json */; };
+		FF2D34931C3DBD540033838A /* APHTaskIdToViewControllerMapping.json in Resources */ = {isa = PBXBuildFile; fileRef = FF2D34801C3DBD540033838A /* APHTaskIdToViewControllerMapping.json */; };
+		FF2D34941C3DBD540033838A /* APHConsentSection.json in Resources */ = {isa = PBXBuildFile; fileRef = FF2D34811C3DBD540033838A /* APHConsentSection.json */; };
+		FF2D34951C3DBD540033838A /* APHTasksAndSchedules.json in Resources */ = {isa = PBXBuildFile; fileRef = FF2D34831C3DBD540033838A /* APHTasksAndSchedules.json */; };
+		FF2D34961C3DBD540033838A /* APHTasksAndSchedules_NoM7.json in Resources */ = {isa = PBXBuildFile; fileRef = FF2D34851C3DBD540033838A /* APHTasksAndSchedules_NoM7.json */; };
+		FF2D34971C3DBD540033838A /* Learn.json in Resources */ = {isa = PBXBuildFile; fileRef = FF2D34871C3DBD540033838A /* Learn.json */; };
+		FF2D34981C3DBD540033838A /* LocationInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = FF2D34891C3DBD540033838A /* LocationInfo.json */; };
+		FF2D34991C3DBD540033838A /* StudyOverview.json in Resources */ = {isa = PBXBuildFile; fileRef = FF2D348B1C3DBD540033838A /* StudyOverview.json */; };
+		FF2D349A1C3DBD540033838A /* TermsAndConditions.json in Resources */ = {isa = PBXBuildFile; fileRef = FF2D348D1C3DBD540033838A /* TermsAndConditions.json */; };
+		FF2D349B1C3DBD540033838A /* WithdrawStudy.json in Resources */ = {isa = PBXBuildFile; fileRef = FF2D348F1C3DBD540033838A /* WithdrawStudy.json */; };
+		FF2D34B21C3DBF100033838A /* FilenameTranslation.json in Resources */ = {isa = PBXBuildFile; fileRef = FF2D34B11C3DBF100033838A /* FilenameTranslation.json */; };
 		FF51E5D11C2A05BD0091E1A0 /* APCAppCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */; };
 		FF51E5D31C2A05C60091E1A0 /* BridgeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */; };
 		FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA242E1C2351D600727DA8 /* mPowerSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -64,7 +74,6 @@
 		FF0B4AAF1C29FCB800224EF7 /* APHParkinsonActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHParkinsonActivityViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FF0B4AB01C29FCB800224EF7 /* APHScoreCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHScoreCalculator.h; sourceTree = "<group>"; };
 		FF0B4AB11C29FCB800224EF7 /* APHScoreCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHScoreCalculator.m; sourceTree = "<group>"; };
-		FF0B4AB21C29FCB800224EF7 /* APHTaskResultFilenameTranslation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = APHTaskResultFilenameTranslation.json; sourceTree = "<group>"; };
 		FF0B4AB41C29FCB800224EF7 /* APHIntervalTappingTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHIntervalTappingTaskViewController.h; sourceTree = "<group>"; };
 		FF0B4AB51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHIntervalTappingTaskViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FF0B4AB81C29FCB800224EF7 /* APHPhonationTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHPhonationTaskViewController.h; sourceTree = "<group>"; };
@@ -80,6 +89,17 @@
 		FF2D344D1C3207060033838A /* APHActivityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHActivityManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FF2D345C1C3C4C6A0033838A /* APHScoreCalculatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHScoreCalculatorTests.m; sourceTree = "<group>"; };
 		FF2D345E1C3C56CC0033838A /* libPDScores.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPDScores.a; path = "../PDScores/PDScores/build/Debug-iphoneos/libPDScores.a"; sourceTree = "<group>"; };
+		FF2D347F1C3DBD540033838A /* APCParameters.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = APCParameters.json; sourceTree = "<group>"; };
+		FF2D34801C3DBD540033838A /* APHTaskIdToViewControllerMapping.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = APHTaskIdToViewControllerMapping.json; sourceTree = "<group>"; };
+		FF2D34821C3DBD540033838A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/APHConsentSection.json; sourceTree = "<group>"; };
+		FF2D34841C3DBD540033838A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/APHTasksAndSchedules.json; sourceTree = "<group>"; };
+		FF2D34861C3DBD540033838A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/APHTasksAndSchedules_NoM7.json; sourceTree = "<group>"; };
+		FF2D34881C3DBD540033838A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/Learn.json; sourceTree = "<group>"; };
+		FF2D348A1C3DBD540033838A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/LocationInfo.json; sourceTree = "<group>"; };
+		FF2D348C1C3DBD540033838A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/StudyOverview.json; sourceTree = "<group>"; };
+		FF2D348E1C3DBD540033838A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/TermsAndConditions.json; sourceTree = "<group>"; };
+		FF2D34901C3DBD540033838A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/WithdrawStudy.json; sourceTree = "<group>"; };
+		FF2D34B11C3DBF100033838A /* FilenameTranslation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FilenameTranslation.json; sourceTree = "<group>"; };
 		FF51E5CE1C2A05B40091E1A0 /* libPDScores.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPDScores.a; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/libPDScores.a"; sourceTree = "<group>"; };
 		FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = APCAppCore.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/APCAppCore.framework"; sourceTree = "<group>"; };
 		FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BridgeSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/BridgeSDK.framework"; sourceTree = "<group>"; };
@@ -141,7 +161,6 @@
 				FF0B4AAF1C29FCB800224EF7 /* APHParkinsonActivityViewController.m */,
 				FF0B4AB01C29FCB800224EF7 /* APHScoreCalculator.h */,
 				FF0B4AB11C29FCB800224EF7 /* APHScoreCalculator.m */,
-				FF0B4AB21C29FCB800224EF7 /* APHTaskResultFilenameTranslation.json */,
 				FF0B4AB31C29FCB800224EF7 /* IntervalTappingControllers */,
 				FF0B4AB71C29FCB800224EF7 /* PhonationControllers */,
 				FF0B4ABA1C29FCB800224EF7 /* SpatialSpanMemoryControllers */,
@@ -206,6 +225,32 @@
 			path = Localization;
 			sourceTree = "<group>";
 		};
+		FF2D347C1C3DBD540033838A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FF2D347E1C3DBD540033838A /* JSONs */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		FF2D347E1C3DBD540033838A /* JSONs */ = {
+			isa = PBXGroup;
+			children = (
+				FF2D34B11C3DBF100033838A /* FilenameTranslation.json */,
+				FF2D347F1C3DBD540033838A /* APCParameters.json */,
+				FF2D34801C3DBD540033838A /* APHTaskIdToViewControllerMapping.json */,
+				FF2D34811C3DBD540033838A /* APHConsentSection.json */,
+				FF2D34831C3DBD540033838A /* APHTasksAndSchedules.json */,
+				FF2D34851C3DBD540033838A /* APHTasksAndSchedules_NoM7.json */,
+				FF2D34871C3DBD540033838A /* Learn.json */,
+				FF2D34891C3DBD540033838A /* LocationInfo.json */,
+				FF2D348B1C3DBD540033838A /* StudyOverview.json */,
+				FF2D348D1C3DBD540033838A /* TermsAndConditions.json */,
+				FF2D348F1C3DBD540033838A /* WithdrawStudy.json */,
+			);
+			path = JSONs;
+			sourceTree = "<group>";
+		};
 		FFFA24211C2351D600727DA8 = {
 			isa = PBXGroup;
 			children = (
@@ -237,6 +282,7 @@
 				FFFA24BB1C237E1500727DA8 /* Dashboard */,
 				FF0B4AAD1C29FCB800224EF7 /* TasksAndSteps */,
 				FF2D343F1C31B7410033838A /* Localization */,
+				FF2D347C1C3DBD540033838A /* Resources */,
 			);
 			path = mPowerSDK;
 			sourceTree = "<group>";
@@ -402,9 +448,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF2D34971C3DBD540033838A /* Learn.json in Resources */,
+				FF2D34991C3DBD540033838A /* StudyOverview.json in Resources */,
+				FF2D349B1C3DBD540033838A /* WithdrawStudy.json in Resources */,
+				FF2D34961C3DBD540033838A /* APHTasksAndSchedules_NoM7.json in Resources */,
 				FFFA24A51C2377B200727DA8 /* APHOnboarding.storyboard in Resources */,
+				FF2D349A1C3DBD540033838A /* TermsAndConditions.json in Resources */,
+				FF2D34941C3DBD540033838A /* APHConsentSection.json in Resources */,
+				FF2D34981C3DBD540033838A /* LocationInfo.json in Resources */,
+				FF2D34B21C3DBF100033838A /* FilenameTranslation.json in Resources */,
+				FF2D34951C3DBD540033838A /* APHTasksAndSchedules.json in Resources */,
+				FF2D34931C3DBD540033838A /* APHTaskIdToViewControllerMapping.json in Resources */,
 				FFFA24C91C237E1500727DA8 /* APHDashboard.storyboard in Resources */,
-				FF0B4AC41C29FCB800224EF7 /* APHTaskResultFilenameTranslation.json in Resources */,
+				FF2D34921C3DBD540033838A /* APCParameters.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +516,70 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		FF2D34811C3DBD540033838A /* APHConsentSection.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FF2D34821C3DBD540033838A /* Base */,
+			);
+			name = APHConsentSection.json;
+			sourceTree = "<group>";
+		};
+		FF2D34831C3DBD540033838A /* APHTasksAndSchedules.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FF2D34841C3DBD540033838A /* Base */,
+			);
+			name = APHTasksAndSchedules.json;
+			sourceTree = "<group>";
+		};
+		FF2D34851C3DBD540033838A /* APHTasksAndSchedules_NoM7.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FF2D34861C3DBD540033838A /* Base */,
+			);
+			name = APHTasksAndSchedules_NoM7.json;
+			sourceTree = "<group>";
+		};
+		FF2D34871C3DBD540033838A /* Learn.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FF2D34881C3DBD540033838A /* Base */,
+			);
+			name = Learn.json;
+			sourceTree = "<group>";
+		};
+		FF2D34891C3DBD540033838A /* LocationInfo.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FF2D348A1C3DBD540033838A /* Base */,
+			);
+			name = LocationInfo.json;
+			sourceTree = "<group>";
+		};
+		FF2D348B1C3DBD540033838A /* StudyOverview.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FF2D348C1C3DBD540033838A /* Base */,
+			);
+			name = StudyOverview.json;
+			sourceTree = "<group>";
+		};
+		FF2D348D1C3DBD540033838A /* TermsAndConditions.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FF2D348E1C3DBD540033838A /* Base */,
+			);
+			name = TermsAndConditions.json;
+			sourceTree = "<group>";
+		};
+		FF2D348F1C3DBD540033838A /* WithdrawStudy.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FF2D34901C3DBD540033838A /* Base */,
+			);
+			name = WithdrawStudy.json;
+			sourceTree = "<group>";
+		};
 		FFFA24A31C2377B200727DA8 /* APHOnboarding.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
