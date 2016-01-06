@@ -136,6 +136,17 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
     return [NSURL URLWithString:kAppStoreLink];
 }
 
+- (NSString *)pathForResource:(NSString *)resourceName ofType:(NSString *)resourceType
+{
+    if ([[resourceType lowercaseString] isEqualToString:@"json"]) {
+        // For the json resources, look in the shared framework bundle 
+        return [[NSBundle bundleForClass:[APHAppDelegate class]] pathForResource:resourceName ofType:resourceType];
+    }
+    else {
+        return [super pathForResource:resourceName ofType:resourceType];
+    }
+}
+
 - (void)enableBackgroundDeliveryForHealthKitTypes
 {
     NSArray* dataTypesWithReadPermission = [self healthKitQuantityTypesToRead];

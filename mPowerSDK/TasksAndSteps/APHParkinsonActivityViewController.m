@@ -122,16 +122,4 @@
     return result;
 }
 
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    // Point the task result archiver at the shared filename translator
-    self.taskResultArchiver = [[APCTaskResultArchiver alloc] init];
-    NSString *path = [[NSBundle bundleForClass:[APHAppDelegate class]] pathForResource:@"APHTaskResultFilenameTranslation" ofType:@"json"];
-    [self.taskResultArchiver setFilenameTranslationDictionaryWithJSONFileAtPath:path];
-    
-}
-
 @end
