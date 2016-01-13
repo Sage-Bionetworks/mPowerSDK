@@ -1,0 +1,74 @@
+{
+    "items": [
+              {
+              "name"                  : "Levodopa",
+              "tracking"              : true,
+              },
+              {
+              "name"                  : "Carbidopa",
+              },
+              {
+              "name"                  : "Carbidopa/Levodopa",
+              "brand"                 : "Rytary",
+              "tracking"              : true,
+              },
+              {
+              "name"                  : "Carbidopa/Levodopa",
+              "brand"                 : "Sinemet",
+              "tracking"              : true,
+              },
+              {
+              "name"                  : "Carbidopa/Levodopa",
+              "brand"                 : "Atamet",
+              "tracking"              : true,
+              },
+              {
+              "name"                  : "Carbidopa/Levodopa/Entacapone",
+              "brand"                 : "Stalevo",
+              "tracking"              : true,
+              },
+              {
+              "name"                  : "Amantadine",
+              "brand"                 : "Symmetrel",
+              },
+              {
+              "name"                  : "Rotigotine",
+              "brand"                 : "Neupro",
+              },
+              {
+              "name"                  : "Selegiline",
+              "brand"                 : "Eldepryl",
+              },
+              {
+              "name"                  : "Selegiline",
+              "brand"                 : "Carbex",
+              },
+              {
+              "name"                  : "Selegiline",
+              "brand"                 : "Atapryl",
+              },
+              {
+              "name"                  : "Pramipexole",
+              "brand"                 : "Mirapex",
+              },
+              {
+              "name"                  : "Rotigotine",
+              "brand"                 : "Neupro",
+              },
+              {
+              "name"                  : "Ropinirole",
+              "brand"                 : "Requip",
+              },
+              {
+              "name"                  : "Apomorphine",
+              "brand"                 : "Apokyn",
+              "injection"             : true
+              },
+              {
+              "name"                  : "Carbidopa/Levodopa",
+              "detail"                : "Continuous Infusion"
+              "brand"                 : "Duopa",
+              "injection"             : true
+              },
+    ],
+}
