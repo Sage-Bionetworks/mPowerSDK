@@ -200,7 +200,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
         
         {
             APCTableViewDashboardProgressItem *item = [APCTableViewDashboardProgressItem new];
-            item.identifier = kAPCDashboardProgressTableViewCellIdentifier;
+            item.reuseIdentifier = kAPCDashboardProgressTableViewCellIdentifier;
             item.editable = NO;
             item.progress = (CGFloat)completedScheduledTasks/allScheduledTasks;
             item.caption = NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_COMPLETION_CAPTION", nil, APHLocaleBundle(), @"Activity Completion", @"Dashboard caption for the activities completed.");
@@ -228,7 +228,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     item.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
                     item.graphData = self.correlatedScoring;
                     item.graphType = kAPCDashboardGraphTypeLine;
-                    item.identifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryYellowColor];
                     
@@ -261,7 +261,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                                            APHLocalizedStringFromNumber([tapScoring minimumDataPoint]), APHLocalizedStringFromNumber([tapScoring maximumDataPoint])];
                     }
                     
-                    item.identifier =  kAPCDashboardGraphTableViewCellIdentifier;
+                    item.reuseIdentifier =  kAPCDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                 
@@ -289,7 +289,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                                            APHLocalizedStringFromNumber([self.gaitScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.gaitScoring maximumDataPoint])];
                     }
                     
-                    item.identifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                     
@@ -316,7 +316,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                                            APHLocalizedStringFromNumber([self.memoryScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.memoryScoring maximumDataPoint])];
                     }
                     
-                    item.identifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                     
@@ -343,7 +343,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                                            APHLocalizedStringFromNumber([self.phonationScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.phonationScoring maximumDataPoint])];
                     }
                     
-                    item.identifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                     
@@ -369,7 +369,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                                            APHLocalizedStringFromNumber([self.stepScoring averageDataPoint])];
                     }
                     
-                    item.identifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryGreenColor];
                     
