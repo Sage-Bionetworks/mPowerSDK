@@ -70,10 +70,11 @@ NSString       *const kIntervalTappingTitleIdentifier       = @"Tapping Activity
 NSTimeInterval  const kTappingStepCountdownInterval         = 20.0;
 
 //
-// constants for setting up the tapping activity
+// constants for setting up the voice activity
 //
 NSString       *const kVoiceTitleIdentifier                 = @"Voice Activity";
 NSTimeInterval  const kGetSoundingAaahhhInterval            = 10.0;
+NSString       *const kCountdownStepIdentifier              = @"countdown";
 
 //
 // constants for setting up the memory activity
@@ -218,19 +219,28 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurveyIfNoMeds = 30.0 * 24.0 *
                                                               duration:kGetSoundingAaahhhInterval
                                                      recordingSettings:audioSettings
                                                                options:0];
-    
-    //
-    //    set up initial steps, which may have an extra step injected
-    //    after the first if the user needs to say where they are in
-    //    their medication schedule
-    //
+
     NSString *localizedTaskName = NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_TITLE", nil, APHLocaleBundle(),  @"Voice", @"Title for Voice activity");
     [orkTask.steps[0] setTitle:localizedTaskName];
     
-    ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[1];
-    [instructionStep setTitle:localizedTaskName];
-    [instructionStep setText:NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Take a deep breath and say “Aaaaah” into the microphone for as long as you can. Keep a steady volume so the audio bars remain blue.", @"Instructions for performing the voice activity.")];
-    [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_NEXT_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Tap Next to begin the test.", @"Detail insctruction for how to begin a task.")];
+    const NSUInteger instructionIdx = 1;
+    if ((orkTask.steps.count > instructionIdx) &&
+        [orkTask.steps[instructionIdx] isKindOfClass:[ORKInstructionStep class]])
+    {
+        ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[instructionIdx];
+        [instructionStep setTitle:localizedTaskName];
+        [instructionStep setText:NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Take a deep breath and say “Aaaaah” into the microphone for as long as you can. Keep a steady volume so the audio bars remain blue.", @"Instructions for performing the voice activity.")];
+        [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_NEXT_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Tap Next to begin the test.", @"Detail insctruction for how to begin a task.")];
+    }
+    
+    // Inject a step to test audio levels
+    const NSUInteger countdownIdx = 2;
+    if ((orkTask.steps.count > countdownIdx) &&
+        [orkTask.steps[countdownIdx].identifier isEqualToString:kCountdownStepIdentifier])
+    {
+        ORKStep *countdownStep = orkTask.steps[countdownIdx];
+        countdownStep.text = NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_VOLUME", nil, APHLocaleBundle(), @"Please wait while we check the ambient sound levels.", @"Text explaining that the phone is checking volume levels before a voice task.");
+    }
 
     return  orkTask;
 }
