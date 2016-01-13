@@ -740,6 +740,7 @@ static NSDate *determineConsentDate(id object)
               @(kAPCUserInfoItemTypeWeight),
               @(kAPCUserInfoItemTypeWakeUpTime),
               @(kAPCUserInfoItemTypeSleepTime),
+              @(kAPCUserInfoItemTypeDataGroups)
               ];
 }
 
