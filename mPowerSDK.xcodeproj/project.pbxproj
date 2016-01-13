@@ -39,6 +39,8 @@
 		FF2D34B21C3DBF100033838A /* FilenameTranslation.json in Resources */ = {isa = PBXBuildFile; fileRef = FF2D34B11C3DBF100033838A /* FilenameTranslation.json */; };
 		FF51E5D11C2A05BD0091E1A0 /* APCAppCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */; };
 		FF51E5D31C2A05C60091E1A0 /* BridgeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */; };
+		FFB892271C46227700CD0081 /* ResourcesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB892261C46227700CD0081 /* ResourcesTests.m */; };
+		FFB892281C46DE6200CD0081 /* DataGroupsMapping.json in Resources */ = {isa = PBXBuildFile; fileRef = FFB8922A1C46DE6200CD0081 /* DataGroupsMapping.json */; };
 		FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA242E1C2351D600727DA8 /* mPowerSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFFA24361C2351D600727DA8 /* mPowerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */; };
 		FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA24711C23657700727DA8 /* APHAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -103,6 +105,8 @@
 		FF51E5CE1C2A05B40091E1A0 /* libPDScores.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPDScores.a; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/libPDScores.a"; sourceTree = "<group>"; };
 		FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = APCAppCore.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/APCAppCore.framework"; sourceTree = "<group>"; };
 		FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BridgeSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/BridgeSDK.framework"; sourceTree = "<group>"; };
+		FFB892261C46227700CD0081 /* ResourcesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourcesTests.m; sourceTree = "<group>"; };
+		FFB892291C46DE6200CD0081 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/DataGroupsMapping.json; sourceTree = "<group>"; };
 		FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = mPowerSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFFA242E1C2351D600727DA8 /* mPowerSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mPowerSDK.h; sourceTree = "<group>"; };
 		FFFA24301C2351D600727DA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -236,6 +240,7 @@
 		FF2D347E1C3DBD540033838A /* JSONs */ = {
 			isa = PBXGroup;
 			children = (
+				FFB8922A1C46DE6200CD0081 /* DataGroupsMapping.json */,
 				FF2D34B11C3DBF100033838A /* FilenameTranslation.json */,
 				FF2D347F1C3DBD540033838A /* APCParameters.json */,
 				FF2D34801C3DBD540033838A /* APHTaskIdToViewControllerMapping.json */,
@@ -292,6 +297,7 @@
 			children = (
 				FF2D344A1C3200AC0033838A /* APHActivityManagerTests.m */,
 				FF2D345C1C3C4C6A0033838A /* APHScoreCalculatorTests.m */,
+				FFB892261C46227700CD0081 /* ResourcesTests.m */,
 				FFFA243C1C2351D600727DA8 /* Info.plist */,
 			);
 			path = mPowerSDKTests;
@@ -460,6 +466,7 @@
 				FF2D34951C3DBD540033838A /* APHTasksAndSchedules.json in Resources */,
 				FF2D34931C3DBD540033838A /* APHTaskIdToViewControllerMapping.json in Resources */,
 				FFFA24C91C237E1500727DA8 /* APHDashboard.storyboard in Resources */,
+				FFB892281C46DE6200CD0081 /* DataGroupsMapping.json in Resources */,
 				FF2D34921C3DBD540033838A /* APCParameters.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -500,6 +507,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFB892271C46227700CD0081 /* ResourcesTests.m in Sources */,
 				FF2D345D1C3C4C6A0033838A /* APHScoreCalculatorTests.m in Sources */,
 				FF2D344B1C3200AC0033838A /* APHActivityManagerTests.m in Sources */,
 			);
@@ -578,6 +586,14 @@
 				FF2D34901C3DBD540033838A /* Base */,
 			);
 			name = WithdrawStudy.json;
+			sourceTree = "<group>";
+		};
+		FFB8922A1C46DE6200CD0081 /* DataGroupsMapping.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FFB892291C46DE6200CD0081 /* Base */,
+			);
+			name = DataGroupsMapping.json;
 			sourceTree = "<group>";
 		};
 		FFFA24A31C2377B200727DA8 /* APHOnboarding.storyboard */ = {
