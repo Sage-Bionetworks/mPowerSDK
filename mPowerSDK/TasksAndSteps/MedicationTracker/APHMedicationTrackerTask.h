@@ -1,5 +1,5 @@
 //
-//  ResourcesTests.m
+//  APHMedicationTrackerTask.h
 //  mPowerSDK
 //
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved.
@@ -31,56 +31,31 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <XCTest/XCTest.h>
-#import <APCAppCore/APCAppCore.h>
-#import <mPowerSDK/mPowerSDK.h>
+#import <Foundation/Foundation.h>
+#import <ResearchKit/ResearchKit.h>
 
-@interface ResourcesTests : XCTestCase
+@class APHMedication, APCDataGroupsManager;
 
-@end
+NS_ASSUME_NONNULL_BEGIN
 
-@implementation ResourcesTests
+extern NSString * const APHMedicationTrackerTaskIdentifier;
+extern NSString * const APHMedicationTrackerNoneAnswerIdentifier;
+extern NSString * const APHMedicationTrackerSelectionStepIdentifier;
+extern NSString * const APHMedicationTrackerFrequencyStepIdentifier;
 
-- (void)setUp {
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-}
+@interface APHMedicationTrackerTask : NSObject <ORKTask>
 
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
+@property (nonatomic, readonly) APCDataGroupsManager *dataGroupsManager;
+@property (nonatomic, readonly) NSArray <APHMedication *> *medications;
 
-- (void)testDataGroupsMapping
-{
-    id json = [self jsonForResource:@"DataGroupsMapping"];
-    XCTAssertTrue([json isKindOfClass:[NSDictionary class]]);
-}
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary * _Nullable)dictionary;
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary * _Nullable)dictionary
+                               dataGroupsManager:(APCDataGroupsManager * _Nullable)dataGroupsManager;
 
-- (void)testMedicationTracking
-{
-    id json = [self jsonForResource:@"MedicationTracking"];
-    XCTAssertTrue([json isKindOfClass:[NSDictionary class]]);
-}
-
-- (id)jsonForResource:(NSString*)resourceName
-{
-    APHAppDelegate *appDelegate = [[APHAppDelegate alloc] init];
-    NSString *path = [appDelegate pathForResource:resourceName ofType:@"json"];
-    
-    NSData *jsonData = [NSData dataWithContentsOfFile:path];
-    XCTAssertNotNil(jsonData);
-    
-    if (jsonData) {
-        NSError *parseError;
-        id json = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&parseError];
-        XCTAssertNil(parseError);
-        XCTAssertNotNil(json);
-        
-        return json;
-    }
-    
-    return nil;
-}
+- (NSArray <APHMedication *> * _Nullable)selectedMedicationFromResult:(ORKTaskResult *)result
+                                               trackingOnly:(BOOL)trackingOnly
+                                                   pillOnly:(BOOL)pillOnly;
 
 @end
+
+NS_ASSUME_NONNULL_END

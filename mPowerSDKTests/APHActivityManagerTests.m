@@ -74,7 +74,7 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
     [APHLocalization setLocalization:@"en"];
     
     APHActivityManager *manager = [self managerWithStoredResult:nil];
-    ORKOrderedTask *task = [manager createOrderedTaskForSurveyId:APHTappingActivitySurveyIdentifier];
+    ORKOrderedTask *task  = (ORKOrderedTask *)[manager createOrderedTaskForSurveyId:APHTappingActivitySurveyIdentifier];
     XCTAssertNotNil(task);
     XCTAssertNotNil([task stepWithIdentifier:kMomentInDayStepIdentifier]);
     XCTAssertNotNil([task stepWithIdentifier:@"tapping.right"]);
@@ -91,7 +91,7 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
     [APHLocalization setLocalization:@"en"];
     
     APHActivityManager *manager = [self managerWithStoredResult:nil];
-    ORKOrderedTask *task = [manager createOrderedTaskForSurveyId:APHVoiceActivitySurveyIdentifier];
+    ORKOrderedTask *task = (ORKOrderedTask *)[manager createOrderedTaskForSurveyId:APHVoiceActivitySurveyIdentifier];
     XCTAssertNotNil(task);
     XCTAssertNotNil([task stepWithIdentifier:kMomentInDayStepIdentifier]);
     XCTAssertNotNil([task stepWithIdentifier:@"audio"]);
@@ -107,7 +107,7 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
     [APHLocalization setLocalization:@"en"];
     
     APHActivityManager *manager = [self managerWithStoredResult:nil];
-    ORKOrderedTask *task = [manager createOrderedTaskForSurveyId:APHMemoryActivitySurveyIdentifier];
+    ORKOrderedTask *task = (ORKOrderedTask *)[manager createOrderedTaskForSurveyId:APHMemoryActivitySurveyIdentifier];
     XCTAssertNotNil(task);
     XCTAssertNotNil([task stepWithIdentifier:kMomentInDayStepIdentifier]);
     XCTAssertNotNil([task stepWithIdentifier:@"cognitive.memory.spatialspan"]);
@@ -123,7 +123,7 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
     [APHLocalization setLocalization:@"en"];
     
     APHActivityManager *manager = [self managerWithStoredResult:nil];
-    ORKOrderedTask *task = [manager createOrderedTaskForSurveyId:APHWalkingActivitySurveyIdentifier];
+    ORKOrderedTask *task = (ORKOrderedTask *)[manager createOrderedTaskForSurveyId:APHWalkingActivitySurveyIdentifier];
     XCTAssertNotNil(task);
     XCTAssertNotNil([task stepWithIdentifier:kMomentInDayStepIdentifier]);
     XCTAssertNotNil([task stepWithIdentifier:@"walking.outbound"]);
@@ -241,7 +241,7 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
     XCTAssertTrue([item.answerFormat isKindOfClass:[ORKTextChoiceAnswerFormat class]]);
     
     NSArray <ORKTextChoice *> *choices = ((ORKTextChoiceAnswerFormat*)item.answerFormat).textChoices;
-    XCTAssertEqual(choices.count, 8);
+    XCTAssertEqual(choices.count, 6);
     
     XCTAssertEqualObjects(choices[0].text, @"0-30 minutes ago");
     XCTAssertEqualObjects(choices[0].value, @"0-30 minutes ago");
@@ -252,20 +252,14 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
     XCTAssertEqualObjects(choices[2].text, @"1-2 hours ago");
     XCTAssertEqualObjects(choices[2].value, @"1-2 hours ago");
     
-    XCTAssertEqualObjects(choices[3].text, @"2-4 hours ago");
-    XCTAssertEqualObjects(choices[3].value, @"2-4 hours ago");
-    
-    XCTAssertEqualObjects(choices[4].text, @"4-8 hours ago");
-    XCTAssertEqualObjects(choices[4].value, @"4-8 hours ago");
-    
-    XCTAssertEqualObjects(choices[5].text, @"More than 8 hours ago");
-    XCTAssertEqualObjects(choices[5].value, @"More than 8 hours ago");
+    XCTAssertEqualObjects(choices[3].text, @"More than 2 hours ago");
+    XCTAssertEqualObjects(choices[3].value, @"More than 2 hours ago");
 
-    XCTAssertEqualObjects(choices[6].text, @"Not sure");
-    XCTAssertEqualObjects(choices[6].value, @"Not sure");
+    XCTAssertEqualObjects(choices[4].text, @"Not sure");
+    XCTAssertEqualObjects(choices[4].value, @"Not sure");
     
-    XCTAssertEqualObjects(choices[7].text, @"I don't take Parkinson medications");
-    XCTAssertEqualObjects(choices[7].value, kNoMedication);
+    XCTAssertEqualObjects(choices[5].text, @"I don't take Parkinson medications");
+    XCTAssertEqualObjects(choices[5].value, kNoMedication);
 }
 
 #pragma mark - test stashing survey
@@ -367,7 +361,7 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
 - (APHParkinsonActivityViewController *)viewControllerIncludingMomentInDay:(BOOL)includeMomentInDay {
 
     APHActivityManager *manager = includeMomentInDay ? [self managerWithStoredResult:nil] : [self managerWithStoredResult:@"momentInDay"];
-    ORKOrderedTask  *task = [manager createOrderedTaskForSurveyId:APHWalkingActivitySurveyIdentifier];
+    ORKOrderedTask  *task = (ORKOrderedTask *)[manager createOrderedTaskForSurveyId:APHWalkingActivitySurveyIdentifier];
     
     APHParkinsonActivityViewController_Test *vc = [[APHParkinsonActivityViewController_Test alloc] initWithTask:task taskRunUUID:[NSUUID UUID]];
     

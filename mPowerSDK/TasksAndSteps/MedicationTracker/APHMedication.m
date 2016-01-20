@@ -1,5 +1,5 @@
 //
-//  ResourcesTests.m
+//  APHMedication.m
 //  mPowerSDK
 //
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved.
@@ -31,56 +31,60 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <XCTest/XCTest.h>
-#import <APCAppCore/APCAppCore.h>
-#import <mPowerSDK/mPowerSDK.h>
+#import "APHMedication.h"
 
-@interface ResourcesTests : XCTestCase
+@implementation APHMedication
 
-@end
-
-@implementation ResourcesTests
-
-- (void)setUp {
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-}
-
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
-
-- (void)testDataGroupsMapping
-{
-    id json = [self jsonForResource:@"DataGroupsMapping"];
-    XCTAssertTrue([json isKindOfClass:[NSDictionary class]]);
-}
-
-- (void)testMedicationTracking
-{
-    id json = [self jsonForResource:@"MedicationTracking"];
-    XCTAssertTrue([json isKindOfClass:[NSDictionary class]]);
-}
-
-- (id)jsonForResource:(NSString*)resourceName
-{
-    APHAppDelegate *appDelegate = [[APHAppDelegate alloc] init];
-    NSString *path = [appDelegate pathForResource:resourceName ofType:@"json"];
-    
-    NSData *jsonData = [NSData dataWithContentsOfFile:path];
-    XCTAssertNotNil(jsonData);
-    
-    if (jsonData) {
-        NSError *parseError;
-        id json = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&parseError];
-        XCTAssertNil(parseError);
-        XCTAssertNotNil(json);
-        
-        return json;
+- (id)initWithDictionaryRepresentation:(NSDictionary *)dictionary {
+    if ((self = [super init])) {
+        for (NSString *key in [dictionary allKeys]) {
+            [self setValue:dictionary[key] forKey:key];
+        }
     }
+    return self;
+}
+
+- (NSDictionary *)dictionaryRepresentation {
+//    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[super dictionaryRepresentation]];
+//    
+//    [dict setObjectIfNotNil:self.activityType forKey:@"activityType"];
+//    
+//    [dict setObjectIfNotNil:self.guid forKey:@"guid"];
+//    
+//    [dict setObjectIfNotNil:self.label forKey:@"label"];
+//    
+//    [dict setObjectIfNotNil:self.labelDetail forKey:@"labelDetail"];
+//    
+//    [dict setObjectIfNotNil:self.survey forKey:@"survey"];
+//    
+//    [dict setObjectIfNotNil:self.surveyResponse forKey:@"surveyResponse"];
+//    
+//    [dict setObjectIfNotNil:self.task forKey:@"task"];
     
     return nil;
 }
+
+- (NSString *)text {
+    NSMutableString *result = [self.name mutableCopy];
+    if (self.detail.length > 0) {
+        if (result.length > 0) {
+            [result appendString:@" "];
+        }
+        [result appendString:self.detail];
+    }
+    if (self.brand.length > 0) {
+        [result appendFormat:@" (%@)", self.brand];
+    }
+    return [result copy];
+}
+
+- (NSString *)identifier {
+    NSMutableString *result = [self.name mutableCopy];
+    if (self.brand.length > 0) {
+        [result appendFormat:@" (%@)", self.brand];
+    }
+    return [result copy];
+}
+
 
 @end
