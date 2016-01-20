@@ -1,5 +1,5 @@
 //
-//  APHMomentInDayStepManager.h
+//  APHMedication.m
 //  mPowerSDK
 //
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved.
@@ -31,42 +31,52 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <ResearchKit/ResearchKit.h>
-#import <APCAppCore/APCAppCore.h>
-#import "APHDataKeys.h"
+#import "APHMedication.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation APHMedication
 
-extern NSString * const kMomentInDayStepIdentifier;
+- (id)initWithDictionaryRepresentation:(NSDictionary *)dictionary {
+    if ((self = [super init])) {
+        for (NSString *key in [dictionary allKeys]) {
+            [self setValue:dictionary[key] forKey:key];
+        }
+    }
+    return self;
+}
 
-@class APHMedication;
+- (NSDictionary *)dictionaryRepresentation {
+    // TODO: Implement
+    return nil;
+}
 
-@interface APHActivityManager : NSObject
+- (NSString *)text {
+    NSMutableString *result = [self.name mutableCopy];
+    if (self.detail.length > 0) {
+        if (result.length > 0) {
+            [result appendString:@" "];
+        }
+        [result appendString:self.detail];
+    }
+    if (self.brand.length > 0) {
+        [result appendFormat:@" (%@)", self.brand];
+    }
+    return [result copy];
+}
 
-+ (instancetype)defaultManager;
+- (NSString *)shortText {
+    if (self.brand.length > 0) {
+        return self.brand;
+    }
+    return self.name;
+}
 
-/**
- * Factory method for creating a custom ordered task
- */
-- (id <ORKTask> _Nullable)createOrderedTaskForSurveyId:(NSString *)surveyId;
+- (NSString *)identifier {
+    NSMutableString *result = [self.name mutableCopy];
+    if (self.brand.length > 0) {
+        [result appendFormat:@" (%@)", self.brand];
+    }
+    return [result copy];
+}
 
-/**
- * Getter/Setter for storing previous response to moment in day survey question
- */
-- (void)saveMomentInDayResult:(ORKStepResult * _Nullable)stepResult;
-- (ORKStepResult * _Nullable)stashedMomentInDayResult;
-
-/**
- * Methoc for storing the tracked medications
- */
-- (void)saveTrackedMedications:(NSArray <APHMedication*> * _Nullable)medications;
-
-//@protected
-- (ORKOrderedTask *)modifyTaskIfRequired:(ORKOrderedTask *)task;
-- (ORKFormStep *)createMomentInDayStep;
-- (BOOL)shouldIncludeMomentInDayStep:(NSDate * _Nullable)lastCompletionDate;
-- (NSString*)completionStepTitle;
 
 @end
-
-NS_ASSUME_NONNULL_END

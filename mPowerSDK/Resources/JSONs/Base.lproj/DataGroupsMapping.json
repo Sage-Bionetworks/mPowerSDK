@@ -1,0 +1,24 @@
+{
+    "items": [
+        {   "group_name"            : "control",
+            "is_control_group"      : true,
+        },
+        {   "group_name"            : "parkinsons",
+            "is_control_group"      : false,
+        }
+    ],
+    "required": true,
+    "questions":
+    [
+     {
+     "identifier": "control",
+     "prompt": "Have you been diagnosed with Parkinson's Disease?",
+     "profileCaption": "Do you have Parkinson's Disease?",
+     "type": "boolean",
+     "valueMap": [{ "value" : true,
+                  "groups" : ["parkinsons"]},
+                  { "value" : false,
+                  "groups" : ["control"]}]
+     }
+     ]
+}

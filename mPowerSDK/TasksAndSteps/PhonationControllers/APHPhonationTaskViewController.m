@@ -61,7 +61,7 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
 
 #pragma  mark  -  Initialisation
 
-+ (ORKOrderedTask *)createOrkTask:(APCTask *) __unused scheduledTask
++ (id<ORKTask>)createOrkTask:(APCTask *) __unused scheduledTask
 {
     //  Adjust apperance and text for the task
     [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];

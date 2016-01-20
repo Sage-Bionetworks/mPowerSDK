@@ -1,5 +1,5 @@
 //
-//  APHMomentInDayStepManager.h
+//  APHMedicationTrackerTask.h
 //  mPowerSDK
 //
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved.
@@ -31,41 +31,30 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+#import <Foundation/Foundation.h>
 #import <ResearchKit/ResearchKit.h>
-#import <APCAppCore/APCAppCore.h>
-#import "APHDataKeys.h"
+
+@class APHMedication, APCDataGroupsManager;
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString * const kMomentInDayStepIdentifier;
+extern NSString * const APHMedicationTrackerTaskIdentifier;
+extern NSString * const APHMedicationTrackerNoneAnswerIdentifier;
+extern NSString * const APHMedicationTrackerSelectionStepIdentifier;
+extern NSString * const APHMedicationTrackerFrequencyStepIdentifier;
 
-@class APHMedication;
+@interface APHMedicationTrackerTask : NSObject <ORKTask>
 
-@interface APHActivityManager : NSObject
+@property (nonatomic, readonly) APCDataGroupsManager *dataGroupsManager;
+@property (nonatomic, readonly) NSArray <APHMedication *> *medications;
 
-+ (instancetype)defaultManager;
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary * _Nullable)dictionary;
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary * _Nullable)dictionary
+                               dataGroupsManager:(APCDataGroupsManager * _Nullable)dataGroupsManager;
 
-/**
- * Factory method for creating a custom ordered task
- */
-- (id <ORKTask> _Nullable)createOrderedTaskForSurveyId:(NSString *)surveyId;
-
-/**
- * Getter/Setter for storing previous response to moment in day survey question
- */
-- (void)saveMomentInDayResult:(ORKStepResult * _Nullable)stepResult;
-- (ORKStepResult * _Nullable)stashedMomentInDayResult;
-
-/**
- * Methoc for storing the tracked medications
- */
-- (void)saveTrackedMedications:(NSArray <APHMedication*> * _Nullable)medications;
-
-//@protected
-- (ORKOrderedTask *)modifyTaskIfRequired:(ORKOrderedTask *)task;
-- (ORKFormStep *)createMomentInDayStep;
-- (BOOL)shouldIncludeMomentInDayStep:(NSDate * _Nullable)lastCompletionDate;
-- (NSString*)completionStepTitle;
+- (NSArray <APHMedication *> * _Nullable)selectedMedicationFromResult:(ORKTaskResult *)result
+                                               trackingOnly:(BOOL)trackingOnly
+                                                   pillOnly:(BOOL)pillOnly;
 
 @end
 

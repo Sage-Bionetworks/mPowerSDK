@@ -1,5 +1,5 @@
 //
-//  APHMomentInDayStepManager.h
+//  APHMedication.h
 //  mPowerSDK
 //
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved.
@@ -31,42 +31,22 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <ResearchKit/ResearchKit.h>
-#import <APCAppCore/APCAppCore.h>
-#import "APHDataKeys.h"
+#import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
+@interface APHMedication : NSObject
 
-extern NSString * const kMomentInDayStepIdentifier;
+@property (nonatomic, readonly) NSString * _Nonnull identifier;
+@property (nonatomic) NSString * _Nonnull name;
+@property (nonatomic) NSString * _Nullable detail;
+@property (nonatomic) NSString * _Nullable brand;
+@property (nonatomic) BOOL tracking;
+@property (nonatomic) BOOL injection;
+@property (nonatomic, readonly) NSString * _Nonnull text;
+@property (nonatomic, readonly) NSString * _Nonnull shortText;
 
-@class APHMedication;
+- (instancetype _Nonnull)initWithDictionaryRepresentation:(NSDictionary * _Nonnull)dictionary;
+- (NSDictionary * _Nonnull)dictionaryRepresentation;
 
-@interface APHActivityManager : NSObject
 
-+ (instancetype)defaultManager;
-
-/**
- * Factory method for creating a custom ordered task
- */
-- (id <ORKTask> _Nullable)createOrderedTaskForSurveyId:(NSString *)surveyId;
-
-/**
- * Getter/Setter for storing previous response to moment in day survey question
- */
-- (void)saveMomentInDayResult:(ORKStepResult * _Nullable)stepResult;
-- (ORKStepResult * _Nullable)stashedMomentInDayResult;
-
-/**
- * Methoc for storing the tracked medications
- */
-- (void)saveTrackedMedications:(NSArray <APHMedication*> * _Nullable)medications;
-
-//@protected
-- (ORKOrderedTask *)modifyTaskIfRequired:(ORKOrderedTask *)task;
-- (ORKFormStep *)createMomentInDayStep;
-- (BOOL)shouldIncludeMomentInDayStep:(NSDate * _Nullable)lastCompletionDate;
-- (NSString*)completionStepTitle;
 
 @end
-
-NS_ASSUME_NONNULL_END

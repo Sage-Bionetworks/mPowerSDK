@@ -56,7 +56,6 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
 static NSString *const kAppStoreLink                    = @"https://appsto.re/us/GxN85.i";
 
 @interface APHAppDelegate ()
-@property  (nonatomic, strong)  APHProfileExtender* profileExtender;
 @end
 
 @implementation APHAppDelegate
@@ -742,6 +741,7 @@ static NSDate *determineConsentDate(id object)
               @(kAPCUserInfoItemTypeWeight),
               @(kAPCUserInfoItemTypeWakeUpTime),
               @(kAPCUserInfoItemTypeSleepTime),
+              @(kAPCUserInfoItemTypeDataGroups)
               ];
 }
 
