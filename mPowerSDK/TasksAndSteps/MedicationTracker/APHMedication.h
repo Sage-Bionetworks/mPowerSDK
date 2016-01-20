@@ -41,10 +41,12 @@
 @property (nonatomic) NSString * _Nullable brand;
 @property (nonatomic) BOOL tracking;
 @property (nonatomic) BOOL injection;
+@property (nonatomic, readonly) NSString * _Nonnull text;
+@property (nonatomic, readonly) NSString * _Nonnull shortText;
 
 - (instancetype _Nonnull)initWithDictionaryRepresentation:(NSDictionary * _Nonnull)dictionary;
 - (NSDictionary * _Nonnull)dictionaryRepresentation;
 
-- (NSString * _Nonnull)text;
+
 
 @end

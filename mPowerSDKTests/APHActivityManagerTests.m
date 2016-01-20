@@ -34,9 +34,12 @@
 #import <XCTest/XCTest.h>
 #import <Foundation/Foundation.h>
 #import <mPowerSDK/mPowerSDK.h>
+#import "MockAPCDataGroupsManager.h"
+#import "APHMedication.h"
 
 
 NSString *const kNoMedication = @"I don't take Parkinson medications";
+NSString *const kControlGroup = @"Control Group";
 
 @interface APHParkinsonActivityViewControllerTests : XCTestCase
 
@@ -45,6 +48,7 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
 @interface APHActivityManager (PrivateTest)
 @property (nonatomic) NSUserDefaults *storedDefaults;
 @property (nonatomic) NSDate *lastCompletionDate;
+@property (nonatomic) APCDataGroupsManager *dataGroupsManager;
 @end
 
 @interface APHParkinsonActivityViewController (PrivateTest)
@@ -213,11 +217,9 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
 {
     APHActivityManager *manager = [self managerWithStoredResult:kNoMedication];
     
-    // If asked today, should NOT include step
+    // If no meds, should not be asked the moment in day question
     XCTAssertFalse([manager shouldIncludeMomentInDayStep:[NSDate dateWithTimeIntervalSinceNow:-8*60*60]]);
-    
-    // If it has been more than 30 days, should ask the question again
-    XCTAssertTrue([manager shouldIncludeMomentInDayStep:[NSDate dateWithTimeIntervalSinceNow:-35*24*60*60]]);
+    XCTAssertFalse([manager shouldIncludeMomentInDayStep:[NSDate dateWithTimeIntervalSinceNow:-35*24*60*60]]);
 }
 
 #pragma mark - test of creation of moment in day step
@@ -227,7 +229,7 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
     // set to the English bundle
     [APHLocalization setLocalization:@"en"];
     
-    APHActivityManager *manager = [[APHActivityManager alloc] init];
+    APHActivityManager *manager = [self managerWithStoredResult:nil];
     ORKFormStep *step = [manager createMomentInDayStep];
     
     XCTAssertNotNil(step);
@@ -237,11 +239,11 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
     ORKFormItem  *item = [step.formItems firstObject];
     XCTAssertEqual(step.formItems.count, 1);
     XCTAssertEqualObjects(item.identifier, @"momentInDayFormat");
-    XCTAssertEqualObjects(item.text, @"When was the last time you took any of your PARKINSON MEDICATIONS?");
+    XCTAssertEqualObjects(item.text, @"When was the last time you took your Levodopa?");
     XCTAssertTrue([item.answerFormat isKindOfClass:[ORKTextChoiceAnswerFormat class]]);
     
     NSArray <ORKTextChoice *> *choices = ((ORKTextChoiceAnswerFormat*)item.answerFormat).textChoices;
-    XCTAssertEqual(choices.count, 6);
+    XCTAssertEqual(choices.count, 5);
     
     XCTAssertEqualObjects(choices[0].text, @"0-30 minutes ago");
     XCTAssertEqualObjects(choices[0].value, @"0-30 minutes ago");
@@ -257,17 +259,13 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
 
     XCTAssertEqualObjects(choices[4].text, @"Not sure");
     XCTAssertEqualObjects(choices[4].value, @"Not sure");
-    
-    XCTAssertEqualObjects(choices[5].text, @"I don't take Parkinson medications");
-    XCTAssertEqualObjects(choices[5].value, kNoMedication);
 }
 
 #pragma mark - test stashing survey
 
-- (void)testStashedSurvey
+- (void)testStashedSurvey_WithResult
 {
-    APHActivityManager *manager = [[APHActivityManager alloc] init];
-    manager.storedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[[NSUUID UUID] UUIDString]];
+    APHActivityManager *manager = [self managerWithStoredResult:nil];
     
     // Create a choice question result
     NSString *uuid = [[NSUUID UUID] UUIDString];
@@ -293,6 +291,131 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
     XCTAssertEqualObjects(output.endDate, endDate);
     XCTAssertEqualObjects(output.choiceAnswers, @[@"1234abc"]);
     XCTAssertEqual(output.questionType, ORKQuestionTypeSingleChoice);
+}
+
+- (void)testStashedSurvey_ControlGroup
+{
+    APHActivityManager *manager = [self managerWithStoredResult:nil];
+    ((MockAPCDataGroupsManager*)manager.dataGroupsManager).surveyStepResult = [MockControlResult new];
+    
+    ORKStepResult *outStepResult = [manager stashedMomentInDayResult];
+    XCTAssertNotNil(outStepResult);
+    XCTAssertEqualObjects(outStepResult.identifier, kMomentInDayStepIdentifier);
+
+    ORKChoiceQuestionResult *output = (ORKChoiceQuestionResult *)[outStepResult.results firstObject];
+    XCTAssertNotNil(output);
+    XCTAssertEqualObjects(output.identifier, @"momentInDayFormat");
+    XCTAssertNotNil(output.startDate);
+    XCTAssertNotNil(output.endDate);
+    XCTAssertEqualObjects(output.choiceAnswers, @[kControlGroup]);
+    XCTAssertEqual(output.questionType, ORKQuestionTypeSingleChoice);
+}
+
+- (void)testStashedSurvey_NoMeds
+{
+    APHActivityManager *manager = [self managerWithStoredResult:nil trackedMedications:@[]];
+    
+    ORKStepResult *outStepResult = [manager stashedMomentInDayResult];
+    XCTAssertNotNil(outStepResult);
+    XCTAssertEqualObjects(outStepResult.identifier, kMomentInDayStepIdentifier);
+    
+    ORKChoiceQuestionResult *output = (ORKChoiceQuestionResult *)[outStepResult.results firstObject];
+    XCTAssertNotNil(output);
+    XCTAssertEqualObjects(output.identifier, @"momentInDayFormat");
+    XCTAssertNotNil(output.startDate);
+    XCTAssertNotNil(output.endDate);
+    XCTAssertEqualObjects(output.choiceAnswers, @[kNoMedication]);
+    XCTAssertEqual(output.questionType, ORKQuestionTypeSingleChoice);
+}
+
+#pragma mark - Test control data group
+
+- (void)testControlGroupDoesNotGetQuestion
+{
+    APHActivityManager *manager = [self managerWithStoredResult:nil];
+    ((MockAPCDataGroupsManager*)manager.dataGroupsManager).surveyStepResult = [MockControlResult new];
+    
+    // For control group, the moment in day step should not be included
+    XCTAssertFalse([manager shouldIncludeMomentInDayStep:nil]);
+}
+
+#pragma mark - test Save Tracked Medications
+
+- (void)testSaveTrackedMedications_EmptySet
+{
+    APHActivityManager *manager = [self managerWithStoredResult:nil trackedMedications:@[]];
+    
+    // For empty medications set, the moment in day step should not be included
+    XCTAssertFalse([manager shouldIncludeMomentInDayStep:nil]);
+}
+
+- (void)testSaveTrackedMedications_NameOnly_English
+{
+    // set to the English bundle
+    [APHLocalization setLocalization:@"en"];
+    
+    NSArray *meds = @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Levodopa"}]];
+    APHActivityManager *manager = [self managerWithStoredResult:nil trackedMedications:meds];
+    
+    // For medications that are tracked, the moment in day step should be included
+    XCTAssertTrue([manager shouldIncludeMomentInDayStep:nil]);
+
+    // The moment in day step should include Levodopa
+    ORKFormStep *step = [manager createMomentInDayStep];
+    XCTAssertNotNil(step);
+    XCTAssertEqualObjects(step.identifier, kMomentInDayStepIdentifier);
+    ORKFormItem  *item = [step.formItems firstObject];
+    XCTAssertEqual(step.formItems.count, 1);
+    XCTAssertEqualObjects(item.identifier, @"momentInDayFormat");
+    XCTAssertEqualObjects(item.text, @"When was the last time you took your Levodopa?");
+}
+
+- (void)testSaveTrackedMedications_2x_English
+{
+    // set to the English bundle
+    [APHLocalization setLocalization:@"en"];
+    
+    NSArray *meds = @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Levodopa"}],
+                      [[APHMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Carbidopa/Levodopa",
+                                                                                @"brand": @"Sinemet" }]];
+    APHActivityManager *manager = [self managerWithStoredResult:nil trackedMedications:meds];
+    
+    // For medications that are tracked, the moment in day step should be included
+    XCTAssertTrue([manager shouldIncludeMomentInDayStep:nil]);
+    
+    // The moment in day step should include Levodopa
+    ORKFormStep *step = [manager createMomentInDayStep];
+    XCTAssertNotNil(step);
+    XCTAssertEqualObjects(step.identifier, kMomentInDayStepIdentifier);
+    ORKFormItem  *item = [step.formItems firstObject];
+    XCTAssertEqual(step.formItems.count, 1);
+    XCTAssertEqualObjects(item.identifier, @"momentInDayFormat");
+    XCTAssertEqualObjects(item.text, @"When was the last time you took your Levodopa or Sinemet?");
+}
+
+- (void)testSaveTrackedMedications_3x_English
+{
+    // set to the English bundle
+    [APHLocalization setLocalization:@"en"];
+    
+    NSArray *meds = @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Levodopa"}],
+                      [[APHMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Carbidopa/Levodopa",
+                                                                                @"brand": @"Sinemet" }],
+                      [[APHMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Carbidopa/Levodopa",
+                                                                                @"brand": @"Rytary" }]];
+    APHActivityManager *manager = [self managerWithStoredResult:nil trackedMedications:meds];
+    
+    // For medications that are tracked, the moment in day step should be included
+    XCTAssertTrue([manager shouldIncludeMomentInDayStep:nil]);
+    
+    // The moment in day step should include Levodopa
+    ORKFormStep *step = [manager createMomentInDayStep];
+    XCTAssertNotNil(step);
+    XCTAssertEqualObjects(step.identifier, kMomentInDayStepIdentifier);
+    ORKFormItem  *item = [step.formItems firstObject];
+    XCTAssertEqual(step.formItems.count, 1);
+    XCTAssertEqualObjects(item.identifier, @"momentInDayFormat");
+    XCTAssertEqualObjects(item.text, @"When was the last time you took your Levodopa, Sinemet or Rytary?");
 }
 
 #pragma mark - Test view controller munging of results to include step if not there initially
@@ -332,16 +455,32 @@ NSString *const kNoMedication = @"I don't take Parkinson medications";
 
 #pragma mark - helper methods
 
-- (APHActivityManager *)managerWithStoredResult:(NSString*)storedAnswer
+- (APHActivityManager *)managerWithStoredResult:(NSString*)storedAnswer {
+    // Setup the manager with Levodopa by default if answer isn't I don't take meds
+    NSArray *meds = [storedAnswer isEqualToString:kNoMedication] ? @[] : @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Levodopa"}]];
+    return [self managerWithStoredResult:storedAnswer trackedMedications:meds];
+}
+
+- (APHActivityManager *)managerWithStoredResult:(NSString*)storedAnswer trackedMedications:(NSArray <APHMedication*> *)trackedMedications
 {
     APHActivityManager *manager = [[APHActivityManager alloc] init];
     
     // initialize a new user defaults
     manager.storedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[[NSUUID UUID] UUIDString]];
     
-    // Setup the manager with a saved result that is *not* the "no medication" result
+    // Setup the manager with a saved result
     if (storedAnswer != nil) {
         [manager saveMomentInDayResult:[self momentInDayStepResult:storedAnswer]];
+    }
+    
+    // Setup the manager with the Parkinson's data group by default
+    MockAPCDataGroupsManager *mockManager = [MockAPCDataGroupsManager new];
+    mockManager.surveyStepResult = [MockPDResult new];
+    manager.dataGroupsManager = mockManager;
+    
+    // Save the tracked medications
+    if (trackedMedications != nil) {
+        [manager saveTrackedMedications:trackedMedications];
     }
     
     return manager;

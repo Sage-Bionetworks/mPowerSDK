@@ -35,6 +35,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "APHLocalization.h"
 #import "APHAppDelegate.h"
+#import "APHMedication.h"
 
 
 //
@@ -45,12 +46,14 @@
 NSString  *const kMomentInDayStepIdentifier             = @"momentInDay";
 NSString  *const kMomentInDayFormat                     = @"momentInDayFormat";
 NSString  *const kMomentInDayNoneChoice                 = @"I don't take Parkinson medications";
+NSString  *const kMomentInDayControlChoice              = @"Control Group";
 
 //
 //    key for Parkinson Stashed Question Result
 //        from 'When Did You Take Your Medicine' Pre-Survey Question
 //
 NSString  *const kMomentInDayUserDefaultsKey            = @"MomentInDayUserDefaults";
+NSString  *const kMedicationListDefaultsKey            = @"MedicationListUserDefaults";
 
 //
 //    keys for Parkinson Stashed Question Result Dictionary
@@ -106,9 +109,11 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurveyIfNoMeds = 30.0 * 24.0 *
 
 @interface APHActivityManager ()
 
+@property (nonatomic) APCDataGroupsManager *dataGroupsManager;
 @property (nonatomic) NSUserDefaults *storedDefaults;
 @property (nonatomic) NSDate *lastCompletionDate;
-@property NSDictionary *stashedDictionary;
+@property (nonatomic, copy) ORKStepResult * _Nullable momentInDayStepResult;
+@property (nonatomic, copy) NSArray <NSString *> * _Nullable medicationList;
 
 - (ORKFormStep *)createMomentInDayStep;
 - (BOOL)shouldIncludeMomentInDayStep:(NSDate * _Nullable)lastCompletionDate;
@@ -130,28 +135,20 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurveyIfNoMeds = 30.0 * 24.0 *
 
 #pragma mark - private properties
 
+- (APCDataGroupsManager *)dataGroupsManager
+{
+    if (_dataGroupsManager == nil) {
+        return [[APCAppDelegate sharedAppDelegate] dataGroupsManagerForUser:nil];
+    }
+    return _dataGroupsManager;
+}
+
 - (NSUserDefaults *)storedDefaults
 {
     if (_storedDefaults == nil) {
         _storedDefaults = [NSUserDefaults standardUserDefaults];
     }
     return _storedDefaults;
-}
-
-- (NSDictionary *)stashedSurvey
-{
-    return [self.storedDefaults objectForKey:kMomentInDayUserDefaultsKey];
-}
-
-- (void)setStashedSurvey:(NSDictionary *)dictionary
-{
-    if (dictionary) {
-        [self.storedDefaults setObject:dictionary forKey:kMomentInDayUserDefaultsKey];
-    }
-    else {
-        [self.storedDefaults removeObjectForKey:kMomentInDayUserDefaultsKey];
-    }
-    [self.storedDefaults synchronize];
 }
 
 - (NSDate *)lastCompletionDate
@@ -165,6 +162,21 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurveyIfNoMeds = 30.0 * 24.0 *
         }
     }
     return _lastCompletionDate;
+}
+
+- (NSArray <NSString *> *)medicationList {
+    return [self.storedDefaults objectForKey:kMedicationListDefaultsKey];
+}
+
+- (void)setMedicationList:(NSArray <NSString *> *)medicationList {
+    if (medicationList) {
+        [self.storedDefaults setObject:medicationList forKey:kMedicationListDefaultsKey];
+    }
+}
+
+- (BOOL)noMedication {
+    NSArray *medicationList = [self medicationList];
+    return self.dataGroupsManager.isStudyControlGroup || ((medicationList != nil) && (medicationList.count == 0));
 }
 
 #pragma mark - task manipulation
@@ -340,7 +352,24 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurveyIfNoMeds = 30.0 * 24.0 *
     
     step.optional = NO;
     
-    NSString *itemText = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_QUESTION", nil, APHLocaleBundle(), @"When was the last time you took any of your PARKINSON MEDICATIONS?", @"Prompt for timing of medication in pre-activity medication timing survey.");
+    NSString *itemTextFormat = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_QUESTION", nil, APHLocaleBundle(), @"When was the last time you took your %@?", @"Prompt for timing of medication in pre-activity medication timing survey where %@ is a list of medications (For example, 'Levodopa or Rytary')");
+    NSString *orWord = NSLocalizedStringWithDefaultValue(@"APH_OR_FORMAT", nil, APHLocaleBundle(), @"or", @"Format of a list with two items using the OR key word.");
+    NSString *listDelimiter = NSLocalizedStringWithDefaultValue(@"APH_LIST_FORMAT_DELIMITER", nil, APHLocaleBundle(), @",", @"Delimiter for a list of more than 3 items. (For example, 'Levodopa, Simet or Rytary')");
+    
+    NSMutableString *listText = [NSMutableString new];
+    NSArray <NSString *> *medList = self.medicationList;
+    [medList enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop __unused) {
+        if (medList.count > 1) {
+            if (idx+1 == medList.count) {
+                [listText appendFormat:@" %@ ", orWord];
+            }
+            else if (idx != 0) {
+                [listText appendFormat:@"%@ ", listDelimiter];
+            }
+        }
+        [listText appendString:obj];
+    }];
+    NSString *itemText = [NSString stringWithFormat:itemTextFormat, listText];
     
     ORKAnswerFormat  *format = [ORKTextChoiceAnswerFormat
                                 choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
@@ -404,11 +433,6 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurveyIfNoMeds = 30.0 * 24.0 *
                         NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_NOT_SURE", nil, APHLocaleBundle(), @"Not sure", @"Timing option text in pre-activity medication timing survey for someone who is unsure of when medication was last taken.")
                                                value:@"Not sure"]];
     
-    // Add the "not applicable" choice to both arrays
-    
-    [choices addObject:[ORKTextChoice choiceWithText:NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_NOT_APPLICABLE", nil, APHLocaleBundle(), @"I don't take Parkinson medications", @"Timing option text in pre-activity medication timing survey for someone who doesn't take medication.")
-                                               value:kMomentInDayNoneChoice]];
-    
     // Copy the arrays to static values
     return [choices copy];
 
@@ -416,62 +440,47 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurveyIfNoMeds = 30.0 * 24.0 *
 
 - (BOOL)shouldIncludeMomentInDayStep:(NSDate * _Nullable)lastCompletionDate
 {
-    NSDictionary  *stashedSurvey = [self stashedSurvey];
+    if ([self noMedication]) {
+        return NO;
+    }
     
-    if (lastCompletionDate == nil || stashedSurvey == nil) {
+    if (lastCompletionDate == nil || self.momentInDayStepResult == nil) {
         return YES;
     }
     
     NSTimeInterval numberOfSecondsSinceTaskCompletion = [[NSDate date] timeIntervalSinceDate: lastCompletionDate];
-    BOOL noMeds = [stashedSurvey[kMomentInDayChoiceNoneKey] boolValue];
-    NSTimeInterval minInterval = noMeds ? kMinimumAmountOfTimeToShowSurveyIfNoMeds : kMinimumAmountOfTimeToShowSurvey;
+    NSTimeInterval minInterval = kMinimumAmountOfTimeToShowSurvey;
     
     return (numberOfSecondsSinceTaskCompletion > minInterval);
 }
 
 - (void)saveMomentInDayResult:(ORKStepResult * _Nullable)stepResult
 {
-    if ([stepResult.results count] > 0) {
-        id  object = [stepResult.results lastObject];
-        if ([object isKindOfClass:[ORKChoiceQuestionResult class]] == YES) {
-            ORKChoiceQuestionResult  *result = (ORKChoiceQuestionResult *)object;
-            NSString *answer = result.choiceAnswers.lastObject;
-            if (answer != nil) {
-                NSDictionary  *dictionary = @{
-                                              kMomentInDayChoiceAnswerKey : answer,
-                                              kMomentInDayQuestionTypeKey : @(result.questionType),
-                                              kMomentInDayIdentifierKey   : result.identifier,
-                                              kMomentInDayStartDateKey    : result.startDate,
-                                              kMomentInDayEndDateKey      : result.endDate,
-                                              kMomentInDayChoiceNoneKey   : @([kMomentInDayNoneChoice isEqualToString:answer])
-                                              };
-                [self setStashedSurvey:dictionary];
-            }
-        }
-    }
+    self.lastCompletionDate = [NSDate date];
+    self.momentInDayStepResult = stepResult;
 }
 
 - (ORKStepResult * _Nullable)stashedMomentInDayResult
 {
-    ORKStepResult *aResult = nil;
-    NSDictionary  *stashedSurvey = [self stashedSurvey];
-    NSString *surveyId = stashedSurvey[kMomentInDayIdentifierKey];
-    NSString *answer = stashedSurvey[kMomentInDayChoiceAnswerKey];
-    
-    if ((surveyId != nil) && (answer != nil)) {
-        ORKChoiceQuestionResult *stashedResult = [[ORKChoiceQuestionResult alloc] initWithIdentifier:surveyId];
-        stashedResult.questionType = [stashedSurvey[kMomentInDayQuestionTypeKey] unsignedIntegerValue];
-        stashedResult.startDate = stashedSurvey[kMomentInDayStartDateKey];
-        stashedResult.endDate = stashedSurvey[kMomentInDayEndDateKey];
-        stashedResult.choiceAnswers = @[answer];
+    if ([self noMedication]) {
         
-        aResult = [[ORKStepResult alloc] initWithStepIdentifier:kMomentInDayStepIdentifier
-                                                        results:@[stashedResult]];
+        // Build a step result with the expected answer for the case where the user is not taking medication
+        ORKChoiceQuestionResult *result = [[ORKChoiceQuestionResult alloc] initWithIdentifier:kMomentInDayFormat];
+        result.choiceAnswers = self.dataGroupsManager.isStudyControlGroup ? @[kMomentInDayControlChoice] : @[kMomentInDayNoneChoice];
+        result.questionType = ORKQuestionTypeSingleChoice;
+        result.startDate = [NSDate date];
+        result.endDate = [NSDate date];
+        
+        return [[ORKStepResult alloc] initWithStepIdentifier:kMomentInDayStepIdentifier results:@[result]];
     }
-    
-    return aResult;
+    else {
+        return self.momentInDayStepResult;
+    }
 }
 
-
+- (void)saveTrackedMedications:(NSArray <APHMedication*> * _Nullable)medications
+{
+    self.medicationList = [medications valueForKey:NSStringFromSelector(@selector(shortText))];
+}
 
 @end

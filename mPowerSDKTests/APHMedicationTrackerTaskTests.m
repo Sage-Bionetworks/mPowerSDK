@@ -252,6 +252,11 @@
     XCTAssertEqualObjects(task.mockDataGroupsManager.surveyStepResult, stepResult);
 }
 
+- (void)testSelectedMedicationFromResult_TrackingOnly
+{
+    XCTAssert(@"Implement test");
+}
+
 #pragma mark - helper methods
 
 - (ORKTaskResult *)createTaskResult {

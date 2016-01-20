@@ -39,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const kMomentInDayStepIdentifier;
 
+@class APHMedication;
+
 @interface APHActivityManager : NSObject
 
 + (instancetype)defaultManager;
@@ -53,6 +55,11 @@ extern NSString * const kMomentInDayStepIdentifier;
  */
 - (void)saveMomentInDayResult:(ORKStepResult * _Nullable)stepResult;
 - (ORKStepResult * _Nullable)stashedMomentInDayResult;
+
+/**
+ * Methoc for storing the tracked medications
+ */
+- (void)saveTrackedMedications:(NSArray <APHMedication*> * _Nullable)medications;
 
 //@protected
 - (ORKOrderedTask *)modifyTaskIfRequired:(ORKOrderedTask *)task;
