@@ -52,23 +52,19 @@
               "brand"                 : "Mirapex",
               },
               {
-              "name"                  : "Rotigotine",
-              "brand"                 : "Neupro",
-              },
-              {
               "name"                  : "Ropinirole",
               "brand"                 : "Requip",
               },
               {
               "name"                  : "Apomorphine",
               "brand"                 : "Apokyn",
-              "injection"             : true
+              "injection"             : true,
               },
               {
               "name"                  : "Carbidopa/Levodopa",
-              "detail"                : "Continuous Infusion"
+              "detail"                : "Continuous Infusion",
               "brand"                 : "Duopa",
-              "injection"             : true
+              "injection"             : true,
               },
     ],
 }

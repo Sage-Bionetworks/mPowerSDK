@@ -169,7 +169,7 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurveyIfNoMeds = 30.0 * 24.0 *
 
 #pragma mark - task manipulation
 
-- (ORKOrderedTask *)createOrderedTaskForSurveyId:(NSString *)surveyId
+- (id <ORKTask> _Nullable)createOrderedTaskForSurveyId:(NSString *)surveyId
 {
     ORKOrderedTask *task = nil;
     
@@ -307,7 +307,7 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurveyIfNoMeds = 30.0 * 24.0 *
     return  orkTask;
 }
 
-- (ORKOrderedTask *)modifyTaskIfRequired:(ORKOrderedTask *)task
+- (id <ORKTask>)modifyTaskIfRequired:(ORKOrderedTask *)task
 {
     ORKOrderedTask  *replacementTask = task;
     
@@ -322,10 +322,15 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurveyIfNoMeds = 30.0 * 24.0 *
     }
     
     // Replace the language in the last step
-    [replacementTask.steps.lastObject setTitle:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Thank You!", @"Main text shown to participant upon completion of an activity.") ];
+    [replacementTask.steps.lastObject setTitle:[self completionStepTitle]];
     [replacementTask.steps.lastObject setText:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_DETAIL", nil, APHLocaleBundle(), @"The results of this activity can be viewed on the dashboard", @"Detail text shown to participant upon completion of an activity.")];
     
     return  replacementTask;
+}
+
+- (NSString*)completionStepTitle
+{
+    return NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Thank You!", @"Main text shown to participant upon completion of an activity.");
 }
 
 - (ORKFormStep * _Nonnull)createMomentInDayStep

@@ -62,7 +62,7 @@ static NSString * const kItemKey                    = @"item";
 
 #pragma  mark  -  Task Creation Methods
 
-+ (ORKOrderedTask *)createOrkTask:(APCTask *) __unused scheduledTask
++ (id<ORKTask>)createOrkTask:(APCTask *) __unused scheduledTask
 {
     [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
     

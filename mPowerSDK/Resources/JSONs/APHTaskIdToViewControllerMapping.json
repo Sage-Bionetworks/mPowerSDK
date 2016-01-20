@@ -2,5 +2,6 @@
     "4-APHTimedWalking-80F09109-265A-49C6-9C5D-765E49AAF5D9"        : "APHWalkingTaskViewController",
     "3-APHPhonation-C614A231-A7B7-4173-BDC8-098309354292"           : "APHPhonationTaskViewController",
     "2-APHIntervalTapping-7259AC18-D711-47A6-ADBD-6CFCECDED1DF"     : "APHIntervalTappingTaskViewController",
-    "7-APHSpatialSpanMemory-4A04F3D0-AC05-11E4-AB27-0800200C9A66"   : "APHSpatialSpanMemoryGameViewController"
+    "7-APHSpatialSpanMemory-4A04F3D0-AC05-11E4-AB27-0800200C9A66"   : "APHSpatialSpanMemoryGameViewController",
+    "1-APHMedicationTracker-20EF8ED2-E461-4C20-9024-F43FCAAAF4C3"   : "APHMedicationTrackerViewController"
 }

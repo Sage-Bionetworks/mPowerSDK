@@ -1,5 +1,5 @@
 //
-//  ResourcesTests.m
+//  APHMedicationTrackerViewController.m
 //  mPowerSDK
 //
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved.
@@ -31,56 +31,27 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <XCTest/XCTest.h>
-#import <APCAppCore/APCAppCore.h>
-#import <mPowerSDK/mPowerSDK.h>
+#import "APHMedicationTrackerViewController.h"
+#import "APHMedicationTrackerTask.h"
 
-@interface ResourcesTests : XCTestCase
+@interface APHMedicationTrackerViewController ()
 
 @end
 
-@implementation ResourcesTests
+@implementation APHMedicationTrackerViewController
 
-- (void)setUp {
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
 }
 
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
-- (void)testDataGroupsMapping
-{
-    id json = [self jsonForResource:@"DataGroupsMapping"];
-    XCTAssertTrue([json isKindOfClass:[NSDictionary class]]);
-}
-
-- (void)testMedicationTracking
-{
-    id json = [self jsonForResource:@"MedicationTracking"];
-    XCTAssertTrue([json isKindOfClass:[NSDictionary class]]);
-}
-
-- (id)jsonForResource:(NSString*)resourceName
-{
-    APHAppDelegate *appDelegate = [[APHAppDelegate alloc] init];
-    NSString *path = [appDelegate pathForResource:resourceName ofType:@"json"];
-    
-    NSData *jsonData = [NSData dataWithContentsOfFile:path];
-    XCTAssertNotNil(jsonData);
-    
-    if (jsonData) {
-        NSError *parseError;
-        id json = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&parseError];
-        XCTAssertNil(parseError);
-        XCTAssertNotNil(json);
-        
-        return json;
-    }
-    
-    return nil;
++ (id<ORKTask>)createOrkTask:(APCTask *) __unused scheduledTask {
+    return  [APHMedicationTrackerTask new];
 }
 
 @end
