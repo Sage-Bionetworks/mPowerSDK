@@ -45,22 +45,7 @@
 }
 
 - (NSDictionary *)dictionaryRepresentation {
-//    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[super dictionaryRepresentation]];
-//    
-//    [dict setObjectIfNotNil:self.activityType forKey:@"activityType"];
-//    
-//    [dict setObjectIfNotNil:self.guid forKey:@"guid"];
-//    
-//    [dict setObjectIfNotNil:self.label forKey:@"label"];
-//    
-//    [dict setObjectIfNotNil:self.labelDetail forKey:@"labelDetail"];
-//    
-//    [dict setObjectIfNotNil:self.survey forKey:@"survey"];
-//    
-//    [dict setObjectIfNotNil:self.surveyResponse forKey:@"surveyResponse"];
-//    
-//    [dict setObjectIfNotNil:self.task forKey:@"task"];
-    
+    // TODO: Implement
     return nil;
 }
 
@@ -76,6 +61,13 @@
         [result appendFormat:@" (%@)", self.brand];
     }
     return [result copy];
+}
+
+- (NSString *)shortText {
+    if (self.brand.length > 0) {
+        return self.brand;
+    }
+    return self.name;
 }
 
 - (NSString *)identifier {
