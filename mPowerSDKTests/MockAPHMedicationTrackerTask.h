@@ -7,10 +7,11 @@
 //
 
 #import <mPowerSDK/mPowerSDK.h>
-#import "MockAPCDataGroupsManager.h"
+#import "MockAPHMedicationTrackerDataStore.h"
 
 @interface MockAPHMedicationTrackerTask : APHMedicationTrackerTask
 
-@property (nonatomic) MockAPCDataGroupsManager *mockDataGroupsManager;
+@property (nonatomic) MockAPHMedicationTrackerDataStore *mockDataStore;
+@property (nonatomic, readonly) MockAPCDataGroupsManager *mockDataGroupsManager;
 
 @end

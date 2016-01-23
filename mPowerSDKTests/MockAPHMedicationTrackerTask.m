@@ -15,15 +15,19 @@
     return [bundle pathForResource:@"MedicationTracking" ofType:@"json"];
 }
 
-- (MockAPCDataGroupsManager *)mockDataGroupsManager {
-    if (_mockDataGroupsManager == nil) {
-        _mockDataGroupsManager = [MockAPCDataGroupsManager new];
+- (MockAPHMedicationTrackerDataStore *)mockDataStore {
+    if (_mockDataStore == nil) {
+        _mockDataStore = [MockAPHMedicationTrackerDataStore new];
     }
-    return _mockDataGroupsManager;
+    return _mockDataStore;
 }
 
-- (APCDataGroupsManager *)dataGroupsManager {
-    return self.mockDataGroupsManager;
+- (APHMedicationTrackerDataStore *)dataStore {
+    return self.mockDataStore;
+}
+
+- (MockAPCDataGroupsManager *)mockDataGroupsManager {
+    return self.mockDataStore.mockDataGroupsManager;
 }
 
 @end

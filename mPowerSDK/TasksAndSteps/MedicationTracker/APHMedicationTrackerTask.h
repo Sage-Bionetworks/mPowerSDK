@@ -34,7 +34,7 @@
 #import <Foundation/Foundation.h>
 #import <ResearchKit/ResearchKit.h>
 
-@class APHMedication, APCDataGroupsManager;
+@class APHMedication, APCDataGroupsManager, APHMedicationTrackerDataStore;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -42,19 +42,27 @@ extern NSString * const APHMedicationTrackerTaskIdentifier;
 extern NSString * const APHMedicationTrackerNoneAnswerIdentifier;
 extern NSString * const APHMedicationTrackerSelectionStepIdentifier;
 extern NSString * const APHMedicationTrackerFrequencyStepIdentifier;
+extern NSString * const APHMedicationTrackerMomentInDayStepIdentifier;
+extern NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier;
 
 @interface APHMedicationTrackerTask : NSObject <ORKTask>
 
-@property (nonatomic, readonly) APCDataGroupsManager *dataGroupsManager;
+@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
 @property (nonatomic, readonly) NSArray <APHMedication *> *medications;
+@property (nonatomic, readonly) id <ORKTask> _Nullable subTask;
 
+/**
+ * If the dictionary is nil, then the default embedded json file MedicationTracking will
+ * be used to define the mapping.
+ */
 - (instancetype)initWithDictionaryRepresentation:(NSDictionary * _Nullable)dictionary;
-- (instancetype)initWithDictionaryRepresentation:(NSDictionary * _Nullable)dictionary
-                               dataGroupsManager:(APCDataGroupsManager * _Nullable)dataGroupsManager;
 
-- (NSArray <APHMedication *> * _Nullable)selectedMedicationFromResult:(ORKTaskResult *)result
-                                               trackingOnly:(BOOL)trackingOnly
-                                                   pillOnly:(BOOL)pillOnly;
+/**
+ * Allow for the injection of the medication tracking survey questions before a activity
+ * decribed by the subtask.
+ */
+- (instancetype)initWithDictionaryRepresentation:(NSDictionary * _Nullable)dictionary
+                                         subTask:(id <ORKTask> _Nullable)subTask;
 
 @end
 

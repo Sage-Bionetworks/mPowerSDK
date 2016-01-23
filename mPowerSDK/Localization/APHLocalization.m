@@ -74,4 +74,11 @@ NSBundle *APHLocaleBundle() {
     }
 }
 
++ (NSString*)localizedStringWithKey:(NSString*)key {
+    if ([key isEqualToString:@"APH_ACTIVITY_CONCLUSION_TEXT"]) {
+        return NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Thank You!", @"Main text shown to participant upon completion of an activity.");
+    }
+    return NSLocalizedStringFromTableInBundle(key, nil, APHLocaleBundle(), nil);
+}
+
 @end

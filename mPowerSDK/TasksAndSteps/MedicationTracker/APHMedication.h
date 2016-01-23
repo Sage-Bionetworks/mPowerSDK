@@ -35,12 +35,13 @@
 
 @interface APHMedication : NSObject
 
-@property (nonatomic, readonly) NSString * _Nonnull identifier;
 @property (nonatomic) NSString * _Nonnull name;
 @property (nonatomic) NSString * _Nullable detail;
 @property (nonatomic) NSString * _Nullable brand;
 @property (nonatomic) BOOL tracking;
 @property (nonatomic) BOOL injection;
+
+@property (nonatomic, readonly) NSString * _Nonnull identifier;
 @property (nonatomic, readonly) NSString * _Nonnull text;
 @property (nonatomic, readonly) NSString * _Nonnull shortText;
 

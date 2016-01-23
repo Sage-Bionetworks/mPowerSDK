@@ -35,16 +35,19 @@
 #import "APHAppDelegate.h"
 #import "APHLocalization.h"
 #import "APHActivityManager.h"
-
-
-
+#import "APHMedicationTrackerTask.h"
+#import "APHMedicationTrackerDataStore.h"
 
 @interface APHParkinsonActivityViewController ()
 
-@property (nonatomic, strong) NSMutableArray * _Nullable stashedResults;
-@property (nonatomic, strong) APHActivityManager *activityManager;
+@property (nonatomic, strong) APCDataArchive *medicationTrackerArchive;
+
+@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
+@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
 
 @end
+
+static const NSInteger APHMedicationTrackerSchemaRevision = 1;
 
     //
     //    Common Super-Class for all four Parkinson Task View Controllers
@@ -71,55 +74,99 @@
     //
 @implementation APHParkinsonActivityViewController
 
-
-
-- (APHActivityManager *)activityManager
-{
-    if (_activityManager == nil) {
-        _activityManager = [APHActivityManager defaultManager];
+- (APHMedicationTrackerTask*)medicationTrackerTask {
+    if ([self.task isKindOfClass:[APHMedicationTrackerTask class]]) {
+        return (APHMedicationTrackerTask*)self.task;
     }
-    return _activityManager;
+    return nil;
 }
 
-
-#pragma  mark  -  Task View Controller Delegate Methods
-
-- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(nullable NSError *)error
-{
-    if (reason == ORKTaskViewControllerFinishReasonCompleted) {
-        
-        ORKTaskResult *taskResult = [taskViewController result];
-        ORKResult  *stepResult = [taskResult resultForIdentifier:kMomentInDayStepIdentifier];
-    
-        if (stepResult != nil && [stepResult isKindOfClass:[ORKStepResult class]]) {
-            [[self activityManager]  saveMomentInDayResult:(ORKStepResult*)stepResult];
-        }
-        else {
-            ORKStepResult *momentStepResult = [[self activityManager]  stashedMomentInDayResult];
-            if (momentStepResult != nil) {
-                self.stashedResults = [taskResult.results mutableCopy];
-                [self.stashedResults insertObject:momentStepResult atIndex:0];
-            }
-        }
-        
-        APHAppDelegate *appDelegate = (APHAppDelegate *) [UIApplication sharedApplication].delegate;
-        appDelegate.dataSubstrate.currentUser.taskCompletion = [NSDate date];
-        
-        [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
-    }
-    [super taskViewController:taskViewController didFinishWithReason:reason error:error];
+- (APHMedicationTrackerDataStore*)dataStore {
+    return self.medicationTrackerTask.dataStore ?: [APHMedicationTrackerDataStore defaultStore];
 }
 
 #pragma  mark  -  View Controller Methods
 
--(ORKTaskResult * __nonnull)result
+- (void) archiveResults
 {
-    ORKTaskResult *result = [super result];
-    if (self.stashedResults != nil) {
-        // Because this is readonly, we need to modify it to include the stashed results if they exist
-        [result setResults:[self.stashedResults copy]];
+    ORKTaskResult * baseTaskResult = nil;
+    ORKTaskResult * medicationTrackerTaskResult = nil;
+    
+    if ((self.medicationTrackerTask != nil) && (self.medicationTrackerTask.subTask == nil)) {
+        // If the medication tracker task was *not* run as a subcomponent of another task
+        // it is the base result;
+        baseTaskResult = self.result;
     }
-    return result;
+    else {
+        
+        // If this is a task then the base result is the task and we may have medication selection
+        // results to strip out of it.
+        baseTaskResult = [self.result copy];
+        NSMutableArray *baseResults = [baseTaskResult.results mutableCopy];
+        NSMutableArray *medResults = [NSMutableArray new];
+        
+        // Get the results to munge
+        ORKResult *medSelectionResult = [baseTaskResult resultForIdentifier:APHMedicationTrackerSelectionStepIdentifier];
+        ORKResult *medFrequencyResult = [baseTaskResult resultForIdentifier:APHMedicationTrackerFrequencyStepIdentifier];
+        ORKResult *momentInDayResult = [baseTaskResult resultForIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
+        
+        if (medSelectionResult) {
+            [medResults addObject:medSelectionResult];
+            [baseResults removeObject:medSelectionResult];
+        }
+        if (medFrequencyResult) {
+            [medResults addObject:medFrequencyResult];
+            [baseResults removeObject:medFrequencyResult];
+        }
+        
+        // For the moment in day result, we want to push to cache if discovered and pull from
+        // cache if not found
+        if (momentInDayResult != nil && [momentInDayResult isKindOfClass:[ORKStepResult class]]) {
+            self.dataStore.momentInDayResult = (ORKStepResult*)momentInDayResult;
+        }
+        else {
+            ORKResult *momentInDayResult = self.dataStore.momentInDayResult;
+            NSAssert(momentInDayResult != nil, @"Cached MomentInDay result is missing.");
+            if (momentInDayResult != nil) {
+                [baseResults insertObject:momentInDayResult atIndex:0];
+            }
+        }
+        
+        // point the mutated results back to the base results
+        baseTaskResult.results = baseResults;
+        
+        // If there are med selection results, add to a separate task result
+        if (medResults.count > 0) {
+            medicationTrackerTaskResult = [[ORKTaskResult alloc] initWithIdentifier:APHMedicationTrackerTaskIdentifier];
+            medicationTrackerTaskResult.results = medResults;
+        }
+    }
+    
+    // get a fresh archive for the base results
+    self.archive = [[APCDataArchive alloc] initWithReference:self.task.identifier task:self.scheduledTask];
+    [self.taskResultArchiver appendArchive:self.archive withTaskResult:baseTaskResult];
+    
+    // if there is a med results then archive that separately
+    if (medicationTrackerTaskResult) {
+        self.medicationTrackerArchive = [[APCDataArchive alloc] initWithReference:APHMedicationTrackerTaskIdentifier schemaRevision:@(APHMedicationTrackerSchemaRevision)];
+        [self.taskResultArchiver appendArchive:self.medicationTrackerArchive withTaskResult:medicationTrackerTaskResult];
+    }
+}
+
+- (void)uploadResultSummary: (NSString *)resultSummary
+{
+    // Save datastore changes
+    if ([self.dataStore hasChanges]) {
+        [self.dataStore commitChanges];
+    }
+    
+    // Encrypt and Upload the medication selection result
+    if (self.medicationTrackerArchive) {
+        APCDataArchiveUploader *archiveUploader = [[APCDataArchiveUploader alloc]init];
+        [archiveUploader encryptAndUploadArchive:self.medicationTrackerArchive withCompletion:nil];
+    }
+    
+    [super uploadResultSummary:resultSummary];
 }
 
 @end

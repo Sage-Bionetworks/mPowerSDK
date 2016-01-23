@@ -36,8 +36,6 @@
 #import <Foundation/Foundation.h>
 #import <ResearchKit/ResearchKit.h>
 
-@class APHActivityManager;
-
 @interface APHParkinsonActivityViewController : APCBaseTaskViewController
 
 @end

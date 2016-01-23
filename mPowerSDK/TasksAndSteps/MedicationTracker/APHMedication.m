@@ -45,8 +45,12 @@
 }
 
 - (NSDictionary *)dictionaryRepresentation {
-    // TODO: Implement
-    return nil;
+    return [self dictionaryWithValuesForKeys:@[NSStringFromSelector(@selector(name)),
+                                               NSStringFromSelector(@selector(detail)),
+                                               NSStringFromSelector(@selector(brand)),
+                                               NSStringFromSelector(@selector(tracking)),
+                                               NSStringFromSelector(@selector(injection))]];
+
 }
 
 - (NSString *)text {

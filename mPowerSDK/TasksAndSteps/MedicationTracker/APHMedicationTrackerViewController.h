@@ -31,8 +31,8 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <APCAppCore/APCAppCore.h>
+#import "APHParkinsonActivityViewController.h"
 
-@interface APHMedicationTrackerViewController : APCBaseTaskViewController
+@interface APHMedicationTrackerViewController : APHParkinsonActivityViewController
 
 @end

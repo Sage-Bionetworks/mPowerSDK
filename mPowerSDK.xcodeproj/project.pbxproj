@@ -44,14 +44,20 @@
 		FF2D8BDD1C497D4D004EC642 /* APHMedicationTrackerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D8BDB1C497D4D004EC642 /* APHMedicationTrackerViewController.m */; };
 		FF51E5D11C2A05BD0091E1A0 /* APCAppCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */; };
 		FF51E5D31C2A05C60091E1A0 /* BridgeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */; };
+		FF5842C11C517D3100C85C2E /* APHMedicationTrackerDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = FF5842BF1C517D3100C85C2E /* APHMedicationTrackerDataStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF5842C21C517D3100C85C2E /* APHMedicationTrackerDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = FF5842C01C517D3100C85C2E /* APHMedicationTrackerDataStore.m */; };
 		FF95C03B1C49A5F20081672E /* APHMedicationTrackerTaskTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FF95C03A1C49A5F20081672E /* APHMedicationTrackerTaskTests.m */; };
 		FF95C03E1C49A7E90081672E /* MedicationTracking.json in Resources */ = {isa = PBXBuildFile; fileRef = FF95C03C1C49A7E90081672E /* MedicationTracking.json */; };
-		FF95C0431C4EB4A90081672E /* APHMedication.h in Headers */ = {isa = PBXBuildFile; fileRef = FF95C0411C4EB4A90081672E /* APHMedication.h */; };
+		FF95C0431C4EB4A90081672E /* APHMedication.h in Headers */ = {isa = PBXBuildFile; fileRef = FF95C0411C4EB4A90081672E /* APHMedication.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF95C0441C4EB4A90081672E /* APHMedication.m in Sources */ = {isa = PBXBuildFile; fileRef = FF95C0421C4EB4A90081672E /* APHMedication.m */; };
+		FFACDDBC1C5198CA0074F30E /* APHMedicationTrackerDataStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FFACDDBB1C5198CA0074F30E /* APHMedicationTrackerDataStoreTests.m */; };
+		FFACDDC21C5210B10074F30E /* MockAPHMedicationTrackerDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = FFACDDC11C5210B10074F30E /* MockAPHMedicationTrackerDataStore.m */; };
 		FFB7E92E1C4F031D00D9F116 /* MockAPCDataGroupsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB7E92D1C4F031D00D9F116 /* MockAPCDataGroupsManager.m */; };
 		FFB7E9311C4F048C00D9F116 /* MockAPHMedicationTrackerTask.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB7E9301C4F048C00D9F116 /* MockAPHMedicationTrackerTask.m */; };
 		FFB892271C46227700CD0081 /* ResourcesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB892261C46227700CD0081 /* ResourcesTests.m */; };
 		FFB892281C46DE6200CD0081 /* DataGroupsMapping.json in Resources */ = {isa = PBXBuildFile; fileRef = FFB8922A1C46DE6200CD0081 /* DataGroupsMapping.json */; };
+		FFBC083B1C52D6A900EFD90C /* MockORKTask.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBC083A1C52D6A900EFD90C /* MockORKTask.m */; };
+		FFBC083E1C52F11D00EFD90C /* MockAPCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBC083D1C52F11D00EFD90C /* MockAPCUser.m */; };
 		FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA242E1C2351D600727DA8 /* mPowerSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFFA24361C2351D600727DA8 /* mPowerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */; };
 		FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA24711C23657700727DA8 /* APHAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -121,16 +127,25 @@
 		FF51E5CE1C2A05B40091E1A0 /* libPDScores.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPDScores.a; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/libPDScores.a"; sourceTree = "<group>"; };
 		FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = APCAppCore.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/APCAppCore.framework"; sourceTree = "<group>"; };
 		FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BridgeSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/BridgeSDK.framework"; sourceTree = "<group>"; };
+		FF5842BF1C517D3100C85C2E /* APHMedicationTrackerDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHMedicationTrackerDataStore.h; sourceTree = "<group>"; };
+		FF5842C01C517D3100C85C2E /* APHMedicationTrackerDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerDataStore.m; sourceTree = "<group>"; };
 		FF95C03A1C49A5F20081672E /* APHMedicationTrackerTaskTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerTaskTests.m; sourceTree = "<group>"; };
 		FF95C03D1C49A7E90081672E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/MedicationTracking.json; sourceTree = "<group>"; };
 		FF95C0411C4EB4A90081672E /* APHMedication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHMedication.h; sourceTree = "<group>"; };
 		FF95C0421C4EB4A90081672E /* APHMedication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedication.m; sourceTree = "<group>"; };
+		FFACDDBB1C5198CA0074F30E /* APHMedicationTrackerDataStoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerDataStoreTests.m; sourceTree = "<group>"; };
+		FFACDDC01C5210B10074F30E /* MockAPHMedicationTrackerDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockAPHMedicationTrackerDataStore.h; sourceTree = "<group>"; };
+		FFACDDC11C5210B10074F30E /* MockAPHMedicationTrackerDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAPHMedicationTrackerDataStore.m; sourceTree = "<group>"; };
 		FFB7E92C1C4F031D00D9F116 /* MockAPCDataGroupsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockAPCDataGroupsManager.h; sourceTree = "<group>"; };
 		FFB7E92D1C4F031D00D9F116 /* MockAPCDataGroupsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAPCDataGroupsManager.m; sourceTree = "<group>"; };
 		FFB7E92F1C4F048C00D9F116 /* MockAPHMedicationTrackerTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockAPHMedicationTrackerTask.h; sourceTree = "<group>"; };
 		FFB7E9301C4F048C00D9F116 /* MockAPHMedicationTrackerTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAPHMedicationTrackerTask.m; sourceTree = "<group>"; };
 		FFB892261C46227700CD0081 /* ResourcesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourcesTests.m; sourceTree = "<group>"; };
 		FFB892291C46DE6200CD0081 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/DataGroupsMapping.json; sourceTree = "<group>"; };
+		FFBC08391C52D6A900EFD90C /* MockORKTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockORKTask.h; sourceTree = "<group>"; };
+		FFBC083A1C52D6A900EFD90C /* MockORKTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockORKTask.m; sourceTree = "<group>"; };
+		FFBC083C1C52F11D00EFD90C /* MockAPCUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockAPCUser.h; sourceTree = "<group>"; };
+		FFBC083D1C52F11D00EFD90C /* MockAPCUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAPCUser.m; sourceTree = "<group>"; };
 		FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = mPowerSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFFA242E1C2351D600727DA8 /* mPowerSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mPowerSDK.h; sourceTree = "<group>"; };
 		FFFA24301C2351D600727DA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -297,6 +312,8 @@
 		FF95C0401C4EB47D0081672E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FF5842BF1C517D3100C85C2E /* APHMedicationTrackerDataStore.h */,
+				FF5842C01C517D3100C85C2E /* APHMedicationTrackerDataStore.m */,
 				FF2D8BD61C497D28004EC642 /* APHMedicationTrackerTask.h */,
 				FF2D8BD71C497D28004EC642 /* APHMedicationTrackerTask.m */,
 				FF95C0411C4EB4A90081672E /* APHMedication.h */,
@@ -310,8 +327,14 @@
 			children = (
 				FFB7E92C1C4F031D00D9F116 /* MockAPCDataGroupsManager.h */,
 				FFB7E92D1C4F031D00D9F116 /* MockAPCDataGroupsManager.m */,
+				FFACDDC01C5210B10074F30E /* MockAPHMedicationTrackerDataStore.h */,
+				FFACDDC11C5210B10074F30E /* MockAPHMedicationTrackerDataStore.m */,
 				FFB7E92F1C4F048C00D9F116 /* MockAPHMedicationTrackerTask.h */,
 				FFB7E9301C4F048C00D9F116 /* MockAPHMedicationTrackerTask.m */,
+				FFBC08391C52D6A900EFD90C /* MockORKTask.h */,
+				FFBC083A1C52D6A900EFD90C /* MockORKTask.m */,
+				FFBC083C1C52F11D00EFD90C /* MockAPCUser.h */,
+				FFBC083D1C52F11D00EFD90C /* MockAPCUser.m */,
 			);
 			name = MockObjects;
 			sourceTree = "<group>";
@@ -357,6 +380,7 @@
 			children = (
 				FFB7E92B1C4F02F500D9F116 /* MockObjects */,
 				FF2D344A1C3200AC0033838A /* APHActivityManagerTests.m */,
+				FFACDDBB1C5198CA0074F30E /* APHMedicationTrackerDataStoreTests.m */,
 				FF95C03A1C49A5F20081672E /* APHMedicationTrackerTaskTests.m */,
 				FF2D345C1C3C4C6A0033838A /* APHScoreCalculatorTests.m */,
 				FFB892261C46227700CD0081 /* ResourcesTests.m */,
@@ -424,6 +448,7 @@
 				FF2D34421C31B7DC0033838A /* APHLocalization.h in Headers */,
 				FFFA24C51C237E1500727DA8 /* APHDashboardEditViewController.h in Headers */,
 				FF2D8BD81C497D28004EC642 /* APHMedicationTrackerTask.h in Headers */,
+				FF5842C11C517D3100C85C2E /* APHMedicationTrackerDataStore.h in Headers */,
 				FF0B4ACB1C29FCB800224EF7 /* APHWalkingTaskViewController.h in Headers */,
 				FF0B4AC51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.h in Headers */,
 				FF2D8BDC1C497D4D004EC642 /* APHMedicationTrackerViewController.h in Headers */,
@@ -554,6 +579,7 @@
 				FF0B4ACC1C29FCB800224EF7 /* APHWalkingTaskViewController.m in Sources */,
 				FFFA24C61C237E1500727DA8 /* APHDashboardEditViewController.m in Sources */,
 				FF95C0441C4EB4A90081672E /* APHMedication.m in Sources */,
+				FF5842C21C517D3100C85C2E /* APHMedicationTrackerDataStore.m in Sources */,
 				FF0B4AC31C29FCB800224EF7 /* APHScoreCalculator.m in Sources */,
 				FF0B4ACA1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m in Sources */,
 				FF2D34431C31B7DC0033838A /* APHLocalization.m in Sources */,
@@ -577,11 +603,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				FFB7E92E1C4F031D00D9F116 /* MockAPCDataGroupsManager.m in Sources */,
+				FFACDDC21C5210B10074F30E /* MockAPHMedicationTrackerDataStore.m in Sources */,
 				FFB892271C46227700CD0081 /* ResourcesTests.m in Sources */,
 				FFB7E9311C4F048C00D9F116 /* MockAPHMedicationTrackerTask.m in Sources */,
 				FF2D345D1C3C4C6A0033838A /* APHScoreCalculatorTests.m in Sources */,
 				FF95C03B1C49A5F20081672E /* APHMedicationTrackerTaskTests.m in Sources */,
+				FFACDDBC1C5198CA0074F30E /* APHMedicationTrackerDataStoreTests.m in Sources */,
+				FFBC083E1C52F11D00EFD90C /* MockAPCUser.m in Sources */,
 				FF2D344B1C3200AC0033838A /* APHActivityManagerTests.m in Sources */,
+				FFBC083B1C52D6A900EFD90C /* MockORKTask.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -33,64 +33,11 @@
 
 #import "APHMedicationTrackerViewController.h"
 #import "APHMedicationTrackerTask.h"
-#import "APHActivityManager.h"
-
-@interface APHMedicationTrackerViewController ()
-
-@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
-@property (nonatomic, readonly) APCUser *user;
-@property (nonatomic, readonly) APHActivityManager *activityManager;
-
-@end
 
 @implementation APHMedicationTrackerViewController
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 + (id<ORKTask>)createOrkTask:(APCTask *) __unused scheduledTask {
     return  [APHMedicationTrackerTask new];
 }
-
-- (APHMedicationTrackerTask*)medicationTrackerTask {
-    if ([self.task isKindOfClass:[APHMedicationTrackerTask class]]) {
-        return (APHMedicationTrackerTask*)self.task;
-    }
-    return nil;
-}
-
-- (APCUser*)user {
-    return [[[APCAppDelegate sharedAppDelegate] dataSubstrate] currentUser];
-}
-
-- (APHActivityManager*)activityManager {
-    return [APHActivityManager defaultManager];
-}
-
-- (void)taskViewController:(ORKTaskViewController * __unused)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(nullable NSError *)error
-{
-    if (reason == ORKTaskViewControllerFinishReasonCompleted) {
-        APHMedicationTrackerTask *medTask = [self medicationTrackerTask];
-        
-        // Save the changes to the data groups back to the user
-        if (medTask.dataGroupsManager.hasChanges) {
-            [self.user updateDataGroups:medTask.dataGroupsManager.dataGroups onCompletion:nil];
-        }
-        
-        // Save the result of the medication tracker to the activity manager
-        [self.activityManager saveTrackedMedications:
-         [medTask selectedMedicationFromResult:self.result trackingOnly:YES pillOnly:YES]];
-    }
-    [super taskViewController:taskViewController didFinishWithReason:reason error:error];
-}
-
-
 
 @end

@@ -45,27 +45,7 @@ extern NSString * const kMomentInDayStepIdentifier;
 
 + (instancetype)defaultManager;
 
-/**
- * Factory method for creating a custom ordered task
- */
 - (id <ORKTask> _Nullable)createOrderedTaskForSurveyId:(NSString *)surveyId;
-
-/**
- * Getter/Setter for storing previous response to moment in day survey question
- */
-- (void)saveMomentInDayResult:(ORKStepResult * _Nullable)stepResult;
-- (ORKStepResult * _Nullable)stashedMomentInDayResult;
-
-/**
- * Methoc for storing the tracked medications
- */
-- (void)saveTrackedMedications:(NSArray <APHMedication*> * _Nullable)medications;
-
-//@protected
-- (ORKOrderedTask *)modifyTaskIfRequired:(ORKOrderedTask *)task;
-- (ORKFormStep *)createMomentInDayStep;
-- (BOOL)shouldIncludeMomentInDayStep:(NSDate * _Nullable)lastCompletionDate;
-- (NSString*)completionStepTitle;
 
 @end
 
