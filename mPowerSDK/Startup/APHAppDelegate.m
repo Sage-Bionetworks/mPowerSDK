@@ -33,6 +33,7 @@
 
 @import APCAppCore;
 #import "APHAppDelegate.h"
+#import "APHProfileExtender.h"
 #import "APHDataKeys.h"
 #import "APHLocalization.h"
 
