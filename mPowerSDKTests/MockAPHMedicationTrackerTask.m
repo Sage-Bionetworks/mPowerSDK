@@ -27,7 +27,14 @@
 }
 
 - (MockAPCDataGroupsManager *)mockDataGroupsManager {
-    return self.mockDataStore.mockDataGroupsManager;
+    if (_mockDataGroupsManager == nil) {
+        _mockDataGroupsManager = [MockAPCDataGroupsManager new];
+    }
+    return _mockDataGroupsManager;
+}
+
+- (APCDataGroupsManager *)dataGroupsManager {
+    return self.mockDataGroupsManager;
 }
 
 @end

@@ -36,7 +36,7 @@
 #import <mPowerSDK/mPowerSDK.h>
 #import "MockAPHMedicationTrackerDataStore.h"
 
-NSString  *const kTrackedMedicationsKey                         = @"trackedMedications";
+NSString  *const kSelectedMedicationsKey                        = @"selectedMedications";
 NSString  *const kSkippedSelectMedicationsSurveyQuestionKey     = @"skippedSelectMedicationsSurveyQuestion";
 NSString  *const kMomentInDayResultKey                          = @"momentInDayResult";
 
@@ -91,7 +91,7 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
     APHMedicationTrackerDataStore *dataStore = [self createDataStore];
     
     // Setting to empty set if no tracked meds are taken
-    [dataStore setTrackedMedications:@[]];
+    [dataStore setSelectedMedications:@[]];
     
     // After setting a nil value to the tracked medication, this indicates that
     // the question has been skipped
@@ -101,7 +101,7 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
     XCTAssertEqual(dataStore.trackedMedications.count, 0);
     
     // Nothing saved yet to defaults
-    XCTAssertNil([dataStore.storedDefaults objectForKey:kTrackedMedicationsKey]);
+    XCTAssertNil([dataStore.storedDefaults objectForKey:kSelectedMedicationsKey]);
     XCTAssertNil([dataStore.storedDefaults objectForKey:kSkippedSelectMedicationsSurveyQuestionKey]);
     
     // The momentInDay should now have a default result set
@@ -115,25 +115,6 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
     XCTAssertNotNil(output.startDate);
     XCTAssertNotNil(output.endDate);
     XCTAssertEqualObjects(output.choiceAnswers, @[@"No Tracked Medication"]);
-    XCTAssertEqual(output.questionType, ORKQuestionTypeSingleChoice);
-}
-
-- (void)testIsStudyControlGroup
-{
-    MockAPHMedicationTrackerDataStore *dataStore = [self createDataStore];
-    dataStore.mockDataGroupsManager.surveyStepResult = [MockControlResult new];
-
-    // The momentInDay should now have a default result set for the control group
-    ORKStepResult *outStepResult = dataStore.momentInDayResult;
-    XCTAssertNotNil(outStepResult);
-    XCTAssertEqualObjects(outStepResult.identifier, APHMedicationTrackerMomentInDayStepIdentifier);
-    
-    ORKChoiceQuestionResult *output = (ORKChoiceQuestionResult *)[outStepResult.results firstObject];
-    XCTAssertNotNil(output);
-    XCTAssertEqualObjects(output.identifier, APHMedicationTrackerMomentInDayFormItemIdentifier);
-    XCTAssertNotNil(output.startDate);
-    XCTAssertNotNil(output.endDate);
-    XCTAssertEqualObjects(output.choiceAnswers, @[@"Control Group"]);
     XCTAssertEqual(output.questionType, ORKQuestionTypeSingleChoice);
 }
 
@@ -153,40 +134,63 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
     APHMedicationTrackerDataStore *dataStore = [self createDataStore];
     
     // Set tracked medication and commit
-    [dataStore setTrackedMedications:@[]];
+    [dataStore setSelectedMedications:@[]];
     [dataStore commitChanges];
     
     // Changes have been saved and does not have changes
     XCTAssertFalse(dataStore.hasChanges);
-    XCTAssertNotNil([dataStore.storedDefaults objectForKey:kTrackedMedicationsKey]);
+    XCTAssertNotNil([dataStore.storedDefaults objectForKey:kSelectedMedicationsKey]);
     XCTAssertNotNil([dataStore.storedDefaults objectForKey:kSkippedSelectMedicationsSurveyQuestionKey]);
+}
+
+- (void)testCommitChanges_WithTrackedMedicationAndMomentInDayResult
+{
+    APHMedicationTrackerDataStore *dataStore = [self createDataStore];
+    
+    // Set the selected medications and moment in day
+    APHMedication *med = [[APHMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Levodopa",
+                                                                                  @"tracking" : @(YES)}];
+    dataStore.selectedMedications = @[med];
+    ORKStepResult *momentInDayResult = [self createMomentInDayStepResult];
+    dataStore.momentInDayResult = momentInDayResult;
+    
+    // commit the changes
+    [dataStore commitChanges];
+    
+    // Changes have been saved and does not have changes
+    XCTAssertFalse(dataStore.hasChanges);
+    XCTAssertNotNil([dataStore.storedDefaults objectForKey:kSelectedMedicationsKey]);
+    XCTAssertNotNil([dataStore.storedDefaults objectForKey:kSkippedSelectMedicationsSurveyQuestionKey]);
+    XCTAssertEqual(dataStore.selectedMedications.count, 1);
+    XCTAssertEqualObjects(dataStore.selectedMedications.firstObject, med);
+    XCTAssertNotNil(dataStore.momentInDayResult);
+    XCTAssertEqualObjects(dataStore.momentInDayResult, momentInDayResult);
 }
 
 - (void)testReset
 {
     APHMedicationTrackerDataStore *dataStore = [self createDataStore];
     
-    // Set tracked medication and commit
-    [dataStore setTrackedMedications:@[]];
+    // Set tracked medication and reset
+    [dataStore setSelectedMedications:@[]];
     [dataStore reset];
     
     // Changes have been cleared
     XCTAssertFalse(dataStore.hasChanges);
-    XCTAssertNil([dataStore.storedDefaults objectForKey:kTrackedMedicationsKey]);
+    XCTAssertNil([dataStore.storedDefaults objectForKey:kSelectedMedicationsKey]);
     XCTAssertNil([dataStore.storedDefaults objectForKey:kSkippedSelectMedicationsSurveyQuestionKey]);
 }
 
 - (void)testShouldIncludeMomentInDayStep_LastCompletionNil
 {
     MockAPHMedicationTrackerDataStore *dataStore = [self createDataStore];
-    dataStore.mockDataGroupsManager.surveyStepResult = [MockPDResult new];
-    dataStore.trackedMedications = @[@"Levodopa"];
+    dataStore.selectedMedications = @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Levodopa",
+                                                                                                @"tracking" : @(YES)}]];
     dataStore.momentInDayResult = [self createMomentInDayStepResult];
     [dataStore commitChanges];
     dataStore.mockLastCompletionDate = nil;
     
     // Check assumptions
-    XCTAssertFalse(dataStore.dataGroupsManager.isStudyControlGroup);
     XCTAssertNotEqual(dataStore.trackedMedications.count, 0);
     XCTAssertFalse(dataStore.hasChanges);
     XCTAssertNotNil(dataStore.momentInDayResult);
@@ -199,12 +203,11 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
 - (void)testShouldIncludeMomentInDayStep_StashNil
 {
     MockAPHMedicationTrackerDataStore *dataStore = [self createDataStore];
-    dataStore.mockDataGroupsManager.surveyStepResult = [MockPDResult new];
-    dataStore.trackedMedications = @[@"Levodopa"];
+    dataStore.selectedMedications = @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Levodopa",
+                                                                                                @"tracking" : @(YES)}]];
     [dataStore commitChanges];
     
     // Check assumptions
-    XCTAssertFalse(dataStore.dataGroupsManager.isStudyControlGroup);
     XCTAssertNotEqual(dataStore.trackedMedications.count, 0);
     XCTAssertFalse(dataStore.hasChanges);
     XCTAssertNil(dataStore.momentInDayResult);
@@ -218,13 +221,12 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
 - (void)testShouldIncludeMomentInDayStep_TakesMedication
 {
     MockAPHMedicationTrackerDataStore *dataStore = [self createDataStore];
-    dataStore.mockDataGroupsManager.surveyStepResult = [MockPDResult new];
-    dataStore.trackedMedications = @[@"Levodopa"];
+    dataStore.selectedMedications = @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Levodopa",
+                                                                                                @"tracking" : @(YES)}]];
     dataStore.momentInDayResult = [self createMomentInDayStepResult];
     [dataStore commitChanges];
     
     // Check assumptions
-    XCTAssertFalse(dataStore.dataGroupsManager.isStudyControlGroup);
     XCTAssertNotEqual(dataStore.trackedMedications.count, 0);
     XCTAssertFalse(dataStore.hasChanges);
     XCTAssertNotNil(dataStore.momentInDayResult);
@@ -241,33 +243,14 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
 - (void)testShouldIncludeMomentInDayStep_NoMedication
 {
     MockAPHMedicationTrackerDataStore *dataStore = [self createDataStore];
-    dataStore.mockDataGroupsManager.surveyStepResult = [MockPDResult new];
-    dataStore.trackedMedications = @[];
+    dataStore.selectedMedications = @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Carbidopa"}]];
     [dataStore commitChanges];
     
     // Check assumptions
-    XCTAssertFalse(dataStore.dataGroupsManager.isStudyControlGroup);
     XCTAssertEqual(dataStore.trackedMedications.count, 0);
     XCTAssertFalse(dataStore.hasChanges);
 
     // If no meds, should not be asked the moment in day question
-    dataStore.mockLastCompletionDate = [NSDate dateWithTimeIntervalSinceNow:-2*60];
-    XCTAssertFalse([dataStore shouldIncludeMomentInDayStep]);
-    dataStore.mockLastCompletionDate = [NSDate dateWithTimeIntervalSinceNow:-30*60];
-    XCTAssertFalse([dataStore shouldIncludeMomentInDayStep]);
-}
-
-- (void)testShouldIncludeMomentInDayStep_ControlGroup
-{
-    MockAPHMedicationTrackerDataStore *dataStore = [self createDataStore];
-    dataStore.mockDataGroupsManager.surveyStepResult = [MockControlResult new];
-    
-    // Check assumptions
-    XCTAssertTrue(dataStore.dataGroupsManager.isStudyControlGroup);
-    XCTAssertFalse(dataStore.hasSelectedMedicationOrSkipped);
-    XCTAssertFalse(dataStore.hasChanges);
-    
-    // For control group, the moment in day step should not be included
     dataStore.mockLastCompletionDate = [NSDate dateWithTimeIntervalSinceNow:-2*60];
     XCTAssertFalse([dataStore shouldIncludeMomentInDayStep]);
     dataStore.mockLastCompletionDate = [NSDate dateWithTimeIntervalSinceNow:-30*60];
@@ -281,7 +264,6 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
     [dataStore commitChanges];
     
     // Check assumptions
-    XCTAssertFalse(dataStore.dataGroupsManager.isStudyControlGroup);
     XCTAssertEqual(dataStore.trackedMedications.count, 0);
     XCTAssertFalse(dataStore.hasChanges);
     
@@ -303,7 +285,7 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
     XCTAssertFalse(dataStore.skippedSelectMedicationsSurveyQuestion);
     XCTAssertNil(dataStore.trackedMedications);
     XCTAssertNil(dataStore.momentInDayResult);
-    XCTAssertNil([dataStore.storedDefaults objectForKey:kTrackedMedicationsKey]);
+    XCTAssertNil([dataStore.storedDefaults objectForKey:kSelectedMedicationsKey]);
     XCTAssertNil([dataStore.storedDefaults objectForKey:kSkippedSelectMedicationsSurveyQuestionKey]);
     
     return dataStore;

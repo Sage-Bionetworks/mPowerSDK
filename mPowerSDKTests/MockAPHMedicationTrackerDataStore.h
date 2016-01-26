@@ -12,8 +12,6 @@
 
 @interface MockAPHMedicationTrackerDataStore : APHMedicationTrackerDataStore
 
-@property (nonatomic, readonly) MockAPCDataGroupsManager *mockDataGroupsManager;
-@property (nonatomic, readonly) MockAPCUser *mockUser;
 @property (nonatomic) NSDate *mockLastCompletionDate;
 
 @end

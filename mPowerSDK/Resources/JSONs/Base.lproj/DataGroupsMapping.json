@@ -7,14 +7,15 @@
             "is_control_group"      : false,
         }
     ],
-    "required": true,
+    "required": false,
     "questions":
     [
      {
      "identifier": "control",
-     "prompt": "Have you been diagnosed with Parkinson's Disease?",
-     "profileCaption": "Do you have Parkinson's Disease?",
+     "text": "Have you been diagnosed with Parkinson's Disease?",
+     "shortText": "Do you have Parkinson's Disease?",
      "type": "boolean",
+     "optional" : true,
      "valueMap": [{ "value" : true,
                   "groups" : ["parkinsons"]},
                   { "value" : false,

@@ -20,7 +20,7 @@
 }
 
 - (BOOL)needsUserInfoDataGroups {
-    return self.surveyStepResult == nil;
+    return (self.surveyStepResult == nil) || ([self.surveyStepResult isKindOfClass:[MockSkipResult class]]);
 }
 
 - (BOOL)isStudyControlGroup {
@@ -38,6 +38,14 @@
 @end
 
 @implementation MockControlResult
+
+- (instancetype)init {
+    return [self initWithStepIdentifier:APCDataGroupsStepIdentifier results:nil];
+}
+
+@end
+
+@implementation MockSkipResult
 
 - (instancetype)init {
     return [self initWithStepIdentifier:APCDataGroupsStepIdentifier results:nil];

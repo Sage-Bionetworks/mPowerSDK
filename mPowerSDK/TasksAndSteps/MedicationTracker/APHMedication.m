@@ -37,9 +37,7 @@
 
 - (id)initWithDictionaryRepresentation:(NSDictionary *)dictionary {
     if ((self = [super init])) {
-        for (NSString *key in [dictionary allKeys]) {
-            [self setValue:dictionary[key] forKey:key];
-        }
+        [self setValuesForKeysWithDictionary:dictionary];
     }
     return self;
 }
@@ -51,6 +49,24 @@
                                                NSStringFromSelector(@selector(tracking)),
                                                NSStringFromSelector(@selector(injection))]];
 
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    id copy = [[[self class] allocWithZone:zone] initWithDictionaryRepresentation:[self dictionaryRepresentation]];
+    return copy;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    NSDictionary *dictionary = [aDecoder decodeObjectOfClass:[NSDictionary class] forKey:@"dictionary"];
+    return [self initWithDictionaryRepresentation:dictionary];
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:[self dictionaryRepresentation] forKey:@"dictionary"];
 }
 
 - (NSString *)text {
@@ -82,5 +98,12 @@
     return [result copy];
 }
 
+- (NSUInteger)hash {
+    return [[self dictionaryRepresentation] hash];
+}
+
+- (BOOL)isEqual:(id)object {
+    return [self isKindOfClass:[object class]] && [[self dictionaryRepresentation] isEqualToDictionary:[object dictionaryRepresentation]];
+}
 
 @end

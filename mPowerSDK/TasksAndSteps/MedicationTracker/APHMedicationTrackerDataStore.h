@@ -20,16 +20,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSDate * _Nullable lastCompletionDate;
 @property (nonatomic, copy) ORKStepResult * _Nullable momentInDayResult;
-@property (nonatomic, copy) NSArray <NSString*> * _Nullable trackedMedications;
+@property (nonatomic, copy) NSArray <APHMedication*> * _Nullable selectedMedications;
 @property (nonatomic) BOOL skippedSelectMedicationsSurveyQuestion;
 
+@property (nonatomic, readonly) NSArray <NSString*> * _Nullable trackedMedications;
 @property (nonatomic, readonly) BOOL hasNoTrackedMedication;
 @property (nonatomic, readonly) BOOL hasSelectedMedicationOrSkipped;
 @property (nonatomic, readonly) BOOL shouldIncludeMomentInDayStep;
 @property (nonatomic, readonly) BOOL hasChanges;
 
-@property (nonatomic) APCUser *user;
-@property (nonatomic) APCDataGroupsManager *dataGroupsManager;
 @property (nonatomic, readonly) NSUserDefaults *storedDefaults;
 
 /**

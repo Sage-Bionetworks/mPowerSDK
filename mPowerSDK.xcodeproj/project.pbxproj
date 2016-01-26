@@ -46,6 +46,10 @@
 		FF51E5D31C2A05C60091E1A0 /* BridgeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */; };
 		FF5842C11C517D3100C85C2E /* APHMedicationTrackerDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = FF5842BF1C517D3100C85C2E /* APHMedicationTrackerDataStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF5842C21C517D3100C85C2E /* APHMedicationTrackerDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = FF5842C01C517D3100C85C2E /* APHMedicationTrackerDataStore.m */; };
+		FF61312A1C57437A008D28F0 /* APCAppCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF6131291C57437A008D28F0 /* APCAppCore.framework */; };
+		FF61312C1C574381008D28F0 /* BridgeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF61312B1C574381008D28F0 /* BridgeSDK.framework */; };
+		FF61312E1C574387008D28F0 /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF61312D1C574387008D28F0 /* ResearchKit.framework */; };
+		FF6131301C574390008D28F0 /* libPDScores.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF61312F1C574390008D28F0 /* libPDScores.a */; };
 		FF95C03B1C49A5F20081672E /* APHMedicationTrackerTaskTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FF95C03A1C49A5F20081672E /* APHMedicationTrackerTaskTests.m */; };
 		FF95C03E1C49A7E90081672E /* MedicationTracking.json in Resources */ = {isa = PBXBuildFile; fileRef = FF95C03C1C49A7E90081672E /* MedicationTracking.json */; };
 		FF95C0431C4EB4A90081672E /* APHMedication.h in Headers */ = {isa = PBXBuildFile; fileRef = FF95C0411C4EB4A90081672E /* APHMedication.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -129,6 +133,10 @@
 		FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BridgeSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/BridgeSDK.framework"; sourceTree = "<group>"; };
 		FF5842BF1C517D3100C85C2E /* APHMedicationTrackerDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHMedicationTrackerDataStore.h; sourceTree = "<group>"; };
 		FF5842C01C517D3100C85C2E /* APHMedicationTrackerDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerDataStore.m; sourceTree = "<group>"; };
+		FF6131291C57437A008D28F0 /* APCAppCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = APCAppCore.framework; path = "../AppCore/APCAppCore/build/Debug-iphoneos/APCAppCore.framework"; sourceTree = "<group>"; };
+		FF61312B1C574381008D28F0 /* BridgeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BridgeSDK.framework; path = "../BridgeSDK/build/Debug-iphoneos/BridgeSDK.framework"; sourceTree = "<group>"; };
+		FF61312D1C574387008D28F0 /* ResearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ResearchKit.framework; path = "../researchkit/build/Debug-iphoneos/ResearchKit.framework"; sourceTree = "<group>"; };
+		FF61312F1C574390008D28F0 /* libPDScores.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPDScores.a; path = "../PDScores/PDScores/build/Debug-iphoneos/libPDScores.a"; sourceTree = "<group>"; };
 		FF95C03A1C49A5F20081672E /* APHMedicationTrackerTaskTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerTaskTests.m; sourceTree = "<group>"; };
 		FF95C03D1C49A7E90081672E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/MedicationTracking.json; sourceTree = "<group>"; };
 		FF95C0411C4EB4A90081672E /* APHMedication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHMedication.h; sourceTree = "<group>"; };
@@ -188,7 +196,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80F856501C57E8A300AB321C /* ResearchKit.framework in Frameworks */,
+				FF6131301C574390008D28F0 /* libPDScores.a in Frameworks */,
+				FF61312E1C574387008D28F0 /* ResearchKit.framework in Frameworks */,
+				FF61312C1C574381008D28F0 /* BridgeSDK.framework in Frameworks */,
+				FF61312A1C57437A008D28F0 /* APCAppCore.framework in Frameworks */,
 				FFFA24361C2351D600727DA8 /* mPowerSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -253,7 +264,10 @@
 		FF2D342A1C2A06110033838A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				80F8564F1C57E8A300AB321C /* ResearchKit.framework */,
+				FF61312F1C574390008D28F0 /* libPDScores.a */,
+				FF61312D1C574387008D28F0 /* ResearchKit.framework */,
+				FF61312B1C574381008D28F0 /* BridgeSDK.framework */,
+				FF6131291C57437A008D28F0 /* APCAppCore.framework */,
 				FF2D345E1C3C56CC0033838A /* libPDScores.a */,
 				FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */,
 				FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */,
@@ -826,6 +840,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = mPowerSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -844,6 +859,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = mPowerSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -858,6 +874,7 @@
 		FFFA24431C2351D600727DA8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = mPowerSDKTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.sagebase.mPowerSDKTests;
@@ -868,6 +885,7 @@
 		FFFA24441C2351D600727DA8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = mPowerSDKTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.sagebase.mPowerSDKTests;

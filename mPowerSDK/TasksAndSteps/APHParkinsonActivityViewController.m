@@ -159,6 +159,17 @@ static const NSInteger APHMedicationTrackerSchemaRevision = 1;
     if ([self.dataStore hasChanges]) {
         [self.dataStore commitChanges];
     }
+
+#warning FIXME!!!!
+//    // Save user data groups
+//    if ([self.dataGroupsManager hasChanges]) {
+//        typeof(self) __weak weakSelf = self;
+//        [self.user updateDataGroups:self.dataGroupsManager.dataGroups onCompletion:^(NSError *error) {
+//            if ((error == nil) && ![weakSelf hasChanges]) {
+//                [weakSelf reset];
+//            }
+//        }];
+//    }
     
     // Encrypt and Upload the medication selection result
     if (self.medicationTrackerArchive) {

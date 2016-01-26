@@ -14,6 +14,9 @@
 @interface MockPDResult : ORKStepResult
 @end
 
+@interface MockSkipResult : ORKStepResult
+@end
+
 @interface MockAPCDataGroupsManager : APCDataGroupsManager
 
 @property (nonatomic, readwrite) BOOL hasChanges;

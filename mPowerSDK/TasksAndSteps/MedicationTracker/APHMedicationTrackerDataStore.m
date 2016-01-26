@@ -8,8 +8,9 @@
 
 #import "APHMedicationTrackerDataStore.h"
 #import "APHMedicationTrackerTask.h"
+#import "APHMedication.h"
 
-NSString * kTrackedMedicationsKey;
+NSString * kSelectedMedicationsKey;
 NSString * kSkippedSelectMedicationsSurveyQuestionKey;
 NSString * kMomentInDayResultKey;
 
@@ -40,7 +41,7 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
 }
 
 + (void)initialize {
-    kTrackedMedicationsKey                         = NSStringFromSelector(@selector(trackedMedications));
+    kSelectedMedicationsKey                        = NSStringFromSelector(@selector(selectedMedications));
     kSkippedSelectMedicationsSurveyQuestionKey     = NSStringFromSelector(@selector(skippedSelectMedicationsSurveyQuestion));
     kMomentInDayResultKey                          = NSStringFromSelector(@selector(momentInDayResult));
 }
@@ -61,23 +62,9 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
     if (_lastCompletionDate == nil) {
         // Allow custom setting of last completion date and only access the app delegate the last
         // completion date is not set.
-        return [self.user taskCompletion];
+        return [[[[APCAppDelegate sharedAppDelegate] dataSubstrate] currentUser] taskCompletion];
     }
     return _lastCompletionDate;
-}
-
-- (APCUser*)user {
-    if (_user == nil) {
-        _user = [[[APCAppDelegate sharedAppDelegate] dataSubstrate] currentUser];
-    }
-    return _user;
-}
-
-- (APCDataGroupsManager *)dataGroupsManager {
-    if (_dataGroupsManager == nil) {
-        _dataGroupsManager = [[APCAppDelegate sharedAppDelegate] dataGroupsManagerForUser:self.user];
-    }
-    return _dataGroupsManager;
 }
 
 @synthesize momentInDayResult = _momentInDayResult;
@@ -86,10 +73,7 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
     ORKStepResult *momentInDayResult = [self.changesDictionary objectForKey:kMomentInDayResultKey] ?: _momentInDayResult;
     if (momentInDayResult == nil) {
         NSString *defaultAnswer = nil;
-        if (self.dataGroupsManager.isStudyControlGroup) {
-            defaultAnswer = kControlGroupAnswer;
-        }
-        else if (self.skippedSelectMedicationsSurveyQuestion) {
+        if (self.skippedSelectMedicationsSurveyQuestion) {
             defaultAnswer = kSkippedAnswer;
         }
         else if (self.hasNoTrackedMedication) {
@@ -114,13 +98,26 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
 }
 
 - (NSArray <NSString *> *)trackedMedications {
-    NSString *key = kTrackedMedicationsKey;
-    return [self.changesDictionary objectForKey:key] ?: [self.storedDefaults objectForKey:key];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = YES", NSStringFromSelector(@selector(tracking))];
+    NSArray *selectedMeds = [self selectedMedications];
+    NSArray *trackedMeds = [selectedMeds filteredArrayUsingPredicate:predicate];
+    return [trackedMeds valueForKey:NSStringFromSelector(@selector(shortText))];
 }
 
-- (void)setTrackedMedications:(NSArray <NSString *> *)trackedMedications {
-    [self.changesDictionary setValue:[trackedMedications copy] forKey:kTrackedMedicationsKey];
-    [self.changesDictionary setValue:@(trackedMedications == nil) forKey:kSkippedSelectMedicationsSurveyQuestionKey];
+- (NSArray<APHMedication *> *)selectedMedications {
+    NSArray *result = self.changesDictionary[kSelectedMedicationsKey];
+    if (result == nil) {
+        NSData *data = [self.storedDefaults objectForKey:kSelectedMedicationsKey];
+        if (data != nil) {
+            result = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        }
+    }
+    return result;
+}
+
+- (void)setSelectedMedications:(NSArray<APHMedication *> *)selectedMedications {
+    [self.changesDictionary setValue:selectedMedications forKey:kSelectedMedicationsKey];
+    [self.changesDictionary setValue:@(selectedMedications == nil) forKey:kSkippedSelectMedicationsSurveyQuestionKey];
 }
 
 - (BOOL)skippedSelectMedicationsSurveyQuestion {
@@ -131,7 +128,7 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
 
 - (void)setSkippedSelectMedicationsSurveyQuestion:(BOOL)skippedSelectMedicationsSurveyQuestion {
     if (skippedSelectMedicationsSurveyQuestion) {
-        self.trackedMedications = nil;
+        self.selectedMedications = nil;
     }
     else {
         [self.changesDictionary setValue:@(NO) forKey:kSkippedSelectMedicationsSurveyQuestionKey];
@@ -148,7 +145,7 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
 }
 
 - (BOOL)shouldIncludeMomentInDayStep {
-    if (self.dataGroupsManager.isStudyControlGroup || self.trackedMedications.count == 0) {
+    if (self.trackedMedications.count == 0) {
         return NO;
     }
     
@@ -163,7 +160,7 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
 }
 
 - (BOOL)hasChanges {
-    return [self.dataGroupsManager hasChanges] || (self.changesDictionary.count > 0);
+    return (self.changesDictionary.count > 0);
 }
 
 - (void)commitChanges {
@@ -180,35 +177,24 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
     if (skipped != nil) {
         [self.storedDefaults setValue:skipped forKey:kSkippedSelectMedicationsSurveyQuestionKey];
         if ([skipped boolValue]) {
-            [self.storedDefaults removeObjectForKey:kTrackedMedicationsKey];
+            [self.storedDefaults removeObjectForKey:kSelectedMedicationsKey];
         }
         else {
-            NSArray *trackedMeds = self.changesDictionary[kTrackedMedicationsKey];
-            [self.storedDefaults setValue:trackedMeds forKey:kTrackedMedicationsKey];
+            NSArray *selectedMeds = self.changesDictionary[kSelectedMedicationsKey];
+            if (selectedMeds != nil) {
+                NSData *data = [NSKeyedArchiver archivedDataWithRootObject:selectedMeds];
+                [self.storedDefaults setValue:data
+                                       forKey:kSelectedMedicationsKey];
+            }
         }
     }
     
     // clear temp storage
     [self.changesDictionary removeAllObjects];
-    
-    // Save user data groups
-    if ([self.dataGroupsManager hasChanges]) {
-        typeof(self) __weak weakSelf = self;
-        [self.user updateDataGroups:self.dataGroupsManager.dataGroups onCompletion:^(NSError *error) {
-            if ((error == nil) && ![weakSelf hasChanges]) {
-                [weakSelf reset];
-            }
-        }];
-    }
 }
 
 - (void)reset {
-    
     [self.changesDictionary removeAllObjects];
-
-    // release the user and data groups
-    _user = nil;
-    _dataGroupsManager = nil;
 }
 
 @end

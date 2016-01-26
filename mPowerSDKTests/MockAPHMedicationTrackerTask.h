@@ -12,6 +12,6 @@
 @interface MockAPHMedicationTrackerTask : APHMedicationTrackerTask
 
 @property (nonatomic) MockAPHMedicationTrackerDataStore *mockDataStore;
-@property (nonatomic, readonly) MockAPCDataGroupsManager *mockDataGroupsManager;
+@property (nonatomic) MockAPCDataGroupsManager *mockDataGroupsManager;
 
 @end

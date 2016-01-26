@@ -41,15 +41,16 @@
 NSString * const APHInstruction0StepIdentifier                      = @"instruction";
 NSString * const APHConclusionStepIdentifier                        = @"conclusion";
 NSString * const APHMedicationTrackerTaskIdentifier                 = @"Medication Tracker";
+NSString * const APHMedicationTrackerIntroductionStepIdentifier     = @"medicationIntroduction";
 NSString * const APHMedicationTrackerSelectionStepIdentifier        = @"medicationSelection";
 NSString * const APHMedicationTrackerFrequencyStepIdentifier        = @"medicationFrequency";
 NSString * const APHMedicationTrackerMomentInDayStepIdentifier      = @"momentInDay";
 NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier  = @"momentInDayFormat";
 NSString * const APHMedicationTrackerNoneAnswerIdentifier           = @"None";
+NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 
 @interface APHMedicationTrackerTask ()
 
-@property (nonatomic, readonly) APCDataGroupsManager *dataGroupsManager;
 @property (nonatomic, readonly) NSArray <NSString *> *stepIdentifiers;
 @property (nonatomic) NSMutableArray <ORKStep *> *steps;
 
@@ -106,6 +107,7 @@ NSString * const APHMedicationTrackerNoneAnswerIdentifier           = @"None";
         // Create the ordered set
         _steps = [NSMutableArray new];
         _stepIdentifiers = @[APHInstruction0StepIdentifier,
+                             APHMedicationTrackerIntroductionStepIdentifier,
                              APCDataGroupsStepIdentifier,
                              APHMedicationTrackerSelectionStepIdentifier,
                              APHMedicationTrackerFrequencyStepIdentifier,
@@ -120,15 +122,16 @@ NSString * const APHMedicationTrackerNoneAnswerIdentifier           = @"None";
 }
 
 - (APCDataGroupsManager *)dataGroupsManager {
-    return self.dataStore.dataGroupsManager;
+    if (_dataGroupsManager == nil) {
+        _dataGroupsManager = [[APCAppDelegate sharedAppDelegate] dataGroupsManagerForUser:nil];
+    }
+    return _dataGroupsManager;
 }
 
 - (ORKStep*)createMedicationSelectionStep {
     
     NSString *title = NSLocalizedStringWithDefaultValue(@"APH_SELECT_MEDS_INTRO", nil, APHLocaleBundle(), @"We would like to understand how your performance on activities could be affected by your medications.", @"Medication tracking survey intro text.");
     ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerSelectionStepIdentifier title:nil text:title];
-    
-    step.optional = NO;
     
     // Add the list of medications
     NSMutableArray *choices = [NSMutableArray new];
@@ -138,7 +141,13 @@ NSString * const APHMedicationTrackerNoneAnswerIdentifier           = @"None";
     
     // Add a choice for none of the above
     NSString *noneText = NSLocalizedStringWithDefaultValue(@"APH_NONE_OF_THE_ABOVE", nil, APHLocaleBundle(), @"None of the above", @"Text for a selection choice indicating that none of the options was applicable.");
-    [choices addObject:[ORKTextChoice choiceWithText:noneText value:APHMedicationTrackerNoneAnswerIdentifier]];
+    ORKTextChoice *noneTextChoice = [ORKTextChoice choiceWithText:noneText detailText:nil value:APHMedicationTrackerNoneAnswerIdentifier exclusive:YES];
+    [choices addObject:noneTextChoice];
+    
+    // Add a choice for skipping the question
+    NSString *skipText = NSLocalizedStringWithDefaultValue(@"APH_SKIP_TEXT", nil, APHLocaleBundle(), @"Prefer not to answer", @"Text for a selection choice indicating that the user wants to skip the question.");
+    ORKTextChoice *skipTextChoice = [ORKTextChoice choiceWithText:skipText detailText:nil value:APHMedicationTrackerSkipAnswerIdentifier exclusive:YES];
+    [choices addObject:skipTextChoice];
     
     // Create the answer format
     ORKAnswerFormat  *format = [ORKTextChoiceAnswerFormat
@@ -163,7 +172,10 @@ NSString * const APHMedicationTrackerNoneAnswerIdentifier           = @"None";
     if (meds.count == 0) {
         return nil;
     }
-    
+    return [self createFrequencyStepWithSelectedMedication:meds];
+}
+
+- (ORKStep*)createFrequencyStepWithSelectedMedication:(NSArray <APHMedication *> *)meds {
     NSString *title = NSLocalizedStringWithDefaultValue(@"APH_MEDS_FREQENCY_INTRO", nil, APHLocaleBundle(), @"How many times a day do you take each of the following medications?", @"Medication tracking survey fequency selection text.");
     ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerFrequencyStepIdentifier title:nil text:title];
     
@@ -184,6 +196,11 @@ NSString * const APHMedicationTrackerNoneAnswerIdentifier           = @"None";
 
 - (ORKStep*)createMomentInDayStep
 {
+    return [self createMomentInDayStepWithSelectedMedication:self.dataStore.trackedMedications];
+}
+
+- (ORKStep*)createMomentInDayStepWithSelectedMedication:(NSArray <NSString *> *)medList
+{
     NSString *title = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_INTRO", nil, APHLocaleBundle(), @"We would like to understand how your performance on this activity could be affected by the timing of your medication.", @"Explanation of purpose of pre-activity medication timing survey.");
     ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier title:nil text:title];
     
@@ -194,7 +211,7 @@ NSString * const APHMedicationTrackerNoneAnswerIdentifier           = @"None";
     NSString *listDelimiter = NSLocalizedStringWithDefaultValue(@"APH_LIST_FORMAT_DELIMITER", nil, APHLocaleBundle(), @",", @"Delimiter for a list of more than 3 items. (For example, 'Levodopa, Simet or Rytary')");
     
     NSMutableString *listText = [NSMutableString new];
-    NSArray <NSString *> *medList = self.dataStore.trackedMedications;
+
     [medList enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop __unused) {
         if (medList.count > 1) {
             if (idx+1 == medList.count) {
@@ -274,6 +291,14 @@ NSString * const APHMedicationTrackerNoneAnswerIdentifier           = @"None";
     return [choices copy];
 }
 
+- (ORKStep*)createIntroductionStep
+{
+    ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:APHMedicationTrackerIntroductionStepIdentifier];
+    step.title = NSLocalizedStringWithDefaultValue(@"APH_MEDICATION_TRACKER_INTRO_TITLE", nil, APHLocaleBundle(), @"Medication Survey", @"Title for introduction to the medication tracking survey.");
+    step.text = NSLocalizedStringWithDefaultValue(@"APH_MEDICATION_TRACKER_INTRO", nil, APHLocaleBundle(), @"We are refining our understanding of how certain medications that are commonly used to treat Parkinson's Disease may affect the activities tracked in this app and need more information from all study participants. In some cases, we will ask you to answer questions you may have answered previously.", @"Introduction text for the medication tracking survey.");
+    return step;
+}
+
 - (ORKStep*)createConclusionStep
 {
     ORKInstructionStep *step = [ORKInstructionStep completionStep];
@@ -297,7 +322,9 @@ NSString * const APHMedicationTrackerNoneAnswerIdentifier           = @"None";
         NSAssert(NO, @"The Medication selection result was not of the expected class of ORKChoiceQuestionResult");
         return nil;
     }
-    if (selectionResult.choiceAnswers == nil) {
+    // If skipped return nil
+    if ((selectionResult.choiceAnswers == nil) ||
+        ([selectionResult.choiceAnswers isEqualToArray:@[APHMedicationTrackerSkipAnswerIdentifier]])) {
         return nil;
     }
     
@@ -322,8 +349,7 @@ NSString * const APHMedicationTrackerNoneAnswerIdentifier           = @"None";
     }
     else if ([step.identifier isEqualToString:APHMedicationTrackerSelectionStepIdentifier]) {
         // If this is the selection step then store the result to the data store
-        NSArray <APHMedication *> *meds = [self selectedMedicationFromResult:result trackingOnly:YES pillOnly:NO];
-        self.dataStore.trackedMedications = [meds valueForKey:NSStringFromSelector(@selector(shortText))];
+        self.dataStore.selectedMedications = [self selectedMedicationFromResult:result trackingOnly:NO pillOnly:NO];
     }
 }
 
@@ -337,12 +363,8 @@ NSString * const APHMedicationTrackerNoneAnswerIdentifier           = @"None";
     }
 }
 
-- (BOOL)shouldIncludeMedicationSelectionStep {
-    if (self.dataGroupsManager.isStudyControlGroup) {
-        // Do not include if this is the control group
-        return NO;
-    }
-    else if (self.subTask != nil) {
+- (BOOL)shouldIncludeMedicationTrackingSteps {
+    if (self.subTask != nil) {
         // If there is a subtask then include only if the question has no answer and hasn't been skipped
         return !self.dataStore.hasSelectedMedicationOrSkipped;
     }
@@ -389,13 +411,18 @@ NSString * const APHMedicationTrackerNoneAnswerIdentifier           = @"None";
         if ([nextStepIdentifier isEqualToString:APHInstruction0StepIdentifier]) {
             nextStep = [self.subTask stepAfterStep:nil withResult:result];
         }
+        else if ([nextStepIdentifier isEqualToString:APHMedicationTrackerIntroductionStepIdentifier]) {
+            if ([self shouldIncludeMedicationTrackingSteps]) {
+                nextStep = [self createIntroductionStep];
+            }
+        }
         else if ([nextStepIdentifier isEqualToString:APCDataGroupsStepIdentifier]) {
-            if ([self.dataGroupsManager needsUserInfoDataGroups]) {
+            if ([self shouldIncludeMedicationTrackingSteps]) {
                 nextStep = [self.dataGroupsManager surveyStep];
             }
         }
         else if ([nextStepIdentifier isEqualToString:APHMedicationTrackerSelectionStepIdentifier]) {
-            if ([self shouldIncludeMedicationSelectionStep])
+            if ([self shouldIncludeMedicationTrackingSteps])
             {
                 nextStep = [self createMedicationSelectionStep];
             }

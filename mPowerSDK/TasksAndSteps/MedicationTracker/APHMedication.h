@@ -33,7 +33,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface APHMedication : NSObject
+@interface APHMedication : NSObject <NSSecureCoding, NSCopying>
 
 @property (nonatomic) NSString * _Nonnull name;
 @property (nonatomic) NSString * _Nullable detail;
@@ -47,7 +47,5 @@
 
 - (instancetype _Nonnull)initWithDictionaryRepresentation:(NSDictionary * _Nonnull)dictionary;
 - (NSDictionary * _Nonnull)dictionaryRepresentation;
-
-
 
 @end
