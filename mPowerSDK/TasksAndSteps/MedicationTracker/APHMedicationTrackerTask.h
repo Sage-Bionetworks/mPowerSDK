@@ -49,7 +49,7 @@ extern NSString * const APHMedicationTrackerFrequencyStepIdentifier;
 extern NSString * const APHMedicationTrackerMomentInDayStepIdentifier;
 extern NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier;
 
-@interface APHMedicationTrackerTask : NSObject <ORKTask>
+@interface APHMedicationTrackerTask : NSObject <ORKTask, NSSecureCoding, NSCopying>
 
 @property (nonatomic, readwrite) APCDataGroupsManager *dataGroupsManager;
 @property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;

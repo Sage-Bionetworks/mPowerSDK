@@ -53,6 +53,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 
 @property (nonatomic, readonly) NSArray <NSString *> *stepIdentifiers;
 @property (nonatomic) NSMutableArray <ORKStep *> *steps;
+@property (nonatomic, readonly, copy) NSDictionary *mappingDictionary;
 
 @end
 
@@ -97,9 +98,9 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
         _subTask = subTask;
         
         // map the medications
-        NSDictionary *mapping = dictionary ?: [[self class] defaultMapping];
+        _mappingDictionary = [dictionary copy] ?: [[self class] defaultMapping];
         NSMutableArray *meds = [NSMutableArray new];
-        for (NSDictionary * dictionary in mapping[@"items"]) {
+        for (NSDictionary * dictionary in _mappingDictionary[@"items"]) {
             [meds addObject:[[APHMedication alloc] initWithDictionaryRepresentation:dictionary]];
         }
         _medications = [meds copy];
@@ -553,6 +554,60 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 - (BOOL)providesBackgroundAudioPrompts {
     return [self.subTask respondsToSelector:@selector(providesBackgroundAudioPrompts)] &&
         [self.subTask providesBackgroundAudioPrompts];
+}
+
+#pragma mark - NSSecureCoding
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    if ([self.subTask conformsToProtocol:@protocol(NSSecureCoding)]) {
+        [aCoder encodeObject:self.subTask forKey:@"subTask"];
+    }
+    [aCoder encodeObject:self.mappingDictionary forKey:@"mappingDictionary"];
+    [aCoder encodeObject:self.stepIdentifiers forKey:@"stepIdentifiers"];
+    [aCoder encodeObject:[self.steps copy] forKey:@"steps"];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    id subTask = [aDecoder decodeObjectForKey:@"subTask"];
+    NSDictionary *mappingDictionary = [aDecoder decodeObjectOfClass:[NSDictionary class] forKey:@"mappingDictionary"];
+    self = [self initWithDictionaryRepresentation:mappingDictionary subTask:subTask];
+    if (self) {
+        _stepIdentifiers = [aDecoder decodeObjectOfClass:[NSArray class] forKey:@"stepIdentifiers"];
+        _steps = [[aDecoder decodeObjectOfClass:[NSArray class] forKey:@"steps"] mutableCopy];
+    }
+    return self;
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+    APHMedicationTrackerTask *task = [[[self class] allocWithZone:zone] initWithDictionaryRepresentation:self.mappingDictionary subTask:self.subTask];
+    task->_stepIdentifiers = [self.stepIdentifiers copy];
+    task->_steps = [self.steps mutableCopy];
+    return task;
+}
+
+#pragma mark - Equality
+
+- (NSUInteger)hash {
+    return [_identifier hash] | [_steps hash] | [_subTask hash] | [_mappingDictionary hash];
+}
+
+- (BOOL)isEqual:(id)object {
+    if (![object isMemberOfClass:[self class]]) {
+        return NO;
+    }
+    if ((self.subTask != nil) && ![self.subTask isEqual:[object subTask]]) {
+        return NO;
+    }
+    return  [self.mappingDictionary isEqualToDictionary:[object mappingDictionary]] &&
+            [self.stepIdentifiers isEqualToArray:[object stepIdentifiers]] &&
+            [self.steps isEqualToArray:[object steps]];
+    
 }
 
 @end
