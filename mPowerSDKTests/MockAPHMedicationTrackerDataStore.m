@@ -23,4 +23,14 @@
     self.mockLastCompletionDate = lastCompletionDate;
 }
 
+- (void)commitChanges {
+    self.commitChanges_called = YES;
+    [super commitChanges];
+}
+
+- (void)reset {
+    self.reset_called = YES;
+    [super reset];
+}
+
 @end

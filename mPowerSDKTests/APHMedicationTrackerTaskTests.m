@@ -78,19 +78,18 @@
     ORKStep *step = [task createMedicationSelectionStep];
     XCTAssertNotNil(step);
     XCTAssertEqualObjects(step.identifier, APHMedicationTrackerSelectionStepIdentifier);
+    XCTAssertEqualObjects(step.text, @"Select all the Parkinson's Medications that you are currently taking.");
     
-    XCTAssertTrue(step.optional);
-    XCTAssertTrue([step isKindOfClass:[ORKFormStep class]]);
+    XCTAssertFalse(step.optional);
     
     ORKFormStep *formStep = (ORKFormStep*)step;
+    XCTAssertTrue([step isKindOfClass:[ORKFormStep class]]);
     XCTAssertEqual(formStep.formItems.count, 1);
     
     ORKFormItem *formItem = [formStep.formItems firstObject];
-    XCTAssertEqualObjects(formItem.text, @"Select all the Parkinson's Medications that you are currently taking.");
-    
-    XCTAssertTrue([formItem.answerFormat isKindOfClass:[ORKTextChoiceAnswerFormat class]]);
     ORKTextChoiceAnswerFormat *answerFormat = (ORKTextChoiceAnswerFormat *)formItem.answerFormat;
-    
+    XCTAssertEqual(answerFormat.style, ORKChoiceAnswerStyleMultipleChoice);
+    XCTAssertTrue([formItem.answerFormat isKindOfClass:[ORKTextChoiceAnswerFormat class]]);
     NSArray *expectedChoices = @[@"Levodopa",
                                  @"Carbidopa",
                                  @"Carbidopa/Levodopa (Rytary)",
@@ -334,6 +333,7 @@
     ORKTaskResult *result = [self createTaskResultWithAnswers:@[@"Levodopa", @"Amantadine (Symmetrel)"]];
     ORKFormStep *frequencyStep = (ORKFormStep*)[task stepAfterStep:selectionStep withResult:result];
     XCTAssertNotNil(frequencyStep);
+    XCTAssertTrue([frequencyStep isKindOfClass:[ORKFormStep class]]);
     XCTAssertEqualObjects(frequencyStep.identifier, APHMedicationTrackerFrequencyStepIdentifier);
     XCTAssertTrue([frequencyStep isKindOfClass:[ORKFormStep class]]);
     XCTAssertEqual(frequencyStep.formItems.count, 2);

@@ -10,9 +10,15 @@
 
 @implementation MockAPHMedicationTrackerTask
 
-+ (NSString*)pathForDefaultMapping {
++ (NSDictionary *)defaultMapping {
     NSBundle *bundle = [NSBundle bundleForClass:[APHMedicationTrackerTask class]];
-    return [bundle pathForResource:@"MedicationTracking" ofType:@"json"];
+    NSString *path = [bundle pathForResource:@"MedicationTracking" ofType:@"json"];
+    NSData *json = [NSData dataWithContentsOfFile:path];
+    NSAssert1(json != nil, @"Dictionary not found. %@", path);
+    NSError *parseError;
+    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:json options:NSJSONReadingMutableContainers error:&parseError];
+    NSAssert1(parseError == nil, @"Error parsing data group mapping: %@", parseError);
+    return dictionary;
 }
 
 - (MockAPHMedicationTrackerDataStore *)mockDataStore {

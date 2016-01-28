@@ -36,6 +36,15 @@
 #import <Foundation/Foundation.h>
 #import <ResearchKit/ResearchKit.h>
 
+@class APHMedicationTrackerTask, APHMedicationTrackerDataStore;
+
 @interface APHParkinsonActivityViewController : APCBaseTaskViewController
+
+@property (nonatomic, strong) APCDataArchive *medicationTrackerArchive;
+
+@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
+@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
+@property (nonatomic, readonly) APCUser *user;
+@property (nonatomic, readonly, strong) APCDataGroupsManager *dataGroupsManager;
 
 @end

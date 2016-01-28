@@ -51,6 +51,8 @@ extern NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier;
 
 @interface APHMedicationTrackerTask : NSObject <ORKTask, NSSecureCoding, NSCopying>
 
++ (NSDictionary*)defaultMapping;
+
 @property (nonatomic, readwrite) APCDataGroupsManager *dataGroupsManager;
 @property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
 @property (nonatomic, readonly) NSArray <APHMedication *> *medications;

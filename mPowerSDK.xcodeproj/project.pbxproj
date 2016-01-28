@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		80F856501C57E8A300AB321C /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80F8564F1C57E8A300AB321C /* ResearchKit.framework */; };
 		FF0B4AC01C29FCB800224EF7 /* APHParkinsonActivityViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4AAE1C29FCB800224EF7 /* APHParkinsonActivityViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF0B4AC11C29FCB800224EF7 /* APHParkinsonActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4AAF1C29FCB800224EF7 /* APHParkinsonActivityViewController.m */; };
 		FF0B4AC21C29FCB800224EF7 /* APHScoreCalculator.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4AB01C29FCB800224EF7 /* APHScoreCalculator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -61,7 +60,9 @@
 		FFB892271C46227700CD0081 /* ResourcesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB892261C46227700CD0081 /* ResourcesTests.m */; };
 		FFB892281C46DE6200CD0081 /* DataGroupsMapping.json in Resources */ = {isa = PBXBuildFile; fileRef = FFB8922A1C46DE6200CD0081 /* DataGroupsMapping.json */; };
 		FFBC083B1C52D6A900EFD90C /* MockORKTask.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBC083A1C52D6A900EFD90C /* MockORKTask.m */; };
-		FFBC083E1C52F11D00EFD90C /* MockAPCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBC083D1C52F11D00EFD90C /* MockAPCUser.m */; };
+		FFEE04EB1C598D470035D199 /* APHParkinsonActivityViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEE04EA1C598D470035D199 /* APHParkinsonActivityViewControllerTests.m */; };
+		FFEE04EE1C5991090035D199 /* MockAPCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEE04ED1C5991090035D199 /* MockAPCUser.m */; };
+		FFEE04F11C5A9E2D0035D199 /* MockAPCTaskResultArchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEE04F01C5A9E2D0035D199 /* MockAPCTaskResultArchiver.m */; };
 		FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA242E1C2351D600727DA8 /* mPowerSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFFA24361C2351D600727DA8 /* mPowerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */; };
 		FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA24711C23657700727DA8 /* APHAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -93,7 +94,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		80F8564F1C57E8A300AB321C /* ResearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ResearchKit.framework; path = "../researchkit/build/Debug-iphoneos/ResearchKit.framework"; sourceTree = "<group>"; };
 		FF0B4AAE1C29FCB800224EF7 /* APHParkinsonActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHParkinsonActivityViewController.h; sourceTree = "<group>"; };
 		FF0B4AAF1C29FCB800224EF7 /* APHParkinsonActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHParkinsonActivityViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FF0B4AB01C29FCB800224EF7 /* APHScoreCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHScoreCalculator.h; sourceTree = "<group>"; };
@@ -152,8 +152,11 @@
 		FFB892291C46DE6200CD0081 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/DataGroupsMapping.json; sourceTree = "<group>"; };
 		FFBC08391C52D6A900EFD90C /* MockORKTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockORKTask.h; sourceTree = "<group>"; };
 		FFBC083A1C52D6A900EFD90C /* MockORKTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockORKTask.m; sourceTree = "<group>"; };
-		FFBC083C1C52F11D00EFD90C /* MockAPCUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockAPCUser.h; sourceTree = "<group>"; };
-		FFBC083D1C52F11D00EFD90C /* MockAPCUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAPCUser.m; sourceTree = "<group>"; };
+		FFEE04EA1C598D470035D199 /* APHParkinsonActivityViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHParkinsonActivityViewControllerTests.m; sourceTree = "<group>"; };
+		FFEE04EC1C5991090035D199 /* MockAPCUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockAPCUser.h; sourceTree = "<group>"; };
+		FFEE04ED1C5991090035D199 /* MockAPCUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAPCUser.m; sourceTree = "<group>"; };
+		FFEE04EF1C5A9E2D0035D199 /* MockAPCTaskResultArchiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockAPCTaskResultArchiver.h; sourceTree = "<group>"; };
+		FFEE04F01C5A9E2D0035D199 /* MockAPCTaskResultArchiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAPCTaskResultArchiver.m; sourceTree = "<group>"; };
 		FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = mPowerSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFFA242E1C2351D600727DA8 /* mPowerSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mPowerSDK.h; sourceTree = "<group>"; };
 		FFFA24301C2351D600727DA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -347,8 +350,10 @@
 				FFB7E9301C4F048C00D9F116 /* MockAPHMedicationTrackerTask.m */,
 				FFBC08391C52D6A900EFD90C /* MockORKTask.h */,
 				FFBC083A1C52D6A900EFD90C /* MockORKTask.m */,
-				FFBC083C1C52F11D00EFD90C /* MockAPCUser.h */,
-				FFBC083D1C52F11D00EFD90C /* MockAPCUser.m */,
+				FFEE04EC1C5991090035D199 /* MockAPCUser.h */,
+				FFEE04ED1C5991090035D199 /* MockAPCUser.m */,
+				FFEE04EF1C5A9E2D0035D199 /* MockAPCTaskResultArchiver.h */,
+				FFEE04F01C5A9E2D0035D199 /* MockAPCTaskResultArchiver.m */,
 			);
 			name = MockObjects;
 			sourceTree = "<group>";
@@ -396,6 +401,7 @@
 				FF2D344A1C3200AC0033838A /* APHActivityManagerTests.m */,
 				FFACDDBB1C5198CA0074F30E /* APHMedicationTrackerDataStoreTests.m */,
 				FF95C03A1C49A5F20081672E /* APHMedicationTrackerTaskTests.m */,
+				FFEE04EA1C598D470035D199 /* APHParkinsonActivityViewControllerTests.m */,
 				FF2D345C1C3C4C6A0033838A /* APHScoreCalculatorTests.m */,
 				FFB892261C46227700CD0081 /* ResourcesTests.m */,
 				FFFA243C1C2351D600727DA8 /* Info.plist */,
@@ -618,13 +624,15 @@
 			files = (
 				FFB7E92E1C4F031D00D9F116 /* MockAPCDataGroupsManager.m in Sources */,
 				FFACDDC21C5210B10074F30E /* MockAPHMedicationTrackerDataStore.m in Sources */,
+				FFEE04F11C5A9E2D0035D199 /* MockAPCTaskResultArchiver.m in Sources */,
 				FFB892271C46227700CD0081 /* ResourcesTests.m in Sources */,
 				FFB7E9311C4F048C00D9F116 /* MockAPHMedicationTrackerTask.m in Sources */,
+				FFEE04EE1C5991090035D199 /* MockAPCUser.m in Sources */,
 				FF2D345D1C3C4C6A0033838A /* APHScoreCalculatorTests.m in Sources */,
 				FF95C03B1C49A5F20081672E /* APHMedicationTrackerTaskTests.m in Sources */,
 				FFACDDBC1C5198CA0074F30E /* APHMedicationTrackerDataStoreTests.m in Sources */,
-				FFBC083E1C52F11D00EFD90C /* MockAPCUser.m in Sources */,
 				FF2D344B1C3200AC0033838A /* APHActivityManagerTests.m in Sources */,
+				FFEE04EB1C598D470035D199 /* APHParkinsonActivityViewControllerTests.m in Sources */,
 				FFBC083B1C52D6A900EFD90C /* MockORKTask.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

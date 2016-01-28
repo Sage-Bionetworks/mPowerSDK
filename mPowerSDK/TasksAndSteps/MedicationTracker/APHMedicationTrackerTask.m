@@ -61,22 +61,16 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 
 @synthesize identifier = _identifier;
 
-+ (NSString*)pathForDefaultMapping {
-    return [[APCAppDelegate sharedAppDelegate] pathForResource:@"MedicationTracking" ofType:@"json"];
-}
-
 + (NSDictionary*)defaultMapping {
     static NSDictionary * _defaultMapping;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSString *path = [self pathForDefaultMapping];
+        NSString *path = [[APCAppDelegate sharedAppDelegate] pathForResource:@"MedicationTracking" ofType:@"json"];
         NSData *json = [NSData dataWithContentsOfFile:path];
         if (json) {
             NSError *parseError;
             _defaultMapping = [NSJSONSerialization JSONObjectWithData:json options:NSJSONReadingMutableContainers error:&parseError];
-            if (parseError) {
-                NSLog(@"Error parsing data group mapping: %@", parseError);
-            }
+            NSAssert1(parseError == nil, @"Error parsing data group mapping: %@", parseError);
         }
     });
     return _defaultMapping;
@@ -131,8 +125,11 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 
 - (ORKStep*)createMedicationSelectionStep {
     
-    NSString *title = NSLocalizedStringWithDefaultValue(@"APH_SELECT_MEDS_INTRO", nil, APHLocaleBundle(), @"We would like to understand how your performance on activities could be affected by your medications.", @"Medication tracking survey intro text.");
-    ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerSelectionStepIdentifier title:nil text:title];
+    // Create the question
+    NSString *questionText = NSLocalizedStringWithDefaultValue(@"APH_SELECT_MEDS_QUESTION", nil, APHLocaleBundle(),
+                                                               @"Select all the Parkinson's Medications that you are currently taking.", @"Medication tracking survey question text.");
+    ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerSelectionStepIdentifier title:nil text:questionText];
+    step.optional = NO;
     
     // Add the list of medications
     NSMutableArray *choices = [NSMutableArray new];
@@ -152,15 +149,11 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     
     // Create the answer format
     ORKAnswerFormat  *format = [ORKTextChoiceAnswerFormat
-                                choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
+                                choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleMultipleChoice
                                 textChoices:choices];
     
-    // Create the question
-    NSString *questionText = NSLocalizedStringWithDefaultValue(@"APH_SELECT_MEDS_QUESTION", nil, APHLocaleBundle(),
-    @"Select all the Parkinson's Medications that you are currently taking.", @"Medication tracking survey question text.");
-    
     ORKFormItem  *item = [[ORKFormItem alloc] initWithIdentifier:APHMedicationTrackerSelectionStepIdentifier
-                                                            text:questionText
+                                                            text:nil
                                                     answerFormat:format];
     [step setFormItems:@[item]];
     
@@ -202,11 +195,6 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 
 - (ORKStep*)createMomentInDayStepWithSelectedMedication:(NSArray <NSString *> *)medList
 {
-    NSString *title = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_INTRO", nil, APHLocaleBundle(), @"We would like to understand how your performance on this activity could be affected by the timing of your medication.", @"Explanation of purpose of pre-activity medication timing survey.");
-    ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier title:nil text:title];
-    
-    step.optional = NO;
-    
     NSString *itemTextFormat = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_QUESTION", nil, APHLocaleBundle(), @"When was the last time you took your %@?", @"Prompt for timing of medication in pre-activity medication timing survey where %@ is a list of medications (For example, 'Levodopa or Rytary')");
     NSString *orWord = NSLocalizedStringWithDefaultValue(@"APH_OR_FORMAT", nil, APHLocaleBundle(), @"or", @"Format of a list with two items using the OR key word.");
     NSString *listDelimiter = NSLocalizedStringWithDefaultValue(@"APH_LIST_FORMAT_DELIMITER", nil, APHLocaleBundle(), @",", @"Delimiter for a list of more than 3 items. (For example, 'Levodopa, Simet or Rytary')");
@@ -225,6 +213,21 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
         [listText appendString:obj];
     }];
     NSString *itemText = [NSString stringWithFormat:itemTextFormat, listText];
+    
+    // If the steps include the medication introduction, do not include the explanation text here
+    NSString *title;
+    if ([self stepWithIdentifier:APHMedicationTrackerIntroductionStepIdentifier] == nil) {
+        title = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_INTRO", nil, APHLocaleBundle(), @"We would like to understand how your performance on this activity could be affected by the timing of your medication.", @"Explanation of purpose of pre-activity medication timing survey.");
+    }
+    else {
+        title = itemText;
+        itemText = nil;
+    }
+    
+    
+    ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier title:nil text:title];
+    
+    step.optional = NO;
     
     ORKAnswerFormat  *format = [ORKTextChoiceAnswerFormat
                                 choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice

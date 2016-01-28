@@ -14,6 +14,16 @@
 @synthesize surveyStep = _surveyStep;
 @synthesize surveyStepResult = _surveyStepResult;
 
+- (NSArray *)dataGroups {
+    if ([self.surveyStepResult isKindOfClass:[MockPDResult class]]) {
+        return @[@"parkinsons"];
+    }
+    else if ([self.surveyStepResult isKindOfClass:[MockControlResult class]]) {
+        return @[@"control"];
+    }
+    return nil;
+}
+
 - (void)setSurveyAnswerWithStepResult:(ORKStepResult *)surveyAnswerWithStepResult {
     _surveyStepResult = surveyAnswerWithStepResult;
     self.hasChanges = YES;

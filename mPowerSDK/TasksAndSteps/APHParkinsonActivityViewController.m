@@ -40,11 +40,6 @@
 
 @interface APHParkinsonActivityViewController ()
 
-@property (nonatomic, strong) APCDataArchive *medicationTrackerArchive;
-
-@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
-@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
-
 @end
 
 static const NSInteger APHMedicationTrackerSchemaRevision = 1;
@@ -81,8 +76,35 @@ static const NSInteger APHMedicationTrackerSchemaRevision = 1;
     return nil;
 }
 
+- (APCUser*)user {
+    return [[[APCAppDelegate sharedAppDelegate] dataSubstrate] currentUser];
+}
+
 - (APHMedicationTrackerDataStore*)dataStore {
     return self.medicationTrackerTask.dataStore ?: [APHMedicationTrackerDataStore defaultStore];
+}
+
+@synthesize dataGroupsManager = _dataGroupsManager;
+- (APCDataGroupsManager *)dataGroupsManager {
+    if (self.medicationTrackerTask != nil) {
+        return self.medicationTrackerTask.dataGroupsManager;
+    }
+    else if (_dataGroupsManager == nil) {
+        _dataGroupsManager = [[APCAppDelegate sharedAppDelegate] dataGroupsManagerForUser:self.user];
+    }
+    return _dataGroupsManager;
+}
+
+- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(nullable NSError *)error {
+    
+    if ((reason == ORKTaskViewControllerFinishReasonSaved) || (reason == ORKTaskViewControllerFinishReasonCompleted)) {
+        [self saveChangesIfNeeded];
+    }
+    else {
+        [self resetChangesIfNeeded];
+    }
+    
+    [super taskViewController:taskViewController didFinishWithReason:reason error:error];
 }
 
 #pragma  mark  -  View Controller Methods
@@ -106,21 +128,20 @@ static const NSInteger APHMedicationTrackerSchemaRevision = 1;
         NSMutableArray *medResults = [NSMutableArray new];
         
         // Get the results to munge
-        ORKResult *medSelectionResult = [baseTaskResult resultForIdentifier:APHMedicationTrackerSelectionStepIdentifier];
-        ORKResult *medFrequencyResult = [baseTaskResult resultForIdentifier:APHMedicationTrackerFrequencyStepIdentifier];
-        ORKResult *momentInDayResult = [baseTaskResult resultForIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
-        
-        if (medSelectionResult) {
-            [medResults addObject:medSelectionResult];
-            [baseResults removeObject:medSelectionResult];
-        }
-        if (medFrequencyResult) {
-            [medResults addObject:medFrequencyResult];
-            [baseResults removeObject:medFrequencyResult];
+        NSArray *medResultIdentifiers = @[APCDataGroupsStepIdentifier,
+                                          APHMedicationTrackerSelectionStepIdentifier,
+                                          APHMedicationTrackerFrequencyStepIdentifier];
+        for (NSString *medId in medResultIdentifiers) {
+            ORKResult *medResult = [baseTaskResult resultForIdentifier:medId];
+            if (medResult !=  nil) {
+                [medResults addObject:medResult];
+                [baseResults removeObject:medResult];
+            }
         }
         
         // For the moment in day result, we want to push to cache if discovered and pull from
         // cache if not found
+        ORKResult *momentInDayResult = [baseTaskResult resultForIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
         if (momentInDayResult != nil && [momentInDayResult isKindOfClass:[ORKStepResult class]]) {
             self.dataStore.momentInDayResult = (ORKStepResult*)momentInDayResult;
         }
@@ -155,29 +176,30 @@ static const NSInteger APHMedicationTrackerSchemaRevision = 1;
 
 - (void)uploadResultSummary: (NSString *)resultSummary
 {
-    // Save datastore changes
-    if ([self.dataStore hasChanges]) {
-        [self.dataStore commitChanges];
-    }
-
-#warning FIXME!!!!
-//    // Save user data groups
-//    if ([self.dataGroupsManager hasChanges]) {
-//        typeof(self) __weak weakSelf = self;
-//        [self.user updateDataGroups:self.dataGroupsManager.dataGroups onCompletion:^(NSError *error) {
-//            if ((error == nil) && ![weakSelf hasChanges]) {
-//                [weakSelf reset];
-//            }
-//        }];
-//    }
+    [self saveChangesIfNeeded];
     
     // Encrypt and Upload the medication selection result
     if (self.medicationTrackerArchive) {
-        APCDataArchiveUploader *archiveUploader = [[APCDataArchiveUploader alloc]init];
+        APCDataArchiveUploader *archiveUploader = [[APCDataArchiveUploader alloc] init];
         [archiveUploader encryptAndUploadArchive:self.medicationTrackerArchive withCompletion:nil];
     }
     
     [super uploadResultSummary:resultSummary];
+}
+
+- (void)saveChangesIfNeeded {
+    if (self.dataStore.hasChanges) {
+        [self.dataStore commitChanges];
+    }
+    if (self.dataGroupsManager.hasChanges) {
+        [self.user updateDataGroups:self.dataGroupsManager.dataGroups onCompletion:nil];
+    }
+}
+
+- (void)resetChangesIfNeeded {
+    // Because the data store is a shared singleton, it needs to be reset if the results of this survey
+    // should not be saved.
+    [self.dataStore reset];
 }
 
 @end

@@ -14,4 +14,7 @@
 
 @property (nonatomic) NSDate *mockLastCompletionDate;
 
+@property (nonatomic) BOOL commitChanges_called;
+@property (nonatomic) BOOL reset_called;
+
 @end
