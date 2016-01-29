@@ -224,7 +224,7 @@
     XCTAssertNotNil([medResult resultForIdentifier:APHMedicationTrackerSelectionStepIdentifier]);
     XCTAssertEqualObjects(vc.medicationTrackerArchive.reference,  APHMedicationTrackerTaskIdentifier);
     XCTAssertNil(vc.medicationTrackerArchive.task);
-    XCTAssertEqualObjects(vc.medicationTrackerArchive.schemaRevision, @(1));
+    XCTAssertEqualObjects(vc.medicationTrackerArchive.schemaRevision, @(5));
 }
 
 - (void)testArchiveResults_WithMedicationTracking_WithMomentInDayResult
@@ -266,7 +266,7 @@
     XCTAssertNotNil([medResult resultForIdentifier:APHMedicationTrackerFrequencyStepIdentifier]);
     XCTAssertEqualObjects(vc.medicationTrackerArchive.reference,  APHMedicationTrackerTaskIdentifier);
     XCTAssertNil(vc.medicationTrackerArchive.task);
-    XCTAssertEqualObjects(vc.medicationTrackerArchive.schemaRevision, @(1));
+    XCTAssertEqualObjects(vc.medicationTrackerArchive.schemaRevision, @(5));
 }
 
 #pragma mark - helper methods
@@ -322,114 +322,3 @@
 }
 
 @end
-
-
-
-//#pragma mark - Test view controller munging of results to include step if not there initially
-//
-//- (void)testDidFinish_WithMomentInDay
-//{
-//    APHParkinsonActivityViewController *vc = [self viewControllerIncludingMomentInDay:YES];
-//
-//    // Verify assumptions - If these fail then look to tests above for failures
-//    XCTAssertEqual(vc.result.results.count, 2);
-//    XCTAssertNil([vc.activityManager stashedMomentInDayResult]);
-//
-//    // Call delegate method on self (as per AppCore architecture)
-//    [vc taskViewController:vc didFinishWithReason:ORKTaskViewControllerFinishReasonCompleted error:nil];
-//
-//    XCTAssertEqual(vc.result.results.count, 2);
-//    XCTAssertEqualObjects(vc.result.results[0].identifier, @"momentInDay");
-//    XCTAssertEqualObjects(vc.result.results[1].identifier, @"abc123");
-//    XCTAssertNotNil([vc.activityManager stashedMomentInDayResult]);
-//}
-//
-//- (void)testDidFinish_StashedMomentInDay
-//{
-//    APHParkinsonActivityViewController *vc = [self viewControllerIncludingMomentInDay:NO];
-//
-//    // Verify assumptions - If these fail then look to tests above for failures
-//    XCTAssertEqual(vc.result.results.count, 1);
-//    XCTAssertNotNil([vc.activityManager stashedMomentInDayResult]);
-//
-//    // Call delegate method on self (as per AppCore architecture)
-//    [vc taskViewController:vc didFinishWithReason:ORKTaskViewControllerFinishReasonCompleted error:nil];
-//
-//    XCTAssertEqual(vc.result.results.count, 2);
-//    XCTAssertEqualObjects(vc.result.results[0].identifier, @"momentInDay");
-//    XCTAssertEqualObjects(vc.result.results[1].identifier, @"abc123");
-//}
-//
-//#pragma mark - helper methods
-//
-//- (APHActivityManager *)managerWithStoredResult:(NSString*)storedAnswer {
-//    // Setup the manager with Levodopa by default if answer isn't I don't take meds
-//    NSArray *meds = [storedAnswer isEqualToString:kNoMedication] ? @[] : @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Levodopa"}]];
-//    return [self managerWithStoredResult:storedAnswer trackedMedications:meds];
-//}
-//
-//- (APHActivityManager *)managerWithStoredResult:(NSString*)storedAnswer trackedMedications:(NSArray <APHMedication*> *)trackedMedications
-//{
-//    APHActivityManager *manager = [[APHActivityManager alloc] init];
-//
-//    // initialize a new user defaults
-//    manager.storedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[[NSUUID UUID] UUIDString]];
-//
-//    // Setup the manager with a saved result
-//    if (storedAnswer != nil) {
-//        [manager saveMomentInDayResult:[self momentInDayStepResult:storedAnswer]];
-//    }
-//
-//    // Setup the manager with the Parkinson's data group by default
-//    MockAPCDataGroupsManager *mockManager = [MockAPCDataGroupsManager new];
-//    mockManager.surveyStepResult = [MockPDResult new];
-//    manager.dataGroupsManager = mockManager;
-//
-//    // Save the tracked medications
-//    [manager saveTrackedMedications:trackedMedications];
-//
-//    return manager;
-//}
-//
-//- (APHActivityManager *)managerWithNoDataGroupsOrMedSurvey
-//{
-//    APHActivityManager *manager = [[APHActivityManager alloc] init];
-//
-//    // initialize a new user defaults
-//    manager.storedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[[NSUUID UUID] UUIDString]];
-//
-//    // Setup the manager with no saved data groups
-//    MockAPCDataGroupsManager *mockManager = [MockAPCDataGroupsManager new];
-//    manager.dataGroupsManager = mockManager;
-//
-//    return manager;
-//}
-//
-//- (ORKStepResult *)momentInDayStepResult:(NSString*)storedAnswer
-//{
-//    ORKChoiceQuestionResult *input = [[ORKChoiceQuestionResult alloc] initWithIdentifier:[[NSUUID UUID] UUIDString]];
-//    input.startDate = [NSDate dateWithTimeIntervalSinceNow:-2*60];
-//    input.endDate = [input.startDate dateByAddingTimeInterval:30];
-//    input.questionType = ORKQuestionTypeSingleChoice;
-//    input.choiceAnswers = @[storedAnswer];
-//    ORKStepResult *stepResult = [[ORKStepResult alloc] initWithStepIdentifier:@"momentInDay" results:@[input]];
-//    return stepResult;
-//}
-//
-//- (APHParkinsonActivityViewController *)viewControllerIncludingMomentInDay:(BOOL)includeMomentInDay {
-//
-//    APHActivityManager *manager = includeMomentInDay ? [self managerWithStoredResult:nil] : [self managerWithStoredResult:@"momentInDay"];
-//    ORKOrderedTask  *task = (ORKOrderedTask *)[manager createOrderedTaskForSurveyId:APHWalkingActivitySurveyIdentifier];
-//
-//    APHParkinsonActivityViewController_Test *vc = [[APHParkinsonActivityViewController_Test alloc] initWithTask:task taskRunUUID:[NSUUID UUID]];
-//
-//    // Create task result
-//    ORKFileResult *fileResult = [[ORKFileResult alloc] initWithIdentifier:@"abc"];
-//    fileResult.fileURL = [NSURL URLWithString:@"http://test.org/12345"];
-//    ORKStepResult *stepResult = [[ORKStepResult alloc] initWithStepIdentifier:@"abc123" results:@[fileResult]];
-//
-//    vc.activityManager = manager;
-//    vc.initialResults = includeMomentInDay ? @[[self momentInDayStepResult:@"momentInDay"], stepResult] : @[stepResult];
-//
-//    return vc;
-//}

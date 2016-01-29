@@ -67,6 +67,9 @@
 		FFEE04F11C5A9E2D0035D199 /* MockAPCTaskResultArchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEE04F01C5A9E2D0035D199 /* MockAPCTaskResultArchiver.m */; };
 		FFF270A41C5BF483007059D2 /* NSNull+APHExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = FFF270A21C5BF483007059D2 /* NSNull+APHExtensions.h */; };
 		FFF270A51C5BF483007059D2 /* NSNull+APHExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF270A31C5BF483007059D2 /* NSNull+APHExtensions.m */; };
+		FFF270A81C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.h in Headers */ = {isa = PBXBuildFile; fileRef = FFF270A61C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FFF270A91C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF270A71C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.m */; };
+		FFF270AB1C5C065E007059D2 /* APHMedicationTrackerTaskResultArchiverTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF270AA1C5C065E007059D2 /* APHMedicationTrackerTaskResultArchiverTests.m */; };
 		FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA242E1C2351D600727DA8 /* mPowerSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFFA24361C2351D600727DA8 /* mPowerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */; };
 		FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA24711C23657700727DA8 /* APHAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -165,6 +168,9 @@
 		FFEE04F01C5A9E2D0035D199 /* MockAPCTaskResultArchiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAPCTaskResultArchiver.m; sourceTree = "<group>"; };
 		FFF270A21C5BF483007059D2 /* NSNull+APHExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNull+APHExtensions.h"; sourceTree = "<group>"; };
 		FFF270A31C5BF483007059D2 /* NSNull+APHExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNull+APHExtensions.m"; sourceTree = "<group>"; };
+		FFF270A61C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHMedicationTrackerTaskResultArchiver.h; sourceTree = "<group>"; };
+		FFF270A71C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerTaskResultArchiver.m; sourceTree = "<group>"; };
+		FFF270AA1C5C065E007059D2 /* APHMedicationTrackerTaskResultArchiverTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerTaskResultArchiverTests.m; sourceTree = "<group>"; };
 		FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = mPowerSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFFA242E1C2351D600727DA8 /* mPowerSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mPowerSDK.h; sourceTree = "<group>"; };
 		FFFA24301C2351D600727DA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -357,12 +363,14 @@
 		FF95C0401C4EB47D0081672E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FF95C0411C4EB4A90081672E /* APHMedication.h */,
+				FF95C0421C4EB4A90081672E /* APHMedication.m */,
 				FF5842BF1C517D3100C85C2E /* APHMedicationTrackerDataStore.h */,
 				FF5842C01C517D3100C85C2E /* APHMedicationTrackerDataStore.m */,
 				FF2D8BD61C497D28004EC642 /* APHMedicationTrackerTask.h */,
 				FF2D8BD71C497D28004EC642 /* APHMedicationTrackerTask.m */,
-				FF95C0411C4EB4A90081672E /* APHMedication.h */,
-				FF95C0421C4EB4A90081672E /* APHMedication.m */,
+				FFF270A61C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.h */,
+				FFF270A71C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -430,6 +438,7 @@
 				FFACDDBB1C5198CA0074F30E /* APHMedicationTrackerDataStoreTests.m */,
 				FF95C03A1C49A5F20081672E /* APHMedicationTrackerTaskTests.m */,
 				FFEE04EA1C598D470035D199 /* APHParkinsonActivityViewControllerTests.m */,
+				FFF270AA1C5C065E007059D2 /* APHMedicationTrackerTaskResultArchiverTests.m */,
 				FF2D345C1C3C4C6A0033838A /* APHScoreCalculatorTests.m */,
 				FFB892261C46227700CD0081 /* ResourcesTests.m */,
 				FFFA243C1C2351D600727DA8 /* Info.plist */,
@@ -500,6 +509,7 @@
 				FF0B4ACB1C29FCB800224EF7 /* APHWalkingTaskViewController.h in Headers */,
 				FF0B4AC51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.h in Headers */,
 				FF346CED1C5BE762006D9AC9 /* NSArray+APHExtensions.h in Headers */,
+				FFF270A81C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.h in Headers */,
 				FF2D8BDC1C497D4D004EC642 /* APHMedicationTrackerViewController.h in Headers */,
 				FFF270A41C5BF483007059D2 /* NSNull+APHExtensions.h in Headers */,
 				FF95C0431C4EB4A90081672E /* APHMedication.h in Headers */,
@@ -647,6 +657,7 @@
 				FFFA24A01C23773900727DA8 /* APHInclusionCriteriaViewController.m in Sources */,
 				FF2D344F1C3207060033838A /* APHActivityManager.m in Sources */,
 				FFFA248E1C236AE700727DA8 /* APHDataKeys.m in Sources */,
+				FFF270A91C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -661,6 +672,7 @@
 				FFB7E9311C4F048C00D9F116 /* MockAPHMedicationTrackerTask.m in Sources */,
 				FFEE04EE1C5991090035D199 /* MockAPCUser.m in Sources */,
 				FF2D345D1C3C4C6A0033838A /* APHScoreCalculatorTests.m in Sources */,
+				FFF270AB1C5C065E007059D2 /* APHMedicationTrackerTaskResultArchiverTests.m in Sources */,
 				FF95C03B1C49A5F20081672E /* APHMedicationTrackerTaskTests.m in Sources */,
 				FFACDDBC1C5198CA0074F30E /* APHMedicationTrackerDataStoreTests.m in Sources */,
 				FF2D344B1C3200AC0033838A /* APHActivityManagerTests.m in Sources */,

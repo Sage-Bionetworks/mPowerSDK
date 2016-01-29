@@ -11,5 +11,7 @@
     "deviceMotion_walking.outbound" : "deviceMotion_walking_outbound.json",
     "accelerometer_walking.rest" : "accelerometer_walking.rest",
     "deviceMotion_walking.rest" : "deviceMotion_walking.rest",
-    "momentInDayFormat" : "momentInDayFormat.json"
+    "momentInDayFormat" : "momentInDayFormat.json",
+    "hasParkinsons" : "hasParkinsons.json",
+    "medicationSelection" : "medicationSelection.json"
 }

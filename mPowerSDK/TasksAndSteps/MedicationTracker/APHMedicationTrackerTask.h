@@ -72,6 +72,11 @@ extern NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier;
 - (instancetype)initWithDictionaryRepresentation:(NSDictionary * _Nullable)dictionary
                                          subTask:(id <ORKTask> _Nullable)subTask;
 
+/**
+ * Map the selected medication and frequency against the list of all possible answers
+ */
+- (NSArray <APHMedication*> *)selectedMedicationFromResult:(ORKTaskResult*)result;
+
 // @protected
 - (ORKStep*)createStepFromMappingDictionary:(NSDictionary*)stepDictionary;
 - (BOOL)shouldUpdateAndIncludeStep:(ORKStep*)step;

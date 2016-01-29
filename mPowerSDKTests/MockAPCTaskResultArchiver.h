@@ -7,8 +7,9 @@
 //
 
 #import <APCAppCore/APCAppCore.h>
+#import <mPowerSDK/mPowerSDK.h>
 
-@interface MockAPCTaskResultArchiver : APCTaskResultArchiver
+@interface MockAPCTaskResultArchiver : APHMedicationTrackerTaskResultArchiver
 
 @property (nonatomic) NSMutableDictionary *archivedResults;
 

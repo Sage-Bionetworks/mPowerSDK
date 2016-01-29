@@ -37,12 +37,13 @@
 #import "APHActivityManager.h"
 #import "APHMedicationTrackerTask.h"
 #import "APHMedicationTrackerDataStore.h"
+#import "APHMedicationTrackerTaskResultArchiver.h"
 
 @interface APHParkinsonActivityViewController ()
 
 @end
 
-static const NSInteger APHMedicationTrackerSchemaRevision = 1;
+static const NSInteger APHMedicationTrackerSchemaRevision = 5;
 
     //
     //    Common Super-Class for all four Parkinson Task View Controllers
@@ -162,16 +163,25 @@ static const NSInteger APHMedicationTrackerSchemaRevision = 1;
             medicationTrackerTaskResult.results = medResults;
         }
     }
-    
+
     // get a fresh archive for the base results
     self.archive = [[APCDataArchive alloc] initWithReference:self.task.identifier task:self.scheduledTask];
-    [self.taskResultArchiver appendArchive:self.archive withTaskResult:baseTaskResult];
+    [self appendArchive:self.archive withTaskResult:baseTaskResult];
     
     // if there is a med results then archive that separately
     if (medicationTrackerTaskResult) {
         self.medicationTrackerArchive = [[APCDataArchive alloc] initWithReference:APHMedicationTrackerTaskIdentifier schemaRevision:@(APHMedicationTrackerSchemaRevision)];
-        [self.taskResultArchiver appendArchive:self.medicationTrackerArchive withTaskResult:medicationTrackerTaskResult];
+        [self appendArchive:self.medicationTrackerArchive withTaskResult:medicationTrackerTaskResult];
     }
+}
+
+- (void)appendArchive:(APCDataArchive*)archive withTaskResult:(ORKTaskResult *)result {
+    APCTaskResultArchiver *taskArchiver = self.taskResultArchiver;
+    if (([result resultForIdentifier:APHMedicationTrackerSelectionStepIdentifier] != nil) &&
+        ![taskArchiver isKindOfClass:[APHMedicationTrackerTaskResultArchiver class]]) {
+        taskArchiver = [[APHMedicationTrackerTaskResultArchiver alloc] initWithTask:self.medicationTrackerTask];
+    }
+    [taskArchiver appendArchive:archive withTaskResult:result];
 }
 
 - (void)uploadResultSummary: (NSString *)resultSummary

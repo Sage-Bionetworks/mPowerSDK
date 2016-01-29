@@ -11,8 +11,8 @@
     "questions":
     [
      {
-     "identifier": "control",
-     "text": "Have you been diagnosed with Parkinson's Disease?",
+     "identifier": "hasParkinsons",
+     "text": "Have you been diagnosed by a medical professional with Parkinson's Disease?",
      "shortText": "Do you have Parkinson's Disease?",
      "type": "boolean",
      "optional" : true,
