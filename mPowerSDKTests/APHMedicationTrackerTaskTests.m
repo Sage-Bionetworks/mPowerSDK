@@ -375,7 +375,7 @@
     ORKStep *selectionStep = [task stepWithIdentifier:APHMedicationTrackerSelectionStepIdentifier];
     
     // Next step should be for frequency
-    ORKTaskResult *result = [self createTaskResultWithAnswers:@[@"Levodopa", @"Symmetrel"]];
+    ORKTaskResult *result = [self createTaskResultWithAnswers:@[@"Levodopa", @"Symmetrel", @"Apokyn"]];
     ORKFormStep *frequencyStep = (ORKFormStep*)[task stepAfterStep:selectionStep withResult:result];
     XCTAssertNotNil(frequencyStep);
     XCTAssertTrue([frequencyStep isKindOfClass:[ORKFormStep class]]);
@@ -384,14 +384,14 @@
     XCTAssertEqual(frequencyStep.formItems.count, 2);
     
     // And the results from the selection should be stored back to the data store
-    XCTAssertEqual(task.dataStore.selectedMedications.count, 2);
+    XCTAssertEqual(task.dataStore.selectedMedications.count, 3);
     XCTAssertTrue(task.dataStore.hasChanges);
     
     // Add frequency question result
     ORKScaleQuestionResult *levodopaResult = [[ORKScaleQuestionResult alloc] initWithIdentifier:@"Levodopa"];
     levodopaResult.scaleAnswer = @(4);
     ORKScaleQuestionResult *symmetrelResult = [[ORKScaleQuestionResult alloc] initWithIdentifier:@"Symmetrel"];
-    levodopaResult.scaleAnswer = @(7);
+    symmetrelResult.scaleAnswer = @(7);
     ORKStepResult *frequencyStepResult = [[ORKStepResult alloc] initWithStepIdentifier:APHMedicationTrackerFrequencyStepIdentifier
                                                                                results:@[levodopaResult, symmetrelResult]];
     result.results = [result.results arrayByAddingObject:frequencyStepResult];
@@ -403,6 +403,18 @@
     
     // Step after the thank you should be nil
     XCTAssertNil([task stepAfterStep:nextStep withResult:result]);
+    
+    // The selected medication list should now include the frequency
+    NSArray <APHMedication *> *selectedMeds = task.dataStore.selectedMedications;
+    APHMedication *levodopa = [selectedMeds objectWithIdentifier:@"Levodopa"];
+    XCTAssertNotNil(levodopa);
+    XCTAssertEqual(levodopa.frequency, 4);
+    APHMedication *symmetrel = [selectedMeds objectWithIdentifier:@"Symmetrel"];
+    XCTAssertNotNil(symmetrel);
+    XCTAssertEqual(symmetrel.frequency, 7);
+    APHMedication *apokyn = [selectedMeds objectWithIdentifier:@"Apokyn"];
+    XCTAssertNotNil(apokyn);
+    XCTAssertEqual(apokyn.frequency, 0);
 }
 
 - (void)testStepBackAndForward {

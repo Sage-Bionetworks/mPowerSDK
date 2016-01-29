@@ -36,6 +36,8 @@
 #import "APHMedicationTrackerDataStore.h"
 #import "APHMedication.h"
 #import "APHLocalization.h"
+#import "NSArray+APHExtensions.h"
+#import "NSNull+APHExtensions.h"
 
 // Identifiers used by this task
 NSString * const APHInstruction0StepIdentifier                      = @"instruction";
@@ -397,7 +399,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     return [choices copy];
 }
 
-- (NSArray <APHMedication *> * _Nullable)selectedMedicationFromResult:(ORKTaskResult *)result {
+- (NSArray <APHMedication*> *)selectedMedicationFromResult:(ORKTaskResult*)result {
     
     ORKStepResult *stepResult = (ORKStepResult *)[result resultForIdentifier:APHMedicationTrackerSelectionStepIdentifier];
     ORKChoiceQuestionResult *selectionResult = (ORKChoiceQuestionResult *)[stepResult.results firstObject];
@@ -415,9 +417,49 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
         return nil;
     }
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K IN %@", NSStringFromSelector(@selector(identifier)), selectionResult.choiceAnswers];
+    // Get the selected ids
+    NSArray *selectedMedIds = selectionResult.choiceAnswers;
 
-    return [self.medications filteredArrayUsingPredicate:predicate];
+    // Get the selected meds by filtering this list
+    NSArray *selectedMeds = [self.medications filteredArrayWithIdentifiers:selectedMedIds];
+    if (selectedMeds.count > 0) {
+        // Map frequency from the previously stored results
+        NSPredicate *idPredicate = [NSPredicate predicateWithFormat:@"%K IN %@", NSStringFromSelector(@selector(identifier)), selectedMedIds];
+        NSPredicate *frequencyPredicate = [NSPredicate predicateWithFormat:@"%K > 0", NSStringFromSelector(@selector(frequency))];
+        NSPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[frequencyPredicate, idPredicate]];
+        NSArray <APHMedication *> *previousMeds = [self.dataStore.selectedMedications filteredArrayUsingPredicate:predicate];
+        if (previousMeds.count > 0) {
+            // If there are frequency results to map, then map them into the returned results
+            // (which may be a different object from the med list in the data store)
+            for (APHMedication *med in selectedMeds) {
+                APHMedication *previousMed = [previousMeds objectWithIdentifier:med.identifier];
+                med.frequency = previousMed.frequency;
+            }
+        }
+    }
+
+    return  selectedMeds;
+}
+
+- (void)updateSelectedMedicationFrequencyWithResult:(ORKTaskResult*)result {
+    ORKStepResult *frequencyResult = (ORKStepResult *)[result resultForIdentifier:APHMedicationTrackerFrequencyStepIdentifier];
+    if (frequencyResult != nil) {
+        
+        // Get teh currently selected meds
+        NSArray *selectedMeds = self.dataStore.selectedMedications;
+        
+        // If there are frequency results to map, then map them into the returned results
+        // (which may be a different object from the med list in the data store)
+        for (APHMedication *med in selectedMeds) {
+            ORKScaleQuestionResult *result = (ORKScaleQuestionResult *)[frequencyResult resultForIdentifier:med.identifier];
+            if ([result isKindOfClass:[ORKScaleQuestionResult class]]) {
+                med.frequency = [result.scaleAnswer unsignedIntegerValue];
+            }
+        }
+        
+        // Copy the mutated values back to the data store
+        self.dataStore.selectedMedications = selectedMeds;
+    }
 }
 
 - (void)updateStateAfterStep:(nullable ORKStep *)step withResult:(ORKTaskResult *)result {
@@ -427,8 +469,11 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
         [self.dataGroupsManager setSurveyAnswerWithStepResult:stepResult];
     }
     else if ([step.identifier isEqualToString:APHMedicationTrackerSelectionStepIdentifier]) {
-        // If this is the selection step then store the result to the data store
+        // If this is the selection step or the frequency step then store the result to the data store
         self.dataStore.selectedMedications = [self selectedMedicationFromResult:result];
+    }
+    else if ([step.identifier isEqualToString:APHMedicationTrackerFrequencyStepIdentifier]) {
+        [self updateSelectedMedicationFrequencyWithResult:result];
     }
 }
 

@@ -41,6 +41,8 @@
 		FF2D8BD91C497D28004EC642 /* APHMedicationTrackerTask.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D8BD71C497D28004EC642 /* APHMedicationTrackerTask.m */; };
 		FF2D8BDC1C497D4D004EC642 /* APHMedicationTrackerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF2D8BDA1C497D4D004EC642 /* APHMedicationTrackerViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF2D8BDD1C497D4D004EC642 /* APHMedicationTrackerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D8BDB1C497D4D004EC642 /* APHMedicationTrackerViewController.m */; };
+		FF346CED1C5BE762006D9AC9 /* NSArray+APHExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = FF346CEB1C5BE762006D9AC9 /* NSArray+APHExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF346CEE1C5BE762006D9AC9 /* NSArray+APHExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FF346CEC1C5BE762006D9AC9 /* NSArray+APHExtensions.m */; };
 		FF51E5D11C2A05BD0091E1A0 /* APCAppCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */; };
 		FF51E5D31C2A05C60091E1A0 /* BridgeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */; };
 		FF5842C11C517D3100C85C2E /* APHMedicationTrackerDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = FF5842BF1C517D3100C85C2E /* APHMedicationTrackerDataStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -63,6 +65,8 @@
 		FFEE04EB1C598D470035D199 /* APHParkinsonActivityViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEE04EA1C598D470035D199 /* APHParkinsonActivityViewControllerTests.m */; };
 		FFEE04EE1C5991090035D199 /* MockAPCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEE04ED1C5991090035D199 /* MockAPCUser.m */; };
 		FFEE04F11C5A9E2D0035D199 /* MockAPCTaskResultArchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEE04F01C5A9E2D0035D199 /* MockAPCTaskResultArchiver.m */; };
+		FFF270A41C5BF483007059D2 /* NSNull+APHExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = FFF270A21C5BF483007059D2 /* NSNull+APHExtensions.h */; };
+		FFF270A51C5BF483007059D2 /* NSNull+APHExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF270A31C5BF483007059D2 /* NSNull+APHExtensions.m */; };
 		FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA242E1C2351D600727DA8 /* mPowerSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFFA24361C2351D600727DA8 /* mPowerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */; };
 		FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA24711C23657700727DA8 /* APHAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -128,6 +132,8 @@
 		FF2D8BD71C497D28004EC642 /* APHMedicationTrackerTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerTask.m; sourceTree = "<group>"; };
 		FF2D8BDA1C497D4D004EC642 /* APHMedicationTrackerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHMedicationTrackerViewController.h; sourceTree = "<group>"; };
 		FF2D8BDB1C497D4D004EC642 /* APHMedicationTrackerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerViewController.m; sourceTree = "<group>"; };
+		FF346CEB1C5BE762006D9AC9 /* NSArray+APHExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+APHExtensions.h"; sourceTree = "<group>"; };
+		FF346CEC1C5BE762006D9AC9 /* NSArray+APHExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+APHExtensions.m"; sourceTree = "<group>"; };
 		FF51E5CE1C2A05B40091E1A0 /* libPDScores.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPDScores.a; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/libPDScores.a"; sourceTree = "<group>"; };
 		FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = APCAppCore.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/APCAppCore.framework"; sourceTree = "<group>"; };
 		FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BridgeSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/BridgeSDK.framework"; sourceTree = "<group>"; };
@@ -157,6 +163,8 @@
 		FFEE04ED1C5991090035D199 /* MockAPCUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAPCUser.m; sourceTree = "<group>"; };
 		FFEE04EF1C5A9E2D0035D199 /* MockAPCTaskResultArchiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockAPCTaskResultArchiver.h; sourceTree = "<group>"; };
 		FFEE04F01C5A9E2D0035D199 /* MockAPCTaskResultArchiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAPCTaskResultArchiver.m; sourceTree = "<group>"; };
+		FFF270A21C5BF483007059D2 /* NSNull+APHExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNull+APHExtensions.h"; sourceTree = "<group>"; };
+		FFF270A31C5BF483007059D2 /* NSNull+APHExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNull+APHExtensions.m"; sourceTree = "<group>"; };
 		FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = mPowerSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFFA242E1C2351D600727DA8 /* mPowerSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mPowerSDK.h; sourceTree = "<group>"; };
 		FFFA24301C2351D600727DA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -326,6 +334,26 @@
 			path = MedicationTracker;
 			sourceTree = "<group>";
 		};
+		FF346CE91C5BE6B3006D9AC9 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				FF346CEA1C5BE6DB006D9AC9 /* Extensions */,
+				FF2D343F1C31B7410033838A /* Localization */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
+		FF346CEA1C5BE6DB006D9AC9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FF346CEB1C5BE762006D9AC9 /* NSArray+APHExtensions.h */,
+				FF346CEC1C5BE762006D9AC9 /* NSArray+APHExtensions.m */,
+				FFF270A21C5BF483007059D2 /* NSNull+APHExtensions.h */,
+				FFF270A31C5BF483007059D2 /* NSNull+APHExtensions.m */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		FF95C0401C4EB47D0081672E /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -388,7 +416,7 @@
 				FFFA24971C23773900727DA8 /* Onboarding */,
 				FFFA24BB1C237E1500727DA8 /* Dashboard */,
 				FF0B4AAD1C29FCB800224EF7 /* TasksAndSteps */,
-				FF2D343F1C31B7410033838A /* Localization */,
+				FF346CE91C5BE6B3006D9AC9 /* Library */,
 				FF2D347C1C3DBD540033838A /* Resources */,
 			);
 			path = mPowerSDK;
@@ -471,7 +499,9 @@
 				FF5842C11C517D3100C85C2E /* APHMedicationTrackerDataStore.h in Headers */,
 				FF0B4ACB1C29FCB800224EF7 /* APHWalkingTaskViewController.h in Headers */,
 				FF0B4AC51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.h in Headers */,
+				FF346CED1C5BE762006D9AC9 /* NSArray+APHExtensions.h in Headers */,
 				FF2D8BDC1C497D4D004EC642 /* APHMedicationTrackerViewController.h in Headers */,
+				FFF270A41C5BF483007059D2 /* NSNull+APHExtensions.h in Headers */,
 				FF95C0431C4EB4A90081672E /* APHMedication.h in Headers */,
 				FF0B4AC71C29FCB800224EF7 /* APHPhonationTaskViewController.h in Headers */,
 				FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */,
@@ -600,12 +630,14 @@
 				FFFA24C61C237E1500727DA8 /* APHDashboardEditViewController.m in Sources */,
 				FF95C0441C4EB4A90081672E /* APHMedication.m in Sources */,
 				FF5842C21C517D3100C85C2E /* APHMedicationTrackerDataStore.m in Sources */,
+				FFF270A51C5BF483007059D2 /* NSNull+APHExtensions.m in Sources */,
 				FF0B4AC31C29FCB800224EF7 /* APHScoreCalculator.m in Sources */,
 				FF0B4ACA1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m in Sources */,
 				FF2D34431C31B7DC0033838A /* APHLocalization.m in Sources */,
 				FF0B4AC11C29FCB800224EF7 /* APHParkinsonActivityViewController.m in Sources */,
 				FF0B4AC81C29FCB800224EF7 /* APHPhonationTaskViewController.m in Sources */,
 				FF2D8BDD1C497D4D004EC642 /* APHMedicationTrackerViewController.m in Sources */,
+				FF346CEE1C5BE762006D9AC9 /* NSArray+APHExtensions.m in Sources */,
 				FFFA24921C236E9A00727DA8 /* APHProfileExtender.m in Sources */,
 				FF0B4AC61C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m in Sources */,
 				FFFA24C81C237E1500727DA8 /* APHDashboardViewController.m in Sources */,
