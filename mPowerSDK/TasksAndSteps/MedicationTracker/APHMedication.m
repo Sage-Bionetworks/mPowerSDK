@@ -38,16 +38,22 @@
 - (id)initWithDictionaryRepresentation:(NSDictionary *)dictionary {
     if ((self = [super init])) {
         [self setValuesForKeysWithDictionary:dictionary];
+        if (_identifier == nil) {
+            _identifier = _brand ?: _name;
+        }
     }
     return self;
 }
 
 - (NSDictionary *)dictionaryRepresentation {
-    return [self dictionaryWithValuesForKeys:@[NSStringFromSelector(@selector(name)),
+    return [self dictionaryWithValuesForKeys:@[NSStringFromSelector(@selector(identifier)),
+                                               NSStringFromSelector(@selector(name)),
                                                NSStringFromSelector(@selector(detail)),
                                                NSStringFromSelector(@selector(brand)),
                                                NSStringFromSelector(@selector(tracking)),
-                                               NSStringFromSelector(@selector(injection))]];
+                                               NSStringFromSelector(@selector(injection)),
+                                               NSStringFromSelector(@selector(frequency)),
+                                               ]];
 
 }
 
@@ -88,14 +94,6 @@
         return self.brand;
     }
     return self.name;
-}
-
-- (NSString *)identifier {
-    NSMutableString *result = [self.name mutableCopy];
-    if (self.brand.length > 0) {
-        [result appendFormat:@" (%@)", self.brand];
-    }
-    return [result copy];
 }
 
 - (NSUInteger)hash {

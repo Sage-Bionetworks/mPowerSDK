@@ -183,7 +183,7 @@
     XCTAssertEqual(frequencyStep.formItems.count, 2);
     
     NSArray *expectedText = @[@"Levodopa", @"Amantadine (Symmetrel)"];
-    NSArray *expectedIdentifier = @[@"Levodopa", @"Amantadine (Symmetrel)"];
+    NSArray *expectedIdentifier = @[@"Levodopa", @"Symmetrel"];
     for (NSUInteger idx=0; idx < frequencyStep.formItems.count; idx++) {
         ORKFormItem *item = frequencyStep.formItems[idx];
         XCTAssertEqualObjects(item.text, expectedText[idx]);
@@ -354,14 +354,14 @@
     ORKStep *selectionStep = [task stepWithIdentifier:APHMedicationTrackerSelectionStepIdentifier];
     
     // Next step should be for frequency
-    ORKTaskResult *result = [self createTaskResultWithAnswers:@[@"Apomorphine (Apokyn)"]];
+    ORKTaskResult *result = [self createTaskResultWithAnswers:@[@"Apokyn"]];
     ORKStep *nextStep = [task stepAfterStep:selectionStep withResult:result];
     XCTAssertNotNil(nextStep);
     XCTAssertEqualObjects(nextStep.identifier, APHMedicationTrackerConclusionStepIdentifier);
     
     // And the results from the selection should be stored back to the data store
     XCTAssertEqual(task.dataStore.selectedMedications.count, 1);
-    XCTAssertEqualObjects(task.dataStore.selectedMedications.firstObject.identifier, @"Apomorphine (Apokyn)");
+    XCTAssertEqualObjects(task.dataStore.selectedMedications.firstObject.identifier, @"Apokyn");
     XCTAssertTrue(task.dataStore.hasChanges);
     
     // Step after the thank you should be nil
@@ -375,7 +375,7 @@
     ORKStep *selectionStep = [task stepWithIdentifier:APHMedicationTrackerSelectionStepIdentifier];
     
     // Next step should be for frequency
-    ORKTaskResult *result = [self createTaskResultWithAnswers:@[@"Levodopa", @"Amantadine (Symmetrel)"]];
+    ORKTaskResult *result = [self createTaskResultWithAnswers:@[@"Levodopa", @"Symmetrel"]];
     ORKFormStep *frequencyStep = (ORKFormStep*)[task stepAfterStep:selectionStep withResult:result];
     XCTAssertNotNil(frequencyStep);
     XCTAssertTrue([frequencyStep isKindOfClass:[ORKFormStep class]]);
@@ -387,6 +387,15 @@
     XCTAssertEqual(task.dataStore.selectedMedications.count, 2);
     XCTAssertTrue(task.dataStore.hasChanges);
     
+    // Add frequency question result
+    ORKScaleQuestionResult *levodopaResult = [[ORKScaleQuestionResult alloc] initWithIdentifier:@"Levodopa"];
+    levodopaResult.scaleAnswer = @(4);
+    ORKScaleQuestionResult *symmetrelResult = [[ORKScaleQuestionResult alloc] initWithIdentifier:@"Symmetrel"];
+    levodopaResult.scaleAnswer = @(7);
+    ORKStepResult *frequencyStepResult = [[ORKStepResult alloc] initWithStepIdentifier:APHMedicationTrackerFrequencyStepIdentifier
+                                                                               results:@[levodopaResult, symmetrelResult]];
+    result.results = [result.results arrayByAddingObject:frequencyStepResult];
+
     // Next step should be for thank you
     ORKStep *nextStep = [task stepAfterStep:frequencyStep withResult:result];
     XCTAssertNotNil(nextStep);
@@ -482,7 +491,7 @@
     
     // If the meds selection step result is "none" then the remaining steps should be
     // the steps from the inputTask
-    ORKTaskResult *taskResult = [self createTaskResultWithAnswers:@[@"Apomorphine (Apokyn)"] dataGroup:[MockPDResult new]];
+    ORKTaskResult *taskResult = [self createTaskResultWithAnswers:@[@"Apokyn"] dataGroup:[MockPDResult new]];
     [self checkStepOrder:task taskResult:taskResult startStep:selectionStep startIndex:1 addedStepCount:3];
 }
 

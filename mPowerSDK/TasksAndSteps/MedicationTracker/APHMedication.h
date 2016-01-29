@@ -35,13 +35,14 @@
 
 @interface APHMedication : NSObject <NSSecureCoding, NSCopying>
 
-@property (nonatomic) NSString * _Nonnull name;
-@property (nonatomic) NSString * _Nullable detail;
-@property (nonatomic) NSString * _Nullable brand;
+@property (nonatomic, copy) NSString * _Nonnull identifier;
+@property (nonatomic, copy) NSString * _Nonnull name;
+@property (nonatomic, copy) NSString * _Nullable detail;
+@property (nonatomic, copy) NSString * _Nullable brand;
+@property (nonatomic) NSUInteger frequency;
 @property (nonatomic) BOOL tracking;
 @property (nonatomic) BOOL injection;
 
-@property (nonatomic, readonly) NSString * _Nonnull identifier;
 @property (nonatomic, readonly) NSString * _Nonnull text;
 @property (nonatomic, readonly) NSString * _Nonnull shortText;
 
