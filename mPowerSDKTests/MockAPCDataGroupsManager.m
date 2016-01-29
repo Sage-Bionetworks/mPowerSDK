@@ -11,7 +11,6 @@
 @implementation MockAPCDataGroupsManager
 
 @synthesize hasChanges = _hasChanges;
-@synthesize surveyStep = _surveyStep;
 @synthesize surveyStepResult = _surveyStepResult;
 
 - (NSArray *)dataGroups {
@@ -22,6 +21,10 @@
         return @[@"control"];
     }
     return nil;
+}
+
+- (ORKFormStep *)surveyStep {
+    return [[ORKFormStep alloc] initWithIdentifier:APCDataGroupsStepIdentifier];
 }
 
 - (void)setSurveyAnswerWithStepResult:(ORKStepResult *)surveyAnswerWithStepResult {

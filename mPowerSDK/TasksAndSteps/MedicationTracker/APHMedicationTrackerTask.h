@@ -39,7 +39,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const APHInstruction0StepIdentifier;
-extern NSString * const APHConclusionStepIdentifier;
+extern NSString * const APHMedicationTrackerConclusionStepIdentifier;
 extern NSString * const APHMedicationTrackerTaskIdentifier;
 extern NSString * const APHMedicationTrackerNoneAnswerIdentifier;
 extern NSString * const APHMedicationTrackerSkipAnswerIdentifier;
@@ -56,6 +56,7 @@ extern NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier;
 @property (nonatomic, readwrite) APCDataGroupsManager *dataGroupsManager;
 @property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
 @property (nonatomic, readonly) NSArray <APHMedication *> *medications;
+@property (nonatomic, readonly) NSArray <ORKStep *> *medicationTrackerSteps;
 @property (nonatomic, readonly) id <ORKTask> _Nullable subTask;
 
 /**
@@ -71,17 +72,9 @@ extern NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier;
 - (instancetype)initWithDictionaryRepresentation:(NSDictionary * _Nullable)dictionary
                                          subTask:(id <ORKTask> _Nullable)subTask;
 
-
-- (NSArray <APHMedication *> * _Nullable)selectedMedicationFromResult:(ORKTaskResult *)result
-                                                         trackingOnly:(BOOL)trackingOnly
-                                                             pillOnly:(BOOL)pillOnly;
-
-// protected
-- (ORKStep*)createIntroductionStep;
-- (ORKStep*)createMedicationSelectionStep;
-- (ORKStep*)createFrequencyStepWithSelectedMedication:(NSArray <APHMedication *> *)meds;
-- (ORKStep*)createMomentInDayStep;
-- (ORKStep*)createConclusionStep;
+// @protected
+- (ORKStep*)createStepFromMappingDictionary:(NSDictionary*)stepDictionary;
+- (BOOL)shouldUpdateAndIncludeStep:(ORKStep*)step;
 
 @end
 

@@ -20,7 +20,6 @@
 @interface MockAPCDataGroupsManager : APCDataGroupsManager
 
 @property (nonatomic, readwrite) BOOL hasChanges;
-@property (nonatomic, readwrite) ORKFormStep * _Nullable surveyStep;
 @property (nonatomic, readwrite) ORKStepResult * _Nullable surveyStepResult;
 
 @end

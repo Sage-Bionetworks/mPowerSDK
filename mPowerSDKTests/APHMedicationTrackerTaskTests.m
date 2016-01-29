@@ -56,30 +56,44 @@
 
 #pragma mark - Test step creation methods
 
-- (void)testCreateIntroductionStep_English
+- (void)testCreateIntroductionStep_Default_English
 {
     [APHLocalization setLocalization:@"en"];
     
     APHMedicationTrackerTask *task = [self createTask];
-    ORKStep *step = [task createIntroductionStep];
+
+    ORKStep *step = [task createStepFromMappingDictionary:@{@"identifier" : APHMedicationTrackerIntroductionStepIdentifier}];
     XCTAssertNotNil(step);
-    XCTAssertEqualObjects(step.identifier, APHMedicationTrackerIntroductionStepIdentifier);
     
     XCTAssertEqualObjects(step.title,  @"Medication Survey");
-    XCTAssertEqualObjects(step.text, @"We are refining our understanding of how certain medications that are commonly used to treat Parkinson's Disease may affect the activities tracked in this app and need more information from all study participants. In some cases, we will ask you to answer questions you may have answered previously.");
+    XCTAssertNotNil(step.text);
 }
 
-- (void)testCreateMedicationSelectionStep_English
+- (void)testCreateIntroductionStep_Custom
+{
+    APHMedicationTrackerTask *task = [self createTask];
+    
+    ORKStep *step = [task createStepFromMappingDictionary:@{@"identifier" : APHMedicationTrackerIntroductionStepIdentifier,
+                                                            @"title" : @"foo",
+                                                            @"text" : @"bar"}];
+    XCTAssertNotNil(step);
+    XCTAssertEqualObjects(step.title,  @"foo");
+    XCTAssertEqualObjects(step.text, @"bar");
+}
+
+- (void)testCreateMedicationSelectionStep_Custom_English
 {
     [APHLocalization setLocalization:@"en"];
     
     APHMedicationTrackerTask *task = [self createTask];
-
-    ORKStep *step = [task createMedicationSelectionStep];
-    XCTAssertNotNil(step);
-    XCTAssertEqualObjects(step.identifier, APHMedicationTrackerSelectionStepIdentifier);
-    XCTAssertEqualObjects(step.text, @"Select all the Parkinson's Medications that you are currently taking.");
     
+    ORKStep *step = [task createStepFromMappingDictionary:@{@"identifier" : APHMedicationTrackerSelectionStepIdentifier,
+                                                            @"title" : @"foo",
+                                                            @"text" : @"bar",
+                                                            @"optional" : @(YES)}];
+    XCTAssertNotNil(step);
+    XCTAssertEqualObjects(step.title,  @"foo");
+    XCTAssertEqualObjects(step.text, @"bar");
     XCTAssertFalse(step.optional);
     
     ORKFormStep *formStep = (ORKFormStep*)step;
@@ -119,23 +133,49 @@
     }
 }
 
+- (void)testCreateMedicationSelectionStep_Default_English
+{
+    [APHLocalization setLocalization:@"en"];
+    
+    APHMedicationTrackerTask *task = [self createTask];
+    
+    ORKStep *step = [task createStepFromMappingDictionary:@{@"identifier" : APHMedicationTrackerSelectionStepIdentifier}];
+    XCTAssertNotNil(step);
+    XCTAssertFalse(step.optional);
+    XCTAssertNil(step.title);
+    XCTAssertNotNil(step.text);
+    
+    // Check that prefer not to answer is *not* included
+    ORKFormStep *formStep = (ORKFormStep*)step;
+    ORKFormItem *formItem = [formStep.formItems firstObject];
+    ORKTextChoiceAnswerFormat *answerFormat = (ORKTextChoiceAnswerFormat *)formItem.answerFormat;
+    NSString *lastChoice = [[answerFormat.textChoices valueForKey:@"text"] lastObject];
+    XCTAssertEqualObjects(lastChoice, @"None of the above");
+}
+
 - (void)testCreateFrequencyStepWithSelectedMedication_English
 {
     [APHLocalization setLocalization:@"en"];
     
     APHMedicationTrackerTask *task = [self createTask];
     
-    NSArray *meds = @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Levodopa",
+    task.dataStore.selectedMedications = @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Levodopa",
                                                                                  @"tracking" : @(true)}],
-                      [[APHMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Amantadine",
+                                           [[APHMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Amantadine",
                                                                                 @"brand" : @"Symmetrel",
                                                                                 @"tracking" : @(true)}]];
     
-    ORKStep *step = [task createFrequencyStepWithSelectedMedication:meds];
+    ORKStep *step = [task stepWithIdentifier:APHMedicationTrackerFrequencyStepIdentifier];
+
+    
+    
     XCTAssertNotNil(step);
     XCTAssertEqualObjects(step.identifier, APHMedicationTrackerFrequencyStepIdentifier);
     
-    XCTAssertTrue(step.optional);
+    BOOL shouldInclude = [task shouldUpdateAndIncludeStep:step];
+    XCTAssertTrue(shouldInclude);
+    
+    XCTAssertFalse(step.optional);
     XCTAssertTrue([step isKindOfClass:[ORKFormStep class]]);
     
     ORKFormStep *frequencyStep = (ORKFormStep*)step;
@@ -163,11 +203,14 @@
     
     // Get the medication tracking step
     MockAPHMedicationTrackerTask *task = [self createTaskWithSubTaskAndTrackedMedications:@[@"Levodopa"]];
-    ORKFormStep *step = (ORKFormStep *)[task createMomentInDayStep];
+    ORKFormStep *step = (ORKFormStep *)[task stepWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
+    BOOL shouldInclude = [task shouldUpdateAndIncludeStep:step];
     
     // Check assumptions
+    XCTAssertFalse(step.optional);
     XCTAssertNotNil(step);
     XCTAssertTrue([step isKindOfClass:[ORKFormStep class]]);
+    XCTAssertTrue(shouldInclude);
     XCTAssertEqualObjects(step.identifier, APHMedicationTrackerMomentInDayStepIdentifier);
     
     // Check the language
@@ -202,7 +245,8 @@
 {
     // Get the medication tracking step
     MockAPHMedicationTrackerTask *task = [self createTaskWithSubTaskAndTrackedMedications:@[@"Levodopa"]];
-    ORKFormStep *step = (ORKFormStep *)[task createMomentInDayStep];
+    ORKFormStep *step = (ORKFormStep *)[task stepWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
+    [task shouldUpdateAndIncludeStep:step];
     ORKFormItem  *item = [step.formItems firstObject];
     
     XCTAssertEqualObjects(item.text, @"When was the last time you took your Levodopa?");
@@ -212,7 +256,8 @@
 {
     // Get the medication tracking step
     MockAPHMedicationTrackerTask *task = [self createTaskWithSubTaskAndTrackedMedications:@[@"Levodopa", @"Sinemet"]];
-    ORKFormStep *step = (ORKFormStep *)[task createMomentInDayStep];
+    ORKFormStep *step = (ORKFormStep *)[task stepWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
+    [task shouldUpdateAndIncludeStep:step];
     ORKFormItem  *item = [step.formItems firstObject];
     
     XCTAssertEqualObjects(item.text, @"When was the last time you took your Levodopa or Sinemet?");
@@ -222,7 +267,8 @@
 {
     // Get the medication tracking step
     MockAPHMedicationTrackerTask *task = [self createTaskWithSubTaskAndTrackedMedications:@[@"Levodopa", @"Rytary", @"Sinemet"]];
-    ORKFormStep *step = (ORKFormStep *)[task createMomentInDayStep];
+    ORKFormStep *step = (ORKFormStep *)[task stepWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
+    [task shouldUpdateAndIncludeStep:step];
     ORKFormItem  *item = [step.formItems firstObject];
     
     XCTAssertEqualObjects(item.text, @"When was the last time you took your Levodopa, Rytary or Sinemet?");
@@ -232,9 +278,8 @@
     [APHLocalization setLocalization:@"en"];
     
     APHMedicationTrackerTask *task = [self createTask];
-    ORKStep *step = [task createConclusionStep];
+    ORKStep *step = [task stepWithIdentifier:APHMedicationTrackerConclusionStepIdentifier];
     XCTAssertNotNil(step);
-    XCTAssertEqualObjects(step.identifier, APHConclusionStepIdentifier);
     XCTAssertEqualObjects(step.title, @"Thank You!");
 }
 
@@ -269,7 +314,7 @@
     ORKTaskResult *result = [self createTaskResultWithAnswers:@[APHMedicationTrackerNoneAnswerIdentifier]];
     ORKStep *nextStep = [task stepAfterStep:selectionStep withResult:result];
     XCTAssertNotNil(nextStep);
-    XCTAssertEqualObjects(nextStep.identifier, APHConclusionStepIdentifier);
+    XCTAssertEqualObjects(nextStep.identifier, APHMedicationTrackerConclusionStepIdentifier);
     
     // And the results from the selection should be stored back to the data store
     XCTAssertEqual(task.dataStore.selectedMedications.count, 0);
@@ -291,7 +336,7 @@
     ORKTaskResult *result = [self createTaskResultWithAnswers:@[APHMedicationTrackerSkipAnswerIdentifier]];
     ORKStep *nextStep = [task stepAfterStep:selectionStep withResult:result];
     XCTAssertNotNil(nextStep);
-    XCTAssertEqualObjects(nextStep.identifier, APHConclusionStepIdentifier);
+    XCTAssertEqualObjects(nextStep.identifier, APHMedicationTrackerConclusionStepIdentifier);
     
     // And the results from the selection should be stored back to the data store
     XCTAssertEqual(task.dataStore.selectedMedications.count, 0);
@@ -312,7 +357,7 @@
     ORKTaskResult *result = [self createTaskResultWithAnswers:@[@"Apomorphine (Apokyn)"]];
     ORKStep *nextStep = [task stepAfterStep:selectionStep withResult:result];
     XCTAssertNotNil(nextStep);
-    XCTAssertEqualObjects(nextStep.identifier, APHConclusionStepIdentifier);
+    XCTAssertEqualObjects(nextStep.identifier, APHMedicationTrackerConclusionStepIdentifier);
     
     // And the results from the selection should be stored back to the data store
     XCTAssertEqual(task.dataStore.selectedMedications.count, 1);
@@ -345,7 +390,7 @@
     // Next step should be for thank you
     ORKStep *nextStep = [task stepAfterStep:frequencyStep withResult:result];
     XCTAssertNotNil(nextStep);
-    XCTAssertEqualObjects(nextStep.identifier, APHConclusionStepIdentifier);
+    XCTAssertEqualObjects(nextStep.identifier, APHMedicationTrackerConclusionStepIdentifier);
     
     // Step after the thank you should be nil
     XCTAssertNil([task stepAfterStep:nextStep withResult:result]);
@@ -388,7 +433,7 @@
     ORKTaskResult *noneResult = [self createTaskResultWithAnswers:@[APHMedicationTrackerNoneAnswerIdentifier]];
     ORKFormStep *afterSelectionNoMedsStep = (ORKFormStep*)[task stepAfterStep:selectionStep
                                                       withResult:noneResult];
-    XCTAssertEqualObjects(afterSelectionNoMedsStep.identifier, APHConclusionStepIdentifier);
+    XCTAssertEqualObjects(afterSelectionNoMedsStep.identifier, APHMedicationTrackerConclusionStepIdentifier);
     
     // Step after the thank you should be nil
     XCTAssertNil([task stepAfterStep:afterSelectionNoMedsStep withResult:noneResult]);
@@ -584,7 +629,6 @@
     
     // Default to being in the parkinsons group
     task.mockDataGroupsManager.surveyStepResult = surveyStepResult;
-    task.mockDataGroupsManager.surveyStep = [[ORKFormStep alloc] initWithIdentifier:APCDataGroupsStepIdentifier];
     
     // If the tracked meds is non-nil, then set the value to the data store
     if (trackedMedications != nil) {
