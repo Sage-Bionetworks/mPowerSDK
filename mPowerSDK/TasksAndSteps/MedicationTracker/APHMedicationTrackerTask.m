@@ -239,7 +239,9 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     ORKInstructionStep *step = [ORKInstructionStep completionStep];
     // Replace the language in the last step
     step.title = title ?: [APHLocalization localizedStringWithKey:@"APH_ACTIVITY_CONCLUSION_TEXT"];
-    step.text = text ?: @"";
+    if (text) {
+        step.text = text;
+    }
     return step;
 }
 

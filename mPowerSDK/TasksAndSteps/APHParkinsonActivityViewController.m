@@ -43,7 +43,7 @@
 
 @end
 
-static const NSInteger APHMedicationTrackerSchemaRevision = 5;
+const NSInteger APHMedicationTrackerSchemaRevision = 8;
 
     //
     //    Common Super-Class for all four Parkinson Task View Controllers
@@ -96,12 +96,40 @@ static const NSInteger APHMedicationTrackerSchemaRevision = 5;
     return _dataGroupsManager;
 }
 
+- (UIColor*)tintColorForStep:(ORKStep*)step {
+    if ([[step.identifier lowercaseString] containsString:@"conclusion"]) {
+        return [UIColor appTertiaryColor1];
+    }
+    return [UIColor appPrimaryColor];
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return self.preferStatusBarShouldBeHidden;
+}
+
+- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step {
+    return NO;
+}
+
+- (void)taskViewController:(ORKTaskViewController *) __unused taskViewController stepViewControllerWillAppear:(ORKStepViewController *)stepViewController
+{
+    // Update tint color and status bar
+    ORKStep *step = stepViewController.step;
+    [[UIView appearance] setTintColor:[self tintColorForStep:step]];
+    self.preferStatusBarShouldBeHidden = [self preferStatusBarShouldBeHiddenForStep:step];
+    [[UIApplication sharedApplication] setStatusBarHidden: self.preferStatusBarShouldBeHidden];
+}
+
 - (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(nullable NSError *)error {
     
     if ((reason == ORKTaskViewControllerFinishReasonSaved) || (reason == ORKTaskViewControllerFinishReasonCompleted)) {
         [self saveChangesIfNeeded];
     }
     else {
+        if ((reason == ORKTaskViewControllerFinishReasonFailed) && (error != nil)) {
+            APCLogError2 (error);
+        }
         [self resetChangesIfNeeded];
     }
     

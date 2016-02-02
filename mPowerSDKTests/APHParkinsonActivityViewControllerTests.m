@@ -224,7 +224,7 @@
     XCTAssertNotNil([medResult resultForIdentifier:APHMedicationTrackerSelectionStepIdentifier]);
     XCTAssertEqualObjects(vc.medicationTrackerArchive.reference,  APHMedicationTrackerTaskIdentifier);
     XCTAssertNil(vc.medicationTrackerArchive.task);
-    XCTAssertEqualObjects(vc.medicationTrackerArchive.schemaRevision, @(5));
+    XCTAssertEqualObjects(vc.medicationTrackerArchive.schemaRevision, @(7));
 }
 
 - (void)testArchiveResults_WithMedicationTracking_WithMomentInDayResult
@@ -266,7 +266,7 @@
     XCTAssertNotNil([medResult resultForIdentifier:APHMedicationTrackerFrequencyStepIdentifier]);
     XCTAssertEqualObjects(vc.medicationTrackerArchive.reference,  APHMedicationTrackerTaskIdentifier);
     XCTAssertNil(vc.medicationTrackerArchive.task);
-    XCTAssertEqualObjects(vc.medicationTrackerArchive.schemaRevision, @(5));
+    XCTAssertEqualObjects(vc.medicationTrackerArchive.schemaRevision, @(7));
 }
 
 #pragma mark - helper methods

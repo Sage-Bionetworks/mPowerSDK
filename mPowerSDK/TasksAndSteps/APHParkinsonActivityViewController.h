@@ -36,6 +36,8 @@
 #import <Foundation/Foundation.h>
 #import <ResearchKit/ResearchKit.h>
 
+extern const NSInteger APHMedicationTrackerSchemaRevision;
+
 @class APHMedicationTrackerTask, APHMedicationTrackerDataStore;
 
 @interface APHParkinsonActivityViewController : APCBaseTaskViewController
@@ -46,5 +48,10 @@
 @property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
 @property (nonatomic, readonly) APCUser *user;
 @property (nonatomic, readonly, strong) APCDataGroupsManager *dataGroupsManager;
+
+- (UIColor*)tintColorForStep:(ORKStep*)step;
+
+@property  (nonatomic, assign)  BOOL preferStatusBarShouldBeHidden;
+- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step;
 
 @end

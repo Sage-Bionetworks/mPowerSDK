@@ -12,10 +12,10 @@
     [
      {
      "identifier": "hasParkinsons",
-     "text": "Have you been diagnosed by a medical professional with Parkinson's Disease?",
-     "shortText": "Do you have Parkinson's Disease?",
+     "text": "Have you been diagnosed by a medical professional with Parkinson disease?",
+     "shortText": "Diagnosed with Parkinson disease",
      "type": "boolean",
-     "optional" : true,
+     "optional" : false,
      "valueMap": [{ "value" : true,
                   "groups" : ["parkinsons"]},
                   { "value" : false,

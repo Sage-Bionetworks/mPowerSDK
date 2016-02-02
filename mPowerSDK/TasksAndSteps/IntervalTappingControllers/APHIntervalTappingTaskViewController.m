@@ -56,7 +56,7 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
 
 @interface APHIntervalTappingTaskViewController  ( ) <NSObject>
 
-@property  (nonatomic, assign)  BOOL                 preferStatusBarShouldBeHidden;
+
 
 @end
 
@@ -132,38 +132,13 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
     return nil;
 }
 
-#pragma  mark  -  Task View Controller Delegate Methods
 
-- (void)taskViewController:(ORKTaskViewController *) __unused taskViewController stepViewControllerWillAppear:(ORKStepViewController *)stepViewController
-{
-    if ([stepViewController.step.identifier hasPrefix:APCTapTappingStepIdentifier] == YES) {
-        self.preferStatusBarShouldBeHidden = YES;
-        [[UIApplication sharedApplication] setStatusBarHidden: YES];
-    }
-    
-    if ([stepViewController.step.identifier isEqualToString:kConclusionStepIdentifier] == YES) {
-        self.preferStatusBarShouldBeHidden = NO;
-        [[UIApplication sharedApplication] setStatusBarHidden: NO];
-        [[UIView appearance] setTintColor:[UIColor appTertiaryColor1]];
-    }
+- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step {
+    return [step.identifier hasPrefix:APCTapTappingStepIdentifier];
 }
 
-- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(nullable NSError *)error
-{
-    if (reason == ORKTaskViewControllerFinishReasonFailed) {
-        if (error != nil) {
-            APCLogError2 (error);
-        }
-    }
-    [super taskViewController:taskViewController didFinishWithReason:reason error:error];
-}
 
 #pragma  mark  -  View Controller Methods
-
-- (BOOL)prefersStatusBarHidden
-{
-    return  self.preferStatusBarShouldBeHidden;
-}
 
 - (void)viewDidLoad
 {
