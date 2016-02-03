@@ -45,7 +45,7 @@ extern NSString * const kMomentInDayStepIdentifier;
 
 + (instancetype)defaultManager;
 
-- (id <ORKTask> _Nullable)createOrderedTaskForSurveyId:(NSString *)surveyId;
+- (id <ORKTask> _Nullable)createTaskForSurveyId:(NSString *)surveyId;
 
 @end
 

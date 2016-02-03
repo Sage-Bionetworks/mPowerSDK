@@ -66,7 +66,7 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
     //  Adjust apperance and text for the task
     [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
     
-    return  [[APHActivityManager defaultManager] createOrderedTaskForSurveyId:APHVoiceActivitySurveyIdentifier];
+    return  [[APHActivityManager defaultManager] createTaskForSurveyId:APHVoiceActivitySurveyIdentifier];
 }
 
 #pragma mark - UI overrides

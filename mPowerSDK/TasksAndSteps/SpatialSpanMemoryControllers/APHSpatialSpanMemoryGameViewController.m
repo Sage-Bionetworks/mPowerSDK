@@ -66,7 +66,7 @@ static NSString * const kItemKey                    = @"item";
 {
     [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
     
-    return [[APHActivityManager defaultManager] createOrderedTaskForSurveyId:APHMemoryActivitySurveyIdentifier];
+    return [[APHActivityManager defaultManager] createTaskForSurveyId:APHMemoryActivitySurveyIdentifier];
 }
 
 #pragma  mark  -  Task View Controller Delegate Methods

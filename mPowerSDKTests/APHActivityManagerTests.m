@@ -57,7 +57,7 @@
     [APHLocalization setLocalization:@"en"];
     
     APHActivityManager *manager = [[APHActivityManager alloc] init];
-    APHMedicationTrackerTask *medTask = (APHMedicationTrackerTask *)[manager createOrderedTaskForSurveyId:APHTappingActivitySurveyIdentifier];
+    APHMedicationTrackerTask *medTask = (APHMedicationTrackerTask *)[manager createTaskForSurveyId:APHTappingActivitySurveyIdentifier];
     ORKOrderedTask *task  = (ORKOrderedTask *)medTask.subTask;
     XCTAssertNotNil(task);
     XCTAssertNotNil([task stepWithIdentifier:@"tapping.right"]);
@@ -74,7 +74,7 @@
     [APHLocalization setLocalization:@"en"];
     
     APHActivityManager *manager = [[APHActivityManager alloc] init];
-    APHMedicationTrackerTask *medTask = (APHMedicationTrackerTask *)[manager createOrderedTaskForSurveyId:APHVoiceActivitySurveyIdentifier];
+    APHMedicationTrackerTask *medTask = (APHMedicationTrackerTask *)[manager createTaskForSurveyId:APHVoiceActivitySurveyIdentifier];
     ORKOrderedTask *task  = (ORKOrderedTask *)medTask.subTask;
     XCTAssertNotNil(task);
     XCTAssertNotNil([task stepWithIdentifier:@"audio"]);
@@ -90,7 +90,7 @@
     [APHLocalization setLocalization:@"en"];
     
     APHActivityManager *manager = [[APHActivityManager alloc] init];
-    APHMedicationTrackerTask *medTask = (APHMedicationTrackerTask *)[manager createOrderedTaskForSurveyId:APHMemoryActivitySurveyIdentifier];
+    APHMedicationTrackerTask *medTask = (APHMedicationTrackerTask *)[manager createTaskForSurveyId:APHMemoryActivitySurveyIdentifier];
     ORKOrderedTask *task  = (ORKOrderedTask *)medTask.subTask;
     XCTAssertNotNil(task);
     XCTAssertNotNil([task stepWithIdentifier:@"cognitive.memory.spatialspan"]);
@@ -106,7 +106,7 @@
     [APHLocalization setLocalization:@"en"];
     
     APHActivityManager *manager = [[APHActivityManager alloc] init];
-    APHMedicationTrackerTask *medTask = (APHMedicationTrackerTask *)[manager createOrderedTaskForSurveyId:APHWalkingActivitySurveyIdentifier];
+    APHMedicationTrackerTask *medTask = (APHMedicationTrackerTask *)[manager createTaskForSurveyId:APHWalkingActivitySurveyIdentifier];
     ORKOrderedTask *task  = (ORKOrderedTask *)medTask.subTask;
     XCTAssertNotNil(task);
     XCTAssertNotNil([task stepWithIdentifier:@"walking.outbound"]);

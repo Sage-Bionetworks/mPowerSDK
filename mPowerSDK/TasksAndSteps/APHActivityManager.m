@@ -107,7 +107,7 @@ static  NSTimeInterval  kStandStillDuration                   = 30.0;
 
 #pragma mark - task manipulation
 
-- (id <ORKTask> _Nullable)createOrderedTaskForSurveyId:(NSString *)surveyId
+- (id <ORKTask> _Nullable)createTaskForSurveyId:(NSString *)surveyId
 {
     ORKOrderedTask *task = nil;
     

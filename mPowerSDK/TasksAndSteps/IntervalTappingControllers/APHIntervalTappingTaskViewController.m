@@ -66,7 +66,7 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
 
 + (id<ORKTask>)createOrkTask:(APCTask *) __unused scheduledTask
 {
-    return  [[APHActivityManager defaultManager] createOrderedTaskForSurveyId:APHTappingActivitySurveyIdentifier];
+    return  [[APHActivityManager defaultManager] createTaskForSurveyId:APHTappingActivitySurveyIdentifier];
 }
 
 

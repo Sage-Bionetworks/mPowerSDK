@@ -78,7 +78,7 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
 
 + (id<ORKTask>)createOrkTask:(APCTask *) __unused scheduledTask
 {
-    return [[APHActivityManager defaultManager] createOrderedTaskForSurveyId:APHWalkingActivitySurveyIdentifier];
+    return [[APHActivityManager defaultManager] createTaskForSurveyId:APHWalkingActivitySurveyIdentifier];
 }
 
 #pragma  mark  -  Create Dashboard Summary Results
