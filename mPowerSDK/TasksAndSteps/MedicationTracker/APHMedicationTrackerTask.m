@@ -305,26 +305,37 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 
     // Get the medication list
     NSArray *medList = self.dataStore.trackedMedications;
+    if (medList.count == 0) {
+        return NO;
+    }
     
     // Build list of meds
     NSString *itemTextFormat = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_QUESTION", nil, APHLocaleBundle(), @"When was the last time you took your %@?", @"Prompt for timing of medication in pre-activity medication timing survey where %@ is a list of medications (For example, 'Levodopa or Rytary')");
-    NSString *orWord = NSLocalizedStringWithDefaultValue(@"APH_OR_FORMAT", nil, APHLocaleBundle(), @"or", @"Format of a list with two items using the OR key word.");
-    NSString *listDelimiter = NSLocalizedStringWithDefaultValue(@"APH_LIST_FORMAT_DELIMITER", nil, APHLocaleBundle(), @",", @"Delimiter for a list of more than 3 items. (For example, 'Levodopa, Simet or Rytary')");
     
-    NSMutableString *listText = [NSMutableString new];
+    NSString *medListText = nil;
+    if (medList.count == 1) {
+        medListText = [medList firstObject];
+    }
+    else if (medList.count == 2) {
+        NSString *twoItemListFormat = NSLocalizedStringWithDefaultValue(@"APH_TWO_ITEM_LIST_FORMAT", nil, APHLocaleBundle(), @"%@ or %@", @"Format of a list with two items (For example, 'Levodopa or Rytary')");
+        medListText = [NSString stringWithFormat:twoItemListFormat, medList[0], medList[1]];
+    }
+    else {
+        NSString *threeItemListFormat = NSLocalizedStringWithDefaultValue(@"APH_THREE_ITEM_LIST_FORMAT", nil, APHLocaleBundle(), @"%@, %@, or %@", @"Format of a list with three items (For example, 'Levodopa, Simet, or Rytary')");
+        NSString *listDelimiter = NSLocalizedStringWithDefaultValue(@"APH_LIST_FORMAT_DELIMITER", nil, APHLocaleBundle(), @", ", @"Delimiter for a list of more than 3 items. (For example, 'Foo, Levodopa, Simet, or Rytary')");
+        NSUInteger stopIndex = medList.count - 3;
+        NSMutableString *listText = [NSMutableString new];
+        [medList enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop __unused) {
+            [listText appendString:obj];
+            if (idx < stopIndex) {
+                [listText appendString:listDelimiter];
+            }
+            *stop = (idx == stopIndex);
+        }];
+        medListText = [NSString stringWithFormat:threeItemListFormat, listText, medList[stopIndex+1], medList[stopIndex+2]];
+    }
 
-    [medList enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop __unused) {
-        if (medList.count > 1) {
-            if (idx+1 == medList.count) {
-                [listText appendFormat:@" %@ ", orWord];
-            }
-            else if (idx != 0) {
-                [listText appendFormat:@"%@ ", listDelimiter];
-            }
-        }
-        [listText appendString:obj];
-    }];
-    NSString *itemText = [NSString stringWithFormat:itemTextFormat, listText];
+    NSString *itemText = [NSString stringWithFormat:itemTextFormat, medListText];
 
     // If the steps include the medication introduction, do not include the explanation text here
     if ([self previousStepWithIdentifier:APHMedicationTrackerIntroductionStepIdentifier] != nil) {

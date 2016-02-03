@@ -271,7 +271,18 @@
     [task shouldUpdateAndIncludeStep:step];
     ORKFormItem  *item = [step.formItems firstObject];
     
-    XCTAssertEqualObjects(item.text, @"When was the last time you took your Levodopa, Rytary or Sinemet?");
+    XCTAssertEqualObjects(item.text, @"When was the last time you took your Levodopa, Rytary, or Sinemet?");
+}
+
+- (void)testCreateMomentInDayStep_4x_English
+{
+    // Get the medication tracking step
+    MockAPHMedicationTrackerTask *task = [self createTaskWithSubTaskAndTrackedMedications:@[@"Levodopa", @"Rytary", @"Sinemet", @"Stalevo"]];
+    ORKFormStep *step = (ORKFormStep *)[task stepWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
+    [task shouldUpdateAndIncludeStep:step];
+    ORKFormItem  *item = [step.formItems firstObject];
+    
+    XCTAssertEqualObjects(item.text, @"When was the last time you took your Levodopa, Rytary, Sinemet, or Stalevo?");
 }
 
 - (void)testCreateConclusionStep {
