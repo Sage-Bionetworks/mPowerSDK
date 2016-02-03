@@ -150,9 +150,6 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     else if ([identifier isEqualToString:APHMedicationTrackerMomentInDayStepIdentifier]) {
         step = [self createMomentInDayStepWithTitle:title text:text optional:optional];
     }
-    else if ([identifier isEqualToString:APHMedicationTrackerMomentInDayStepIdentifier]) {
-        step = [self createMomentInDayStepWithTitle:title text:text optional:optional];
-    }
     else if ([identifier isEqualToString:APHMedicationTrackerConclusionStepIdentifier]) {
         step = [self createConclusionStepWithTitle:title text:text];
     }
@@ -663,6 +660,37 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     return [self.subTask respondsToSelector:@selector(providesBackgroundAudioPrompts)] &&
         [self.subTask providesBackgroundAudioPrompts];
 }
+
+#pragma mark - ORKTaskResultSource
+
+- (nullable ORKStepResult *)stepResultForStepIdentifier:(NSString *)stepIdentifier {
+    if ([stepIdentifier isEqualToString:APCDataGroupsStepIdentifier]) {
+        return self.dataGroupsManager.stepResult;
+    }
+    else if ([stepIdentifier isEqualToString:APHMedicationTrackerSelectionStepIdentifier]) {
+        NSArray *selectedMeds = self.dataStore.selectedMedications;
+        if (selectedMeds.count > 0) {
+            ORKChoiceQuestionResult *result = [[ORKChoiceQuestionResult alloc] initWithIdentifier:APHMedicationTrackerSelectionStepIdentifier];
+            result.choiceAnswers = [selectedMeds identifiers];
+            return [[ORKStepResult alloc] initWithStepIdentifier:APHMedicationTrackerSelectionStepIdentifier results:@[result]];
+        }
+    }
+    else if ([stepIdentifier isEqualToString:APHMedicationTrackerFrequencyStepIdentifier]) {
+        NSMutableArray *results = [NSMutableArray new];
+        for (APHMedication *med in self.dataStore.selectedMedications) {
+            if (med.frequency > 0) {
+                ORKScaleQuestionResult *result = [[ORKScaleQuestionResult alloc] initWithIdentifier:med.identifier];
+                result.scaleAnswer = @(med.frequency);
+                [results addObject:result];
+            }
+        }
+        if (results.count > 0) {
+            return [[ORKStepResult alloc] initWithStepIdentifier:APHMedicationTrackerFrequencyStepIdentifier results:results];
+        }
+    }
+    return nil;
+}
+
 
 #pragma mark - NSSecureCoding
 

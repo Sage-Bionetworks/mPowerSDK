@@ -8,18 +8,20 @@
         }
     ],
     "required": false,
-    "questions":
-    [
-     {
-     "identifier": "hasParkinsons",
-     "text": "Have you been diagnosed by a medical professional with Parkinson disease?",
-     "shortText": "Diagnosed with Parkinson disease",
-     "type": "boolean",
-     "optional" : false,
-     "valueMap": [{ "value" : true,
-                  "groups" : ["parkinsons"]},
-                  { "value" : false,
-                  "groups" : ["control"]}]
-     }
-     ]
+    "profile": {},
+    "survey": {
+        "questions":
+        [
+         {
+         "identifier": "hasParkinsons",
+         "text": "Have you been diagnosed by a medical professional with Parkinson disease?",
+         "type": "boolean",
+         "optional" : false,
+         "valueMap": [{ "value" : true,
+                      "groups" : ["parkinsons"]},
+                      { "value" : false,
+                      "groups" : ["control"]}]
+         }
+         ]
+    }
 }

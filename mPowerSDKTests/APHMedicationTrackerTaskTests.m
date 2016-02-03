@@ -625,6 +625,61 @@
     XCTAssertTrue(task.providesBackgroundAudioPrompts);
 }
 
+#pragma mark - ORKTaskResultSource tests
+
+- (void)testDefaultDataGroupsResult {
+    MockAPHMedicationTrackerTask *task = [self createTaskWithSubTask:nil trackedMedications:nil surveyStepResult:[MockPDResult new]];
+    ORKStepResult *result = [task stepResultForStepIdentifier:APCDataGroupsStepIdentifier];
+    
+    XCTAssertNotNil(result);
+}
+
+- (void)testDefaultMedicationSelectionResult {
+    NSArray *answers = @[@"Levodopa", @"Sinemet"];
+    MockAPHMedicationTrackerTask *task = [self createTaskWithSubTask:nil trackedMedications:answers surveyStepResult:[MockPDResult new]];
+    ORKStepResult *result = [task stepResultForStepIdentifier:APHMedicationTrackerSelectionStepIdentifier];
+    
+    XCTAssertNotNil(result);
+    XCTAssertEqualObjects(result.identifier, APHMedicationTrackerSelectionStepIdentifier);
+    XCTAssertEqual(result.results.count, 1);
+    
+    ORKChoiceQuestionResult *questionResult = (ORKChoiceQuestionResult*)[result.results firstObject];
+    XCTAssertTrue([questionResult isKindOfClass:[ORKChoiceQuestionResult class]]);
+    XCTAssertEqualObjects(questionResult.identifier, APHMedicationTrackerSelectionStepIdentifier);
+    XCTAssertEqualObjects(questionResult.choiceAnswers, answers);
+}
+
+- (void)testDefaultMedicationFrequencyResult {
+    NSArray *answers = @[@"Levodopa", @"Sinemet", @"Apokyn"];
+    MockAPHMedicationTrackerTask *task = [self createTaskWithSubTask:nil trackedMedications:answers surveyStepResult:[MockPDResult new]];
+    
+    // Set the frequency for meds that aren't injection
+    NSMutableArray *selectedMeds = [task.mockDataStore.selectedMedications mutableCopy];
+    for (APHMedication *med in selectedMeds) {
+        if (!med.injection) {
+            med.frequency = med.identifier.length;
+        }
+    }
+    task.dataStore.selectedMedications = selectedMeds;
+    [task.dataStore commitChanges];
+    
+    ORKStepResult *result = [task stepResultForStepIdentifier:APHMedicationTrackerFrequencyStepIdentifier];
+    
+    XCTAssertNotNil(result);
+    XCTAssertEqualObjects(result.identifier, APHMedicationTrackerFrequencyStepIdentifier);
+    XCTAssertEqual(result.results.count, 2);
+    
+    ORKScaleQuestionResult *levodopa = (ORKScaleQuestionResult *)[result.results firstObject];
+    XCTAssertTrue([levodopa isKindOfClass:[ORKScaleQuestionResult class]]);
+    XCTAssertEqualObjects(levodopa.identifier, @"Levodopa");
+    XCTAssertEqual(levodopa.scaleAnswer, @(8));
+    
+    ORKScaleQuestionResult *sinemet = (ORKScaleQuestionResult *)[result.results lastObject];
+    XCTAssertTrue([sinemet isKindOfClass:[ORKScaleQuestionResult class]]);
+    XCTAssertEqualObjects(sinemet.identifier, @"Sinemet");
+    XCTAssertEqual(sinemet.scaleAnswer, @(7));
+}
+
 #pragma mark - helper methods - create TrackerTask
 
 - (MockAPHMedicationTrackerTask*)createTask {
@@ -652,15 +707,8 @@
     task.mockDataGroupsManager.surveyStepResult = surveyStepResult;
     
     // If the tracked meds is non-nil, then set the value to the data store
-    if (trackedMedications != nil) {
-        NSMutableArray *meds = [NSMutableArray new];
-        for (NSString *name in trackedMedications) {
-            APHMedication *med = [APHMedication new];
-            med.name = name;
-            med.tracking = YES;
-            [meds addObject:med];
-        }
-        task.mockDataStore.selectedMedications = meds;
+    if (trackedMedications) {
+        task.mockDataStore.selectedMedications = [task.medications filteredArrayWithIdentifiers:trackedMedications];
         [task.mockDataStore commitChanges];
     }
     

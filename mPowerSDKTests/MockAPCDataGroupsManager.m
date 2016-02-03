@@ -40,6 +40,10 @@
     return [self.surveyStepResult isKindOfClass:[MockControlResult class]];
 }
 
+- (ORKStepResult *)stepResult {
+    return self.surveyStepResult;
+}
+
 @end
 
 @implementation MockPDResult

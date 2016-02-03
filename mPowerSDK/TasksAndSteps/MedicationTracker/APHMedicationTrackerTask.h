@@ -49,7 +49,7 @@ extern NSString * const APHMedicationTrackerFrequencyStepIdentifier;
 extern NSString * const APHMedicationTrackerMomentInDayStepIdentifier;
 extern NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier;
 
-@interface APHMedicationTrackerTask : NSObject <ORKTask, NSSecureCoding, NSCopying>
+@interface APHMedicationTrackerTask : NSObject <ORKTask, ORKTaskResultSource, NSSecureCoding, NSCopying>
 
 + (NSDictionary*)defaultMapping;
 

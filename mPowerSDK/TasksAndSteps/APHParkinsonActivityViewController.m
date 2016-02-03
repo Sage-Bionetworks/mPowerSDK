@@ -70,6 +70,10 @@ const NSInteger APHMedicationTrackerSchemaRevision = 8;
     //
 @implementation APHParkinsonActivityViewController
 
+- (id<ORKTaskResultSource>)defaultResultSource {
+    return self.medicationTrackerTask;
+}
+
 - (APHMedicationTrackerTask*)medicationTrackerTask {
     if ([self.task isKindOfClass:[APHMedicationTrackerTask class]]) {
         return (APHMedicationTrackerTask*)self.task;
