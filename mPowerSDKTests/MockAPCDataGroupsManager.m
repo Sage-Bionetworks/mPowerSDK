@@ -1,8 +1,8 @@
 //
-//  APHParkinsonActivityViewController.h
-//  mPower
+//  MockAPCDataGroupsManager.m
+//  mPowerSDK
 //
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved.
+// Copyright (c) 2016, Sage Bionetworks. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
@@ -31,27 +31,66 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+#import "MockAPCDataGroupsManager.h"
 
-#import <APCAppCore/APCAppCore.h>
-#import <Foundation/Foundation.h>
-#import <ResearchKit/ResearchKit.h>
+@implementation MockAPCDataGroupsManager
 
-extern const NSInteger APHMedicationTrackerSchemaRevision;
+@synthesize hasChanges = _hasChanges;
+@synthesize surveyStepResult = _surveyStepResult;
 
-@class APHMedicationTrackerTask, APHMedicationTrackerDataStore;
+- (NSArray *)dataGroups {
+    if ([self.surveyStepResult isKindOfClass:[MockPDResult class]]) {
+        return @[@"parkinsons"];
+    }
+    else if ([self.surveyStepResult isKindOfClass:[MockControlResult class]]) {
+        return @[@"control"];
+    }
+    return nil;
+}
 
-@interface APHParkinsonActivityViewController : APCBaseTaskViewController
+- (ORKFormStep *)surveyStep {
+    return [[ORKFormStep alloc] initWithIdentifier:APCDataGroupsStepIdentifier];
+}
 
-@property (nonatomic, strong) APCDataArchive *medicationTrackerArchive;
+- (void)setSurveyAnswerWithStepResult:(ORKStepResult *)surveyAnswerWithStepResult {
+    _surveyStepResult = surveyAnswerWithStepResult;
+    self.hasChanges = YES;
+}
 
-@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
-@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
-@property (nonatomic, readonly) APCUser *user;
-@property (nonatomic, readonly, strong) APCDataGroupsManager *dataGroupsManager;
+- (BOOL)needsUserInfoDataGroups {
+    return (self.surveyStepResult == nil) || ([self.surveyStepResult isKindOfClass:[MockSkipResult class]]);
+}
 
-- (UIColor*)tintColorForStep:(ORKStep*)step;
+- (BOOL)isStudyControlGroup {
+    return [self.surveyStepResult isKindOfClass:[MockControlResult class]];
+}
 
-@property  (nonatomic, assign)  BOOL preferStatusBarShouldBeHidden;
-- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step;
+- (ORKStepResult *)stepResult {
+    return self.surveyStepResult;
+}
+
+@end
+
+@implementation MockPDResult
+
+- (instancetype)init {
+    return [self initWithStepIdentifier:APCDataGroupsStepIdentifier results:nil];
+}
+
+@end
+
+@implementation MockControlResult
+
+- (instancetype)init {
+    return [self initWithStepIdentifier:APCDataGroupsStepIdentifier results:nil];
+}
+
+@end
+
+@implementation MockSkipResult
+
+- (instancetype)init {
+    return [self initWithStepIdentifier:APCDataGroupsStepIdentifier results:nil];
+}
 
 @end

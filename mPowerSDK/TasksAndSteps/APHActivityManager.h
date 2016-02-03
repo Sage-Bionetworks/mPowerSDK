@@ -39,25 +39,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const kMomentInDayStepIdentifier;
 
+@class APHMedication;
+
 @interface APHActivityManager : NSObject
 
 + (instancetype)defaultManager;
 
-/**
- * Factory method for creating a custom ordered task
- */
-- (ORKOrderedTask * _Nullable)createOrderedTaskForSurveyId:(NSString *)surveyId;
-
-/**
- * Getter/Setter for storing previous response to moment in day survey question
- */
-- (void)saveMomentInDayResult:(ORKStepResult * _Nullable)stepResult;
-- (ORKStepResult * _Nullable)stashedMomentInDayResult;
-
-//@protected
-- (ORKOrderedTask *)modifyTaskIfRequired:(ORKOrderedTask *)task;
-- (ORKFormStep *)createMomentInDayStep;
-- (BOOL)shouldIncludeMomentInDayStep:(NSDate * _Nullable)lastCompletionDate;
+- (id <ORKTask> _Nullable)createTaskForSurveyId:(NSString *)surveyId;
 
 @end
 

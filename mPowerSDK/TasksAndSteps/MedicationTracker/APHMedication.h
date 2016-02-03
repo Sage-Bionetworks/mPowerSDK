@@ -1,6 +1,6 @@
 //
-//  APHParkinsonActivityViewController.h
-//  mPower
+//  APHMedication.h
+//  mPowerSDK
 //
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved.
 //
@@ -31,27 +31,22 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-
-#import <APCAppCore/APCAppCore.h>
 #import <Foundation/Foundation.h>
-#import <ResearchKit/ResearchKit.h>
 
-extern const NSInteger APHMedicationTrackerSchemaRevision;
+@interface APHMedication : NSObject <NSSecureCoding, NSCopying>
 
-@class APHMedicationTrackerTask, APHMedicationTrackerDataStore;
+@property (nonatomic, copy) NSString * _Nonnull identifier;
+@property (nonatomic, copy) NSString * _Nonnull name;
+@property (nonatomic, copy) NSString * _Nullable detail;
+@property (nonatomic, copy) NSString * _Nullable brand;
+@property (nonatomic) NSUInteger frequency;
+@property (nonatomic) BOOL tracking;
+@property (nonatomic) BOOL injection;
 
-@interface APHParkinsonActivityViewController : APCBaseTaskViewController
+@property (nonatomic, readonly) NSString * _Nonnull text;
+@property (nonatomic, readonly) NSString * _Nonnull shortText;
 
-@property (nonatomic, strong) APCDataArchive *medicationTrackerArchive;
-
-@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
-@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
-@property (nonatomic, readonly) APCUser *user;
-@property (nonatomic, readonly, strong) APCDataGroupsManager *dataGroupsManager;
-
-- (UIColor*)tintColorForStep:(ORKStep*)step;
-
-@property  (nonatomic, assign)  BOOL preferStatusBarShouldBeHidden;
-- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step;
+- (instancetype _Nonnull)initWithDictionaryRepresentation:(NSDictionary * _Nonnull)dictionary;
+- (NSDictionary * _Nonnull)dictionaryRepresentation;
 
 @end

@@ -1,8 +1,8 @@
 //
-//  APHParkinsonActivityViewController.h
-//  mPower
+//  MockAPCDataGroupsManager.h
+//  mPowerSDK
 //
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved.
+// Copyright (c) 2016, Sage Bionetworks. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
@@ -31,27 +31,20 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-
 #import <APCAppCore/APCAppCore.h>
-#import <Foundation/Foundation.h>
-#import <ResearchKit/ResearchKit.h>
 
-extern const NSInteger APHMedicationTrackerSchemaRevision;
+@interface MockControlResult : ORKStepResult
+@end
 
-@class APHMedicationTrackerTask, APHMedicationTrackerDataStore;
+@interface MockPDResult : ORKStepResult
+@end
 
-@interface APHParkinsonActivityViewController : APCBaseTaskViewController
+@interface MockSkipResult : ORKStepResult
+@end
 
-@property (nonatomic, strong) APCDataArchive *medicationTrackerArchive;
+@interface MockAPCDataGroupsManager : APCDataGroupsManager
 
-@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
-@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
-@property (nonatomic, readonly) APCUser *user;
-@property (nonatomic, readonly, strong) APCDataGroupsManager *dataGroupsManager;
-
-- (UIColor*)tintColorForStep:(ORKStep*)step;
-
-@property  (nonatomic, assign)  BOOL preferStatusBarShouldBeHidden;
-- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step;
+@property (nonatomic, readwrite) BOOL hasChanges;
+@property (nonatomic, readwrite) ORKStepResult * _Nullable surveyStepResult;
 
 @end

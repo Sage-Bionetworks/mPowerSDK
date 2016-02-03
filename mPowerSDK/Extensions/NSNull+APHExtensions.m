@@ -1,8 +1,8 @@
 //
-//  APHParkinsonActivityViewController.h
-//  mPower
+//  NSNull+APHExtensions.m
+//  mPowerSDK
 //
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved.
+// Copyright (c) 2016, Sage Bionetworks. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
@@ -31,27 +31,64 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+#import "NSNull+APHExtensions.h"
 
-#import <APCAppCore/APCAppCore.h>
-#import <Foundation/Foundation.h>
-#import <ResearchKit/ResearchKit.h>
+@implementation NSNull (APHExtensions)
 
-extern const NSInteger APHMedicationTrackerSchemaRevision;
 
-@class APHMedicationTrackerTask, APHMedicationTrackerDataStore;
+- (short)shortValue {
+    return 0;
+}
 
-@interface APHParkinsonActivityViewController : APCBaseTaskViewController
+- (unsigned short) unsignedShortValue {
+    return 0;
+}
 
-@property (nonatomic, strong) APCDataArchive *medicationTrackerArchive;
+- (int) intValue {
+    return 0;
+}
 
-@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
-@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
-@property (nonatomic, readonly) APCUser *user;
-@property (nonatomic, readonly, strong) APCDataGroupsManager *dataGroupsManager;
+- (unsigned int) unsignedIntValue {
+    return 0;
+}
 
-- (UIColor*)tintColorForStep:(ORKStep*)step;
+- (long) longValue {
+    return 0;
+}
 
-@property  (nonatomic, assign)  BOOL preferStatusBarShouldBeHidden;
-- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step;
+- (unsigned long) unsignedLongValue {
+    return 0;
+}
+
+- (long long) longLongValue {
+    return 0;
+}
+
+- (unsigned long long) unsignedLongLongValue {
+    return 0;
+}
+
+- (float) floatValue {
+    return 0;
+}
+
+- (double) doubleValue {
+    return 0;
+}
+
+- (BOOL) boolValue {
+    return NO;
+}
+- (NSInteger) integerValue {
+    return 0;
+}
+
+- (NSUInteger) unsignedIntegerValue {
+    return 0;
+}
+
+- (NSString *) stringValue {
+    return nil;
+}
 
 @end

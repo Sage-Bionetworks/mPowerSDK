@@ -1,8 +1,8 @@
 //
-//  APHParkinsonActivityViewController.h
-//  mPower
+//  NSArray+APHExtensions.m
+//  mPowerSDK
 //
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved.
+// Copyright (c) 2016, Sage Bionetworks. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
@@ -31,27 +31,26 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+#import "NSArray+APHExtensions.h"
 
-#import <APCAppCore/APCAppCore.h>
-#import <Foundation/Foundation.h>
-#import <ResearchKit/ResearchKit.h>
+@implementation NSArray (APHExtensions)
 
-extern const NSInteger APHMedicationTrackerSchemaRevision;
+- (id _Nullable)objectWithIdentifier:(NSString*)identifier {
+    for (id obj in self) {
+        if ([obj respondsToSelector:@selector(identifier)] && [[obj identifier] isEqual:identifier]) {
+            return obj;
+        }
+    }
+    return nil;
+}
 
-@class APHMedicationTrackerTask, APHMedicationTrackerDataStore;
+- (NSArray *)filteredArrayWithIdentifiers:(NSArray <NSString *> *)identifiers {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K IN %@", NSStringFromSelector(@selector(identifier)), identifiers];
+    return [self filteredArrayUsingPredicate:predicate];
+}
 
-@interface APHParkinsonActivityViewController : APCBaseTaskViewController
-
-@property (nonatomic, strong) APCDataArchive *medicationTrackerArchive;
-
-@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
-@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
-@property (nonatomic, readonly) APCUser *user;
-@property (nonatomic, readonly, strong) APCDataGroupsManager *dataGroupsManager;
-
-- (UIColor*)tintColorForStep:(ORKStep*)step;
-
-@property  (nonatomic, assign)  BOOL preferStatusBarShouldBeHidden;
-- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step;
+- (NSArray <NSString *> *)identifiers {
+    return [self valueForKey:NSStringFromSelector(@selector(identifier))];
+}
 
 @end

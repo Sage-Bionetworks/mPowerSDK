@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		80F856501C57E8A300AB321C /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80F8564F1C57E8A300AB321C /* ResearchKit.framework */; };
 		FF0B4AC01C29FCB800224EF7 /* APHParkinsonActivityViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4AAE1C29FCB800224EF7 /* APHParkinsonActivityViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF0B4AC11C29FCB800224EF7 /* APHParkinsonActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4AAF1C29FCB800224EF7 /* APHParkinsonActivityViewController.m */; };
 		FF0B4AC21C29FCB800224EF7 /* APHScoreCalculator.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4AB01C29FCB800224EF7 /* APHScoreCalculator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -38,8 +37,39 @@
 		FF2D349A1C3DBD540033838A /* TermsAndConditions.json in Resources */ = {isa = PBXBuildFile; fileRef = FF2D348D1C3DBD540033838A /* TermsAndConditions.json */; };
 		FF2D349B1C3DBD540033838A /* WithdrawStudy.json in Resources */ = {isa = PBXBuildFile; fileRef = FF2D348F1C3DBD540033838A /* WithdrawStudy.json */; };
 		FF2D34B21C3DBF100033838A /* FilenameTranslation.json in Resources */ = {isa = PBXBuildFile; fileRef = FF2D34B11C3DBF100033838A /* FilenameTranslation.json */; };
+		FF2D8BD81C497D28004EC642 /* APHMedicationTrackerTask.h in Headers */ = {isa = PBXBuildFile; fileRef = FF2D8BD61C497D28004EC642 /* APHMedicationTrackerTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF2D8BD91C497D28004EC642 /* APHMedicationTrackerTask.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D8BD71C497D28004EC642 /* APHMedicationTrackerTask.m */; };
+		FF2D8BDC1C497D4D004EC642 /* APHMedicationTrackerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF2D8BDA1C497D4D004EC642 /* APHMedicationTrackerViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF2D8BDD1C497D4D004EC642 /* APHMedicationTrackerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D8BDB1C497D4D004EC642 /* APHMedicationTrackerViewController.m */; };
+		FF346CED1C5BE762006D9AC9 /* NSArray+APHExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = FF346CEB1C5BE762006D9AC9 /* NSArray+APHExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF346CEE1C5BE762006D9AC9 /* NSArray+APHExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FF346CEC1C5BE762006D9AC9 /* NSArray+APHExtensions.m */; };
 		FF51E5D11C2A05BD0091E1A0 /* APCAppCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */; };
 		FF51E5D31C2A05C60091E1A0 /* BridgeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */; };
+		FF5842C11C517D3100C85C2E /* APHMedicationTrackerDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = FF5842BF1C517D3100C85C2E /* APHMedicationTrackerDataStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF5842C21C517D3100C85C2E /* APHMedicationTrackerDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = FF5842C01C517D3100C85C2E /* APHMedicationTrackerDataStore.m */; };
+		FF61312A1C57437A008D28F0 /* APCAppCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF6131291C57437A008D28F0 /* APCAppCore.framework */; };
+		FF61312C1C574381008D28F0 /* BridgeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF61312B1C574381008D28F0 /* BridgeSDK.framework */; };
+		FF61312E1C574387008D28F0 /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF61312D1C574387008D28F0 /* ResearchKit.framework */; };
+		FF6131301C574390008D28F0 /* libPDScores.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF61312F1C574390008D28F0 /* libPDScores.a */; };
+		FF95C03B1C49A5F20081672E /* APHMedicationTrackerTaskTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FF95C03A1C49A5F20081672E /* APHMedicationTrackerTaskTests.m */; };
+		FF95C03E1C49A7E90081672E /* MedicationTracking.json in Resources */ = {isa = PBXBuildFile; fileRef = FF95C03C1C49A7E90081672E /* MedicationTracking.json */; };
+		FF95C0431C4EB4A90081672E /* APHMedication.h in Headers */ = {isa = PBXBuildFile; fileRef = FF95C0411C4EB4A90081672E /* APHMedication.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF95C0441C4EB4A90081672E /* APHMedication.m in Sources */ = {isa = PBXBuildFile; fileRef = FF95C0421C4EB4A90081672E /* APHMedication.m */; };
+		FFACDDBC1C5198CA0074F30E /* APHMedicationTrackerDataStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FFACDDBB1C5198CA0074F30E /* APHMedicationTrackerDataStoreTests.m */; };
+		FFACDDC21C5210B10074F30E /* MockAPHMedicationTrackerDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = FFACDDC11C5210B10074F30E /* MockAPHMedicationTrackerDataStore.m */; };
+		FFB7E92E1C4F031D00D9F116 /* MockAPCDataGroupsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB7E92D1C4F031D00D9F116 /* MockAPCDataGroupsManager.m */; };
+		FFB7E9311C4F048C00D9F116 /* MockAPHMedicationTrackerTask.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB7E9301C4F048C00D9F116 /* MockAPHMedicationTrackerTask.m */; };
+		FFB892271C46227700CD0081 /* ResourcesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB892261C46227700CD0081 /* ResourcesTests.m */; };
+		FFB892281C46DE6200CD0081 /* DataGroupsMapping.json in Resources */ = {isa = PBXBuildFile; fileRef = FFB8922A1C46DE6200CD0081 /* DataGroupsMapping.json */; };
+		FFBC083B1C52D6A900EFD90C /* MockORKTask.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBC083A1C52D6A900EFD90C /* MockORKTask.m */; };
+		FFEE04EB1C598D470035D199 /* APHParkinsonActivityViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEE04EA1C598D470035D199 /* APHParkinsonActivityViewControllerTests.m */; };
+		FFEE04EE1C5991090035D199 /* MockAPCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEE04ED1C5991090035D199 /* MockAPCUser.m */; };
+		FFEE04F11C5A9E2D0035D199 /* MockAPCTaskResultArchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEE04F01C5A9E2D0035D199 /* MockAPCTaskResultArchiver.m */; };
+		FFF270A41C5BF483007059D2 /* NSNull+APHExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = FFF270A21C5BF483007059D2 /* NSNull+APHExtensions.h */; };
+		FFF270A51C5BF483007059D2 /* NSNull+APHExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF270A31C5BF483007059D2 /* NSNull+APHExtensions.m */; };
+		FFF270A81C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.h in Headers */ = {isa = PBXBuildFile; fileRef = FFF270A61C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FFF270A91C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF270A71C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.m */; };
+		FFF270AB1C5C065E007059D2 /* APHMedicationTrackerTaskResultArchiverTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF270AA1C5C065E007059D2 /* APHMedicationTrackerTaskResultArchiverTests.m */; };
 		FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA242E1C2351D600727DA8 /* mPowerSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFFA24361C2351D600727DA8 /* mPowerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */; };
 		FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFA24711C23657700727DA8 /* APHAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -71,7 +101,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		80F8564F1C57E8A300AB321C /* ResearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ResearchKit.framework; path = "../researchkit/build/Debug-iphoneos/ResearchKit.framework"; sourceTree = "<group>"; };
 		FF0B4AAE1C29FCB800224EF7 /* APHParkinsonActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHParkinsonActivityViewController.h; sourceTree = "<group>"; };
 		FF0B4AAF1C29FCB800224EF7 /* APHParkinsonActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHParkinsonActivityViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FF0B4AB01C29FCB800224EF7 /* APHScoreCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHScoreCalculator.h; sourceTree = "<group>"; };
@@ -102,9 +131,46 @@
 		FF2D348E1C3DBD540033838A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/TermsAndConditions.json; sourceTree = "<group>"; };
 		FF2D34901C3DBD540033838A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/WithdrawStudy.json; sourceTree = "<group>"; };
 		FF2D34B11C3DBF100033838A /* FilenameTranslation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FilenameTranslation.json; sourceTree = "<group>"; };
+		FF2D8BD61C497D28004EC642 /* APHMedicationTrackerTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHMedicationTrackerTask.h; sourceTree = "<group>"; };
+		FF2D8BD71C497D28004EC642 /* APHMedicationTrackerTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerTask.m; sourceTree = "<group>"; };
+		FF2D8BDA1C497D4D004EC642 /* APHMedicationTrackerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHMedicationTrackerViewController.h; sourceTree = "<group>"; };
+		FF2D8BDB1C497D4D004EC642 /* APHMedicationTrackerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerViewController.m; sourceTree = "<group>"; };
+		FF346CEB1C5BE762006D9AC9 /* NSArray+APHExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+APHExtensions.h"; sourceTree = "<group>"; };
+		FF346CEC1C5BE762006D9AC9 /* NSArray+APHExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+APHExtensions.m"; sourceTree = "<group>"; };
 		FF51E5CE1C2A05B40091E1A0 /* libPDScores.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPDScores.a; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/libPDScores.a"; sourceTree = "<group>"; };
 		FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = APCAppCore.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/APCAppCore.framework"; sourceTree = "<group>"; };
 		FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BridgeSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/BridgeSDK.framework"; sourceTree = "<group>"; };
+		FF5842BF1C517D3100C85C2E /* APHMedicationTrackerDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHMedicationTrackerDataStore.h; sourceTree = "<group>"; };
+		FF5842C01C517D3100C85C2E /* APHMedicationTrackerDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerDataStore.m; sourceTree = "<group>"; };
+		FF6131291C57437A008D28F0 /* APCAppCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = APCAppCore.framework; path = "../AppCore/APCAppCore/build/Debug-iphoneos/APCAppCore.framework"; sourceTree = "<group>"; };
+		FF61312B1C574381008D28F0 /* BridgeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BridgeSDK.framework; path = "../BridgeSDK/build/Debug-iphoneos/BridgeSDK.framework"; sourceTree = "<group>"; };
+		FF61312D1C574387008D28F0 /* ResearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ResearchKit.framework; path = "../researchkit/build/Debug-iphoneos/ResearchKit.framework"; sourceTree = "<group>"; };
+		FF61312F1C574390008D28F0 /* libPDScores.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPDScores.a; path = "../PDScores/PDScores/build/Debug-iphoneos/libPDScores.a"; sourceTree = "<group>"; };
+		FF95C03A1C49A5F20081672E /* APHMedicationTrackerTaskTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerTaskTests.m; sourceTree = "<group>"; };
+		FF95C03D1C49A7E90081672E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/MedicationTracking.json; sourceTree = "<group>"; };
+		FF95C0411C4EB4A90081672E /* APHMedication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHMedication.h; sourceTree = "<group>"; };
+		FF95C0421C4EB4A90081672E /* APHMedication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedication.m; sourceTree = "<group>"; };
+		FFACDDBB1C5198CA0074F30E /* APHMedicationTrackerDataStoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerDataStoreTests.m; sourceTree = "<group>"; };
+		FFACDDC01C5210B10074F30E /* MockAPHMedicationTrackerDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockAPHMedicationTrackerDataStore.h; sourceTree = "<group>"; };
+		FFACDDC11C5210B10074F30E /* MockAPHMedicationTrackerDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAPHMedicationTrackerDataStore.m; sourceTree = "<group>"; };
+		FFB7E92C1C4F031D00D9F116 /* MockAPCDataGroupsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockAPCDataGroupsManager.h; sourceTree = "<group>"; };
+		FFB7E92D1C4F031D00D9F116 /* MockAPCDataGroupsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAPCDataGroupsManager.m; sourceTree = "<group>"; };
+		FFB7E92F1C4F048C00D9F116 /* MockAPHMedicationTrackerTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockAPHMedicationTrackerTask.h; sourceTree = "<group>"; };
+		FFB7E9301C4F048C00D9F116 /* MockAPHMedicationTrackerTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAPHMedicationTrackerTask.m; sourceTree = "<group>"; };
+		FFB892261C46227700CD0081 /* ResourcesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourcesTests.m; sourceTree = "<group>"; };
+		FFB892291C46DE6200CD0081 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/DataGroupsMapping.json; sourceTree = "<group>"; };
+		FFBC08391C52D6A900EFD90C /* MockORKTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockORKTask.h; sourceTree = "<group>"; };
+		FFBC083A1C52D6A900EFD90C /* MockORKTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockORKTask.m; sourceTree = "<group>"; };
+		FFEE04EA1C598D470035D199 /* APHParkinsonActivityViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHParkinsonActivityViewControllerTests.m; sourceTree = "<group>"; };
+		FFEE04EC1C5991090035D199 /* MockAPCUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockAPCUser.h; sourceTree = "<group>"; };
+		FFEE04ED1C5991090035D199 /* MockAPCUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAPCUser.m; sourceTree = "<group>"; };
+		FFEE04EF1C5A9E2D0035D199 /* MockAPCTaskResultArchiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockAPCTaskResultArchiver.h; sourceTree = "<group>"; };
+		FFEE04F01C5A9E2D0035D199 /* MockAPCTaskResultArchiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockAPCTaskResultArchiver.m; sourceTree = "<group>"; };
+		FFF270A21C5BF483007059D2 /* NSNull+APHExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNull+APHExtensions.h"; sourceTree = "<group>"; };
+		FFF270A31C5BF483007059D2 /* NSNull+APHExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNull+APHExtensions.m"; sourceTree = "<group>"; };
+		FFF270A61C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHMedicationTrackerTaskResultArchiver.h; sourceTree = "<group>"; };
+		FFF270A71C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerTaskResultArchiver.m; sourceTree = "<group>"; };
+		FFF270AA1C5C065E007059D2 /* APHMedicationTrackerTaskResultArchiverTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerTaskResultArchiverTests.m; sourceTree = "<group>"; };
 		FFFA242B1C2351D600727DA8 /* mPowerSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = mPowerSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFFA242E1C2351D600727DA8 /* mPowerSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mPowerSDK.h; sourceTree = "<group>"; };
 		FFFA24301C2351D600727DA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -147,7 +213,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80F856501C57E8A300AB321C /* ResearchKit.framework in Frameworks */,
+				FF6131301C574390008D28F0 /* libPDScores.a in Frameworks */,
+				FF61312E1C574387008D28F0 /* ResearchKit.framework in Frameworks */,
+				FF61312C1C574381008D28F0 /* BridgeSDK.framework in Frameworks */,
+				FF61312A1C57437A008D28F0 /* APCAppCore.framework in Frameworks */,
 				FFFA24361C2351D600727DA8 /* mPowerSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,6 +233,7 @@
 				FF0B4AAF1C29FCB800224EF7 /* APHParkinsonActivityViewController.m */,
 				FF0B4AB01C29FCB800224EF7 /* APHScoreCalculator.h */,
 				FF0B4AB11C29FCB800224EF7 /* APHScoreCalculator.m */,
+				FF2D8BD51C497C64004EC642 /* MedicationTracker */,
 				FF0B4AB31C29FCB800224EF7 /* IntervalTappingControllers */,
 				FF0B4AB71C29FCB800224EF7 /* PhonationControllers */,
 				FF0B4ABA1C29FCB800224EF7 /* SpatialSpanMemoryControllers */,
@@ -211,7 +281,10 @@
 		FF2D342A1C2A06110033838A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				80F8564F1C57E8A300AB321C /* ResearchKit.framework */,
+				FF61312F1C574390008D28F0 /* libPDScores.a */,
+				FF61312D1C574387008D28F0 /* ResearchKit.framework */,
+				FF61312B1C574381008D28F0 /* BridgeSDK.framework */,
+				FF6131291C57437A008D28F0 /* APCAppCore.framework */,
 				FF2D345E1C3C56CC0033838A /* libPDScores.a */,
 				FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */,
 				FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */,
@@ -240,6 +313,8 @@
 		FF2D347E1C3DBD540033838A /* JSONs */ = {
 			isa = PBXGroup;
 			children = (
+				FF95C03C1C49A7E90081672E /* MedicationTracking.json */,
+				FFB8922A1C46DE6200CD0081 /* DataGroupsMapping.json */,
 				FF2D34B11C3DBF100033838A /* FilenameTranslation.json */,
 				FF2D347F1C3DBD540033838A /* APCParameters.json */,
 				FF2D34801C3DBD540033838A /* APHTaskIdToViewControllerMapping.json */,
@@ -253,6 +328,70 @@
 				FF2D348F1C3DBD540033838A /* WithdrawStudy.json */,
 			);
 			path = JSONs;
+			sourceTree = "<group>";
+		};
+		FF2D8BD51C497C64004EC642 /* MedicationTracker */ = {
+			isa = PBXGroup;
+			children = (
+				FF95C0401C4EB47D0081672E /* Model */,
+				FF2D8BDA1C497D4D004EC642 /* APHMedicationTrackerViewController.h */,
+				FF2D8BDB1C497D4D004EC642 /* APHMedicationTrackerViewController.m */,
+			);
+			path = MedicationTracker;
+			sourceTree = "<group>";
+		};
+		FF346CE91C5BE6B3006D9AC9 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				FF346CEA1C5BE6DB006D9AC9 /* Extensions */,
+				FF2D343F1C31B7410033838A /* Localization */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
+		FF346CEA1C5BE6DB006D9AC9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FF346CEB1C5BE762006D9AC9 /* NSArray+APHExtensions.h */,
+				FF346CEC1C5BE762006D9AC9 /* NSArray+APHExtensions.m */,
+				FFF270A21C5BF483007059D2 /* NSNull+APHExtensions.h */,
+				FFF270A31C5BF483007059D2 /* NSNull+APHExtensions.m */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		FF95C0401C4EB47D0081672E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FF95C0411C4EB4A90081672E /* APHMedication.h */,
+				FF95C0421C4EB4A90081672E /* APHMedication.m */,
+				FF5842BF1C517D3100C85C2E /* APHMedicationTrackerDataStore.h */,
+				FF5842C01C517D3100C85C2E /* APHMedicationTrackerDataStore.m */,
+				FF2D8BD61C497D28004EC642 /* APHMedicationTrackerTask.h */,
+				FF2D8BD71C497D28004EC642 /* APHMedicationTrackerTask.m */,
+				FFF270A61C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.h */,
+				FFF270A71C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		FFB7E92B1C4F02F500D9F116 /* MockObjects */ = {
+			isa = PBXGroup;
+			children = (
+				FFB7E92C1C4F031D00D9F116 /* MockAPCDataGroupsManager.h */,
+				FFB7E92D1C4F031D00D9F116 /* MockAPCDataGroupsManager.m */,
+				FFACDDC01C5210B10074F30E /* MockAPHMedicationTrackerDataStore.h */,
+				FFACDDC11C5210B10074F30E /* MockAPHMedicationTrackerDataStore.m */,
+				FFB7E92F1C4F048C00D9F116 /* MockAPHMedicationTrackerTask.h */,
+				FFB7E9301C4F048C00D9F116 /* MockAPHMedicationTrackerTask.m */,
+				FFBC08391C52D6A900EFD90C /* MockORKTask.h */,
+				FFBC083A1C52D6A900EFD90C /* MockORKTask.m */,
+				FFEE04EC1C5991090035D199 /* MockAPCUser.h */,
+				FFEE04ED1C5991090035D199 /* MockAPCUser.m */,
+				FFEE04EF1C5A9E2D0035D199 /* MockAPCTaskResultArchiver.h */,
+				FFEE04F01C5A9E2D0035D199 /* MockAPCTaskResultArchiver.m */,
+			);
+			name = MockObjects;
 			sourceTree = "<group>";
 		};
 		FFFA24211C2351D600727DA8 = {
@@ -285,7 +424,7 @@
 				FFFA24971C23773900727DA8 /* Onboarding */,
 				FFFA24BB1C237E1500727DA8 /* Dashboard */,
 				FF0B4AAD1C29FCB800224EF7 /* TasksAndSteps */,
-				FF2D343F1C31B7410033838A /* Localization */,
+				FF346CE91C5BE6B3006D9AC9 /* Library */,
 				FF2D347C1C3DBD540033838A /* Resources */,
 			);
 			path = mPowerSDK;
@@ -294,8 +433,14 @@
 		FFFA24391C2351D600727DA8 /* mPowerSDKTests */ = {
 			isa = PBXGroup;
 			children = (
+				FFB7E92B1C4F02F500D9F116 /* MockObjects */,
 				FF2D344A1C3200AC0033838A /* APHActivityManagerTests.m */,
+				FFACDDBB1C5198CA0074F30E /* APHMedicationTrackerDataStoreTests.m */,
+				FF95C03A1C49A5F20081672E /* APHMedicationTrackerTaskTests.m */,
+				FFEE04EA1C598D470035D199 /* APHParkinsonActivityViewControllerTests.m */,
+				FFF270AA1C5C065E007059D2 /* APHMedicationTrackerTaskResultArchiverTests.m */,
 				FF2D345C1C3C4C6A0033838A /* APHScoreCalculatorTests.m */,
+				FFB892261C46227700CD0081 /* ResourcesTests.m */,
 				FFFA243C1C2351D600727DA8 /* Info.plist */,
 			);
 			path = mPowerSDKTests;
@@ -359,8 +504,15 @@
 				FFFA24C71C237E1500727DA8 /* APHDashboardViewController.h in Headers */,
 				FF2D34421C31B7DC0033838A /* APHLocalization.h in Headers */,
 				FFFA24C51C237E1500727DA8 /* APHDashboardEditViewController.h in Headers */,
+				FF2D8BD81C497D28004EC642 /* APHMedicationTrackerTask.h in Headers */,
+				FF5842C11C517D3100C85C2E /* APHMedicationTrackerDataStore.h in Headers */,
 				FF0B4ACB1C29FCB800224EF7 /* APHWalkingTaskViewController.h in Headers */,
 				FF0B4AC51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.h in Headers */,
+				FF346CED1C5BE762006D9AC9 /* NSArray+APHExtensions.h in Headers */,
+				FFF270A81C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.h in Headers */,
+				FF2D8BDC1C497D4D004EC642 /* APHMedicationTrackerViewController.h in Headers */,
+				FFF270A41C5BF483007059D2 /* NSNull+APHExtensions.h in Headers */,
+				FF95C0431C4EB4A90081672E /* APHMedication.h in Headers */,
 				FF0B4AC71C29FCB800224EF7 /* APHPhonationTaskViewController.h in Headers */,
 				FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */,
 				FFFA249F1C23773900727DA8 /* APHInclusionCriteriaViewController.h in Headers */,
@@ -461,9 +613,11 @@
 				FF2D34941C3DBD540033838A /* APHConsentSection.json in Resources */,
 				FF2D34981C3DBD540033838A /* LocationInfo.json in Resources */,
 				FF2D34B21C3DBF100033838A /* FilenameTranslation.json in Resources */,
+				FF95C03E1C49A7E90081672E /* MedicationTracking.json in Resources */,
 				FF2D34951C3DBD540033838A /* APHTasksAndSchedules.json in Resources */,
 				FF2D34931C3DBD540033838A /* APHTaskIdToViewControllerMapping.json in Resources */,
 				FFFA24C91C237E1500727DA8 /* APHDashboard.storyboard in Resources */,
+				FFB892281C46DE6200CD0081 /* DataGroupsMapping.json in Resources */,
 				FF2D34921C3DBD540033838A /* APCParameters.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -484,19 +638,26 @@
 			files = (
 				FF0B4ACC1C29FCB800224EF7 /* APHWalkingTaskViewController.m in Sources */,
 				FFFA24C61C237E1500727DA8 /* APHDashboardEditViewController.m in Sources */,
+				FF95C0441C4EB4A90081672E /* APHMedication.m in Sources */,
+				FF5842C21C517D3100C85C2E /* APHMedicationTrackerDataStore.m in Sources */,
+				FFF270A51C5BF483007059D2 /* NSNull+APHExtensions.m in Sources */,
 				FF0B4AC31C29FCB800224EF7 /* APHScoreCalculator.m in Sources */,
 				FF0B4ACA1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m in Sources */,
 				FF2D34431C31B7DC0033838A /* APHLocalization.m in Sources */,
 				FF0B4AC11C29FCB800224EF7 /* APHParkinsonActivityViewController.m in Sources */,
 				FF0B4AC81C29FCB800224EF7 /* APHPhonationTaskViewController.m in Sources */,
+				FF2D8BDD1C497D4D004EC642 /* APHMedicationTrackerViewController.m in Sources */,
+				FF346CEE1C5BE762006D9AC9 /* NSArray+APHExtensions.m in Sources */,
 				FFFA24921C236E9A00727DA8 /* APHProfileExtender.m in Sources */,
 				FF0B4AC61C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m in Sources */,
 				FFFA24C81C237E1500727DA8 /* APHDashboardViewController.m in Sources */,
+				FF2D8BD91C497D28004EC642 /* APHMedicationTrackerTask.m in Sources */,
 				FFFA24741C23657700727DA8 /* APHAppDelegate.m in Sources */,
 				FFFA24861C23664500727DA8 /* APHAppDelegate+APHMigration.m in Sources */,
 				FFFA24A01C23773900727DA8 /* APHInclusionCriteriaViewController.m in Sources */,
 				FF2D344F1C3207060033838A /* APHActivityManager.m in Sources */,
 				FFFA248E1C236AE700727DA8 /* APHDataKeys.m in Sources */,
+				FFF270A91C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,8 +665,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFB7E92E1C4F031D00D9F116 /* MockAPCDataGroupsManager.m in Sources */,
+				FFACDDC21C5210B10074F30E /* MockAPHMedicationTrackerDataStore.m in Sources */,
+				FFEE04F11C5A9E2D0035D199 /* MockAPCTaskResultArchiver.m in Sources */,
+				FFB892271C46227700CD0081 /* ResourcesTests.m in Sources */,
+				FFB7E9311C4F048C00D9F116 /* MockAPHMedicationTrackerTask.m in Sources */,
+				FFEE04EE1C5991090035D199 /* MockAPCUser.m in Sources */,
 				FF2D345D1C3C4C6A0033838A /* APHScoreCalculatorTests.m in Sources */,
+				FFF270AB1C5C065E007059D2 /* APHMedicationTrackerTaskResultArchiverTests.m in Sources */,
+				FF95C03B1C49A5F20081672E /* APHMedicationTrackerTaskTests.m in Sources */,
+				FFACDDBC1C5198CA0074F30E /* APHMedicationTrackerDataStoreTests.m in Sources */,
 				FF2D344B1C3200AC0033838A /* APHActivityManagerTests.m in Sources */,
+				FFEE04EB1C598D470035D199 /* APHParkinsonActivityViewControllerTests.m in Sources */,
+				FFBC083B1C52D6A900EFD90C /* MockORKTask.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,6 +754,22 @@
 				FF2D34901C3DBD540033838A /* Base */,
 			);
 			name = WithdrawStudy.json;
+			sourceTree = "<group>";
+		};
+		FF95C03C1C49A7E90081672E /* MedicationTracking.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FF95C03D1C49A7E90081672E /* Base */,
+			);
+			name = MedicationTracking.json;
+			sourceTree = "<group>";
+		};
+		FFB8922A1C46DE6200CD0081 /* DataGroupsMapping.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FFB892291C46DE6200CD0081 /* Base */,
+			);
+			name = DataGroupsMapping.json;
 			sourceTree = "<group>";
 		};
 		FFFA24A31C2377B200727DA8 /* APHOnboarding.storyboard */ = {
@@ -704,6 +892,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = mPowerSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -722,6 +911,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = mPowerSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -736,6 +926,7 @@
 		FFFA24431C2351D600727DA8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = mPowerSDKTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.sagebase.mPowerSDKTests;
@@ -746,6 +937,7 @@
 		FFFA24441C2351D600727DA8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = mPowerSDKTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.sagebase.mPowerSDKTests;

@@ -1,8 +1,8 @@
 //
-//  APHParkinsonActivityViewController.h
-//  mPower
+//  MockAPHMedicationTrackerTask.m
+//  mPowerSDK
 //
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved.
+// Copyright (c) 2016, Sage Bionetworks. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
@@ -31,27 +31,41 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+#import "MockAPHMedicationTrackerTask.h"
 
-#import <APCAppCore/APCAppCore.h>
-#import <Foundation/Foundation.h>
-#import <ResearchKit/ResearchKit.h>
+@implementation MockAPHMedicationTrackerTask
 
-extern const NSInteger APHMedicationTrackerSchemaRevision;
++ (NSDictionary *)defaultMapping {
+    NSBundle *bundle = [NSBundle bundleForClass:[APHMedicationTrackerTask class]];
+    NSString *path = [bundle pathForResource:@"MedicationTracking" ofType:@"json"];
+    NSData *json = [NSData dataWithContentsOfFile:path];
+    NSAssert1(json != nil, @"Dictionary not found. %@", path);
+    NSError *parseError;
+    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:json options:NSJSONReadingMutableContainers error:&parseError];
+    NSAssert1(parseError == nil, @"Error parsing data group mapping: %@", parseError);
+    return dictionary;
+}
 
-@class APHMedicationTrackerTask, APHMedicationTrackerDataStore;
+- (MockAPHMedicationTrackerDataStore *)mockDataStore {
+    if (_mockDataStore == nil) {
+        _mockDataStore = [MockAPHMedicationTrackerDataStore new];
+    }
+    return _mockDataStore;
+}
 
-@interface APHParkinsonActivityViewController : APCBaseTaskViewController
+- (APHMedicationTrackerDataStore *)dataStore {
+    return self.mockDataStore;
+}
 
-@property (nonatomic, strong) APCDataArchive *medicationTrackerArchive;
+- (MockAPCDataGroupsManager *)mockDataGroupsManager {
+    if (_mockDataGroupsManager == nil) {
+        _mockDataGroupsManager = [MockAPCDataGroupsManager new];
+    }
+    return _mockDataGroupsManager;
+}
 
-@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
-@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
-@property (nonatomic, readonly) APCUser *user;
-@property (nonatomic, readonly, strong) APCDataGroupsManager *dataGroupsManager;
-
-- (UIColor*)tintColorForStep:(ORKStep*)step;
-
-@property  (nonatomic, assign)  BOOL preferStatusBarShouldBeHidden;
-- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step;
+- (APCDataGroupsManager *)dataGroupsManager {
+    return self.mockDataGroupsManager;
+}
 
 @end

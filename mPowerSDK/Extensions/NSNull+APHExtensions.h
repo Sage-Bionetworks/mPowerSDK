@@ -1,8 +1,8 @@
 //
-//  APHParkinsonActivityViewController.h
-//  mPower
+//  NSNull+APHExtensions.h
+//  mPowerSDK
 //
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved.
+// Copyright (c) 2016, Sage Bionetworks. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
@@ -31,27 +31,23 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-
-#import <APCAppCore/APCAppCore.h>
 #import <Foundation/Foundation.h>
-#import <ResearchKit/ResearchKit.h>
 
-extern const NSInteger APHMedicationTrackerSchemaRevision;
+@interface NSNull (APHExtensions)
 
-@class APHMedicationTrackerTask, APHMedicationTrackerDataStore;
-
-@interface APHParkinsonActivityViewController : APCBaseTaskViewController
-
-@property (nonatomic, strong) APCDataArchive *medicationTrackerArchive;
-
-@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
-@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
-@property (nonatomic, readonly) APCUser *user;
-@property (nonatomic, readonly, strong) APCDataGroupsManager *dataGroupsManager;
-
-- (UIColor*)tintColorForStep:(ORKStep*)step;
-
-@property  (nonatomic, assign)  BOOL preferStatusBarShouldBeHidden;
-- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step;
+@property (readonly) short shortValue;
+@property (readonly) unsigned short unsignedShortValue;
+@property (readonly) int intValue;
+@property (readonly) unsigned int unsignedIntValue;
+@property (readonly) long longValue;
+@property (readonly) unsigned long unsignedLongValue;
+@property (readonly) long long longLongValue;
+@property (readonly) unsigned long long unsignedLongLongValue;
+@property (readonly) float floatValue;
+@property (readonly) double doubleValue;
+@property (readonly) BOOL boolValue;
+@property (readonly) NSInteger integerValue;
+@property (readonly) NSUInteger unsignedIntegerValue;
+@property (readonly) NSString *stringValue;
 
 @end

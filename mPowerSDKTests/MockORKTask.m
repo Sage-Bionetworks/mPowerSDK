@@ -1,8 +1,8 @@
 //
-//  APHParkinsonActivityViewController.h
-//  mPower
+//  MockORKTask.m
+//  mPowerSDK
 //
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved.
+// Copyright (c) 2016, Sage Bionetworks. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
@@ -31,27 +31,43 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+#import "MockORKTask.h"
 
-#import <APCAppCore/APCAppCore.h>
-#import <Foundation/Foundation.h>
-#import <ResearchKit/ResearchKit.h>
+@implementation MockORKTask
 
-extern const NSInteger APHMedicationTrackerSchemaRevision;
+- (NSString *)identifier {
+    return @"MockORKTask";
+}
 
-@class APHMedicationTrackerTask, APHMedicationTrackerDataStore;
+- (ORKStep *)stepAfterStep:(ORKStep *)step withResult:(ORKTaskResult *)result {
+    return nil;
+}
 
-@interface APHParkinsonActivityViewController : APCBaseTaskViewController
+- (ORKStep *)stepBeforeStep:(ORKStep *)step withResult:(ORKTaskResult *)result {
+    return nil;
+}
 
-@property (nonatomic, strong) APCDataArchive *medicationTrackerArchive;
+@end
 
-@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
-@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
-@property (nonatomic, readonly) APCUser *user;
-@property (nonatomic, readonly, strong) APCDataGroupsManager *dataGroupsManager;
+@implementation MockORKTaskWithOptionals
 
-- (UIColor*)tintColorForStep:(ORKStep*)step;
+- (instancetype)init {
+    if ((self = [super init])) {
+        self.requestedHealthKitTypesForReading = [NSSet setWithArray:@[[HKObjectType workoutType]]];
+        self.requestedHealthKitTypesForWriting = [NSSet setWithArray:@[[HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyMassIndex]]];
+        self.requestedPermissions = ORKPermissionCoreMotionActivity;
+        self.providesBackgroundAudioPrompts = YES;
+    }
+    return self;
+}
 
-@property  (nonatomic, assign)  BOOL preferStatusBarShouldBeHidden;
-- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step;
+- (void)validateParameters {
+    self.validateParameters_called = YES;
+}
+
+@synthesize requestedHealthKitTypesForReading;
+@synthesize requestedHealthKitTypesForWriting;
+@synthesize requestedPermissions;
+@synthesize providesBackgroundAudioPrompts;
 
 @end

@@ -1,6 +1,6 @@
 //
-//  APHParkinsonActivityViewController.h
-//  mPower
+//  APHMedicationTrackerViewController.h
+//  mPowerSDK
 //
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved.
 //
@@ -31,27 +31,8 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+#import "APHParkinsonActivityViewController.h"
 
-#import <APCAppCore/APCAppCore.h>
-#import <Foundation/Foundation.h>
-#import <ResearchKit/ResearchKit.h>
-
-extern const NSInteger APHMedicationTrackerSchemaRevision;
-
-@class APHMedicationTrackerTask, APHMedicationTrackerDataStore;
-
-@interface APHParkinsonActivityViewController : APCBaseTaskViewController
-
-@property (nonatomic, strong) APCDataArchive *medicationTrackerArchive;
-
-@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
-@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
-@property (nonatomic, readonly) APCUser *user;
-@property (nonatomic, readonly, strong) APCDataGroupsManager *dataGroupsManager;
-
-- (UIColor*)tintColorForStep:(ORKStep*)step;
-
-@property  (nonatomic, assign)  BOOL preferStatusBarShouldBeHidden;
-- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step;
+@interface APHMedicationTrackerViewController : APHParkinsonActivityViewController
 
 @end

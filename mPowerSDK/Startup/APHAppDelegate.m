@@ -33,6 +33,7 @@
 
 @import APCAppCore;
 #import "APHAppDelegate.h"
+#import "APHProfileExtender.h"
 #import "APHDataKeys.h"
 #import "APHLocalization.h"
 
@@ -740,6 +741,7 @@ static NSDate *determineConsentDate(id object)
               @(kAPCUserInfoItemTypeWeight),
               @(kAPCUserInfoItemTypeWakeUpTime),
               @(kAPCUserInfoItemTypeSleepTime),
+              @(kAPCUserInfoItemTypeDataGroups)
               ];
 }
 

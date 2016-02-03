@@ -1,8 +1,8 @@
 //
-//  APHParkinsonActivityViewController.h
-//  mPower
+//  APHMedicationTrackerDataStore.h
+//  mPowerSDK
 //
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved.
+// Copyright (c) 2016, Sage Bionetworks. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
@@ -31,27 +31,39 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-
-#import <APCAppCore/APCAppCore.h>
 #import <Foundation/Foundation.h>
 #import <ResearchKit/ResearchKit.h>
+#import <APCAppCore/APCAppCore.h>
 
-extern const NSInteger APHMedicationTrackerSchemaRevision;
+NS_ASSUME_NONNULL_BEGIN
 
-@class APHMedicationTrackerTask, APHMedicationTrackerDataStore;
+@class APHMedication;
 
-@interface APHParkinsonActivityViewController : APCBaseTaskViewController
+@interface APHMedicationTrackerDataStore : NSObject
 
-@property (nonatomic, strong) APCDataArchive *medicationTrackerArchive;
++ (instancetype)defaultStore;
 
-@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
-@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
-@property (nonatomic, readonly) APCUser *user;
-@property (nonatomic, readonly, strong) APCDataGroupsManager *dataGroupsManager;
+@property (nonatomic, copy) NSDate * _Nullable lastCompletionDate;
+@property (nonatomic, copy) ORKStepResult * _Nullable momentInDayResult;
+@property (nonatomic, copy) NSArray <APHMedication*> * _Nullable selectedMedications;
+@property (nonatomic) BOOL skippedSelectMedicationsSurveyQuestion;
 
-- (UIColor*)tintColorForStep:(ORKStep*)step;
+@property (nonatomic, readonly) NSArray <NSString*> * _Nullable trackedMedications;
+@property (nonatomic, readonly) BOOL hasNoTrackedMedication;
+@property (nonatomic, readonly) BOOL hasSelectedMedicationOrSkipped;
+@property (nonatomic, readonly) BOOL shouldIncludeMomentInDayStep;
+@property (nonatomic, readonly) BOOL hasChanges;
 
-@property  (nonatomic, assign)  BOOL preferStatusBarShouldBeHidden;
-- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step;
+@property (nonatomic, readonly) NSUserDefaults *storedDefaults;
+
+/**
+ * Initialize with a user defaults that has a suite name (for sharing defaults across different apps)
+ */
+- (instancetype)initWithUserDefaultsWithSuiteName:(NSString * _Nullable)suiteName;
+
+- (void)commitChanges;
+- (void)reset;
 
 @end
+
+NS_ASSUME_NONNULL_END

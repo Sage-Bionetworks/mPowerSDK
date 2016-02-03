@@ -1,8 +1,8 @@
 //
-//  APHParkinsonActivityViewController.h
-//  mPower
+//  MockAPHMedicationTrackerDataStore.m
+//  mPowerSDK
 //
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved.
+// Copyright (c) 2016, Sage Bionetworks. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
@@ -31,27 +31,31 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+#import "MockAPHMedicationTrackerDataStore.h"
 
-#import <APCAppCore/APCAppCore.h>
-#import <Foundation/Foundation.h>
-#import <ResearchKit/ResearchKit.h>
+@implementation MockAPHMedicationTrackerDataStore
 
-extern const NSInteger APHMedicationTrackerSchemaRevision;
+- (instancetype)init {
+    return [self initWithUserDefaultsWithSuiteName:[[NSUUID UUID] UUIDString]];
+}
 
-@class APHMedicationTrackerTask, APHMedicationTrackerDataStore;
+- (NSDate *)lastCompletionDate {
+    // Override the drop thru to look at the current user
+    return self.mockLastCompletionDate;
+}
 
-@interface APHParkinsonActivityViewController : APCBaseTaskViewController
+- (void)setLastCompletionDate:(NSDate *)lastCompletionDate {
+    self.mockLastCompletionDate = lastCompletionDate;
+}
 
-@property (nonatomic, strong) APCDataArchive *medicationTrackerArchive;
+- (void)commitChanges {
+    self.commitChanges_called = YES;
+    [super commitChanges];
+}
 
-@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
-@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
-@property (nonatomic, readonly) APCUser *user;
-@property (nonatomic, readonly, strong) APCDataGroupsManager *dataGroupsManager;
-
-- (UIColor*)tintColorForStep:(ORKStep*)step;
-
-@property  (nonatomic, assign)  BOOL preferStatusBarShouldBeHidden;
-- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step;
+- (void)reset {
+    self.reset_called = YES;
+    [super reset];
+}
 
 @end

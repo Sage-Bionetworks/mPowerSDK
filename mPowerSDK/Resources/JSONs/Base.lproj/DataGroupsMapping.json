@@ -1,0 +1,27 @@
+{
+    "items": [
+        {   "group_name"            : "control",
+            "is_control_group"      : true,
+        },
+        {   "group_name"            : "parkinsons",
+            "is_control_group"      : false,
+        }
+    ],
+    "required": false,
+    "profile": {},
+    "survey": {
+        "questions":
+        [
+         {
+         "identifier": "hasParkinsons",
+         "text": "Have you been diagnosed by a medical professional with Parkinson disease?",
+         "type": "boolean",
+         "optional" : false,
+         "valueMap": [{ "value" : true,
+                      "groups" : ["parkinsons"]},
+                      { "value" : false,
+                      "groups" : ["control"]}]
+         }
+         ]
+    }
+}

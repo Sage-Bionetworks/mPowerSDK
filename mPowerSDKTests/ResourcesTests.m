@@ -1,6 +1,6 @@
 //
-//  APHParkinsonActivityViewController.h
-//  mPower
+//  ResourcesTests.m
+//  mPowerSDK
 //
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved.
 //
@@ -31,27 +31,56 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-
+#import <XCTest/XCTest.h>
 #import <APCAppCore/APCAppCore.h>
-#import <Foundation/Foundation.h>
-#import <ResearchKit/ResearchKit.h>
+#import <mPowerSDK/mPowerSDK.h>
 
-extern const NSInteger APHMedicationTrackerSchemaRevision;
+@interface ResourcesTests : XCTestCase
 
-@class APHMedicationTrackerTask, APHMedicationTrackerDataStore;
+@end
 
-@interface APHParkinsonActivityViewController : APCBaseTaskViewController
+@implementation ResourcesTests
 
-@property (nonatomic, strong) APCDataArchive *medicationTrackerArchive;
+- (void)setUp {
+    [super setUp];
+    // Put setup code here. This method is called before the invocation of each test method in the class.
+}
 
-@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
-@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
-@property (nonatomic, readonly) APCUser *user;
-@property (nonatomic, readonly, strong) APCDataGroupsManager *dataGroupsManager;
+- (void)tearDown {
+    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    [super tearDown];
+}
 
-- (UIColor*)tintColorForStep:(ORKStep*)step;
+- (void)testDataGroupsMapping
+{
+    id json = [self jsonForResource:@"DataGroupsMapping"];
+    XCTAssertTrue([json isKindOfClass:[NSDictionary class]]);
+}
 
-@property  (nonatomic, assign)  BOOL preferStatusBarShouldBeHidden;
-- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step;
+- (void)testMedicationTracking
+{
+    id json = [self jsonForResource:@"MedicationTracking"];
+    XCTAssertTrue([json isKindOfClass:[NSDictionary class]]);
+}
+
+- (id)jsonForResource:(NSString*)resourceName
+{
+    APHAppDelegate *appDelegate = [[APHAppDelegate alloc] init];
+    NSString *path = [appDelegate pathForResource:resourceName ofType:@"json"];
+    
+    NSData *jsonData = [NSData dataWithContentsOfFile:path];
+    XCTAssertNotNil(jsonData);
+    
+    if (jsonData) {
+        NSError *parseError;
+        id json = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&parseError];
+        XCTAssertNil(parseError);
+        XCTAssertNotNil(json);
+        
+        return json;
+    }
+    
+    return nil;
+}
 
 @end

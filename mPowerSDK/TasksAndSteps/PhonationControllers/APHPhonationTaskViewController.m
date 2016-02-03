@@ -61,12 +61,21 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
 
 #pragma  mark  -  Initialisation
 
-+ (ORKOrderedTask *)createOrkTask:(APCTask *) __unused scheduledTask
++ (id<ORKTask>)createOrkTask:(APCTask *) __unused scheduledTask
 {
     //  Adjust apperance and text for the task
     [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
     
-    return  [[APHActivityManager defaultManager] createOrderedTaskForSurveyId:APHVoiceActivitySurveyIdentifier];
+    return  [[APHActivityManager defaultManager] createTaskForSurveyId:APHVoiceActivitySurveyIdentifier];
+}
+
+#pragma mark - UI overrides
+
+- (UIColor*)tintColorForStep:(ORKStep*)step {
+    if ([step.identifier isEqualToString: kAudioStepIdentifier]) {
+        return [UIColor appTertiaryBlueColor];
+    }
+    return [super tintColorForStep:step];
 }
 
 #pragma  mark  -  Task View Controller Delegate Methods
@@ -110,19 +119,6 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
         if (audioLevelResult.fileURL != nil) {
             self.tooLoud = [self checkAudioLevelFromSoundFile:audioLevelResult.fileURL];
         }
-    }
-}
-
-- (void)taskViewController:(ORKTaskViewController *) __unused taskViewController stepViewControllerWillAppear:(ORKStepViewController *)stepViewController
-{
-    ORKStep  *step = stepViewController.step;
-    
-    if ([step.identifier isEqualToString: kAudioStepIdentifier]) {
-        [[UIView appearance] setTintColor:[UIColor appTertiaryBlueColor]];
-    } else if ([step.identifier isEqualToString: kConclusionStepIdentifier]) {
-        [[UIView appearance] setTintColor:[UIColor appTertiaryColor1]];
-    } else {
-        [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
     }
 }
 

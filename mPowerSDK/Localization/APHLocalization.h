@@ -55,4 +55,6 @@ APH_EXTERN NSBundle *APHLocaleBundle();
  */
 + (void)setLocalization:(NSString*)localization;
 
++ (NSString*)localizedStringWithKey:(NSString*)key;
+
 @end

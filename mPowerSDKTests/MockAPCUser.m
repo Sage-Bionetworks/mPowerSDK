@@ -1,8 +1,8 @@
 //
-//  APHLocalization.m
+//  MockAPCUser.m
 //  mPowerSDK
 //
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved.
+// Copyright (c) 2016, Sage Bionetworks. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
@@ -31,54 +31,52 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "APHLocalization.h"
+#import "MockAPCUser.h"
 
-@interface APHLocalization ()
-@property (strong) NSBundle *localeBundle;
-+ (instancetype)defaultInstance;
-@end
-
-NSBundle *APHLocaleBundle() {
-    return [[APHLocalization defaultInstance] localeBundle];
-}
-
-@implementation APHLocalization
-
-+ (instancetype)defaultInstance {
-    static id __defaultInstance;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        __defaultInstance = [[self alloc] init];
-    });
-    return __defaultInstance;
-}
+@implementation MockAPCUser
 
 - (instancetype)init {
-    self = [super init];
+    
+    // Create the temp moc
+    NSBundle *bundle = [NSBundle bundleForClass:[APCUser class]];
+    NSString *modelPath = [bundle pathForResource:@"APCModel" ofType:@"momd"];
+    NSURL *modelURL = [NSURL fileURLWithPath:modelPath];
+    NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    NSPersistentStoreCoordinator *psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+    [psc addPersistentStoreWithType:NSInMemoryStoreType configuration:nil URL:nil options:nil error:NULL];
+    NSManagedObjectContext *moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    [moc setPersistentStoreCoordinator:psc];
+    
+    self = [super initWithContext:moc];
     if (self) {
-        _localeBundle = [NSBundle bundleForClass:[APHLocalization class]];
+        // Keep a strong pointer to the moc on this object - DO NOT do this except for testing.
+        _tempContext = moc;
     }
+    
     return self;
 }
 
-+ (void)setLocalization:(NSString*)localization {
-    
-    // Find the path to the bundle based on the locale
-    NSBundle *frameworkBundle = [NSBundle bundleForClass:[APHLocalization class]];
-    NSString *bundlePath = [frameworkBundle pathForResource:@"Localizable" ofType:@"strings" inDirectory:nil forLocalization:localization];
-    
-    // Load the requested bundle (if it exists)
-    NSBundle *localizedBundle = [[NSBundle alloc] initWithPath:[bundlePath stringByDeletingLastPathComponent]];
-    if (localizedBundle != nil) {
-        [[APHLocalization defaultInstance] setLocaleBundle:localizedBundle];
-    }
+#pragma mark - data groups
+
+- (NSArray *)dataGroups {
+    return self.mockDataGroups;
 }
 
-+ (NSString*)localizedStringWithKey:(NSString*)key {
-    if ([key isEqualToString:@"APH_ACTIVITY_CONCLUSION_TEXT"]) {
-        return NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Thank You!", @"Main text shown to participant upon completion of an activity.");
-    }
-    return NSLocalizedStringFromTableInBundle(key, nil, APHLocaleBundle(), nil);
+- (void)setDataGroups:(NSArray *)dataGroups {
+    self.mockDataGroups = dataGroups;
+}
+
+- (void)updateDataGroups:(NSArray<NSString *> *)dataGroups onCompletion:(void (^)(NSError *))completionBlock {
+    self.updateDataGroups_called = YES;
+    dispatch_after(0.1, dispatch_get_main_queue(), ^{
+        self.mockDataGroups = dataGroups;
+        if (completionBlock) {
+            completionBlock(self.updateDataGroupsError);
+        }
+        if (self.updateDataGroupsCompletionCalled) {
+            self.updateDataGroupsCompletionCalled();
+        }
+    });
 }
 
 @end

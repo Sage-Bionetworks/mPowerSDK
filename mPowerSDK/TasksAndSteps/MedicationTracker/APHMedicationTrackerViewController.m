@@ -1,6 +1,6 @@
 //
-//  APHParkinsonActivityViewController.h
-//  mPower
+//  APHMedicationTrackerViewController.m
+//  mPowerSDK
 //
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved.
 //
@@ -31,27 +31,20 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+#import "APHMedicationTrackerViewController.h"
+#import "APHMedicationTrackerTask.h"
 
-#import <APCAppCore/APCAppCore.h>
-#import <Foundation/Foundation.h>
-#import <ResearchKit/ResearchKit.h>
+@implementation APHMedicationTrackerViewController
 
-extern const NSInteger APHMedicationTrackerSchemaRevision;
++ (id<ORKTask>)createOrkTask:(APCTask *) __unused scheduledTask {
+    return  [APHMedicationTrackerTask new];
+}
 
-@class APHMedicationTrackerTask, APHMedicationTrackerDataStore;
-
-@interface APHParkinsonActivityViewController : APCBaseTaskViewController
-
-@property (nonatomic, strong) APCDataArchive *medicationTrackerArchive;
-
-@property (nonatomic, readonly) APHMedicationTrackerTask *medicationTrackerTask;
-@property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
-@property (nonatomic, readonly) APCUser *user;
-@property (nonatomic, readonly, strong) APCDataGroupsManager *dataGroupsManager;
-
-- (UIColor*)tintColorForStep:(ORKStep*)step;
-
-@property  (nonatomic, assign)  BOOL preferStatusBarShouldBeHidden;
-- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step;
+- (void) updateSchemaRevision
+{
+    if (self.scheduledTask) {
+        self.scheduledTask.taskSchemaRevision = @(APHMedicationTrackerSchemaRevision);
+    }
+}
 
 @end
