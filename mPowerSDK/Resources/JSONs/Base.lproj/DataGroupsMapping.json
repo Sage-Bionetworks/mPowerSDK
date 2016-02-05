@@ -3,7 +3,7 @@
         {   "group_name"            : "control",
             "is_control_group"      : true,
         },
-        {   "group_name"            : "parkinsons",
+        {   "group_name"            : "parkinson",
             "is_control_group"      : false,
         }
     ],
@@ -18,7 +18,7 @@
          "type": "boolean",
          "optional" : false,
          "valueMap": [{ "value" : true,
-                      "groups" : ["parkinsons"]},
+                      "groups" : ["parkinson"]},
                       { "value" : false,
                       "groups" : ["control"]}]
          }
