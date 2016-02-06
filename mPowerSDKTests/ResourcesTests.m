@@ -55,6 +55,39 @@
 {
     id json = [self jsonForResource:@"DataGroupsMapping"];
     XCTAssertTrue([json isKindOfClass:[NSDictionary class]]);
+    
+    // Verify that the json is correct
+    APCDataGroupsManager *dataGroupsManager = [[APCDataGroupsManager alloc] initWithDataGroups:nil mapping:json];
+    
+    // Currently the data groups are NOT required
+    XCTAssertFalse(dataGroupsManager.needsUserInfoDataGroups);
+    
+    ORKFormStep *step = [dataGroupsManager surveyStep];
+    XCTAssertEqual(step.formItems.count, 1);
+    
+    ORKFormItem *question = [step.formItems firstObject];
+    ORKTextChoiceAnswerFormat *answerFormat = (ORKTextChoiceAnswerFormat *)question.answerFormat;
+    XCTAssertEqual(answerFormat.textChoices.count, 2);
+    
+    // First answer yes
+    ORKChoiceQuestionResult *choiceResult = [[ORKChoiceQuestionResult alloc] initWithIdentifier:question.identifier];
+    choiceResult.choiceAnswers = @[@YES];
+    ORKStepResult *result = [[ORKStepResult alloc] initWithStepIdentifier:step.identifier
+                                                                  results:@[choiceResult]];
+    [dataGroupsManager setSurveyAnswerWithStepResult:result];
+    
+    XCTAssertEqual(dataGroupsManager.dataGroups.count, 1);
+    XCTAssertFalse(dataGroupsManager.isStudyControlGroup);
+    
+    
+    // Next answer No
+    choiceResult.choiceAnswers = @[@NO];
+    result.results = @[choiceResult];
+    [dataGroupsManager setSurveyAnswerWithStepResult:result];
+    
+    XCTAssertEqual(dataGroupsManager.dataGroups.count, 1);
+    XCTAssertTrue(dataGroupsManager.isStudyControlGroup);
+    
 }
 
 - (void)testMedicationTracking

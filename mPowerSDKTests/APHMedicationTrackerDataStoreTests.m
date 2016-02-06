@@ -129,7 +129,7 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
     XCTAssertTrue([dataStore hasChanges]);
 }
 
-- (void)testCommitChanges
+- (void)testCommitChanges_NoMedication
 {
     APHMedicationTrackerDataStore *dataStore = [self createDataStore];
     
@@ -141,6 +141,8 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
     XCTAssertFalse(dataStore.hasChanges);
     XCTAssertNotNil([dataStore.storedDefaults objectForKey:kSelectedMedicationsKey]);
     XCTAssertNotNil([dataStore.storedDefaults objectForKey:kSkippedSelectMedicationsSurveyQuestionKey]);
+    
+    XCTAssertEqualWithAccuracy(dataStore.lastMedicationSurveyDate.timeIntervalSinceNow, 0.0, 2);
 }
 
 - (void)testCommitChanges_WithTrackedMedicationAndMomentInDayResult
@@ -165,6 +167,9 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
     XCTAssertEqualObjects(dataStore.selectedMedications.firstObject, med);
     XCTAssertNotNil(dataStore.momentInDayResult);
     XCTAssertEqualObjects(dataStore.momentInDayResult, momentInDayResult);
+    
+    XCTAssertEqualWithAccuracy(dataStore.lastMedicationSurveyDate.timeIntervalSinceNow, 0.0, 2);
+    XCTAssertEqualWithAccuracy(dataStore.lastCompletionDate.timeIntervalSinceNow, 0.0, 2);
 }
 
 - (void)testReset
@@ -272,6 +277,26 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
     XCTAssertFalse([dataStore shouldIncludeMomentInDayStep]);
     dataStore.mockLastCompletionDate = [NSDate dateWithTimeIntervalSinceNow:-30*60];
     XCTAssertFalse([dataStore shouldIncludeMomentInDayStep]);
+}
+
+- (void)testShouldIncludeMedicationChangedQuestion_NO
+{
+    MockAPHMedicationTrackerDataStore *dataStore = [self createDataStore];
+    [dataStore setSelectedMedications:@[]];
+    [dataStore commitChanges];
+    dataStore.lastMedicationSurveyDate = [NSDate dateWithTimeIntervalSinceNow:-24*60*60];
+    
+    XCTAssertFalse(dataStore.shouldIncludeMedicationChangedQuestion);
+}
+
+- (void)testShouldIncludeMedicationChangedQuestion_YES
+{
+    MockAPHMedicationTrackerDataStore *dataStore = [self createDataStore];
+    [dataStore setSelectedMedications:@[]];
+    [dataStore commitChanges];
+    dataStore.lastMedicationSurveyDate = [NSDate dateWithTimeIntervalSinceNow:-32*24*60*60];
+    
+    XCTAssertTrue(dataStore.shouldIncludeMedicationChangedQuestion);
 }
 
 #pragma mark - helper methods

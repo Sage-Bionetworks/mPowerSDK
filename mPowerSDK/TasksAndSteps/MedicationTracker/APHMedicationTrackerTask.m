@@ -44,6 +44,7 @@ NSString * const APHInstruction0StepIdentifier                      = @"instruct
 NSString * const APHMedicationTrackerConclusionStepIdentifier       = @"medicationConclusion";
 NSString * const APHMedicationTrackerTaskIdentifier                 = @"Medication Tracker";
 NSString * const APHMedicationTrackerIntroductionStepIdentifier     = @"medicationIntroduction";
+NSString * const APHMedicationTrackerChangedStepIdentifier          = @"medicationChanged";
 NSString * const APHMedicationTrackerSelectionStepIdentifier        = @"medicationSelection";
 NSString * const APHMedicationTrackerFrequencyStepIdentifier        = @"medicationFrequency";
 NSString * const APHMedicationTrackerMomentInDayStepIdentifier      = @"momentInDay";
@@ -55,6 +56,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 
 @property (nonatomic) NSMutableArray <ORKStep *> *steps;
 @property (nonatomic, readonly, copy) NSDictionary *mappingDictionary;
+@property (nonatomic) BOOL medicationChanged;
 
 @end
 
@@ -138,6 +140,9 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     if ([identifier isEqualToString:APHMedicationTrackerIntroductionStepIdentifier]) {
         step = [self createIntroductionStepWithTitle:title text:text];
     }
+    else if ([identifier isEqualToString:APHMedicationTrackerChangedStepIdentifier]) {
+        step = [self createMedicationChangedStepWithTitle:title text:text optional:optional];
+    }
     else if ([identifier isEqualToString:APCDataGroupsStepIdentifier]) {
         step = [self.dataGroupsManager surveyStep];
     }
@@ -173,6 +178,25 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:APHMedicationTrackerIntroductionStepIdentifier];
     step.title = title ?: NSLocalizedStringWithDefaultValue(@"APH_MEDICATION_TRACKER_INTRO_TITLE", nil, APHLocaleBundle(), @"Medication Survey", @"Title for introduction to the medication tracking survey.");
     step.text = text ?: NSLocalizedStringWithDefaultValue(@"APH_MEDICATION_TRACKER_INTRO", nil, APHLocaleBundle(), @"We are refining our understanding of how certain medications may affect the activities tracked in this app and need more information from all study participants. In some cases, we will ask you to answer questions you may have answered previously.", @"Introduction text for the medication tracking survey.");
+    return step;
+}
+
+- (ORKStep*)createMedicationChangedStepWithTitle:(NSString*)title text:(NSString*)text optional:(BOOL)optional {
+    
+    // Create the question
+    NSString *stepText = text ?: NSLocalizedStringWithDefaultValue(@"APH_MEDS_CHANGED_QUESTION", nil, APHLocaleBundle(),
+                                                                    @"Has your medical diagnosis or medication changed?", @"Default medication tracking diagnosis or medication changed question text.");
+    ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerChangedStepIdentifier title:title text:stepText];
+    step.optional = optional;
+
+    // Create the answer format
+    ORKAnswerFormat  *format = [ORKBooleanAnswerFormat booleanAnswerFormat];
+    
+    ORKFormItem  *item = [[ORKFormItem alloc] initWithIdentifier:APHMedicationTrackerChangedStepIdentifier
+                                                            text:nil
+                                                    answerFormat:format];
+    [step setFormItems:@[item]];
+    
     return step;
 }
 
@@ -243,7 +267,10 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 }
 
 - (BOOL)shouldUpdateAndIncludeStep:(ORKStep*)step {
-    if ([step.identifier isEqualToString:APHMedicationTrackerFrequencyStepIdentifier]) {
+    if ([step.identifier isEqualToString:APHMedicationTrackerChangedStepIdentifier]) {
+        return ![self shouldIncludeMedicationTrackingSteps] && [self.dataStore shouldIncludeMedicationChangedQuestion];
+    }
+    else if ([step.identifier isEqualToString:APHMedicationTrackerFrequencyStepIdentifier]) {
         // Frequency step inclusion depends upon current state and will mutate accordingly
         return [self shouldIncludeMedicationTrackingSteps] && [self shouldUpdateAndIncludeFrequencyStep:step];
     }
@@ -251,17 +278,13 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
         // Moment in day step inclusion depends upon current state and will mutate accordingly
         return [self shouldUpdateAndIncludeMomentInDayStep:step];
     }
-    else if ([step.identifier isEqualToString:APHMedicationTrackerMomentInDayStepIdentifier]) {
-        // Only include the moment in day step if there is a subtask
-        return (self.subTask != nil) && self.dataStore.shouldIncludeMomentInDayStep;
-    }
     return [self shouldIncludeMedicationTrackingSteps];
 }
 
 - (BOOL)shouldIncludeMedicationTrackingSteps {
     if (self.subTask != nil) {
         // If there is a subtask then include only if the question has no answer and hasn't been skipped
-        return self.dataStore.hasChanges || !self.dataStore.hasSelectedMedicationOrSkipped;
+        return self.medicationChanged || self.dataStore.hasChanges || !self.dataStore.hasSelectedMedicationOrSkipped;
     }
     return YES;
 }
@@ -489,6 +512,11 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     else if ([step.identifier isEqualToString:APHMedicationTrackerFrequencyStepIdentifier]) {
         self.dataStore.selectedMedications = [self updateMedicationFrequency:self.dataStore.selectedMedications
                                                                   withResult:result];
+    }
+    else if ([step.identifier isEqualToString:APHMedicationTrackerChangedStepIdentifier]) {
+        ORKStepResult *stepResult = (ORKStepResult *)[result resultForIdentifier:APHMedicationTrackerChangedStepIdentifier];
+        ORKBooleanQuestionResult *questionResult = (ORKBooleanQuestionResult *)[stepResult.results firstObject];
+        self.medicationChanged = [questionResult.booleanAnswer boolValue];
     }
 }
 
