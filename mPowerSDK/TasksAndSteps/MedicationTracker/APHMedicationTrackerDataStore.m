@@ -38,6 +38,7 @@
 NSString * kSelectedMedicationsKey;
 NSString * kSkippedSelectMedicationsSurveyQuestionKey;
 NSString * kMomentInDayResultKey;
+NSString * kLastMedicationSurveyDateKey;
 
 NSString * kControlGroupAnswer      = @"Control Group";
 NSString * kSkippedAnswer           = @"Medication Unknown";
@@ -46,7 +47,13 @@ NSString * kNoMedication            = @"No Tracked Medication";
 //
 //    elapsed time delay before asking the patient if they took their medications
 //
-static  NSTimeInterval  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
+static  NSTimeInterval  kMinimumAmountOfTimeToShowMomentInDaySurvey         = 20.0 * 60.0;
+
+//
+//    elapsed time delay before asking the user if their diagnosis or medication have changed
+//
+static  NSTimeInterval  kMinimumAmountOfTimeToShowMedChangedSurvey         = 30.0 * 24.0 * 60.0 * 60.0;
+
 
 @interface APHMedicationTrackerDataStore ()
 
@@ -69,6 +76,7 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
     kSelectedMedicationsKey                        = NSStringFromSelector(@selector(selectedMedications));
     kSkippedSelectMedicationsSurveyQuestionKey     = NSStringFromSelector(@selector(skippedSelectMedicationsSurveyQuestion));
     kMomentInDayResultKey                          = NSStringFromSelector(@selector(momentInDayResult));
+    kLastMedicationSurveyDateKey                   = NSStringFromSelector(@selector(lastMedicationSurveyDate));
 }
 
 - (instancetype)init {
@@ -145,6 +153,16 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
     [self.changesDictionary setValue:@(selectedMedications == nil) forKey:kSkippedSelectMedicationsSurveyQuestionKey];
 }
 
+- (NSDate *)lastMedicationSurveyDate {
+    return [self.storedDefaults objectForKey:kLastMedicationSurveyDateKey];
+}
+
+- (void)setLastMedicationSurveyDate:(NSDate *)lastMedicationSurveyDate {
+    if (lastMedicationSurveyDate != nil) {
+        [self.storedDefaults setObject:lastMedicationSurveyDate forKey:kLastMedicationSurveyDateKey];
+    }
+}
+
 - (BOOL)skippedSelectMedicationsSurveyQuestion {
     NSString *key = kSkippedSelectMedicationsSurveyQuestionKey;
     id obj = [self.changesDictionary objectForKey:key] ?: [self.storedDefaults objectForKey:key];
@@ -179,7 +197,18 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
     }
     
     NSTimeInterval numberOfSecondsSinceTaskCompletion = [[NSDate date] timeIntervalSinceDate: self.lastCompletionDate];
-    NSTimeInterval minInterval = kMinimumAmountOfTimeToShowSurvey;
+    NSTimeInterval minInterval = kMinimumAmountOfTimeToShowMomentInDaySurvey;
+    
+    return (numberOfSecondsSinceTaskCompletion > minInterval);
+}
+
+- (BOOL)shouldIncludeMedicationChangedQuestion {
+    if (!self.hasSelectedMedicationOrSkipped) {
+        // Chould not ask if there has been a change if the question has never been asked
+        return NO;
+    }
+    NSTimeInterval numberOfSecondsSinceTaskCompletion = [[NSDate date] timeIntervalSinceDate: self.lastMedicationSurveyDate];
+    NSTimeInterval minInterval = kMinimumAmountOfTimeToShowMedChangedSurvey;
     
     return (numberOfSecondsSinceTaskCompletion > minInterval);
 }
@@ -189,17 +218,18 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowSurvey         = 20.0 * 60.0;
 }
 
 - (void)commitChanges {
-    self.lastCompletionDate = [NSDate date];
-    
-    // store the moment in day result locally
+
+    // store the moment in day result in memeory
     ORKStepResult *momentInDayResult = [self.changesDictionary objectForKey:kMomentInDayResultKey];
     if (momentInDayResult != nil) {
+        self.lastCompletionDate = [NSDate date];
         _momentInDayResult = momentInDayResult;
     }
     
     // store the tracked medications and skip result in user defaults
     id skipped = self.changesDictionary[kSkippedSelectMedicationsSurveyQuestionKey];
     if (skipped != nil) {
+        self.lastMedicationSurveyDate = [NSDate date];
         [self.storedDefaults setValue:skipped forKey:kSkippedSelectMedicationsSurveyQuestionKey];
         if ([skipped boolValue]) {
             [self.storedDefaults removeObjectForKey:kSelectedMedicationsKey];

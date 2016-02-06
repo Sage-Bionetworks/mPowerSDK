@@ -77,6 +77,20 @@
                                                             @"title" : @"foo",
                                                             @"text" : @"bar"}];
     XCTAssertNotNil(step);
+    XCTAssertEqualObjects(step.identifier, APHMedicationTrackerIntroductionStepIdentifier);
+    XCTAssertEqualObjects(step.title,  @"foo");
+    XCTAssertEqualObjects(step.text, @"bar");
+}
+
+- (void)testCreateMedicationChangedStep_Custom
+{
+    APHMedicationTrackerTask *task = [self createTask];
+    
+    ORKStep *step = [task createStepFromMappingDictionary:@{@"identifier" : APHMedicationTrackerChangedStepIdentifier,
+                                                            @"title" : @"foo",
+                                                            @"text" : @"bar"}];
+    XCTAssertNotNil(step);
+    XCTAssertEqualObjects(step.identifier, APHMedicationTrackerChangedStepIdentifier);
     XCTAssertEqualObjects(step.title,  @"foo");
     XCTAssertEqualObjects(step.text, @"bar");
 }
@@ -472,6 +486,72 @@
 }
 
 #pragma mark - Series of tests for showing Data groups step and/or medication tracking steps prior to another task
+
+
+- (void)testPrefixToOrderedTask_NeedsChangeQuestion_ThenNo {
+
+    MockAPHMedicationTrackerTask *task = [self createTaskWithSubTaskAndTrackedMedications:@[]];
+    ORKOrderedTask *subtask = (ORKOrderedTask *)task.subTask;
+    ORKTaskResult *taskResult = [self createTaskResultWithAnswers:nil];
+    
+    // Setup to need to ask about changed meds
+    task.dataStore.lastMedicationSurveyDate = [NSDate dateWithTimeIntervalSinceNow:-32*24*60*60];
+    
+    // If there is a subtask then the first step should be the step from the subtask
+    ORKStep *preStep =[task stepAfterStep:nil withResult:taskResult];
+    XCTAssertNotNil(preStep);
+    XCTAssertEqualObjects(preStep, subtask.steps.firstObject);
+    
+    // Next step should be the changed meds step
+    ORKStep *changedStep = [task stepAfterStep:preStep withResult:taskResult];
+    XCTAssertNotNil(changedStep);
+    XCTAssertEqualObjects(changedStep.identifier, APHMedicationTrackerChangedStepIdentifier);
+    
+    // If the answer to the question is "NO" then continue to the task
+    ORKBooleanQuestionResult *changedResult = [[ORKBooleanQuestionResult alloc] initWithIdentifier:APHMedicationTrackerChangedStepIdentifier];
+    changedResult.booleanAnswer = @NO;
+    ORKStepResult *stepResult = [[ORKStepResult alloc] initWithStepIdentifier:APHMedicationTrackerChangedStepIdentifier results:@[changedResult]];
+    taskResult.results = @[stepResult];
+    
+    [self checkStepOrder:task taskResult:taskResult startStep:changedStep startIndex:1 addedStepCount:1];
+}
+
+- (void)testPrefixToOrderedTask_NeedsChangeQuestion_ThenYes {
+    
+    MockAPHMedicationTrackerTask *task = [self createTaskWithSubTaskAndTrackedMedications:@[]];
+    ORKOrderedTask *subtask = (ORKOrderedTask *)task.subTask;
+    ORKTaskResult *taskResult = [self createTaskResultWithAnswers:nil];
+    
+    // Setup to need to ask about changed meds
+    task.dataStore.lastMedicationSurveyDate = [NSDate dateWithTimeIntervalSinceNow:-32*24*60*60];
+    
+    // If there is a subtask then the first step should be the step from the subtask
+    ORKStep *preStep =[task stepAfterStep:nil withResult:taskResult];
+    XCTAssertNotNil(preStep);
+    XCTAssertEqualObjects(preStep, subtask.steps.firstObject);
+    
+    // Next step should be the changed meds step
+    ORKStep *changedStep = [task stepAfterStep:preStep withResult:taskResult];
+    XCTAssertNotNil(changedStep);
+    XCTAssertEqualObjects(changedStep.identifier, APHMedicationTrackerChangedStepIdentifier);
+    
+    // If the answer to the question is "YES" then ask med questions
+    ORKBooleanQuestionResult *changedResult = [[ORKBooleanQuestionResult alloc] initWithIdentifier:APHMedicationTrackerChangedStepIdentifier];
+    changedResult.booleanAnswer = @YES;
+    ORKStepResult *stepResult = [[ORKStepResult alloc] initWithStepIdentifier:APHMedicationTrackerChangedStepIdentifier results:@[changedResult]];
+    taskResult.results = @[stepResult];
+    
+    // Next step should be the data groups step
+    ORKStep *dataGroupsStep = [task stepAfterStep:changedStep withResult:taskResult];
+    XCTAssertNotNil(dataGroupsStep);
+    XCTAssertEqualObjects(dataGroupsStep.identifier, APCDataGroupsStepIdentifier);
+    
+    // Next step after data groups should be medication selection
+    taskResult.results = [taskResult.results arrayByAddingObject:[MockPDResult new]];
+    ORKStep *selectionStep = [task stepAfterStep:dataGroupsStep withResult:taskResult];
+    XCTAssertNotNil(selectionStep);
+    XCTAssertEqualObjects(selectionStep.identifier, APHMedicationTrackerSelectionStepIdentifier);
+}
 
 - (void)testPrefixToOrderedTask_NoMedTrackingInfoStored_ThenNoneSelected
 {

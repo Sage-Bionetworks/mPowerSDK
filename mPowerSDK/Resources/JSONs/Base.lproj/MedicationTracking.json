@@ -90,6 +90,10 @@
         "text" : "We are refining our understanding of how certain medications that are commonly used to treat Parkinson disease may affect the activities tracked in this app and need more information from all study participants. In some cases, we will ask you to answer questions you may have answered previously.",
      },
      {
+         "identifier" : "medicationChanged",
+         "text"     : "Has your Parkinson diagnosis or medication changed?"
+     },
+     {
         "identifier" : "dataGroups",
      },
      {

@@ -44,6 +44,7 @@ extern NSString * const APHMedicationTrackerTaskIdentifier;
 extern NSString * const APHMedicationTrackerNoneAnswerIdentifier;
 extern NSString * const APHMedicationTrackerSkipAnswerIdentifier;
 extern NSString * const APHMedicationTrackerIntroductionStepIdentifier;
+extern NSString * const APHMedicationTrackerChangedStepIdentifier;
 extern NSString * const APHMedicationTrackerSelectionStepIdentifier;
 extern NSString * const APHMedicationTrackerFrequencyStepIdentifier;
 extern NSString * const APHMedicationTrackerMomentInDayStepIdentifier;
