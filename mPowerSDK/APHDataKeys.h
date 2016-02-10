@@ -36,6 +36,7 @@ extern NSString *const APHWalkingActivitySurveyIdentifier;
 extern NSString *const APHVoiceActivitySurveyIdentifier;
 extern NSString *const APHTappingActivitySurveyIdentifier;
 extern NSString *const APHMemoryActivitySurveyIdentifier;
+extern NSString *const APHTremorActivitySurveyIdentifier;
 extern NSString *const APHEnrollmentSurveyIdentifier;
 extern NSString *const APHMyThoughtsSurveyIdentifier;
 extern NSString *const APHFeedbackSurveyIdentifier;

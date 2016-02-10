@@ -121,6 +121,26 @@
     XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard");
 }
 
+- (void)testCreateOrderedTask_Tremor_English
+{
+    [APHLocalization setLocalization:@"en"];
+    
+    APHActivityManager *manager = [[APHActivityManager alloc] init];
+    APHMedicationTrackerTask *medTask = (APHMedicationTrackerTask *)[manager createTaskForSurveyId:APHTremorActivitySurveyIdentifier];
+    ORKOrderedTask *task  = (ORKOrderedTask *)medTask.subTask;
+    XCTAssertNotNil(task);
+    XCTAssertNotNil([task stepWithIdentifier:@"handInLap.withWristSensorAndPhone"]);
+    XCTAssertNotNil([task stepWithIdentifier:@"handAtShoulderLength.withWristSensorAndPhone"]);
+    XCTAssertNotNil([task stepWithIdentifier:@"handAtShoulderLengthWithElbowBent.withWristSensorAndPhone"]);
+    XCTAssertNotNil([task stepWithIdentifier:@"handToNose.withWristSensorAndPhone"]);
+    XCTAssertNotNil([task stepWithIdentifier:@"handQueenWave.withWristSensorAndPhone"]);
+    
+    // Check that the final step uses the expected language
+    ORKStep *finalStep = task.steps.lastObject;
+    XCTAssertEqualObjects(finalStep.title, @"Thank You!");
+    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard");
+}
+
 @end
 
 

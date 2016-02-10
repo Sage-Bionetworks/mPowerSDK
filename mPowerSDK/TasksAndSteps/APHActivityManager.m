@@ -88,6 +88,12 @@ static  NSString       *kWalkingActivityTitle                 = @"Walking Activi
 static  NSUInteger      kNumberOfStepsPerLeg                  = 20;
 static  NSTimeInterval  kStandStillDuration                   = 30.0;
 
+//
+// constants for setting up the tremor activity
+//
+static NSString *const kTremorAssessmentTitleIdentifier     = @"Tremor Activity";
+static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
+
 
 @interface APHActivityManager ()
 
@@ -122,6 +128,9 @@ static  NSTimeInterval  kStandStillDuration                   = 30.0;
     }
     else if ([surveyId isEqualToString:APHWalkingActivitySurveyIdentifier]) {
         task = [self createCustomWalkingTask];
+    }
+    else if ([surveyId isEqualToString:APHTremorActivitySurveyIdentifier]) {
+        task = [self createCustomTremorTask];
     }
     
     // Replace the language in the last step
@@ -248,6 +257,14 @@ static  NSTimeInterval  kStandStillDuration                   = 30.0;
     orkTask = [[ORKOrderedTask alloc] initWithIdentifier:kWalkingActivityTitle steps:copyOfTaskSteps];
     
     return  orkTask;
+}
+
+- (ORKOrderedTask *)createCustomTremorTask
+{
+    return [ORKOrderedTask tremorTestTaskWithIdentifier:kTremorAssessmentTitleIdentifier
+                                 intendedUseDescription:nil
+                                     activeStepDuration:kTremorAssessmentStepDuration
+                                                options:ORKPredefinedTaskOptionNone];
 }
 
 @end
