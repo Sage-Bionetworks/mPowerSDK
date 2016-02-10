@@ -6,59 +6,102 @@
         "investigatorLongDescription": "Sage Bionetworks and its partners",
         "htmlContent": "15sharing_rsch"
     },
-    "quiz":
-    {
-        "questions":
-        [
-            {
-                "identifier": "instruction",
-                "prompt": "Comprehension",
-                "text": "Let's do a quick and simple test of your understanding of this study.",
-                "type": "instruction"
-            },
-            {
-                "identifier": "purpose",
-                "prompt": "What is the purpose of this study?",
-                "type": "singleChoiceText",
-                "textChoices":
-                [
-                 "Understand the fluctuations of Parkinson disease symptoms",
-                 "Treating Parkinson disease"
-                ],
-                "expectedAnswer": "0"
-            },
-            {
-                "identifier": "deidentified",
-                "prompt": "My name will be stored with my study data.",
-                "type": "boolean",
-                "expectedAnswer": "false"
-            },
-            {
-                "identifier": "access",
-                "prompt": "I can choose to share my coded study data sparsely or more broadly.",
-                "type": "boolean",
-                "expectedAnswer": "true"
-            },
-            {
-                "identifier": "skipSurvey",
-                "prompt": "I will be able to skip any survey question.",
-                "type": "boolean",
-                "expectedAnswer": "true"
-            },
-            {
-                "identifier": "stopParticipating",
-                "prompt": "I will be able to stop participating at any time.",
-                "type": "boolean",
-                "expectedAnswer": "true"
-            }
-        ],
-        "failureTitle": "Try again",
-        "failureMessage": "Unfortunately you answered one or more questions incorrectly. You can return to the beginning of the walkthrough to get more information about the study.",
-        "successTitle": "Great Job!",
-        "successMessage": "You answered all of the questions correctly. \nTap Next to continue.",
-        "allowedFailures": "0"
-
-    },
+    "steps":
+    [
+         {
+             "identifier": "reconsentIntroduction",
+             "title": "Thank you for participating in the mPower study.",
+             "text": "We heard your requests and updated the study. We added new features, new surveys and new activities.",
+             "detailText": "The next screens describe the study. Please review the study information and re-affirm that you want to participate.",
+             "type": "instruction",
+         },
+         {
+             "identifier": "consentVisual",
+             "type": "consentVisual",
+         },
+         {
+             "identifier": "consentQuiz",
+             "type": "subtask",
+             "skipIdentifier": "consentPassedQuiz",
+             "skipIfPassed": true,
+             "items":
+             [
+              {
+                  "identifier": "comprehension",
+                  "title": "Comprehension",
+                  "text": "Let's do a quick and simple test of your understanding of this study.",
+                  "type": "instruction",
+              },
+              {
+                  "identifier": "purpose",
+                  "title": "What is the purpose of this study?",
+                  "type": "singleChoiceText",
+                  "items":[
+                           {"text" :"Understand the fluctuations of Parkinson disease symptoms", "value" : true},
+                           {"text" :"Treating Parkinson disease", "value": false},
+                           ],
+                  "expectedAnswer": true,
+              },
+              {
+                  "identifier": "deidentified",
+                  "title": "My name will be stored with my study data.",
+                  "type": "boolean",
+                  "expectedAnswer": false,
+              },
+              {
+                  "identifier": "access",
+                  "title": "I can choose to share my coded study data sparsely or more broadly.",
+                  "type": "boolean",
+                  "expectedAnswer": true,
+              },
+              {
+                  "identifier": "skipSurvey",
+                  "title": "I will be able to skip any survey question.",
+                  "type": "boolean",
+                  "expectedAnswer": true,
+              },
+              {
+                  "identifier": "stopParticipating",
+                  "title": "I will be able to stop participating at any time.",
+                  "type": "boolean",
+                  "expectedAnswer": true,
+              },
+              ],
+         },
+         {
+             "identifier": "consentFailedQuiz",
+             "title": "Try again",
+             "text": "Unfortunately you answered one or more questions incorrectly. You can return to the beginning of the walkthrough to get more information about the study.",
+             "image": "consent_quiz_retry",
+             "type": "instruction",
+             "nextIdentifier" : "consentVisual",
+         },
+         {
+             "identifier": "consentPassedQuiz",
+             "title": "Great Job!",
+             "text": "You answered all of the questions correctly.",
+             "detailText": "Tap Next to continue.",
+             "image": "Completion-Check",
+             "type": "instruction",
+         },
+         {
+             "identifier": "consentSharingOptions",
+             "type": "consentSharingOptions",
+             "investigatorShortDescription": "Sage Bionetworks",
+             "investigatorLongDescription": "Sage Bionetworks and its partners",
+             "learnMoreHTMLContent": "15sharing_rsch",
+         },
+         {
+             "identifier": "consentReview",
+             "type": "consentReview",
+         },
+         {
+             "identifier": "consentCompletion",
+             "title": "Thank You!",
+             "text": "Your participation in this study is helping us to better understand the symptoms of Parkinson Disease.",
+             "type": "instruction",
+         },
+     ],
     "sections":
     [
      {
