@@ -769,12 +769,12 @@
     ORKScaleQuestionResult *levodopa = (ORKScaleQuestionResult *)[result.results firstObject];
     XCTAssertTrue([levodopa isKindOfClass:[ORKScaleQuestionResult class]]);
     XCTAssertEqualObjects(levodopa.identifier, @"Levodopa");
-    XCTAssertEqual(levodopa.scaleAnswer, @(8));
+    XCTAssertEqual(levodopa.scaleAnswer.integerValue, 8);
     
     ORKScaleQuestionResult *sinemet = (ORKScaleQuestionResult *)[result.results lastObject];
     XCTAssertTrue([sinemet isKindOfClass:[ORKScaleQuestionResult class]]);
     XCTAssertEqualObjects(sinemet.identifier, @"Sinemet");
-    XCTAssertEqual(sinemet.scaleAnswer, @(7));
+    XCTAssertEqual(sinemet.scaleAnswer.integerValue, 7);
 }
 
 #pragma mark - helper methods - create TrackerTask
