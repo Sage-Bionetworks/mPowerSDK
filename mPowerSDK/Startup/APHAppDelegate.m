@@ -339,13 +339,17 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 
 - (NSArray *)allSetTextBlocks
 {
-    NSArray *allSetBlockOfText = nil;
+    NSString *tutorialTextInitial = @"This is your app to use as you choose. We will give you a quick tutorial to help you get started.";
+    NSString *tutorialTextActivites = @"You will find your list of daily surveys and tasks on the \"Activities\" tab. New surveys and tasks will appear over the next few weeks.\n\nPlease perform these activities each day when you are at your lowest before you take your Parkinson medications, after your medications take effect, and then a third time during the day.";
+    NSString *tutorialTextDashboard = @"To see your results from surveys and tasks, check your \"Dashboard\" tab.\n\nHere you will also find a dashboard that is designed for physicians. It provides a glimpse into your activities and trends, as these may be useful insights.";
 
-    NSString *activitiesAdditionalText = NSLocalizedStringWithDefaultValue(@"APH_ACTIVITIES_ADDITIONAL_INSTRUCTION", nil, APHLocaleBundle(), @"Please perform the activites each day when you are at your lowest before you take your Parkinson medications, after your medications take effect, and then a third time during the day.", @"Additional instructions for when to perform each of the activities.");
-    
-    allSetBlockOfText = @[@{kAllSetActivitiesTextAdditional: activitiesAdditionalText}];
-
-    return allSetBlockOfText;
+    return @[
+        @{
+            kTutorialTextInitial : tutorialTextInitial,
+            kTutorialTextActivites : tutorialTextActivites,
+            kTutorialTextDashboard : tutorialTextDashboard
+        }
+    ];
 }
 
 /*********************************************************************************/
