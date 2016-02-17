@@ -117,9 +117,10 @@
      {
          "sectionType" : "custom",
          "sectionTitle": "We'll Test Your Understanding",
-         "sectionSummary": "It is important to know what this study is about and what is involved. Before you can join, we will ask you to take a short quiz to test your understanding.",
-        "sectionImage": "quiz_image",
-        "sectionHtmlContent" : "consent_2quiz_headsup"
+         "sectionSummary": "Before completing the enrollment it is important to understand what the study is about and what is involved.",
+         "sectionImage": "00_Blank_to_Understanding",
+         "sectionHtmlContent" : "2quiz_headsup",
+         "sectionAnimationUrl": "00_Blank_to_Understanding"
      },
      {
          "sectionType" : "custom",
@@ -127,7 +128,7 @@
          "sectionSummary": "To understand changes in your health, we will ask you to complete surveys and simple activities daily and weekly. We will look for patterns over time.",
          "sectionHtmlContent" : "consent_3activities",
          "sectionImage": "00_Blank_to_Activities",
-         "sectionAnimationUrl": "00_Blank_to_Activities"
+         "sectionAnimationUrl": "00_Understanding_to_Activities"
      },
      {
          "sectionType" : "custom",
