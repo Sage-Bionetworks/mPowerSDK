@@ -25,6 +25,12 @@ void *BackgroundImageContext = &BackgroundImageContext;
 								  context:BackgroundImageContext];
 }
 
+- (void)dealloc {
+	[self.backgroundImageView removeObserver:self
+								  forKeyPath:@"image"
+									 context:BackgroundImageContext];
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	if (context == BackgroundImageContext) {
 		[self setupAppearance];
