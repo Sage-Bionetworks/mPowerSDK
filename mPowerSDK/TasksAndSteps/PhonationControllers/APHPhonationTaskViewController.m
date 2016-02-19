@@ -120,6 +120,13 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
 	return nil;
 }
 
+- (void)  taskViewController:(ORKTaskViewController *)taskViewController
+stepViewControllerWillAppear:(ORKStepViewController *)stepViewController {
+	if ([stepViewController.step.identifier isEqualToString:ORKInstruction0StepIdentifier]) {
+		stepViewController.continueButtonTitle = NSLocalizedStringWithDefaultValue(@"BUTTON_GET_STARTED", @"ResearchKit", ORKBundle(),  @"Get Started", @"Get Started Button Text");;
+	}
+}
+
 - (void)taskViewController:(ORKTaskViewController *) __unused taskViewController didChangeResult:(ORKTaskResult *)result
 {
     if ([self.currentStepViewController.step.identifier isEqualToString:kCountdownStepIdentifier]) {

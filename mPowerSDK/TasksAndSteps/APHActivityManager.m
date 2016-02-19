@@ -163,7 +163,7 @@ static  NSTimeInterval  kStandStillDuration                   = 30.0;
                                                      recordingSettings:audioSettings
                                                                options:0];
 
-    NSString *localizedTaskName = NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_TITLE", nil, APHLocaleBundle(),  @"Voice", @"Title for Voice activity");
+    NSString *localizedTaskName = NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_TITLE", nil, APHLocaleBundle(),  @"Voice Test", @"Title for Voice activity");
     [orkTask.steps[0] setTitle:localizedTaskName];
     
     const NSUInteger instructionIdx = 1;
