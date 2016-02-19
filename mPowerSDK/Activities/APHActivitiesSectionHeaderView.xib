@@ -29,16 +29,8 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1xT-bi-TC8">
-                    <rect key="frame" x="0.0" y="76" width="320" height="1"/>
-                    <color key="backgroundColor" red="0.90980392160000001" green="0.90980392160000001" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="1" id="gA6-mZ-K0V"/>
-                    </constraints>
-                </view>
             </subviews>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="1xT-bi-TC8" secondAttribute="bottom" id="20U-1L-aBa"/>
                 <constraint firstAttribute="bottom" secondItem="pcs-hM-kNK" secondAttribute="bottom" constant="6" id="2nZ-Xj-Oqn"/>
                 <constraint firstAttribute="bottom" secondItem="ykg-RG-z0U" secondAttribute="bottom" id="8FB-X6-4XQ"/>
                 <constraint firstItem="ykg-RG-z0U" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="8kB-bw-NKn"/>
@@ -46,11 +38,9 @@
                 <constraint firstItem="xb7-Eb-hLE" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="JrV-4n-9Qc"/>
                 <constraint firstItem="xb7-Eb-hLE" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Sl5-DG-0mw"/>
                 <constraint firstItem="xb7-Eb-hLE" firstAttribute="leading" secondItem="pcs-hM-kNK" secondAttribute="leading" id="V6R-jW-EdF"/>
-                <constraint firstAttribute="trailing" secondItem="1xT-bi-TC8" secondAttribute="trailing" id="cEP-gO-pFA"/>
                 <constraint firstItem="xb7-Eb-hLE" firstAttribute="trailing" secondItem="pcs-hM-kNK" secondAttribute="trailing" id="fPw-eB-C4w"/>
                 <constraint firstItem="ykg-RG-z0U" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="miX-H6-ExC"/>
                 <constraint firstAttribute="trailing" secondItem="pcs-hM-kNK" secondAttribute="trailing" constant="16" id="pSH-sB-pBT"/>
-                <constraint firstItem="1xT-bi-TC8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="rGC-ey-BZQ"/>
                 <constraint firstItem="pcs-hM-kNK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="uSr-qr-Eo0"/>
                 <constraint firstAttribute="trailing" secondItem="ykg-RG-z0U" secondAttribute="trailing" id="yPz-Fm-m4I"/>
             </constraints>
