@@ -14,7 +14,7 @@
         [
          {
          "identifier": "hasParkinsons",
-         "text": "Have you been diagnosed by a medical professional with Parkinson disease?",
+         "text": "Have you been diagnosed with Parkinson Disease by a medical professional?",
          "type": "boolean",
          "optional" : false,
          "valueMap": [{ "value" : true,
