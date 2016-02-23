@@ -195,6 +195,7 @@
     // Setup results
     vc.overrideTaskResult = [[ORKTaskResult alloc] initWithIdentifier:@"Tapping Activity"];
     vc.overrideTaskResult.results = @[[[ORKStepResult alloc] initWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier],
+                                      [[ORKStepResult alloc] initWithIdentifier:APHMedicationTrackerActivityTimingStepIdentifier],
                                       [[ORKStepResult alloc] initWithIdentifier:@"tapping.result"]];
     
     // Run method under test
@@ -263,6 +264,7 @@
                                       [[ORKStepResult alloc] initWithIdentifier:APHMedicationTrackerSelectionStepIdentifier],
                                       [[ORKStepResult alloc] initWithIdentifier:APHMedicationTrackerFrequencyStepIdentifier],
                                       [[ORKStepResult alloc] initWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier],
+                                      [[ORKStepResult alloc] initWithIdentifier:APHMedicationTrackerActivityTimingStepIdentifier],
                                       [[ORKStepResult alloc] initWithIdentifier:@"tapping.result"]];
     
     // Run method under test

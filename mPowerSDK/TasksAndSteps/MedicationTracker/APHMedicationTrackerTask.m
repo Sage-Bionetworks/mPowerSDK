@@ -49,6 +49,7 @@ NSString * const APHMedicationTrackerSelectionStepIdentifier        = @"medicati
 NSString * const APHMedicationTrackerFrequencyStepIdentifier        = @"medicationFrequency";
 NSString * const APHMedicationTrackerMomentInDayStepIdentifier      = @"momentInDay";
 NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier  = @"momentInDayFormat";
+NSString * const APHMedicationTrackerActivityTimingStepIdentifier   = @"medicationActivityTiming";
 NSString * const APHMedicationTrackerNoneAnswerIdentifier           = @"None";
 NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 
@@ -155,6 +156,9 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     else if ([identifier isEqualToString:APHMedicationTrackerMomentInDayStepIdentifier]) {
         step = [self createMomentInDayStepWithTitle:title text:text optional:optional];
     }
+    else if ([identifier isEqualToString:APHMedicationTrackerActivityTimingStepIdentifier]) {
+        step = [self createActivityTimingStepWithTitle:title text:text optional:optional];
+    }
     else if ([identifier isEqualToString:APHMedicationTrackerConclusionStepIdentifier]) {
         step = [self createConclusionStepWithTitle:title text:text];
     }
@@ -204,7 +208,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     
     // Create the question
     NSString *questionText = text ?: NSLocalizedStringWithDefaultValue(@"APH_SELECT_MEDS_QUESTION", nil, APHLocaleBundle(),
-                                                               @"Select all the medications from the list that you are currently taking.", @"Medication tracking survey question text.");
+                                                               @"Do you take any of these medications?\n(Please select all that apply)", @"Medication tracking survey question text.");
     ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerSelectionStepIdentifier title:title text:questionText];
     step.optional = NO;
     
@@ -251,6 +255,32 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 - (ORKStep*)createMomentInDayStepWithTitle:(NSString*)title text:(NSString*)text optional:(BOOL)optional {
     NSString *introText = text ?: NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_INTRO", nil, APHLocaleBundle(), @"We would like to understand how your performance on this activity could be affected by the timing of your medication.", @"Explanation of purpose of pre-activity medication timing survey.");
     ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier title:title text:introText];
+    
+    NSString *justBefore = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_BEFORE_CHOICE", nil, APHLocaleBundle(), @"Immediately before taking Parkinson medication", @"Choice for doing activity before taking medication.");
+    NSString *justAfter = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_AFTER_CHOICE", nil, APHLocaleBundle(), @"Just after taking Parkinson medication (at your best)", @"Choice for doing activity after taking medication.");
+    NSString *other = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_OTHER_CHOICE", nil, APHLocaleBundle(), @"Another time", @"Choice for doing activity at another time of day other than before or after taking medication.");
+    
+    NSArray *textChoices = @[[ORKTextChoice choiceWithText:justBefore value:justBefore],
+                             [ORKTextChoice choiceWithText:justAfter value:justAfter],
+                             [ORKTextChoice choiceWithText:other value:other]];
+
+    ORKAnswerFormat  *format = [ORKTextChoiceAnswerFormat
+                                choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
+                                textChoices:textChoices];
+    
+    NSString *itemText = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_QUESTION", nil, APHLocaleBundle(), @"When are you performing this activity?", @"Question text for the moment in day question.");
+    
+    ORKFormItem  *item = [[ORKFormItem alloc] initWithIdentifier:APHMedicationTrackerMomentInDayFormItemIdentifier
+                                                            text:itemText
+                                                    answerFormat:format];
+    step.formItems = @[item];
+    step.optional = optional;
+    
+    return step;
+}
+
+- (ORKStep*)createActivityTimingStepWithTitle:(NSString*)title text:(NSString*)text optional:(BOOL)optional {
+    ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerActivityTimingStepIdentifier title:title text:text];
     step.optional = optional;
     return step;
 }
@@ -275,8 +305,11 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
         return [self shouldIncludeMedicationTrackingSteps] && [self shouldUpdateAndIncludeFrequencyStep:step];
     }
     else if ([step.identifier isEqualToString:APHMedicationTrackerMomentInDayStepIdentifier]) {
-        // Moment in day step inclusion depends upon current state and will mutate accordingly
-        return [self shouldUpdateAndIncludeMomentInDayStep:step];
+        return (self.subTask != nil)  && self.dataStore.shouldIncludeMomentInDayStep;
+    }
+    else if ([step.identifier isEqualToString:APHMedicationTrackerActivityTimingStepIdentifier]) {
+        // Activity timing inclusion depends upon current state and will mutate accordingly
+        return [self shouldUpdateAndIncludeActivityTimingStep:step];
     }
     return [self shouldIncludeMedicationTrackingSteps];
 }
@@ -314,7 +347,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     return (items.count > 0);
 }
 
-- (BOOL)shouldUpdateAndIncludeMomentInDayStep:(ORKStep *)step {
+- (BOOL)shouldUpdateAndIncludeActivityTimingStep:(ORKStep *)step {
     
     ORKFormStep *formStep = (ORKFormStep *)step;
     if (![formStep isKindOfClass:[ORKFormStep class]]) {
@@ -333,7 +366,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     }
     
     // Build list of meds
-    NSString *itemTextFormat = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_QUESTION", nil, APHLocaleBundle(), @"When was the last time you took your %@?", @"Prompt for timing of medication in pre-activity medication timing survey where %@ is a list of medications (For example, 'Levodopa or Rytary')");
+    NSString *itemTextFormat = NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_TIMING_QUESTION", nil, APHLocaleBundle(), @"When was the last time you took your %@?", @"Prompt for timing of medication in pre-activity medication timing survey where %@ is a list of medications (For example, 'Levodopa or Rytary')");
     
     NSString *medListText = nil;
     if (medList.count == 1) {
@@ -368,9 +401,9 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     
     ORKAnswerFormat  *format = [ORKTextChoiceAnswerFormat
                                 choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
-                                textChoices:[self momentInDayChoices]];
+                                textChoices:[self activityTimingChoices]];
     
-    ORKFormItem  *item = [[ORKFormItem alloc] initWithIdentifier:APHMedicationTrackerMomentInDayFormItemIdentifier
+    ORKFormItem  *item = [[ORKFormItem alloc] initWithIdentifier:APHMedicationTrackerActivityTimingStepIdentifier
                                                             text:itemText
                                                     answerFormat:format];
     [formStep setFormItems:@[item]];
@@ -378,7 +411,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     return YES;
 }
 
-- (NSArray <ORKTextChoice *> *) momentInDayChoices
+- (NSArray <ORKTextChoice *> *) activityTimingChoices
 {
     NSString *formatMinutes = NSLocalizedStringWithDefaultValue(@"APH_MINUTES_RANGE_FORMAT", nil, APHLocaleBundle(),
                                                                 @"%1$@-%2$@ minutes ago", @"Format for a time interval of %1$@ to %2$@ minutes ago where %1$@ is the localized number for the smaller value and %2$@ is the localized number for the larger value.");

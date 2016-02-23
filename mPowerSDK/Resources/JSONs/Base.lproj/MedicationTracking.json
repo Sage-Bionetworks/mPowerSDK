@@ -87,18 +87,19 @@
     [
      {
         "identifier" : "medicationIntroduction",
-        "text" : "We are refining our understanding of how certain medications that are commonly used to treat Parkinson disease may affect the activities tracked in this app and need more information from all study participants. In some cases, we will ask you to answer questions you may have answered previously.",
+        "title" : "Diagnosis and Medication",
+        "text" : "We want to understand how certain medications affect the app activities. To do that we need more information from all study participants.\n\nPlease tell us if you have PD and if you take medications from the proposed list. We’ll ask you again from time to time to track any changes.\n\nThis survey should take about 5 minutes.",
      },
      {
          "identifier" : "medicationChanged",
          "text"     : "Has your Parkinson diagnosis or medication changed?"
      },
      {
-        "identifier" : "dataGroups",
+         "identifier" : "dataGroups",
      },
      {
-        "identifier" : "medicationSelection",
-        "optional"   : false,
+         "identifier" : "medicationSelection",
+         "optional"   : false,
      },
      {
         "identifier" : "medicationFrequency",
@@ -106,6 +107,10 @@
      },
      {
         "identifier" : "momentInDay",
+        "optional"   : false,
+     },
+     {
+        "identifier" : "medicationActivityTiming",
         "optional"   : false,
      },
      {
