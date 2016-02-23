@@ -102,8 +102,8 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowMedChangedSurvey         = 30.
 
 @synthesize momentInDayResult = _momentInDayResult;
 
-- (ORKStepResult *)momentInDayResult {
-    ORKStepResult *momentInDayResult = [self.changesDictionary objectForKey:kMomentInDayResultKey] ?: _momentInDayResult;
+- (NSArray<ORKStepResult *> *)momentInDayResult {
+    NSArray<ORKStepResult *> *momentInDayResult = [self.changesDictionary objectForKey:kMomentInDayResultKey] ?: _momentInDayResult;
     if (momentInDayResult == nil) {
         NSString *defaultAnswer = nil;
         if (self.skippedSelectMedicationsSurveyQuestion) {
@@ -113,20 +113,28 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowMedChangedSurvey         = 30.
             defaultAnswer = kNoMedication;
         }
         if (defaultAnswer != nil) {
-            ORKChoiceQuestionResult *input = [[ORKChoiceQuestionResult alloc] initWithIdentifier:APHMedicationTrackerMomentInDayFormItemIdentifier];
-            input.startDate = [NSDate date];
-            input.endDate = input.startDate;
-            input.questionType = ORKQuestionTypeSingleChoice;
-            input.choiceAnswers = @[defaultAnswer];
-            momentInDayResult = [[ORKStepResult alloc] initWithStepIdentifier:APHMedicationTrackerMomentInDayStepIdentifier
-                                                                      results:@[input]];
+            NSArray *idMap = @[@[APHMedicationTrackerMomentInDayStepIdentifier, APHMedicationTrackerMomentInDayFormItemIdentifier],
+                               @[APHMedicationTrackerActivityTimingStepIdentifier, APHMedicationTrackerActivityTimingStepIdentifier],];
+            NSMutableArray *results = [NSMutableArray new];
+            NSDate *startDate = [NSDate date];
+            for (NSArray *map in idMap) {
+                ORKChoiceQuestionResult *input = [[ORKChoiceQuestionResult alloc] initWithIdentifier:map.lastObject];
+                input.startDate = startDate;
+                input.endDate = startDate;
+                input.questionType = ORKQuestionTypeSingleChoice;
+                input.choiceAnswers = @[defaultAnswer];
+                ORKStepResult *stepResult = [[ORKStepResult alloc] initWithStepIdentifier:map.firstObject
+                                                                                  results:@[input]];
+                [results addObject:stepResult];
+            }
+            momentInDayResult = [results copy];
             self.changesDictionary[kMomentInDayResultKey] = momentInDayResult;
         }
     }
     return momentInDayResult;
 }
 
-- (void)setMomentInDayResult:(ORKStepResult *)momentInDayResult {
+- (void)setMomentInDayResult:(NSArray<ORKStepResult *> *)momentInDayResult {
     [self.changesDictionary setValue:[momentInDayResult copy] forKey:kMomentInDayResultKey];
 }
 
@@ -220,7 +228,7 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowMedChangedSurvey         = 30.
 - (void)commitChanges {
 
     // store the moment in day result in memeory
-    ORKStepResult *momentInDayResult = [self.changesDictionary objectForKey:kMomentInDayResultKey];
+    NSArray *momentInDayResult = [self.changesDictionary objectForKey:kMomentInDayResultKey];
     if (momentInDayResult != nil) {
         self.lastCompletionDate = [NSDate date];
         _momentInDayResult = momentInDayResult;
