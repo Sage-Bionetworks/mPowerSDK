@@ -37,6 +37,7 @@
 #import "APHDataKeys.h"
 #import "APHLocalization.h"
 
+       NSString *const kDailySurveyIdentifier                       = @"3-APHMoodSurvey-7259AC18-D711-47A6-ADBD-6CFCECDED1DF";
 static NSString *const kMyThoughtsSurveyIdentifier                  = @"mythoughts";
 static NSString *const kEnrollmentSurveyIdentifier                  = @"EnrollmentSurvey";
 static NSString *const kStudyFeedbackSurveyIdentifier               = @"study_feedback";
@@ -93,6 +94,7 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
              [[APCTaskReminder alloc] initWithTaskID:APHVoiceActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_VOICE_ACTIVITY_LABEL", nil, APHLocaleBundle(), @"Voice Activity", @"Task reminder label for the voice activity.")],
              [[APCTaskReminder alloc] initWithTaskID:APHTappingActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_TAPPING_ACTIVITY_LABEL", nil, APHLocaleBundle(), @"Tapping Activity", @"Task reminder label for the tapping activity.")],
              [[APCTaskReminder alloc] initWithTaskID:APHMemoryActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_MEMORY_ACTIVITY_LABEL", nil, APHLocaleBundle(), @"Memory Activity", @"Task reminder label for the memory activity.")],
+             [[APCTaskReminder alloc]initWithTaskID:kDailySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_DAILY_SURVEY_LABEL", nil, APHLocaleBundle(), @"Daily Survey", @"Task reminder label for the daily check-in survey.")],
              [[APCTaskReminder alloc] initWithTaskID:kMyThoughtsSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_MY_THOUGHTS_LABEL", nil, APHLocaleBundle(), @"My Thoughts", @"Task reminder label for the my thoughts survey.")],
              [[APCTaskReminder alloc] initWithTaskID:kEnrollmentSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_ENROLLMENT_SURVEY_LABEL", nil, APHLocaleBundle(), @"Enrollment Survey", @"Task reminder label for the enrollment survey.")],
              [[APCTaskReminder alloc] initWithTaskID:kStudyFeedbackSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_STUDY_FEEDBACK_LABEL", nil, APHLocaleBundle(), @"Study Feedback", @"Task reminder label for study feedback.")]];

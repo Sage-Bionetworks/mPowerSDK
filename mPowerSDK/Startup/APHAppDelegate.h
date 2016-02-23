@@ -34,6 +34,8 @@
 #import <UIKit/UIKit.h>
 @import APCAppCore;
 
+extern NSString * _Nonnull const kDailySurveyIdentifier;
+
 @class APHProfileExtender;
 @class APHScoreCalculator;
 
