@@ -38,6 +38,7 @@
 #import "APHLocalization.h"
 #import "APHSpatialSpanMemoryGameViewController.h"
 #import "APHWalkingTaskViewController.h"
+#import "APHAppDelegate.h"
 
 
 static NSString * const kAPCBasicTableViewCellIdentifier       = @"APCBasicTableViewCell";
@@ -45,7 +46,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
 
 @interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate>
 
-@property (nonatomic, strong) NSMutableArray *rowItemsOrder;
+@property (nonatomic, strong) NSArray *rowItemsOrder;
 
 @property (nonatomic, strong) APCScoring *tapRightScoring;
 @property (nonatomic, strong) APCScoring *tapLeftScoring;
@@ -53,6 +54,12 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
 @property (nonatomic, strong) APCScoring *stepScoring;
 @property (nonatomic, strong) APCScoring *memoryScoring;
 @property (nonatomic, strong) APCScoring *phonationScoring;
+@property (nonatomic, strong) APCScoring *moodScoring;
+@property (nonatomic, strong) APCScoring *energyScoring;
+@property (nonatomic, strong) APCScoring *exerciseScoring;
+@property (nonatomic, strong) APCScoring *sleepScoring;
+@property (nonatomic, strong) APCScoring *cognitiveScoring;
+@property (nonatomic, strong) APCScoring *customScoring;
 
 @end
 
@@ -68,16 +75,8 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
         _rowItemsOrder = [NSMutableArray arrayWithArray:[defaults objectForKey:kAPCDashboardRowItemsOrder]];
         
         if (!_rowItemsOrder.count) {
-            _rowItemsOrder = [[NSMutableArray alloc] initWithArray:@[
-                                                                     @(kAPHDashboardItemTypeCorrelation),
-                                                                     @(kAPHDashboardItemTypeSteps),
-                                                                     @(kAPHDashboardItemTypeIntervalTappingRight),
-                                                                     @(kAPHDashboardItemTypeIntervalTappingLeft),
-                                                                     @(kAPHDashboardItemTypeSpatialMemory),@(kAPHDashboardItemTypePhonation),]];
-                              
-            if ([APCDeviceHardware isiPhone5SOrNewer]) {
-                [_rowItemsOrder addObject:@(kAPHDashboardItemTypeGait)];
-            }
+            _rowItemsOrder = [self allRowItems];
+            
             [defaults setObject:[NSArray arrayWithArray:_rowItemsOrder] forKey:kAPCDashboardRowItemsOrder];
             [defaults synchronize];
             
@@ -106,8 +105,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
 {
     [super viewWillAppear:animated];
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.rowItemsOrder = [NSMutableArray arrayWithArray:[defaults objectForKey:kAPCDashboardRowItemsOrder]];
+    [self updateRowItemsOrder];
     
     [self prepareScoringObjects];
     [self prepareData];
@@ -129,6 +127,70 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
 }
 
 #pragma mark - Data
+
+// list of all the valid row items, in what will be the default order until the user rearranges them
+- (NSArray<NSNumber *> *)allRowItems
+{
+    NSMutableArray<NSNumber *> *allRowItems =
+    [@[
+      @(kAPHDashboardItemTypeCorrelation),
+      @(kAPHDashboardItemTypeSteps),
+      @(kAPHDashboardItemTypeIntervalTappingRight),
+      @(kAPHDashboardItemTypeIntervalTappingLeft),
+      @(kAPHDashboardItemTypeSpatialMemory),
+      @(kAPHDashboardItemTypePhonation),
+      @(kAPHDashboardItemTypeGait),
+      @(kAPHDashboardItemTypeDailyMood),
+      @(kAPHDashboardItemTypeDailyEnergy),
+      @(kAPHDashboardItemTypeDailyExercise),
+      @(kAPHDashboardItemTypeDailySleep),
+      @(kAPHDashboardItemTypeDailyCognitive)
+      ] mutableCopy];
+    
+    APCAppDelegate *appDelegate = (APCAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *customSurveyQuestion = appDelegate.dataSubstrate.currentUser.customSurveyQuestion;
+    if (customSurveyQuestion != nil && ![customSurveyQuestion isEqualToString:@""]) {
+        [allRowItems addObject:@(kAPHDashboardItemTypeDailyCustom)];
+    }
+    
+    return [allRowItems copy];
+}
+
+// Make sure self.rowItemsOrder contains all, and only, the available items
+// (this is mostly important when a new release contains new dashboard items, and when the user adds or
+// removes their custom daily survey question)
+- (void)updateRowItemsOrder
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    self.rowItemsOrder = [defaults objectForKey:kAPCDashboardRowItemsOrder];
+    NSMutableArray *itemsOrder = [self.rowItemsOrder mutableCopy];
+    
+    NSArray *allRowItems = [self allRowItems];
+    NSMutableArray *newItems = [NSMutableArray array];
+    for (NSNumber *item in allRowItems) {
+        if (![itemsOrder containsObject:item]) {
+            [newItems addObject:item];
+        }
+    }
+    
+    [itemsOrder addObjectsFromArray:newItems];
+    
+    NSMutableArray *oldItems = [NSMutableArray array];
+    for (NSNumber *item in _rowItemsOrder) {
+        if (![allRowItems containsObject:item]) {
+            [oldItems addObject:item];
+        }
+    }
+    
+    [itemsOrder removeObjectsInArray:oldItems];
+    
+    // update locally and in user defaults only if it changed
+    if (newItems.count || oldItems.count) {
+        self.rowItemsOrder = [itemsOrder copy];
+        [defaults setObject:self.rowItemsOrder forKey:kAPCDashboardRowItemsOrder];
+        [defaults synchronize];
+    }
+}
 
 - (void)prepareScoringObjects
 {
@@ -165,9 +227,47 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                                                             numberOfDays:-kNumberOfDaysToDisplay];
     self.stepScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_STEPS_CAPTION", nil, APHLocaleBundle(), @"Steps", @"Dashboard caption for results of steps score.");
     
+    self.moodScoring = [self scoringForValueKey:@"moodsurvey103"];
+    self.moodScoring.customMinimumPoint = 1.0;
+    self.moodScoring.customMaximumPoint = 5.0;
+    self.moodScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_MOOD_CAPTION", nil, APHLocaleBundle(), @"Mood", @"Dashboard caption for daily mood report");
+    
+    self.energyScoring = [self scoringForValueKey:@"moodsurvey104"];
+    self.energyScoring.customMinimumPoint = 1.0;
+    self.energyScoring.customMaximumPoint = 5.0;
+    self.energyScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_ENERGY_CAPTION", nil, APHLocaleBundle(), @"Energy Level", @"Dashboard caption for daily energy report");
+    
+    self.exerciseScoring = [self scoringForValueKey:@"moodsurvey106"];
+    self.exerciseScoring.customMinimumPoint = 1.0;
+    self.exerciseScoring.customMaximumPoint = 5.0;
+    self.exerciseScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_EXERCISE_CAPTION", nil, APHLocaleBundle(), @"Exercise Level", @"Dashboard caption for daily exercise report");
+    
+    self.sleepScoring = [self scoringForValueKey:@"moodsurvey105"];
+    self.sleepScoring.customMinimumPoint = 1.0;
+    self.sleepScoring.customMaximumPoint = 5.0;
+    self.sleepScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_SLEEP_CAPTION", nil, APHLocaleBundle(), @"Sleep Quality", @"Dashboard caption for daily sleep quality report");
+    
+    self.cognitiveScoring = [self scoringForValueKey:@"moodsurvey102"];
+    self.cognitiveScoring.customMinimumPoint = 1.0;
+    self.cognitiveScoring.customMaximumPoint = 5.0;
+    self.cognitiveScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_THINKING_CAPTION", nil, APHLocaleBundle(), @"Thinking", @"Dashboard caption for daily mental clarity report");
+    
+    self.customScoring = [self scoringForValueKey:@"moodsurvey107"];
+    self.customScoring.customMinimumPoint = 1.0;
+    self.customScoring.customMaximumPoint = 5.0;
+    self.customScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_CUSTOM_CAPTION", nil, APHLocaleBundle(), @"Custom Question", @"Dashboard caption for daily user-defined custom question report");
+
     if (!self.correlatedScoring) {
         [self prepareCorrelatedScoring];
     }
+}
+
+- (APCScoring *)scoringForValueKey:(NSString *)valueKey
+{
+    return [[APCScoring alloc] initWithTask:APHDailySurveyIdentifier
+                               numberOfDays:-kNumberOfDaysToDisplay
+                                   valueKey:valueKey
+                                 latestOnly:NO];
 }
 
 - (void)prepareCorrelatedScoring{
@@ -379,6 +479,190 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     row.item = item;
                     row.itemType = rowType;
                     [rowItems addObject:row];
+                }
+                    break;
+                case kAPHDashboardItemTypeDailyMood:{
+                    
+                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    item.caption = self.moodScoring.caption;
+                    item.graphData = self.moodScoring;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.editable = YES;
+                    item.tintColor = [UIColor appTertiaryYellowColor];
+                    
+                    item.minimumImage = [UIImage imageNamed:@"MoodSurveyMood-5g"];
+                    item.maximumImage = [UIImage imageNamed:@"MoodSurveyMood-1g"];
+                    
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datasetValueKey != %@", @(NSNotFound)];
+                    NSArray *scoringObjects = [[self.moodScoring allObjects] filteredArrayUsingPredicate:predicate];
+                    
+                    if ([[self.moodScoring averageDataPoint] doubleValue] > 0 && scoringObjects.count > 1) {
+                        item.averageImage = [UIImage imageNamed:[NSString stringWithFormat:@"MoodSurveyMood-%0.0fg", (double) 6 - [[self.moodScoring averageDataPoint] doubleValue]]];
+                        item.detailText = [NSString stringWithFormat: NSLocalizedString(@"Average : ", nil)];
+                    }
+                    
+                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_DAILY_MOOD_INFO", nil, APHLocaleBundle(), @"This graph shows your answers to the daily check-in questions for mood each day. ", @"Dashboard tooltip item info text for daily check-in Mood in Parkinson");
+                    
+                    APCTableViewRow *row = [APCTableViewRow new];
+                    row.item = item;
+                    row.itemType = rowType;
+                    [rowItems addObject:row];
+                }
+                    break;
+                    
+                case kAPHDashboardItemTypeDailyEnergy:{
+                    
+                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    item.caption = self.energyScoring.caption;
+                    item.graphData = self.energyScoring;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.editable = YES;
+                    item.tintColor = [UIColor appTertiaryGreenColor];
+                    
+                    item.minimumImage = [UIImage imageNamed:@"MoodSurveyEnergy-5g"];
+                    item.maximumImage = [UIImage imageNamed:@"MoodSurveyEnergy-1g"];
+                    
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datasetValueKey != %@", @(NSNotFound)];
+                    NSArray *scoringObjects = [[self.moodScoring allObjects] filteredArrayUsingPredicate:predicate];
+                    
+                    if ([[self.energyScoring averageDataPoint] doubleValue] > 0 && scoringObjects.count > 1) {
+                        item.averageImage = [UIImage imageNamed:[NSString stringWithFormat:@"MoodSurveyEnergy-%0.0fg", (double) 6 - [[self.energyScoring averageDataPoint] doubleValue]]];
+                        item.detailText = [NSString stringWithFormat:NSLocalizedString(@"Average : ", nil)];
+                    }
+                    
+                    
+                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_DAILY_ENERGY_INFO", nil, APHLocaleBundle(), @"This graph shows your answers to the daily check-in questions for energy each day.", @"Dashboard tooltip item info text for daily check-in Energy in Parkinson");
+                    
+                    APCTableViewRow *row = [APCTableViewRow new];
+                    row.item = item;
+                    row.itemType = rowType;
+                    [rowItems addObject:row];
+                }
+                    break;
+                    
+                case kAPHDashboardItemTypeDailyExercise:{
+                    
+                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    item.caption = self.exerciseScoring.caption;
+                    item.graphData = self.exerciseScoring;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.editable = YES;
+                    item.tintColor = [UIColor appTertiaryYellowColor];
+                    
+                    item.minimumImage = [UIImage imageNamed:@"MoodSurveyExercise-5g"];
+                    item.maximumImage = [UIImage imageNamed:@"MoodSurveyExercise-1g"];
+                    
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datasetValueKey != %@", @(NSNotFound)];
+                    NSArray *scoringObjects = [[self.moodScoring allObjects] filteredArrayUsingPredicate:predicate];
+                    
+                    if ([[self.exerciseScoring averageDataPoint] doubleValue] > 0 && scoringObjects.count > 1) {
+                        item.averageImage = [UIImage imageNamed:[NSString stringWithFormat:@"MoodSurveyExercise-%0.0fg", (double) 6 - [[self.exerciseScoring averageDataPoint] doubleValue]]];
+                        item.detailText = [NSString stringWithFormat:NSLocalizedString(@"Average : ", nil)];
+                    }
+                    
+                    
+                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_DAILY_EXERCISE_INFO", nil, APHLocaleBundle(), @"This graph shows your answers to the daily check-in questions for exercise each day.", @"Dashboard tooltip item info text for daily check-in Exercise in Parkinson");
+                    
+                    APCTableViewRow *row = [APCTableViewRow new];
+                    row.item = item;
+                    row.itemType = rowType;
+                    [rowItems addObject:row];
+                }
+                    break;
+                    
+                case kAPHDashboardItemTypeDailySleep:{
+                    
+                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    item.caption = self.sleepScoring.caption;
+                    item.graphData = self.sleepScoring;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.editable = YES;
+                    item.tintColor = [UIColor appTertiaryPurpleColor];
+                    
+                    item.minimumImage = [UIImage imageNamed:@"MoodSurveySleep-5g"];
+                    item.maximumImage = [UIImage imageNamed:@"MoodSurveySleep-1g"];
+                    
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datasetValueKey != %@", @(NSNotFound)];
+                    NSArray *scoringObjects = [[self.moodScoring allObjects] filteredArrayUsingPredicate:predicate];
+                    
+                    if ([[self.sleepScoring averageDataPoint] doubleValue] > 0 && scoringObjects.count > 1) {
+                        item.averageImage = [UIImage imageNamed:[NSString stringWithFormat:@"MoodSurveySleep-%0.0fg", (double) 6 - [[self.sleepScoring averageDataPoint] doubleValue]]];
+                        item.detailText = [NSString stringWithFormat:NSLocalizedString(@"Average : ", nil)];
+                    }
+                    
+                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_DAILY_SLEEP_INFO", nil, APHLocaleBundle(), @"This graph shows your answers to the daily check-in questions for sleep each day.", @"Dashboard tooltip item info text for daily check-in Sleep in Parkinson");
+                    
+                    APCTableViewRow *row = [APCTableViewRow new];
+                    row.item = item;
+                    row.itemType = rowType;
+                    [rowItems addObject:row];
+                }
+                    break;
+                    
+                case kAPHDashboardItemTypeDailyCognitive:
+                {
+                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    item.caption = self.cognitiveScoring.caption;
+                    item.graphData = self.cognitiveScoring;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.editable = YES;
+                    item.tintColor = [UIColor appTertiaryRedColor];
+                    
+                    item.minimumImage = [UIImage imageNamed:@"MoodSurveyClarity-5g"];
+                    item.maximumImage = [UIImage imageNamed:@"MoodSurveyClarity-1g"];
+                    
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datasetValueKey != %@", @(NSNotFound)];
+                    NSArray *moodScoringObjects = [[self.moodScoring allObjects] filteredArrayUsingPredicate:predicate];
+                    
+                    if ([[self.cognitiveScoring averageDataPoint] doubleValue] > 0 && moodScoringObjects.count > 1) {
+                        
+                        item.averageImage = [UIImage imageNamed:[NSString stringWithFormat:@"MoodSurveyClarity-%0.0fg", (double) 6 - [[self.cognitiveScoring averageDataPoint] doubleValue]]];
+                        item.detailText = [NSString stringWithFormat:NSLocalizedString(@"Average : ", nil)];
+                    }
+                    
+                    
+                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_DAILY_THINKING_INFO", nil, APHLocaleBundle(), @"This graph shows your answers to the daily check-in questions for your thinking each day.", @"Dashboard tooltip item info text for daily check-in Thinking (mental clarity) in Parkinson");
+                    
+                    APCTableViewRow *row = [APCTableViewRow new];
+                    row.item = item;
+                    row.itemType = rowType;
+                    [rowItems addObject:row];
+                    
+                }
+                    break;
+                    
+                case kAPHDashboardItemTypeDailyCustom:
+                {
+                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    item.caption = self.customScoring.caption;
+                    item.graphData = self.customScoring;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.editable = YES;
+                    item.tintColor = [UIColor appTertiaryBlueColor];
+                    item.minimumImage = [UIImage imageNamed:@"MoodSurveyCustom-5g"];
+                    item.maximumImage = [UIImage imageNamed:@"MoodSurveyCustom-1g"];
+                    
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datasetValueKey != %@", @(NSNotFound)];
+                    NSArray *scoringObjects = [[self.moodScoring allObjects] filteredArrayUsingPredicate:predicate];
+                    
+                    if ([[self.customScoring averageDataPoint] doubleValue] > 0 && scoringObjects.count > 1) {
+                        item.averageImage = [UIImage imageNamed:[NSString stringWithFormat:@"MoodSurveyCustom-%0.0fg", (double) 6 - [[self.customScoring averageDataPoint] doubleValue]]];
+                        item.detailText = [NSString stringWithFormat:NSLocalizedString(@"Average : ", @"Average: ")];
+                    }
+                    
+                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_DAILY_CUSTOM_INFO", nil, APHLocaleBundle(), @"This graph shows your answers to the custom question that you created as part of your daily check-in questions.", @"Dashboard tooltip item info text for daily check-in Custom in Parkinson");
+                    
+                    APCTableViewRow *row = [APCTableViewRow new];
+                    row.item = item;
+                    row.itemType = rowType;
+                    [rowItems addObject:row];
+                    
                 }
                     break;
                 default:

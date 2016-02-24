@@ -1,9 +1,9 @@
 // 
-//  APHDashboardEditViewController.h 
-//  mPower 
-// 
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved. 
-// 
+//  APHQuestionViewController.h 
+//  mPowerSDK
+//
+// Copyright (c) 2015, 2016, Sage Bionetworks. All rights reserved.
+//
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
 // 
@@ -32,25 +32,18 @@
 // 
  
 @import APCAppCore;
+#import <UIKit/UIKit.h>
+#import "APHCustomTextView.h"
+@class  APHNotesViewController;
+@class  APHLogNoteModel;
 
-typedef NS_ENUM(APCTableViewItemType, APHDashboardItemType) {
-    kAPHDashboardItemTypeIntervalTappingRight,
-    kAPHDashboardItemTypeIntervalTappingLeft,
-    kAPHDashboardItemTypeSpatialMemory,
-    kAPHDashboardItemTypeGait,
-    kAPHDashboardItemTypePhonation,
-    kAPHDashboardItemTypeSteps,
-    kAPHDashboardItemTypeAlerts,
-    kAPHDashboardItemTypeInsights,
-    kAPHDashboardItemTypeDailyCognitive,
-    kAPHDashboardItemTypeDailyMood,
-    kAPHDashboardItemTypeDailyEnergy,
-    kAPHDashboardItemTypeDailySleep,
-    kAPHDashboardItemTypeDailyExercise,
-    kAPHDashboardItemTypeDailyCustom,
-    kAPHDashboardItemTypeCorrelation
-};
+@interface APHQuestionViewController : APCStepViewController
 
-@interface APHDashboardEditViewController : APCDashboardEditViewController
+@property  (nonatomic, weak)  NSDictionary  *note;
+@property  (nonatomic, weak)  IBOutlet  APHCustomTextView    *scriptorium;
+
+@property (weak, nonatomic) IBOutlet UILabel *previousAnswer;
+@property (weak, nonatomic) IBOutlet UILabel *currentQuestion;
+@property (weak, nonatomic) IBOutlet UIButton *nextButton;
 
 @end

@@ -1,8 +1,8 @@
 // 
-//  APHDashboardEditViewController.h 
-//  mPower 
+//  APHDynamicMoodSurveyTask.h 
+//  mPowerSDK 
 // 
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved. 
+// Copyright (c) 2015, 2016, Sage Bionetworks. All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
@@ -31,26 +31,11 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 // 
  
+#import <ResearchKit/ResearchKit.h>
 @import APCAppCore;
 
-typedef NS_ENUM(APCTableViewItemType, APHDashboardItemType) {
-    kAPHDashboardItemTypeIntervalTappingRight,
-    kAPHDashboardItemTypeIntervalTappingLeft,
-    kAPHDashboardItemTypeSpatialMemory,
-    kAPHDashboardItemTypeGait,
-    kAPHDashboardItemTypePhonation,
-    kAPHDashboardItemTypeSteps,
-    kAPHDashboardItemTypeAlerts,
-    kAPHDashboardItemTypeInsights,
-    kAPHDashboardItemTypeDailyCognitive,
-    kAPHDashboardItemTypeDailyMood,
-    kAPHDashboardItemTypeDailyEnergy,
-    kAPHDashboardItemTypeDailySleep,
-    kAPHDashboardItemTypeDailyExercise,
-    kAPHDashboardItemTypeDailyCustom,
-    kAPHDashboardItemTypeCorrelation
-};
+@interface APHDynamicMoodSurveyTask : ORKOrderedTask <ORKTask>
 
-@interface APHDashboardEditViewController : APCDashboardEditViewController
+- (instancetype) initAddingSteps;
 
 @end

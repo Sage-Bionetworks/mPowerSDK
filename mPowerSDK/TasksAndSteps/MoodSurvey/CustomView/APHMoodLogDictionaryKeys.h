@@ -1,9 +1,9 @@
 // 
-//  APHDashboardEditViewController.h 
-//  mPower 
-// 
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved. 
-// 
+//  APHMoodLogDictionaryKeys.h 
+//  mPowerSDK
+//
+// Copyright (c) 2015, 2016, Sage Bionetworks. All rights reserved.
+//
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
 // 
@@ -31,26 +31,20 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 // 
  
-@import APCAppCore;
+#import <Foundation/Foundation.h>
 
-typedef NS_ENUM(APCTableViewItemType, APHDashboardItemType) {
-    kAPHDashboardItemTypeIntervalTappingRight,
-    kAPHDashboardItemTypeIntervalTappingLeft,
-    kAPHDashboardItemTypeSpatialMemory,
-    kAPHDashboardItemTypeGait,
-    kAPHDashboardItemTypePhonation,
-    kAPHDashboardItemTypeSteps,
-    kAPHDashboardItemTypeAlerts,
-    kAPHDashboardItemTypeInsights,
-    kAPHDashboardItemTypeDailyCognitive,
-    kAPHDashboardItemTypeDailyMood,
-    kAPHDashboardItemTypeDailyEnergy,
-    kAPHDashboardItemTypeDailySleep,
-    kAPHDashboardItemTypeDailyExercise,
-    kAPHDashboardItemTypeDailyCustom,
-    kAPHDashboardItemTypeCorrelation
-};
 
-@interface APHDashboardEditViewController : APCDashboardEditViewController
+extern  NSString  *APHMoodLogNoteTimeStampKey;
+extern  NSString  *APHMoodLogNoteTextKey;
+extern  NSString  *APHMoodLogNoteModificationsKey;
 
-@end
+
+    //
+    //    keys for note 'modifications model'
+    //
+
+extern  NSString  *APHMoodLogEditTimeStampKey;
+extern  NSString  *APHMoodLogEditingTypeKey;
+extern  NSString      *APHMoodLogEditingTypeAddingKey;
+extern  NSString      *APHMoodLogEditingTypeDeletingKey;
+
