@@ -264,7 +264,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
 
 - (APCScoring *)scoringForValueKey:(NSString *)valueKey
 {
-    return [[APCScoring alloc] initWithTask:kDailySurveyIdentifier
+    return [[APCScoring alloc] initWithTask:APHDailySurveyIdentifier
                                numberOfDays:-kNumberOfDaysToDisplay
                                    valueKey:valueKey
                                  latestOnly:NO];
