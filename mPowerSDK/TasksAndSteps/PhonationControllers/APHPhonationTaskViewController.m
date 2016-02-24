@@ -124,6 +124,8 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
 stepViewControllerWillAppear:(ORKStepViewController *)stepViewController {
 	if ([stepViewController.step.identifier isEqualToString:kInstructionStepIdentifier]) {
 		stepViewController.continueButtonTitle = NSLocalizedStringWithDefaultValue(@"BUTTON_GET_STARTED", @"ResearchKit", ORKBundle(),  @"Get Started", @"Get Started Button Text");;
+	} else if ([stepViewController.step.identifier isEqualToString:kInstruction1StepIdentifier]) {
+		stepViewController.continueButtonTitle = NSLocalizedStringWithDefaultValue(@"BUTTON_NEXT", @"ResearchKit", ORKBundle(),  @"Next", @"Next Button Text");;
 	}
 }
 
