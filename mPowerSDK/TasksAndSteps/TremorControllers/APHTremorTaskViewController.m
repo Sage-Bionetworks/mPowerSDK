@@ -8,6 +8,8 @@
 
 #import "APHTremorTaskViewController.h"
 
+NSString * const kTremorScoreKey = @"TremorScoreKey";
+
 @interface APHTremorTaskViewController ()
 
 @end
@@ -26,16 +28,26 @@
 
 - (NSString *)createResultSummary
 {
-    // TODO: implement this
+    ORKTaskResult *taskResult = self.result;
+    self.createResultSummaryBlock = ^(NSManagedObjectContext *context) {
+        
+        // TODO: calculate tremor score from results (Jake Krog - 2/23/2016)
+        NSDictionary *summary = @{ kTremorScoreKey: @0 };
+        
+        NSError  *error = nil;
+        NSData  *data = [NSJSONSerialization dataWithJSONObject:summary options:0 error:&error];
+        NSString *contentString = nil;
+        if (data == nil) {
+            APCLogError2 (error);
+        } else {
+            contentString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        }
+        if (contentString.length > 0) {
+            [APCResult updateResultSummary:contentString forTaskResult:taskResult inContext:context];
+        }
+    };
     return nil;
 }
-
-
-/*
-- (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step {
-    return [step.identifier hasPrefix:APCTapTappingStepIdentifier];
-}
- */
 
 
 #pragma  mark  -  View Controller Methods

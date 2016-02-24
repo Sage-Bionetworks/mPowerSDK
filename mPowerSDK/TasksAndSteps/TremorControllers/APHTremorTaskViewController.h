@@ -8,6 +8,8 @@
 
 #import <mPowerSDK/mPowerSDK.h>
 
+extern NSString * const kTremorScoreKey;
+
 @interface APHTremorTaskViewController : APHParkinsonActivityViewController
 
 @end

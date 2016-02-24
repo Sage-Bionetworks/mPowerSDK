@@ -37,6 +37,7 @@
 #import "APHDataKeys.h"
 #import "APHLocalization.h"
 #import "APHSpatialSpanMemoryGameViewController.h"
+#import "APHTremorTaskViewController.h"
 #import "APHWalkingTaskViewController.h"
 
 
@@ -53,6 +54,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
 @property (nonatomic, strong) APCScoring *stepScoring;
 @property (nonatomic, strong) APCScoring *memoryScoring;
 @property (nonatomic, strong) APCScoring *phonationScoring;
+@property (nonatomic, strong) APCScoring *tremorScoring;
 
 @end
 
@@ -77,6 +79,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                               
             if ([APCDeviceHardware isiPhone5SOrNewer]) {
                 [_rowItemsOrder addObject:@(kAPHDashboardItemTypeGait)];
+                [_rowItemsOrder addObject:@(kAPHDashboardItemTypeTremor)];
             }
             [defaults setObject:[NSArray arrayWithArray:_rowItemsOrder] forKey:kAPCDashboardRowItemsOrder];
             [defaults synchronize];
@@ -164,6 +167,11 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                                                                     unit:[HKUnit countUnit]
                                                             numberOfDays:-kNumberOfDaysToDisplay];
     self.stepScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_STEPS_CAPTION", nil, APHLocaleBundle(), @"Steps", @"Dashboard caption for results of steps score.");
+    
+    self.tremorScoring = [[APCScoring alloc] initWithTask:APHTremorActivitySurveyIdentifier
+                                             numberOfDays:-kNumberOfDaysToDisplay
+                                                 valueKey:kTremorScoreKey];
+    self.tremorScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TREMOR_CAPTION", nil, APHLocaleBundle(), @"Tremor", @"Dashboard caption for results of tremor score.");
     
     if (!self.correlatedScoring) {
         [self prepareCorrelatedScoring];
@@ -320,7 +328,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                     
-                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MEMORY_INFO", nil, APHLocaleBundle(), @"This plot shows the score you received each day for the Memory Game. The length and position of each vertical bar represents the range of scores for a given day. Any differences in length or position over time reflect variations and trends in your score, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Memory in Parkinson");
+                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MEMORY_INFO", nil, APHLocaleBundle(), @"== The length and position of each vertical bar represents the range of scores for a given day. Any differences in length or position over time reflect variations and trends in your score, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Memory in Parkinson");
                     
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
@@ -381,6 +389,33 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     [rowItems addObject:row];
                 }
                     break;
+                    
+                case kAPHDashboardItemTypeTremor:
+                {
+                    APCTableViewDashboardGraphItem  *item = [APCTableViewDashboardGraphItem new];
+                    item.caption = self.tremorScoring.caption;
+                    item.graphData = self.tremorScoring;
+                    
+                    double avgValue = [[self.tremorScoring averageDataPoint] doubleValue];
+                    
+                    if (avgValue > 0) {
+                        item.detailText = [NSString stringWithFormat:detailAvgFormat,
+                                           APHLocalizedStringFromNumber([self.tremorScoring averageDataPoint])];
+                    }
+                    
+                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.editable = YES;
+                    item.tintColor = [UIColor colorForTaskId:APHTremorActivitySurveyIdentifier];
+                    
+                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TREMOR_INFO", nil, APHLocaleBundle(), @"This plot shows the score you received each day for the Tremor Test.", @"Dashboard tooltip item info text for Tremor Test in Parkinson");
+                    
+                    APCTableViewRow *row = [APCTableViewRow new];
+                    row.item = item;
+                    row.itemType = rowType;
+                    [rowItems addObject:row];
+                }
+                    break;
+                    
                 default:
                     break;
             }
