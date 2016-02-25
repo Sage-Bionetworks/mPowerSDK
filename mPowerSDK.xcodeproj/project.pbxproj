@@ -33,8 +33,6 @@
 		FB4E46711C7E671C00CADC1F /* EligibilityRequirements.json in Resources */ = {isa = PBXBuildFile; fileRef = FB4E466F1C7E671C00CADC1F /* EligibilityRequirements.json */; };
 		FB4E46771C7E673E00CADC1F /* APHInstructionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FB4E46731C7E673E00CADC1F /* APHInstructionStepViewController.h */; };
 		FB4E46781C7E673E00CADC1F /* APHInstructionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4E46741C7E673E00CADC1F /* APHInstructionStepViewController.m */; };
-		FB4E46791C7E673E00CADC1F /* APHNavigationFooter.h in Headers */ = {isa = PBXBuildFile; fileRef = FB4E46751C7E673E00CADC1F /* APHNavigationFooter.h */; };
-		FB4E467A1C7E673E00CADC1F /* APHNavigationFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4E46761C7E673E00CADC1F /* APHNavigationFooter.m */; };
 		FB4E467D1C7E675500CADC1F /* APHOnboardingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FB4E467B1C7E675500CADC1F /* APHOnboardingManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FB4E467E1C7E675500CADC1F /* APHOnboardingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4E467C1C7E675500CADC1F /* APHOnboardingManager.m */; };
 		FF0B4AC01C29FCB800224EF7 /* APHParkinsonActivityViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4AAE1C29FCB800224EF7 /* APHParkinsonActivityViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -157,8 +155,6 @@
 		FB4E46701C7E671C00CADC1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/EligibilityRequirements.json; sourceTree = "<group>"; };
 		FB4E46731C7E673E00CADC1F /* APHInstructionStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHInstructionStepViewController.h; sourceTree = "<group>"; };
 		FB4E46741C7E673E00CADC1F /* APHInstructionStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHInstructionStepViewController.m; sourceTree = "<group>"; };
-		FB4E46751C7E673E00CADC1F /* APHNavigationFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHNavigationFooter.h; sourceTree = "<group>"; };
-		FB4E46761C7E673E00CADC1F /* APHNavigationFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHNavigationFooter.m; sourceTree = "<group>"; };
 		FB4E467B1C7E675500CADC1F /* APHOnboardingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHOnboardingManager.h; sourceTree = "<group>"; };
 		FB4E467C1C7E675500CADC1F /* APHOnboardingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHOnboardingManager.m; sourceTree = "<group>"; };
 		FF0B4AAE1C29FCB800224EF7 /* APHParkinsonActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHParkinsonActivityViewController.h; sourceTree = "<group>"; };
@@ -344,8 +340,6 @@
 				FFFA24991C23773900727DA8 /* APHInclusionCriteriaViewController.m */,
 				FB4E46731C7E673E00CADC1F /* APHInstructionStepViewController.h */,
 				FB4E46741C7E673E00CADC1F /* APHInstructionStepViewController.m */,
-				FB4E46751C7E673E00CADC1F /* APHNavigationFooter.h */,
-				FB4E46761C7E673E00CADC1F /* APHNavigationFooter.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -646,7 +640,6 @@
 				FF0B4ACB1C29FCB800224EF7 /* APHWalkingTaskViewController.h in Headers */,
 				FF0B4AC51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.h in Headers */,
 				80DC1BD81C6A8F2500235C2E /* APHCustomSurveyIntroViewController.h in Headers */,
-				FB4E46791C7E673E00CADC1F /* APHNavigationFooter.h in Headers */,
 				FF346CED1C5BE762006D9AC9 /* NSArray+APHExtensions.h in Headers */,
 				FFF270A81C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.h in Headers */,
 				FF2D8BDC1C497D4D004EC642 /* APHMedicationTrackerViewController.h in Headers */,
@@ -808,7 +801,6 @@
 				8032378F1C6BCFF700208365 /* APHCustomTextView.m in Sources */,
 				FF0B4AC61C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m in Sources */,
 				FFFA24C81C237E1500727DA8 /* APHDashboardViewController.m in Sources */,
-				FB4E467A1C7E673E00CADC1F /* APHNavigationFooter.m in Sources */,
 				FF2D8BD91C497D28004EC642 /* APHMedicationTrackerTask.m in Sources */,
 				FFFA24741C23657700727DA8 /* APHAppDelegate.m in Sources */,
 				FFFA24861C23664500727DA8 /* APHAppDelegate+APHMigration.m in Sources */,

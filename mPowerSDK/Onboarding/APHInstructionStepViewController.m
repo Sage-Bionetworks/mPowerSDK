@@ -7,13 +7,13 @@
 //
 
 #import "APHInstructionStepViewController.h"
-#import "APHNavigationFooter.h"
+#import <APCAppCore/APCAppCore.h>
 
-@interface APHInstructionStepViewController () <APHNavigationFooterDelegate>
+@interface APHInstructionStepViewController () <APCNavigationFooterDelegate>
 
 @property (nonatomic, readonly) ORKInstructionStep *instructionStep;
 
-@property (weak, nonatomic) IBOutlet APHNavigationFooter *navigationFooter;
+@property (weak, nonatomic) IBOutlet APCNavigationFooter *navigationFooter;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
 @property (weak, nonatomic) IBOutlet UILabel *detailTextLabel;

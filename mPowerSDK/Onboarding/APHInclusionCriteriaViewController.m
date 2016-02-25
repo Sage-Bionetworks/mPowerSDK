@@ -35,11 +35,11 @@
 
 #import "APHInclusionCriteriaViewController.h"
 #import "APHAppDelegate.h"
-#import "APHNavigationFooter.h"
+#import <APCAppCore/APCAppCore.h>
 
-@interface APHInclusionCriteriaViewController () <UITableViewDelegate, UITableViewDataSource, APCSegmentedButtonDelegate, APHNavigationFooterDelegate>
+@interface APHInclusionCriteriaViewController () <UITableViewDelegate, UITableViewDataSource, APCSegmentedButtonDelegate, APCNavigationFooterDelegate>
 
-@property (weak, nonatomic) IBOutlet APHNavigationFooter *navigationFooter;
+@property (weak, nonatomic) IBOutlet APCNavigationFooter *navigationFooter;
 @property (nonatomic, readonly) ORKFormStep *formStep;
 @property (nonatomic, readonly) UIButton *continueButton;
 @property (nonatomic) NSMutableDictionary <NSString*, NSNumber*> *segmentedButtonMap;
