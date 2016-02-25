@@ -106,10 +106,6 @@
         "optional"   : false,
      },
      {
-        "identifier" : "momentInDay",
-        "optional"   : false,
-     },
-     {
         "identifier" : "medicationActivityTiming",
         "optional"   : false,
      },
