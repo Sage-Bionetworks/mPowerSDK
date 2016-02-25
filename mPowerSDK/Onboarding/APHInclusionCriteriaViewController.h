@@ -33,6 +33,18 @@
  
 #import <APCAppCore/APCAppCore.h>
 
-@interface APHInclusionCriteriaViewController : APCInclusionCriteriaViewController
+@interface APHInclusionCriteriaTableViewCell: UITableViewCell
+
+@property (weak, nonatomic) IBOutlet UILabel *questionLabel;
+@property (weak, nonatomic) IBOutlet UIButton *yesButton;
+@property (weak, nonatomic) IBOutlet UIButton *noButton;
+@property (nonatomic) APCSegmentedButton *segmentedButton;
+
+@end
+
+@interface APHInclusionCriteriaViewController : ORKStepViewController
+
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+
 
 @end

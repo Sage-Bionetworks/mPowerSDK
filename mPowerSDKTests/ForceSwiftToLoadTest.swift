@@ -1,8 +1,8 @@
 //
-//  mPowerSDK.h
+//  ForceSwiftToLoadTest.swift
 //  mPowerSDK
 //
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved.
+// Copyright (c) 2016, Sage Bionetworks. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
@@ -31,32 +31,27 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <UIKit/UIKit.h>
+import XCTest
 
-//! Project version number for mPowerSDK.
-FOUNDATION_EXPORT double mPowerSDKVersionNumber;
+// ResearchKit uses these, and if we don't import them the tests crash on load due to missing Swift dylibs
+// (Apple PLEASE fix this...)
+import CoreAudio
+import CoreLocation
 
-//! Project version string for mPowerSDK.
-FOUNDATION_EXPORT const unsigned char mPowerSDKVersionString[];
+class ForceSwiftToLoadTest: XCTestCase {
 
-#import <mPowerSDK/APHAppDelegate.h>
-#import <mPowerSDK/APHDataKeys.h>
-#import <mPowerSDK/APHLocalization.h>
-#import <mPowerSDK/APHProfileExtender.h>
-#import <mPowerSDK/APHScoreCalculator.h>
-#import <mPowerSDK/APHActivityManager.h>
-#import <mPowerSDK/APHParkinsonActivityViewController.h>
-#import <mPowerSDK/APHIntervalTappingTaskViewController.h>
-#import <mPowerSDK/APHPhonationTaskViewController.h>
-#import <mPowerSDK/APHSpatialSpanMemoryGameViewController.h>
-#import <mPowerSDK/APHWalkingTaskViewController.h>
-#import <mPowerSDK/APHMedication.h>
-#import <mPowerSDK/APHMedicationTrackerDataStore.h>
-#import <mPowerSDK/APHMedicationTrackerTask.h>
-#import <mPowerSDK/APHMedicationTrackerTaskResultArchiver.h>
-#import <mPowerSDK/APHMedicationTrackerViewController.h>
-#import <mPowerSDK/NSArray+APHExtensions.h>
-#import <mPowerSDK/APHOnboardingManager.h>
+    override func setUp() {
+        super.setUp()
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+    
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+    }
 
+    func testExample() {
+        XCTAssertTrue(true)
+    }
 
-
+}

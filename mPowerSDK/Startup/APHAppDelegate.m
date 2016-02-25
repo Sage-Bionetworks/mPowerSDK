@@ -36,6 +36,7 @@
 #import "APHProfileExtender.h"
 #import "APHDataKeys.h"
 #import "APHLocalization.h"
+#import "APHOnboardingManager.h"
 
 static NSString *const kMyThoughtsSurveyIdentifier                  = @"mythoughts";
 static NSString *const kEnrollmentSurveyIdentifier                  = @"EnrollmentSurvey";
@@ -56,6 +57,8 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
 static NSString *const kAppStoreLink                    = @"https://appsto.re/us/GxN85.i";
 
 @interface APHAppDelegate ()
+@property (nonatomic) APHOnboardingManager *parkinsonOnboardingManager;
+
 @end
 
 @implementation APHAppDelegate
@@ -138,7 +141,8 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 
 - (NSString *)pathForResource:(NSString *)resourceName ofType:(NSString *)resourceType
 {
-    if ([[resourceType lowercaseString] isEqualToString:@"json"]) {
+    if ([[resourceType lowercaseString] isEqualToString:@"json"] ||
+        ([resourceName hasPrefix:@"consent_"] && [resourceType isEqualToString:@"html"])) {
         // For the json resources, look in the shared framework bundle 
         return [[NSBundle bundleForClass:[APHAppDelegate class]] pathForResource:resourceName ofType:resourceType];
     }
@@ -274,6 +278,17 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
     return self.profileExtender;
 }
 
+- (APCOnboardingManager *)onboardingManager {
+    return self.parkinsonOnboardingManager;
+}
+
+- (APHOnboardingManager *)parkinsonOnboardingManager {
+    if (_parkinsonOnboardingManager == nil) {
+        _parkinsonOnboardingManager = [[APHOnboardingManager alloc] initWithProvider:self user:self.dataSubstrate.currentUser];
+    }
+    return _parkinsonOnboardingManager;
+}
+
 - (void)showOnBoarding
 {
     [super showOnBoarding];
@@ -281,10 +296,32 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
     [self showStudyOverview];
 }
 
+- (void)showNeedsEmailVerification
+{
+    [self showStudyOverviewAnimated:NO];
+    UIViewController *taskVC = [self.parkinsonOnboardingManager instantiateOnboardingTaskViewController];
+    [self.window.rootViewController presentViewController:taskVC animated:NO completion:nil];
+}
+
 - (void)showStudyOverview
 {
+    [self showStudyOverviewAnimated:YES];
+}
+
+- (void)showStudyOverviewAnimated:(BOOL)animated {
     APCStudyOverviewViewController *studyController = [[UIStoryboard storyboardWithName:@"APCOnboarding" bundle:[NSBundle appleCoreBundle]] instantiateViewControllerWithIdentifier:@"StudyOverviewVC"];
-    [self setUpRootViewController:studyController];
+    if (animated) {
+        [self setUpRootViewController:studyController];
+    }
+    else {
+        self.window.rootViewController = studyController;
+    }
+}
+
+- (BOOL)didHandleSignupFromViewController:(UIViewController *)viewController {
+    UIViewController *taskVC = [self.parkinsonOnboardingManager instantiateOnboardingTaskViewController];
+    [viewController presentViewController:taskVC animated:YES completion:nil];
+    return YES;
 }
 
 - (BOOL)isVideoShown

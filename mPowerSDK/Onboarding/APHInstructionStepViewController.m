@@ -1,8 +1,8 @@
 //
-//  mPowerSDK.h
+//  APHInstructionStepViewController.m
 //  mPowerSDK
 //
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved.
+//  Copyright © 2016 Sage Bionetworks. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
@@ -31,32 +31,35 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <UIKit/UIKit.h>
+#import "APHInstructionStepViewController.h"
+#import <APCAppCore/APCAppCore.h>
 
-//! Project version number for mPowerSDK.
-FOUNDATION_EXPORT double mPowerSDKVersionNumber;
+@interface APHInstructionStepViewController () <APCNavigationFooterDelegate>
 
-//! Project version string for mPowerSDK.
-FOUNDATION_EXPORT const unsigned char mPowerSDKVersionString[];
+@property (nonatomic, readonly) ORKInstructionStep *instructionStep;
 
-#import <mPowerSDK/APHAppDelegate.h>
-#import <mPowerSDK/APHDataKeys.h>
-#import <mPowerSDK/APHLocalization.h>
-#import <mPowerSDK/APHProfileExtender.h>
-#import <mPowerSDK/APHScoreCalculator.h>
-#import <mPowerSDK/APHActivityManager.h>
-#import <mPowerSDK/APHParkinsonActivityViewController.h>
-#import <mPowerSDK/APHIntervalTappingTaskViewController.h>
-#import <mPowerSDK/APHPhonationTaskViewController.h>
-#import <mPowerSDK/APHSpatialSpanMemoryGameViewController.h>
-#import <mPowerSDK/APHWalkingTaskViewController.h>
-#import <mPowerSDK/APHMedication.h>
-#import <mPowerSDK/APHMedicationTrackerDataStore.h>
-#import <mPowerSDK/APHMedicationTrackerTask.h>
-#import <mPowerSDK/APHMedicationTrackerTaskResultArchiver.h>
-#import <mPowerSDK/APHMedicationTrackerViewController.h>
-#import <mPowerSDK/NSArray+APHExtensions.h>
-#import <mPowerSDK/APHOnboardingManager.h>
+@property (weak, nonatomic) IBOutlet APCNavigationFooter *navigationFooter;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UILabel *textLabel;
+@property (weak, nonatomic) IBOutlet UILabel *detailTextLabel;
 
+@end
 
+@implementation APHInstructionStepViewController
 
+- (ORKInstructionStep *)instructionStep {
+    if ([self.step isKindOfClass:[ORKInstructionStep class]]) {
+        return (ORKInstructionStep*)self.step;
+    }
+    return nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    self.imageView.image = self.instructionStep.image;
+    self.textLabel.text = self.instructionStep.text;
+    self.detailTextLabel.text = self.instructionStep.detailText;
+}
+
+@end
