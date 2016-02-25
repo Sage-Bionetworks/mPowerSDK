@@ -194,7 +194,9 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 
     if (reason == ORKTaskViewControllerFinishReasonCompleted) {
         // finish onboarding
-        [self onboardingDidFinish];
+        self.user.signedIn = YES;
+        self.user.signedUp = YES;
+        [self onboardingDidFinishAsSignIn];
     }
     else if (reason == ORKTaskViewControllerFinishReasonDiscarded) {
         // remove the passcode and user info if the flow is cancelled
