@@ -141,7 +141,8 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 
 - (NSString *)pathForResource:(NSString *)resourceName ofType:(NSString *)resourceType
 {
-    if ([[resourceType lowercaseString] isEqualToString:@"json"]) {
+    if ([[resourceType lowercaseString] isEqualToString:@"json"] ||
+        ([resourceName hasPrefix:@"consent_"] && [resourceType isEqualToString:@"html"])) {
         // For the json resources, look in the shared framework bundle 
         return [[NSBundle bundleForClass:[APHAppDelegate class]] pathForResource:resourceName ofType:resourceType];
     }

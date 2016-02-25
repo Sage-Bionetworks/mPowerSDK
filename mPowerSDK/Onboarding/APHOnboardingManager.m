@@ -128,7 +128,7 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     // Explanation of the HealthKit modal
     ORKInstructionStep *permissionsIntroStep = [[ORKInstructionStep alloc] initWithIdentifier:APHPermissionsIntroStepIdentifier];
     permissionsIntroStep.title = NSLocalizedStringWithDefaultValue(@"APH_PERMISSIONS_INTRO_TITLE", nil, APHLocaleBundle(), @"Set up permissions and profile", @"Title for permissions and profile steps");
-    permissionsIntroStep.text = NSLocalizedStringWithDefaultValue(@"APH_PERMISSIONS_INTRO_TEXT", nil, APHLocaleBundle(), @"On the next screen, you will be prompted to grant access to read and write some of your general and health information, such as height, weight, and steps taken so you don't have to enter it again.", @"Title for permissions and profile steps");
+    permissionsIntroStep.text = NSLocalizedStringWithDefaultValue(@"APH_PERMISSIONS_INTRO_TEXT", nil, APHLocaleBundle(), @"On the next screen, you will be prompted to grant access to read and write some of your general and health information, such as height, weight, and steps taken. Press \"Allow\" to specify what general health information the app may access.", @"Title for permissions and profile steps");
     
     // Medical Info
     ORKStep *medicalInfoStep = [[ORKStep alloc] initWithIdentifier:kAPCSignUpMedicalInfoStepIdentifier];
