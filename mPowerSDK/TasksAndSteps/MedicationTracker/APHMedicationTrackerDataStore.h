@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)defaultStore;
 
 @property (nonatomic, copy) NSDate * _Nullable lastCompletionDate;
-@property (nonatomic, copy) ORKStepResult * _Nullable momentInDayResult;
+@property (nonatomic, copy) NSArray <ORKStepResult *> * _Nullable momentInDayResult;
 @property (nonatomic, copy) NSDate * _Nullable lastMedicationSurveyDate;
 @property (nonatomic, copy) NSArray <APHMedication*> * _Nullable selectedMedications;
 @property (nonatomic) BOOL skippedSelectMedicationsSurveyQuestion;

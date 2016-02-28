@@ -114,7 +114,7 @@
                 case kAPHDashboardItemTypeCorrelation:
                 {
                     APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
-                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Steps", @"Dashboard caption for data correlation.");
+                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Data Correlations", @"Dashboard caption for data correlation.");
                     item.tintColor = [UIColor appTertiaryPurpleColor];
                     
                     [self.items addObject:item];
@@ -133,6 +133,72 @@
                 }
                     break;
                     
+                    
+                case kAPHDashboardItemTypeDailyMood:
+                {
+                    APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
+                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_MOOD_CAPTION", nil, APHLocaleBundle(), @"Mood", @"Dashboard caption for daily mood report");
+                    item.tintColor = [UIColor appTertiaryYellowColor];
+                    
+                    [self.items addObject:item];
+                    
+                }
+                    break;
+                    
+                case kAPHDashboardItemTypeDailyEnergy:
+                {
+                    APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
+                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_ENERGY_CAPTION", nil, APHLocaleBundle(), @"Energy Level", @"Dashboard caption for daily energy report");
+                    item.tintColor = [UIColor appTertiaryGreenColor];
+                    
+                    [self.items addObject:item];
+                    
+                }
+                    break;
+                    
+                case kAPHDashboardItemTypeDailyExercise:
+                {
+                    APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
+                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_EXERCISE_CAPTION", nil, APHLocaleBundle(), @"Exercise Level", @"Dashboard caption for daily exercise report");
+                    item.tintColor = [UIColor appTertiaryYellowColor];
+                    
+                    [self.items addObject:item];
+                    
+                }
+                    break;
+                    
+                case kAPHDashboardItemTypeDailySleep:
+                {
+                    APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
+                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_SLEEP_CAPTION", nil, APHLocaleBundle(), @"Sleep Quality", @"Dashboard caption for daily sleep quality report");
+                    item.tintColor = [UIColor appTertiaryPurpleColor];
+                    
+                    [self.items addObject:item];
+                    
+                }
+                    break;
+                    
+                case kAPHDashboardItemTypeDailyCognitive:
+                {
+                    APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
+                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_THINKING_CAPTION", nil, APHLocaleBundle(), @"Thinking", @"Dashboard caption for daily mental clarity report");
+                    item.tintColor = [UIColor appTertiaryRedColor];
+                    
+                    [self.items addObject:item];
+                    
+                }
+                    break;
+                    
+                case kAPHDashboardItemTypeDailyCustom:
+                {
+                    APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
+                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_CUSTOM_CAPTION", nil, APHLocaleBundle(), @"Custom Question", @"Dashboard caption for daily user-defined custom question report");
+                    item.tintColor = [UIColor appTertiaryBlueColor];
+                    
+                    [self.items addObject:item];
+                }
+                    break;
+
                 default:
                     break;
             }

@@ -35,82 +35,107 @@
 
 #import "APHInclusionCriteriaViewController.h"
 #import "APHAppDelegate.h"
+#import <APCAppCore/APCAppCore.h>
 
-@interface APHInclusionCriteriaViewController () <APCSegmentedButtonDelegate>
+@interface APHInclusionCriteriaViewController () <UITableViewDelegate, UITableViewDataSource, APCSegmentedButtonDelegate, APCNavigationFooterDelegate>
 
-//Outlets
-@property (weak, nonatomic) IBOutlet UILabel *question1Label;
-@property (weak, nonatomic) IBOutlet UIButton *question1Option1;
-@property (weak, nonatomic) IBOutlet UIButton *question1Option2;
-
-@property (weak, nonatomic) IBOutlet UILabel *question2Label;
-@property (weak, nonatomic) IBOutlet UIButton *question2Option1;
-@property (weak, nonatomic) IBOutlet UIButton *question2Option2;
-
-@property (weak, nonatomic) IBOutlet UILabel *question3Label;
-@property (weak, nonatomic) IBOutlet UIButton *question3Option1;
-@property (weak, nonatomic) IBOutlet UIButton *question3Option2;
-
-//Properties
-@property (nonatomic, strong) NSArray * questions; //Of APCSegmentedButtons
+@property (weak, nonatomic) IBOutlet APCNavigationFooter *navigationFooter;
+@property (nonatomic, readonly) ORKFormStep *formStep;
+@property (nonatomic, readonly) UIButton *continueButton;
+@property (nonatomic) NSMutableDictionary <NSString*, NSNumber*> *segmentedButtonMap;
 
 @end
 
 @implementation APHInclusionCriteriaViewController
 
+- (ORKFormStep*)formStep {
+    if ([self.step isKindOfClass:[ORKFormStep class]]) {
+        return (ORKFormStep*)self.step;
+    }
+    return nil;
+}
+
+- (UIButton *)continueButton {
+    return self.navigationFooter.continueButton;
+}
+
+- (NSMutableDictionary<NSString *,NSNumber *> *)segmentedButtonMap {
+    if (_segmentedButtonMap == nil) {
+        _segmentedButtonMap = [NSMutableDictionary new];
+    }
+    return _segmentedButtonMap;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.questions = @[
-                       [[APCSegmentedButton alloc] initWithButtons:@[self.question1Option1, self.question1Option2] normalColor:[UIColor appSecondaryColor3] highlightColor:[UIColor appPrimaryColor]],
-                       [[APCSegmentedButton alloc] initWithButtons:@[self.question2Option1, self.question2Option2] normalColor:[UIColor appSecondaryColor3] highlightColor:[UIColor appPrimaryColor]],
-                       [[APCSegmentedButton alloc] initWithButtons:@[self.question3Option1, self.question3Option2] normalColor:[UIColor appSecondaryColor3] highlightColor:[UIColor appPrimaryColor]],
-                       ];
-    [self.questions enumerateObjectsUsingBlock:^(APCSegmentedButton * obj, NSUInteger __unused idx, BOOL * __unused stop) {
-        obj.delegate = self;
-    }];
-    [self setUpAppearance];
-    
-    self.navigationItem.rightBarButtonItem.enabled = NO;
+
+    self.continueButton.enabled = NO;
 }
 
-- (void) setUpAppearance
-{
-    {
-        self.question1Label.textColor = [UIColor appSecondaryColor1];
-        self.question1Label.font = [UIFont appQuestionLabelFont];
-        
-        [self.question1Option1.titleLabel setFont:[UIFont appQuestionOptionFont]];
-        [self.question1Option2.titleLabel setFont:[UIFont appQuestionOptionFont]];
-    }
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
     
-    {
-        self.question2Label.textColor = [UIColor appSecondaryColor1];
-        self.question2Label.font = [UIFont appQuestionLabelFont];
+    if (self.formStep.formItems.count > 0) {
+        // Resize the table to fix the device
+        const CGFloat minCellHeight = 120;
+        const CGFloat maxCellHeight = 175;
+        const CGFloat minNavigationFooterHeight = 84;
         
-        [self.question2Option1.titleLabel setFont:[UIFont appQuestionOptionFont]];
-        [self.question2Option2.titleLabel setFont:[UIFont appQuestionOptionFont]];
+        CGFloat itemCount = self.formStep.formItems.count;
+        CGFloat overallHeight = self.tableView.bounds.size.height;
+        CGFloat desiredCellHeight = floor((overallHeight - minNavigationFooterHeight)/itemCount);
+        CGFloat cellHeight = MIN(maxCellHeight, MAX(minCellHeight, desiredCellHeight));
+        CGFloat footerHeight = MAX(minNavigationFooterHeight, floor(overallHeight - cellHeight * itemCount));
+        if (footerHeight != self.tableView.tableFooterView.bounds.size.height) {
+            UIView *footer = self.tableView.tableFooterView;
+            CGRect bounds = footer.bounds;
+            bounds.size.height = footerHeight;
+            footer.bounds = bounds;
+            self.tableView.tableFooterView = footer;
+        }
+        if (self.tableView.rowHeight != cellHeight) {
+            self.tableView.rowHeight = cellHeight;
+        }
     }
-    
-    {
-        self.question3Label.textColor = [UIColor appSecondaryColor1];
-        self.question3Label.font = [UIFont appQuestionLabelFont];
-        
-        [self.question3Option1.titleLabel setFont:[UIFont appQuestionOptionFont]];
-        [self.question3Option2.titleLabel setFont:[UIFont appQuestionOptionFont]];
-    }
-    
 }
 
-- (APCOnboarding *)onboarding
-{
-    return ((id<APCOnboardingManagerProvider>)
-            [UIApplication sharedApplication].delegate).onboardingManager.onboarding;
+#pragma mark - UITableViewDatasource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
 }
 
-/*********************************************************************************/
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    APHInclusionCriteriaTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BooleanCell" forIndexPath:indexPath];
+    
+    // Setup appearance
+    if (cell.segmentedButton == nil) {
+        cell.questionLabel.textColor = [UIColor appSecondaryColor1];
+        cell.questionLabel.font = [UIFont appQuestionLabelFont];
+        cell.yesButton.titleLabel.font = [UIFont appQuestionOptionFont];
+        cell.noButton.titleLabel.font = [UIFont appQuestionOptionFont];
+        cell.segmentedButton = [[APCSegmentedButton alloc] initWithButtons:@[cell.noButton, cell.yesButton] normalColor:[UIColor appSecondaryColor3] highlightColor:[UIColor appPrimaryColor]];
+        cell.segmentedButton.delegate = self;
+    }
+    
+    // Set values
+    ORKFormItem *item = self.formStep.formItems[indexPath.row];
+    cell.questionLabel.text = item.text;
+    cell.segmentedButton.questionIdentifier = item.identifier;
+    NSNumber *currentSelection = self.segmentedButtonMap[item.identifier];
+    if (currentSelection != nil) {
+        cell.segmentedButton.selectedIndex = currentSelection.integerValue;
+    }
+
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.formStep.formItems.count;
+}
+
 #pragma mark - Misc Fix
-/*********************************************************************************/
+
 -(void)viewDidLayoutSubviews
 {
     [self.tableView setSeparatorInset:UIEdgeInsetsZero];
@@ -123,53 +148,58 @@
     [cell setLayoutMargins:UIEdgeInsetsZero];
 }
 
-/*********************************************************************************/
 #pragma mark - Segmented Button Delegate
-/*********************************************************************************/
-- (void)segmentedButtonPressed:(UIButton *) __unused button selectedIndex:(NSInteger) __unused selectedIndex
-{
-    self.navigationItem.rightBarButtonItem.enabled = [self isContentValid];
-    
+
+- (void) segmentedButton:(APCSegmentedButton*)segmentedButton didSelectIndex:(NSInteger)selectedIndex {
+    self.segmentedButtonMap[segmentedButton.questionIdentifier] = @(selectedIndex);
+    self.continueButton.enabled = [self continueButtonEnabled];
+    [self.delegate stepViewControllerResultDidChange:self];
 }
 
-/*********************************************************************************/
 #pragma mark - Overridden methods
-/*********************************************************************************/
 
-- (void)next
-{
-    [self onboarding].onboardingTask.eligible = [self isEligible];
+- (ORKStepResult *)result {
+    ORKStepResult *parentResult = [super result];
     
-    UIViewController *viewController = [[self onboarding] nextScene];
-    [self.navigationController pushViewController:viewController animated:YES];
-}
-
-- (BOOL) isEligible
-{
-    BOOL retValue = YES;
+    NSArray *items = [self.formStep formItems];
     
-    APCSegmentedButton * question1 = self.questions[0];
-    APCSegmentedButton * question2 = self.questions[1];
-    APCSegmentedButton * question3 = self.questions[2];
+    // "Now" is the end time of the result, which is either actually now,
+    // or the last time we were in the responder chain.
+    NSDate *now = parentResult.endDate;
     
-    if ((question1.selectedIndex == 1) ||
-        (question2.selectedIndex == 1) ||
-        (question3.selectedIndex == 1)) {
-        retValue = NO;
+    NSMutableArray *qResults = [NSMutableArray new];
+    for (ORKFormItem *item in items) {
+        ORKBooleanQuestionResult *result = [[ORKBooleanQuestionResult alloc] initWithIdentifier:item.identifier];
+        result.booleanAnswer = self.segmentedButtonMap[item.identifier];
+        result.startDate = now;
+        result.endDate = now;
+        [qResults addObject:result];
     }
-    return retValue;
+    
+    parentResult.results = [qResults copy];
+    
+    return parentResult;
 }
 
-- (BOOL)isContentValid
+#pragma mark - navigation handling
+
+- (void)setContinueButtonTitle:(NSString *)continueButtonTitle {
+    [super setContinueButtonTitle:continueButtonTitle];
+    self.continueButton.titleLabel.text = continueButtonTitle;
+}
+
+- (BOOL)continueButtonEnabled
 {
-    __block BOOL retValue = YES;
-    [self.questions enumerateObjectsUsingBlock:^(APCSegmentedButton* obj, NSUInteger __unused idx, BOOL *stop) {
-    if (obj.selectedIndex == -1) {
-        retValue = NO;
-        *stop = YES;
+    for (ORKFormItem* item in self.formStep.formItems) {
+        if (self.segmentedButtonMap[item.identifier] == nil) {
+            return NO;
+        }
     }
-    }];
-    return retValue;
+    return YES;
 }
 
+@end
+
+
+@implementation APHInclusionCriteriaTableViewCell
 @end

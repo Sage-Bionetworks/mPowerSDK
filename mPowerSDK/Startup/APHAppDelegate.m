@@ -36,6 +36,7 @@
 #import "APHProfileExtender.h"
 #import "APHDataKeys.h"
 #import "APHLocalization.h"
+#import "APHOnboardingManager.h"
 
 static NSString *const kMyThoughtsSurveyIdentifier                  = @"mythoughts";
 static NSString *const kEnrollmentSurveyIdentifier                  = @"EnrollmentSurvey";
@@ -56,6 +57,8 @@ static NSString *const kJsonSchedulesKey                = @"schedules";
 static NSString *const kAppStoreLink                    = @"https://appsto.re/us/GxN85.i";
 
 @interface APHAppDelegate ()
+@property (nonatomic) APHOnboardingManager *parkinsonOnboardingManager;
+
 @end
 
 @implementation APHAppDelegate
@@ -93,6 +96,7 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
              [[APCTaskReminder alloc] initWithTaskID:APHVoiceActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_VOICE_ACTIVITY_LABEL", nil, APHLocaleBundle(), @"Voice Activity", @"Task reminder label for the voice activity.")],
              [[APCTaskReminder alloc] initWithTaskID:APHTappingActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_TAPPING_ACTIVITY_LABEL", nil, APHLocaleBundle(), @"Tapping Activity", @"Task reminder label for the tapping activity.")],
              [[APCTaskReminder alloc] initWithTaskID:APHMemoryActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_MEMORY_ACTIVITY_LABEL", nil, APHLocaleBundle(), @"Memory Activity", @"Task reminder label for the memory activity.")],
+             [[APCTaskReminder alloc] initWithTaskID:APHDailySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_DAILY_SURVEY_LABEL", nil, APHLocaleBundle(), @"Daily Survey", @"Task reminder label for the daily check-in survey.")],
              [[APCTaskReminder alloc] initWithTaskID:kMyThoughtsSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_MY_THOUGHTS_LABEL", nil, APHLocaleBundle(), @"My Thoughts", @"Task reminder label for the my thoughts survey.")],
              [[APCTaskReminder alloc] initWithTaskID:kEnrollmentSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_ENROLLMENT_SURVEY_LABEL", nil, APHLocaleBundle(), @"Enrollment Survey", @"Task reminder label for the enrollment survey.")],
              [[APCTaskReminder alloc] initWithTaskID:kStudyFeedbackSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_STUDY_FEEDBACK_LABEL", nil, APHLocaleBundle(), @"Study Feedback", @"Task reminder label for study feedback.")]];
@@ -137,7 +141,8 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 
 - (NSString *)pathForResource:(NSString *)resourceName ofType:(NSString *)resourceType
 {
-    if ([[resourceType lowercaseString] isEqualToString:@"json"]) {
+    if ([[resourceType lowercaseString] isEqualToString:@"json"] ||
+        ([resourceName hasPrefix:@"consent_"] && [resourceType isEqualToString:@"html"])) {
         // For the json resources, look in the shared framework bundle 
         return [[NSBundle bundleForClass:[APHAppDelegate class]] pathForResource:resourceName ofType:resourceType];
     }
@@ -273,6 +278,17 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
     return self.profileExtender;
 }
 
+- (APCOnboardingManager *)onboardingManager {
+    return self.parkinsonOnboardingManager;
+}
+
+- (APHOnboardingManager *)parkinsonOnboardingManager {
+    if (_parkinsonOnboardingManager == nil) {
+        _parkinsonOnboardingManager = [[APHOnboardingManager alloc] initWithProvider:self user:self.dataSubstrate.currentUser];
+    }
+    return _parkinsonOnboardingManager;
+}
+
 - (void)showOnBoarding
 {
     [super showOnBoarding];
@@ -280,10 +296,32 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
     [self showStudyOverview];
 }
 
+- (void)showNeedsEmailVerification
+{
+    [self showStudyOverviewAnimated:NO];
+    UIViewController *taskVC = [self.parkinsonOnboardingManager instantiateOnboardingTaskViewController];
+    [self.window.rootViewController presentViewController:taskVC animated:NO completion:nil];
+}
+
 - (void)showStudyOverview
 {
+    [self showStudyOverviewAnimated:YES];
+}
+
+- (void)showStudyOverviewAnimated:(BOOL)animated {
     APCStudyOverviewViewController *studyController = [[UIStoryboard storyboardWithName:@"APCOnboarding" bundle:[NSBundle appleCoreBundle]] instantiateViewControllerWithIdentifier:@"StudyOverviewVC"];
-    [self setUpRootViewController:studyController];
+    if (animated) {
+        [self setUpRootViewController:studyController];
+    }
+    else {
+        self.window.rootViewController = studyController;
+    }
+}
+
+- (BOOL)didHandleSignupFromViewController:(UIViewController *)viewController {
+    UIViewController *taskVC = [self.parkinsonOnboardingManager instantiateOnboardingTaskViewController];
+    [viewController presentViewController:taskVC animated:YES completion:nil];
+    return YES;
 }
 
 - (BOOL)isVideoShown

@@ -73,17 +73,31 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
     XCTAssertNil([dataStore.storedDefaults objectForKey:kSkippedSelectMedicationsSurveyQuestionKey]);
     
     // The momentInDay should now have a default result set
-    ORKStepResult *outStepResult = dataStore.momentInDayResult;
-    XCTAssertNotNil(outStepResult);
-    XCTAssertEqualObjects(outStepResult.identifier, APHMedicationTrackerMomentInDayStepIdentifier);
+    NSArray <ORKStepResult *> *stepResults = dataStore.momentInDayResult;
     
-    ORKChoiceQuestionResult *output = (ORKChoiceQuestionResult *)[outStepResult.results firstObject];
-    XCTAssertNotNil(output);
-    XCTAssertEqualObjects(output.identifier, APHMedicationTrackerMomentInDayFormItemIdentifier);
-    XCTAssertNotNil(output.startDate);
-    XCTAssertNotNil(output.endDate);
-    XCTAssertEqualObjects(output.choiceAnswers, @[@"Medication Unknown"]);
-    XCTAssertEqual(output.questionType, ORKQuestionTypeSingleChoice);
+    ORKStepResult *momentInDayStepResult = stepResults.firstObject;
+    XCTAssertNotNil(momentInDayStepResult);
+    XCTAssertEqualObjects(momentInDayStepResult.identifier, APHMedicationTrackerMomentInDayStepIdentifier);
+    
+    ORKChoiceQuestionResult *midResult = (ORKChoiceQuestionResult *)[momentInDayStepResult.results firstObject];
+    XCTAssertNotNil(midResult);
+    XCTAssertEqualObjects(midResult.identifier, APHMedicationTrackerMomentInDayFormItemIdentifier);
+    XCTAssertNotNil(midResult.startDate);
+    XCTAssertNotNil(midResult.endDate);
+    XCTAssertEqualObjects(midResult.choiceAnswers, @[@"Medication Unknown"]);
+    XCTAssertEqual(midResult.questionType, ORKQuestionTypeSingleChoice);
+    
+    ORKStepResult *timingStepResult = stepResults.lastObject;
+    XCTAssertNotNil(timingStepResult);
+    XCTAssertEqualObjects(timingStepResult.identifier, APHMedicationTrackerActivityTimingStepIdentifier);
+    
+    ORKChoiceQuestionResult *atResult = (ORKChoiceQuestionResult *)[timingStepResult.results firstObject];
+    XCTAssertNotNil(atResult);
+    XCTAssertEqualObjects(atResult.identifier, APHMedicationTrackerActivityTimingStepIdentifier);
+    XCTAssertNotNil(atResult.startDate);
+    XCTAssertNotNil(atResult.endDate);
+    XCTAssertEqualObjects(atResult.choiceAnswers, @[@"Medication Unknown"]);
+    XCTAssertEqual(atResult.questionType, ORKQuestionTypeSingleChoice);
 }
 
 - (void)testSetTrackedMedications_NoMeds
@@ -105,25 +119,39 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
     XCTAssertNil([dataStore.storedDefaults objectForKey:kSkippedSelectMedicationsSurveyQuestionKey]);
     
     // The momentInDay should now have a default result set
-    ORKStepResult *outStepResult = dataStore.momentInDayResult;
-    XCTAssertNotNil(outStepResult);
-    XCTAssertEqualObjects(outStepResult.identifier, APHMedicationTrackerMomentInDayStepIdentifier);
+    NSArray <ORKStepResult *> *stepResults = dataStore.momentInDayResult;
     
-    ORKChoiceQuestionResult *output = (ORKChoiceQuestionResult *)[outStepResult.results firstObject];
-    XCTAssertNotNil(output);
-    XCTAssertEqualObjects(output.identifier, APHMedicationTrackerMomentInDayFormItemIdentifier);
-    XCTAssertNotNil(output.startDate);
-    XCTAssertNotNil(output.endDate);
-    XCTAssertEqualObjects(output.choiceAnswers, @[@"No Tracked Medication"]);
-    XCTAssertEqual(output.questionType, ORKQuestionTypeSingleChoice);
+    ORKStepResult *momentInDayStepResult = stepResults.firstObject;
+    XCTAssertNotNil(momentInDayStepResult);
+    XCTAssertEqualObjects(momentInDayStepResult.identifier, APHMedicationTrackerMomentInDayStepIdentifier);
+    
+    ORKChoiceQuestionResult *midResult = (ORKChoiceQuestionResult *)[momentInDayStepResult.results firstObject];
+    XCTAssertNotNil(midResult);
+    XCTAssertEqualObjects(midResult.identifier, APHMedicationTrackerMomentInDayFormItemIdentifier);
+    XCTAssertNotNil(midResult.startDate);
+    XCTAssertNotNil(midResult.endDate);
+    XCTAssertEqualObjects(midResult.choiceAnswers, @[@"No Tracked Medication"]);
+    XCTAssertEqual(midResult.questionType, ORKQuestionTypeSingleChoice);
+    
+    ORKStepResult *timingStepResult = stepResults.lastObject;
+    XCTAssertNotNil(timingStepResult);
+    XCTAssertEqualObjects(timingStepResult.identifier, APHMedicationTrackerActivityTimingStepIdentifier);
+    
+    ORKChoiceQuestionResult *atResult = (ORKChoiceQuestionResult *)[timingStepResult.results firstObject];
+    XCTAssertNotNil(atResult);
+    XCTAssertEqualObjects(atResult.identifier, APHMedicationTrackerActivityTimingStepIdentifier);
+    XCTAssertNotNil(atResult.startDate);
+    XCTAssertNotNil(atResult.endDate);
+    XCTAssertEqualObjects(atResult.choiceAnswers, @[@"No Tracked Medication"]);
+    XCTAssertEqual(atResult.questionType, ORKQuestionTypeSingleChoice);
 }
 
 - (void)testSetMomentInDayResult
 {
     APHMedicationTrackerDataStore *dataStore = [self createDataStore];
-    ORKStepResult *stepResult = [self createMomentInDayStepResult];
+    NSArray <ORKStepResult *> *stepResult = [self createMomentInDayStepResult];
     
-    [dataStore setMomentInDayResult:stepResult];
+    [dataStore setMomentInDayResult:[stepResult copy]];
     
     XCTAssertEqualObjects(dataStore.momentInDayResult, stepResult);
     XCTAssertTrue([dataStore hasChanges]);
@@ -153,7 +181,7 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
     APHMedication *med = [[APHMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Levodopa",
                                                                                   @"tracking" : @(YES)}];
     dataStore.selectedMedications = @[med];
-    ORKStepResult *momentInDayResult = [self createMomentInDayStepResult];
+    NSArray <ORKStepResult *> *momentInDayResult = [self createMomentInDayStepResult];
     dataStore.momentInDayResult = momentInDayResult;
     
     // commit the changes
@@ -316,15 +344,23 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
     return dataStore;
 }
 
-- (ORKStepResult *)createMomentInDayStepResult
+- (NSArray <ORKStepResult *> *)createMomentInDayStepResult
 {
-    ORKChoiceQuestionResult *input = [[ORKChoiceQuestionResult alloc] initWithIdentifier:[[NSUUID UUID] UUIDString]];
-    input.startDate = [NSDate dateWithTimeIntervalSinceNow:-2*60];
-    input.endDate = [input.startDate dateByAddingTimeInterval:30];
-    input.questionType = ORKQuestionTypeSingleChoice;
-    input.choiceAnswers = @[@"0-30 minutes"];
-    ORKStepResult *stepResult = [[ORKStepResult alloc] initWithStepIdentifier:@"momentInDay" results:@[input]];
-    return stepResult;
+    ORKChoiceQuestionResult *inputA = [[ORKChoiceQuestionResult alloc] initWithIdentifier:[[NSUUID UUID] UUIDString]];
+    inputA.startDate = [NSDate dateWithTimeIntervalSinceNow:-2*60];
+    inputA.endDate = [inputA.startDate dateByAddingTimeInterval:30];
+    inputA.questionType = ORKQuestionTypeSingleChoice;
+    inputA.choiceAnswers = @[@"Immediately before Parkinson medication"];
+    ORKStepResult *stepResultA = [[ORKStepResult alloc] initWithStepIdentifier:@"momentInDay" results:@[inputA]];
+    
+    ORKChoiceQuestionResult *inputB = [[ORKChoiceQuestionResult alloc] initWithIdentifier:[[NSUUID UUID] UUIDString]];
+    inputB.startDate = [NSDate dateWithTimeIntervalSinceNow:-2*60];
+    inputB.endDate = [inputB.startDate dateByAddingTimeInterval:30];
+    inputB.questionType = ORKQuestionTypeSingleChoice;
+    inputB.choiceAnswers = @[@"0-30 minutes"];
+    ORKStepResult *stepResultB = [[ORKStepResult alloc] initWithStepIdentifier:@"momentInDay" results:@[inputB]];
+    
+    return @[stepResultA, stepResultB];
 }
 
 @end

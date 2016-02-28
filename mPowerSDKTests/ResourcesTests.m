@@ -34,6 +34,7 @@
 #import <XCTest/XCTest.h>
 #import <APCAppCore/APCAppCore.h>
 #import <mPowerSDK/mPowerSDK.h>
+@import BridgeAppSDK;
 
 @interface ResourcesTests : XCTestCase
 
@@ -93,6 +94,70 @@
 - (void)testMedicationTracking
 {
     id json = [self jsonForResource:@"MedicationTracking"];
+    XCTAssertTrue([json isKindOfClass:[NSDictionary class]]);
+}
+
+- (void)testConsentSection
+{
+    id json = [self jsonForResource:@"APHConsentSection"];
+    XCTAssertTrue([json isKindOfClass:[NSDictionary class]]);
+    
+    NSArray <ORKStep *> *steps = [[[SBASurveyFactory alloc] initWithDictionary:json] steps];
+    XCTAssertNotNil(steps);
+    
+    NSArray *expectedIdentifiers = @[@"consentVisual",
+                                    @"consentQuiz",
+                                    @"consentFailedQuiz",
+                                    @"consentPassedQuiz",
+                                    @"consentSharingOptions",
+                                    @"consentReview",
+                                    @"consentCompletion"];
+    XCTAssertEqual(steps.count, expectedIdentifiers.count);
+    for (NSInteger ii=0; ii < steps.count && ii < expectedIdentifiers.count; ii++) {
+        XCTAssertEqualObjects(steps[ii].identifier, expectedIdentifiers[ii]);
+    }
+    
+    if (steps.count < expectedIdentifiers.count) { return; }
+    
+    ORKStep *comprehensionStep = [[(id)[(id)steps[1] subtask] steps] firstObject];
+    XCTAssertEqualObjects(comprehensionStep.title, @"Comprehension");
+    
+    ORKStep *subtaskStep = steps[1];
+    XCTAssertTrue([subtaskStep isKindOfClass:[SBASurveySubtaskStep class]]);
+    if ([subtaskStep isKindOfClass:[SBASurveySubtaskStep class]]) {
+        NSArray <ORKStep *> *substeps = [(ORKOrderedTask*)[(SBASurveySubtaskStep*)subtaskStep subtask] steps];
+        for (ORKStep *step in substeps) {
+            XCTAssertNotEqual(step.title.length + step.text.length, 0, @"%@", step);
+            if ([step isKindOfClass:[ORKFormStep class]]) {
+                ORKFormStep *formStep = (ORKFormStep *)step;
+                XCTAssertEqual(formStep.formItems.count, 1, @"%@", step);
+                ORKFormItem *item = formStep.formItems.firstObject;
+                XCTAssertNotNil(item, @"%@", step);
+                XCTAssertNotNil(item.answerFormat, @"%@", step);
+                if ([item.answerFormat isKindOfClass:[ORKTextChoiceAnswerFormat class]]) {
+                    ORKTextChoiceAnswerFormat *answerFormat = (ORKTextChoiceAnswerFormat*)item.answerFormat;
+                    XCTAssertNotEqual(answerFormat.textChoices.count, 0, @"%@", step);
+                }
+            }
+            else {
+                XCTAssertTrue([step isKindOfClass:[ORKInstructionStep class]], @"%@", step);
+            }
+        }
+    }
+    
+    // Check that the navigation step returns to the start
+    ORKStep *failedStep = steps[2];
+    XCTAssertTrue([failedStep isKindOfClass:[SBADirectNavigationStep class]]);
+    if (![failedStep isKindOfClass:[SBADirectNavigationStep class]]) {
+        NSString *nextIdentifier = [(SBADirectNavigationStep*)failedStep nextStepIdentifier];
+        XCTAssertEqualObjects(nextIdentifier, expectedIdentifiers.firstObject);
+    }
+    
+}
+
+- (void)testEligibilityRequirements
+{
+    id json = [self jsonForResource:@"EligibilityRequirements"];
     XCTAssertTrue([json isKindOfClass:[NSDictionary class]]);
 }
 

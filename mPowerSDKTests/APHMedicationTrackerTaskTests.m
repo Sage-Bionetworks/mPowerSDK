@@ -210,14 +210,14 @@
     }
 }
 
-- (void)testCreateMomentInDayStep_English
+- (void)testCreateActivityTimingStep_English
 {
     // set to the English bundle
     [APHLocalization setLocalization:@"en"];
     
     // Get the medication tracking step
     MockAPHMedicationTrackerTask *task = [self createTaskWithSubTaskAndTrackedMedications:@[@"Levodopa"]];
-    ORKFormStep *step = (ORKFormStep *)[task stepWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
+    ORKFormStep *step = (ORKFormStep *)[task stepWithIdentifier:APHMedicationTrackerActivityTimingStepIdentifier];
     BOOL shouldInclude = [task shouldUpdateAndIncludeStep:step];
     
     // Check assumptions
@@ -225,14 +225,14 @@
     XCTAssertNotNil(step);
     XCTAssertTrue([step isKindOfClass:[ORKFormStep class]]);
     XCTAssertTrue(shouldInclude);
-    XCTAssertEqualObjects(step.identifier, APHMedicationTrackerMomentInDayStepIdentifier);
+    XCTAssertEqualObjects(step.identifier, APHMedicationTrackerActivityTimingStepIdentifier);
     
     // Check the language
-    XCTAssertEqualObjects(step.text, @"We would like to understand how your performance on this activity could be affected by the timing of your medication.");
+    XCTAssertNil(step.text);
     
     ORKFormItem  *item = [step.formItems firstObject];
     XCTAssertEqual(step.formItems.count, 1);
-    XCTAssertEqualObjects(item.identifier, @"momentInDayFormat");
+    XCTAssertEqualObjects(item.identifier, APHMedicationTrackerActivityTimingStepIdentifier);
     XCTAssertEqualObjects(item.text, @"When was the last time you took your Levodopa?");
     XCTAssertTrue([item.answerFormat isKindOfClass:[ORKTextChoiceAnswerFormat class]]);
     
@@ -259,7 +259,7 @@
 {
     // Get the medication tracking step
     MockAPHMedicationTrackerTask *task = [self createTaskWithSubTaskAndTrackedMedications:@[@"Levodopa"]];
-    ORKFormStep *step = (ORKFormStep *)[task stepWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
+    ORKFormStep *step = (ORKFormStep *)[task stepWithIdentifier:APHMedicationTrackerActivityTimingStepIdentifier];
     [task shouldUpdateAndIncludeStep:step];
     ORKFormItem  *item = [step.formItems firstObject];
     
@@ -270,7 +270,7 @@
 {
     // Get the medication tracking step
     MockAPHMedicationTrackerTask *task = [self createTaskWithSubTaskAndTrackedMedications:@[@"Levodopa", @"Sinemet"]];
-    ORKFormStep *step = (ORKFormStep *)[task stepWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
+    ORKFormStep *step = (ORKFormStep *)[task stepWithIdentifier:APHMedicationTrackerActivityTimingStepIdentifier];
     [task shouldUpdateAndIncludeStep:step];
     ORKFormItem  *item = [step.formItems firstObject];
     
@@ -281,7 +281,7 @@
 {
     // Get the medication tracking step
     MockAPHMedicationTrackerTask *task = [self createTaskWithSubTaskAndTrackedMedications:@[@"Levodopa", @"Rytary", @"Sinemet"]];
-    ORKFormStep *step = (ORKFormStep *)[task stepWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
+    ORKFormStep *step = (ORKFormStep *)[task stepWithIdentifier:APHMedicationTrackerActivityTimingStepIdentifier];
     [task shouldUpdateAndIncludeStep:step];
     ORKFormItem  *item = [step.formItems firstObject];
     
@@ -292,7 +292,7 @@
 {
     // Get the medication tracking step
     MockAPHMedicationTrackerTask *task = [self createTaskWithSubTaskAndTrackedMedications:@[@"Levodopa", @"Rytary", @"Sinemet", @"Stalevo"]];
-    ORKFormStep *step = (ORKFormStep *)[task stepWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
+    ORKFormStep *step = (ORKFormStep *)[task stepWithIdentifier:APHMedicationTrackerActivityTimingStepIdentifier];
     [task shouldUpdateAndIncludeStep:step];
     ORKFormItem  *item = [step.formItems firstObject];
     
@@ -617,8 +617,11 @@
     ORKStep *momentInDayStep = [task stepAfterStep:frequencyStep withResult:taskResult];
     XCTAssertEqualObjects(momentInDayStep.identifier, APHMedicationTrackerMomentInDayStepIdentifier);
     
+    ORKStep *activityTimingStep = [task stepAfterStep:momentInDayStep withResult:taskResult];
+    XCTAssertEqualObjects(activityTimingStep.identifier, APHMedicationTrackerActivityTimingStepIdentifier);
+    
     // Finally, the user should be directed to the steps associated with the input task
-    [self checkStepOrder:task taskResult:taskResult startStep:momentInDayStep startIndex:1 addedStepCount:5];
+    [self checkStepOrder:task taskResult:taskResult startStep:activityTimingStep startIndex:1 addedStepCount:6];
 }
 
 - (void)testPrefixToOrderedTask_WithTrackedMedsPreviouslySelected
@@ -641,8 +644,11 @@
     ORKStep *momentInDayStep = [task stepAfterStep:firstStep withResult:taskResult];
     XCTAssertEqualObjects(momentInDayStep.identifier, APHMedicationTrackerMomentInDayStepIdentifier);
     
+    ORKStep *activityTimingStep = [task stepAfterStep:momentInDayStep withResult:taskResult];
+    XCTAssertEqualObjects(activityTimingStep.identifier, APHMedicationTrackerActivityTimingStepIdentifier);
+    
     // Finally, the user should be directed to the steps associated with the input task
-    [self checkStepOrder:task taskResult:taskResult startStep:momentInDayStep startIndex:1 addedStepCount:1];
+    [self checkStepOrder:task taskResult:taskResult startStep:activityTimingStep startIndex:1 addedStepCount:2];
 }
 
 - (void)testPrefixToOrderedTask_WithNoMedsPreviouslySelected
@@ -763,12 +769,12 @@
     ORKScaleQuestionResult *levodopa = (ORKScaleQuestionResult *)[result.results firstObject];
     XCTAssertTrue([levodopa isKindOfClass:[ORKScaleQuestionResult class]]);
     XCTAssertEqualObjects(levodopa.identifier, @"Levodopa");
-    XCTAssertEqual(levodopa.scaleAnswer, @(8));
+    XCTAssertEqual(levodopa.scaleAnswer.integerValue, 8);
     
     ORKScaleQuestionResult *sinemet = (ORKScaleQuestionResult *)[result.results lastObject];
     XCTAssertTrue([sinemet isKindOfClass:[ORKScaleQuestionResult class]]);
     XCTAssertEqualObjects(sinemet.identifier, @"Sinemet");
-    XCTAssertEqual(sinemet.scaleAnswer, @(7));
+    XCTAssertEqual(sinemet.scaleAnswer.integerValue, 7);
 }
 
 #pragma mark - helper methods - create TrackerTask

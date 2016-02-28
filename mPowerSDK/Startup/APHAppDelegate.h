@@ -33,11 +33,12 @@
  
 #import <UIKit/UIKit.h>
 @import APCAppCore;
+@import BridgeAppSDK;
 
 @class APHProfileExtender;
 @class APHScoreCalculator;
 
-@interface APHAppDelegate : APCAppDelegate
+@interface APHAppDelegate : APCAppDelegate <SBABridgeAppSDKDelegate>
 
 @property  (nonatomic, readonly) NSString * _Nonnull studyIdentifier;
 @property  (nonatomic, readonly) NSString * _Nonnull appPrefix;
@@ -46,6 +47,8 @@
 @property  (nonatomic, readonly) NSArray <APCTaskReminder *> * _Nonnull allTaskReminders;
 @property  (nonatomic, readonly) NSDictionary * _Nonnull appearanceInfo;
 @property  (nonatomic, strong)  APHProfileExtender * _Nullable profileExtender;
+
+- (NSBundle*)storyboardBundle;
 
 @end
 

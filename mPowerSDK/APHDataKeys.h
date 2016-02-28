@@ -41,6 +41,7 @@ extern NSString *const APHEnrollmentSurveyIdentifier;
 extern NSString *const APHMyThoughtsSurveyIdentifier;
 extern NSString *const APHFeedbackSurveyIdentifier;
 extern NSString *const APHMedicationTrackerSurveyIdentifier;
+extern NSString *const APHDailySurveyIdentifier;
 
 extern NSString *const APHPhonationScoreSummaryOfRecordsKey;
 extern NSString *const APHRightSummaryNumberOfRecordsKey;

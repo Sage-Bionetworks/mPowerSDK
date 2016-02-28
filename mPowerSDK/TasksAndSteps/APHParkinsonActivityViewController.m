@@ -174,15 +174,18 @@ const NSInteger APHMedicationTrackerSchemaRevision = 8;
         
         // For the moment in day result, we want to push to cache if discovered and pull from
         // cache if not found
-        ORKResult *momentInDayResult = [baseTaskResult resultForIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
-        if (momentInDayResult != nil && [momentInDayResult isKindOfClass:[ORKStepResult class]]) {
-            self.dataStore.momentInDayResult = (ORKStepResult*)momentInDayResult;
+        NSArray *momentInDaySteps = @[APHMedicationTrackerActivityTimingStepIdentifier, APHMedicationTrackerMomentInDayStepIdentifier];
+        NSPredicate *momentInDayFilter = [NSPredicate predicateWithFormat:@"%K IN %@", NSStringFromSelector(@selector(identifier)), momentInDaySteps];
+        NSArray *momentInDayResults = [baseTaskResult.results filteredArrayUsingPredicate:momentInDayFilter];
+        if (momentInDayResults.count == momentInDaySteps.count) {
+            self.dataStore.momentInDayResult = momentInDayResults;
         }
         else {
-            ORKResult *momentInDayResult = self.dataStore.momentInDayResult;
-            NSAssert(momentInDayResult != nil, @"Cached MomentInDay result is missing.");
-            if (momentInDayResult != nil) {
-                [baseResults insertObject:momentInDayResult atIndex:0];
+            momentInDayResults = self.dataStore.momentInDayResult;
+            NSAssert(momentInDayResults != nil, @"Cached MomentInDay result is missing.");
+            if (momentInDayResults != nil) {
+                [baseResults insertObjects:momentInDayResults
+                                 atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, momentInDayResults.count)]];
             }
         }
         

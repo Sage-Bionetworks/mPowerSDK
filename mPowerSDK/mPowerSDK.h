@@ -56,6 +56,7 @@ FOUNDATION_EXPORT const unsigned char mPowerSDKVersionString[];
 #import <mPowerSDK/APHMedicationTrackerTaskResultArchiver.h>
 #import <mPowerSDK/APHMedicationTrackerViewController.h>
 #import <mPowerSDK/NSArray+APHExtensions.h>
+#import <mPowerSDK/APHOnboardingManager.h>
 
 
 

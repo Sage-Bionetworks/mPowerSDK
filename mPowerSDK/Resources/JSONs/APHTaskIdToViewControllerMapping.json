@@ -4,5 +4,6 @@
     "2-APHIntervalTapping-7259AC18-D711-47A6-ADBD-6CFCECDED1DF"     : "APHIntervalTappingTaskViewController",
     "7-APHSpatialSpanMemory-4A04F3D0-AC05-11E4-AB27-0800200C9A66"   : "APHSpatialSpanMemoryGameViewController",
     "1-APHMedicationTracker-20EF8ED2-E461-4C20-9024-F43FCAAAF4C3"   : "APHMedicationTrackerViewController",
-    "1-APHTremor-108E189F-4B5B-48DC-BFD7-FA6796EEf439"              : "APHTremorTaskViewController"
+    "1-APHTremor-108E189F-4B5B-48DC-BFD7-FA6796EEf439"              : "APHTremorTaskViewController",
+    "3-APHMoodSurvey-7259AC18-D711-47A6-ADBD-6CFCECDED1DF"          : "APHMoodSurveyTaskViewController"
 }
