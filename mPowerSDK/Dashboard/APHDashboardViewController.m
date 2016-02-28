@@ -142,6 +142,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
       @(kAPHDashboardItemTypeSpatialMemory),
       @(kAPHDashboardItemTypePhonation),
       @(kAPHDashboardItemTypeGait),
+      @(kAPHDashboardItemTypeTremor),
       @(kAPHDashboardItemTypeDailyMood),
       @(kAPHDashboardItemTypeDailyEnergy),
       @(kAPHDashboardItemTypeDailyExercise),
