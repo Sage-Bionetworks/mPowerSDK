@@ -153,6 +153,17 @@ static  NSString  *kTappingSamplesKey = @"TappingSamples";
     }
 }
 
+- (double)scoreFromTremorAccelerometerURL:(NSURL *)accelerometerURL motionURL:(NSURL *)motionURL
+{
+    NSArray *accelerometerData = [self convertPostureOrGain:accelerometerURL];
+    NSArray *motionData = [self convertPostureOrGain:motionURL];
+    if (accelerometerData.count == 0 || motionData.count == 0) {
+        return 0.0;
+    } else {
+        return [self scoreFromTremorTestAccelerometerData:accelerometerData motionData:motionData];
+    }
+}
+
 - (double)scoreFromTappingTest:(NSArray *)tappingData
 {
     return [PDScores scoreFromTappingTest:tappingData];
@@ -171,6 +182,14 @@ static  NSString  *kTappingSamplesKey = @"TappingSamples";
 - (double)scoreFromPostureTest:(NSArray *)postureData
 {
     return [PDScores scoreFromPostureTest:postureData];
+}
+
+- (double)scoreFromTremorTestAccelerometerData:(NSArray *)tremorAccelerometerData motionData:(NSArray *)tremorMotionData
+{
+    // TODO: implement tremor calculation support in PDScores (Jake Krog - 2/29/2016)
+    // return [PDScores scoreFromTremorTestAccelerometerData:tremorAccelerometerData motionData:tremorMotionData];
+    
+    return 0.0;
 }
 
 @end

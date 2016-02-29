@@ -49,4 +49,7 @@
 - (double)scoreFromPostureURL:(NSURL *)url;
 - (double)scoreFromPostureTest:(NSArray *)postureData;
 
+- (double)scoreFromTremorAccelerometerURL:(NSURL *)accelerometerURL motionURL:(NSURL *)motionURL;
+- (double)scoreFromTremorTestAccelerometerData:(NSArray *)tremorAccelerometerData motionData:(NSArray *)motionData;
+
 @end
