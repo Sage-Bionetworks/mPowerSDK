@@ -735,9 +735,11 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         APHWebviewViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"APHWebviewViewController"];
         vc.step = step;
         // TODO: syoung 03/01/2016 Remove hardcoding and clean up architecture
-        
-        vc.displayURLRequest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://en.wikipedia.org/wiki/James_Parkinson"]];
-        vc.pdfURLRequest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://en.wikipedia.org/w/index.php?title=James_Parkinson&printable=yes"]];
+        vc.displayURLString = @"http://parkinsonmpower.org/report/index.html";
+        vc.pdfURLSuffix = @"#pdf";
+        BOOL isStaging = ([[APHAppDelegate sharedAppDelegate] environment] == SBBEnvironmentStaging);
+        NSString *sessionToken = isStaging ? @"aaa" : [[[[APHAppDelegate sharedAppDelegate] dataSubstrate] currentUser] sessionToken];
+        vc.javascriptCall = [NSString stringWithFormat:@"window.display(\"%@\")", sessionToken];
         vc.cancelButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissPresentedViewController)];
         return vc;
     }

@@ -56,8 +56,9 @@
     // set the share button to disabled until the PDF is saved
     self.shareButton.enabled = false;
 
-    // load the viewable webivew
-    [self.webview loadRequest:self.displayURLRequest];
+    // load the viewable webview
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:self.displayURLString]];
+    [self.webview loadRequest:request];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -76,6 +77,21 @@
     }
 }
 
+#pragma mark - UIWebViewDelegate
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+#if DEBUG
+    NSLog(@"shouldStartLoadWithRequest:%@\nnavigationType:%@", request, @(navigationType));
+#endif
+    BOOL isHTTP = [request.URL.absoluteString.lowercaseString hasPrefix:@"http"];
+    if (!isHTTP) {
+        // If the url is *not* http, then this is the callback. Use a slight delay to give the
+        // page time to load images.
+        [self webViewDidFinishLoadingData:webView delay:0.5];
+    }
+    return isHTTP;
+}
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     
     // Wait until webview is done loading before continuing to next step
@@ -83,6 +99,17 @@
         return;
     }
     
+    // If there is a javascript call used to actually load the view then call that
+    if (self.javascriptCall) {
+        [webView stringByEvaluatingJavaScriptFromString:self.javascriptCall];
+    }
+    
+    // TODO: remove this line once callback is implemented syoung 03/01/2016
+    [self webViewDidFinishLoadingData:webView delay:3.0];
+}
+
+- (void)webViewDidFinishLoadingData:(UIWebView *)webView delay:(NSTimeInterval)timeInterval {
+
     if ([self hasPrintableWebView] && (self.pdfWebView != webView)) {
         // If there is a printable url (that is different from the main view)
         // then need to load the PDF URL request.
@@ -90,12 +117,21 @@
     }
     else if (!self.printing && !self.isCancelled) {
         // Otherwise, if not already printing and not cancelled, then save the PDF
-        [self savePDFFromWebView:webView];
+        // Note: Use a delay to load the data since the webview delegate does not
+        // get any callback after javascript load. syoung 03/01/2016
+        __weak typeof(self) weakSelf = self;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakSelf savePDFFromWebView:webView];
+        });
     }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    // TODO: handle error syoung 03/01/2016
+    // TODO: handle error more cleanly syoung 03/01/2016
+    if (webView ==self.webview) {
+        NSString *html = [NSString stringWithFormat:@"<body><p></br>%@</br></p></body>", error.localizedDescription];
+        [self.webview loadHTMLString:html baseURL:[NSURL URLWithString:@"http://sagebase.org/"]];
+    }
 }
 
 #pragma mark - Sharing
@@ -126,14 +162,16 @@
 #pragma mark - load PDF to a temporary cache
         
 - (BOOL)hasPrintableWebView {
-    return (self.pdfURLRequest != nil) && ![self.pdfURLRequest.URL isEqual:self.displayURLRequest.URL];
+    return (self.pdfURLSuffix != nil);
 }
 
 - (void)loadPDFToPage {
     // If the pdf URL is different from the display URL then add a hidden webview for the printing
     self.pdfWebView = [[UIWebView alloc] init];
     self.pdfWebView.delegate = self;
-    [self.pdfWebView loadRequest:self.pdfURLRequest];
+    NSString *urlString = [self.displayURLString stringByAppendingString:self.pdfURLSuffix];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
+    [self.pdfWebView loadRequest:request];
 }
 
 - (void)savePDFFromWebView:(UIWebView*)webView {
@@ -154,7 +192,6 @@
         [[NSFileManager defaultManager] createDirectoryAtPath:tempDir withIntermediateDirectories:YES attributes:nil error:&error];
     }
     self.pdfURL = [NSURL fileURLWithPath:filepath];
-    
     
     // setup the renderer
     SBAPDFPrintPageRenderer *renderer = [[SBAPDFPrintPageRenderer alloc] init];

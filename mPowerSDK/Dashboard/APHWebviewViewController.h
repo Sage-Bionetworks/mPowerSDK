@@ -35,7 +35,8 @@
 
 @interface APHWebviewViewController : ORKStepViewController
 
-@property (nonatomic) NSURLRequest * _Nonnull displayURLRequest;
-@property (nonatomic) NSURLRequest * _Nullable pdfURLRequest;
+@property (nonatomic) NSString * _Nonnull displayURLString;
+@property (nonatomic) NSString * _Nullable pdfURLSuffix;
+@property (nonatomic) NSString * _Nullable javascriptCall;
 
 @end

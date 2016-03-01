@@ -388,15 +388,6 @@
 			path = "Customizable Survey";
 			sourceTree = "<group>";
 		};
-		FB4E46721C7E672900CADC1F /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				FB4E46731C7E673E00CADC1F /* APHInstructionStepViewController.h */,
-				FB4E46741C7E673E00CADC1F /* APHInstructionStepViewController.m */,
-			);
-			name = Views;
-			sourceTree = "<group>";
-		};
 		FB4E46E01C7EC9F100CADC1F /* HTML */ = {
 			isa = PBXGroup;
 			children = (
@@ -693,12 +684,13 @@
 		FFFA24971C23773900727DA8 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				FB4E46721C7E672900CADC1F /* Views */,
 				FB4E467B1C7E675500CADC1F /* APHOnboardingManager.h */,
 				FB4E467C1C7E675500CADC1F /* APHOnboardingManager.m */,
 				FFFA24A31C2377B200727DA8 /* APHOnboarding.storyboard */,
 				FFFA24981C23773900727DA8 /* APHInclusionCriteriaViewController.h */,
 				FFFA24991C23773900727DA8 /* APHInclusionCriteriaViewController.m */,
+				FB4E46731C7E673E00CADC1F /* APHInstructionStepViewController.h */,
+				FB4E46741C7E673E00CADC1F /* APHInstructionStepViewController.m */,
 				A690D92C1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.h */,
 				A690D92D1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.m */,
 				A690D9341C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.h */,
