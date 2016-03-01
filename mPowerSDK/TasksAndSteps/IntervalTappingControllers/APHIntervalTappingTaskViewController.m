@@ -111,22 +111,15 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
             for (id  object  in  stepResult.results) {
                 if ([object isKindOfClass:[ORKTappingIntervalResult class]] == YES) {
                     addResult(object);
-                } else if ([object isKindOfClass:[ORKChoiceQuestionResult class]]) {
-                    ORKChoiceQuestionResult *medActivityResult = (ORKChoiceQuestionResult *) object;
-                    if ([medActivityResult.identifier isEqualToString:@"medicationActivityTiming"]) {
-                        summary[APHMedicationActivityTimingKey] = [medActivityResult.choiceAnswers firstObject];
-                    }
                 }
             }
         }
         
-        if (!summary[APHMedicationActivityTimingKey]) {
-            APHMedicationTrackerDataStore *medTrackerDataStore = [APHMedicationTrackerDataStore defaultStore];
-            if (medTrackerDataStore.momentInDayResult) {
-                for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {
-                    if ([orkStepResult.identifier isEqualToString:@"medicationActivityTiming"]) {
-                        summary[APHMedicationActivityTimingKey] = [((ORKChoiceQuestionResult *)orkStepResult).choiceAnswers firstObject];
-                    }
+        APHMedicationTrackerDataStore *medTrackerDataStore = [APHMedicationTrackerDataStore defaultStore];
+        if (medTrackerDataStore.momentInDayResult) {
+            for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {
+                if ([orkStepResult.identifier isEqualToString:@"medicationActivityTiming"]) {
+                    summary[APHMedicationActivityTimingKey] = ((ORKChoiceQuestionResult *)orkStepResult.firstResult).choiceAnswers.firstObject ?: @"";
                 }
             }
         }
