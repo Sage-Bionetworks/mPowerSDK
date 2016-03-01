@@ -39,8 +39,10 @@
 #import "APHLocalization.h"
 #import "APHMedicationTrackerTask.h"
 #import "APHMedicationTrackerViewController.h"
+#import "APHScatterGraphView.h"
 #import "APHSpatialSpanMemoryGameViewController.h"
 #import "APHTableViewDashboardGraphItem.h"
+#import "APHScoring.h"
 //#import "APHTremorTaskViewController.h"
 #import "APHWalkingTaskViewController.h"
 #import "APHAppDelegate.h"
@@ -56,18 +58,18 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
 
 @property (nonatomic, strong) NSArray *rowItemsOrder;
 
-@property (nonatomic, strong) APCScoring *tapRightScoring;
-@property (nonatomic, strong) APCScoring *tapLeftScoring;
-@property (nonatomic, strong) APCScoring *gaitScoring;
-@property (nonatomic, strong) APCScoring *stepScoring;
-@property (nonatomic, strong) APCScoring *memoryScoring;
-@property (nonatomic, strong) APCScoring *phonationScoring;
-@property (nonatomic, strong) APCScoring *moodScoring;
-@property (nonatomic, strong) APCScoring *energyScoring;
-@property (nonatomic, strong) APCScoring *exerciseScoring;
-@property (nonatomic, strong) APCScoring *sleepScoring;
-@property (nonatomic, strong) APCScoring *cognitiveScoring;
-@property (nonatomic, strong) APCScoring *customScoring;
+@property (nonatomic, strong) APHScoring *tapRightScoring;
+@property (nonatomic, strong) APHScoring *tapLeftScoring;
+@property (nonatomic, strong) APHScoring *gaitScoring;
+@property (nonatomic, strong) APHScoring *stepScoring;
+@property (nonatomic, strong) APHScoring *memoryScoring;
+@property (nonatomic, strong) APHScoring *phonationScoring;
+@property (nonatomic, strong) APHScoring *moodScoring;
+@property (nonatomic, strong) APHScoring *energyScoring;
+@property (nonatomic, strong) APHScoring *exerciseScoring;
+@property (nonatomic, strong) APHScoring *sleepScoring;
+@property (nonatomic, strong) APHScoring *cognitiveScoring;
+@property (nonatomic, strong) APHScoring *customScoring;
 
 @end
 
@@ -81,7 +83,6 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults registerDefaults:@{ kShouldShowDashboardMedicationSurveyDefaultsKey: @YES }];
-        [defaults setBool:YES forKey:kShouldShowDashboardMedicationSurveyDefaultsKey];
         
         _rowItemsOrder = [NSMutableArray arrayWithArray:[defaults objectForKey:kAPCDashboardRowItemsOrder]];
         
@@ -205,35 +206,35 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
 
 - (void)prepareScoringObjects
 {
-    self.tapRightScoring = [[APCScoring alloc] initWithTask:APHTappingActivitySurveyIdentifier
+    self.tapRightScoring = [[APHScoring alloc] initWithTask:APHTappingActivitySurveyIdentifier
                                           numberOfDays:-kNumberOfDaysToDisplay
                                               valueKey:APHRightSummaryNumberOfRecordsKey];
     self.tapRightScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TAPPING_RIGHT_CAPTION", nil, APHLocaleBundle(), @"Tapping - Right", @"Dashboard caption for results of right hand tapping activity.");
 
-    self.tapLeftScoring = [[APCScoring alloc] initWithTask:APHTappingActivitySurveyIdentifier
+    self.tapLeftScoring = [[APHScoring alloc] initWithTask:APHTappingActivitySurveyIdentifier
                                           numberOfDays:-kNumberOfDaysToDisplay
                                               valueKey:APHLeftSummaryNumberOfRecordsKey];
     self.tapLeftScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TAPPING_LEFT_CAPTION", nil, APHLocaleBundle(), @"Tapping - Left", @"Dashboard caption for results of left hand tapping activity.");
     
-    self.gaitScoring = [[APCScoring alloc] initWithTask:APHWalkingActivitySurveyIdentifier
+    self.gaitScoring = [[APHScoring alloc] initWithTask:APHWalkingActivitySurveyIdentifier
                                            numberOfDays:-kNumberOfDaysToDisplay
                                                valueKey:kGaitScoreKey];
     self.gaitScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_WALKING_CAPTION", nil, APHLocaleBundle(), @"Gait", @"Dashboard caption for results of walking activity.");
     
 
-    self.memoryScoring = [[APCScoring alloc] initWithTask:APHMemoryActivitySurveyIdentifier
+    self.memoryScoring = [[APHScoring alloc] initWithTask:APHMemoryActivitySurveyIdentifier
                                            numberOfDays:-kNumberOfDaysToDisplay
                                                valueKey:kSpatialMemoryScoreSummaryKey
                                                latestOnly:NO];
     self.memoryScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_MEMORY_CAPTION", nil, APHLocaleBundle(), @"Memory", @"Dashboard caption for results of memory activity.");
 
-    self.phonationScoring = [[APCScoring alloc] initWithTask:APHVoiceActivitySurveyIdentifier
+    self.phonationScoring = [[APHScoring alloc] initWithTask:APHVoiceActivitySurveyIdentifier
                                              numberOfDays:-kNumberOfDaysToDisplay
                                                  valueKey:APHPhonationScoreSummaryOfRecordsKey];
     self.phonationScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_VOICE_CAPTION", nil, APHLocaleBundle(), @"Voice", @"Dashboard caption for results of voice activity.");
     
     HKQuantityType *hkQuantity = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
-    self.stepScoring = [[APCScoring alloc] initWithHealthKitQuantityType:hkQuantity
+    self.stepScoring = [[APHScoring alloc] initWithHealthKitQuantityType:hkQuantity
                                                                     unit:[HKUnit countUnit]
                                                             numberOfDays:-kNumberOfDaysToDisplay];
     self.stepScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_STEPS_CAPTION", nil, APHLocaleBundle(), @"Steps", @"Dashboard caption for results of steps score.");
@@ -273,9 +274,9 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
     }
 }
 
-- (APCScoring *)scoringForValueKey:(NSString *)valueKey
+- (APHScoring *)scoringForValueKey:(NSString *)valueKey
 {
-    return [[APCScoring alloc] initWithTask:APHDailySurveyIdentifier
+    return [[APHScoring alloc] initWithTask:APHDailySurveyIdentifier
                                numberOfDays:-kNumberOfDaysToDisplay
                                    valueKey:valueKey
                                  latestOnly:NO];
@@ -283,12 +284,12 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
 
 - (void)prepareCorrelatedScoring{
 
-    self.correlatedScoring = [[APCScoring alloc] initWithTask:APHWalkingActivitySurveyIdentifier
+    self.correlatedScoring = [[APHScoring alloc] initWithTask:APHWalkingActivitySurveyIdentifier
                                                  numberOfDays:-kNumberOfDaysToDisplay
                                                      valueKey:kGaitScoreKey];
     
     HKQuantityType *hkQuantity = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
-    [self.correlatedScoring correlateWithScoringObject:[[APCScoring alloc] initWithHealthKitQuantityType:hkQuantity
+    [self.correlatedScoring correlateWithScoringObject:[[APHScoring alloc] initWithHealthKitQuantityType:hkQuantity
                                                                                                     unit:[HKUnit countUnit]
                                                                                             numberOfDays:-kNumberOfDaysToDisplay]];
     
@@ -358,12 +359,12 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
                 case kAPHDashboardItemTypeIntervalTappingRight:
                 case kAPHDashboardItemTypeIntervalTappingLeft:
                 {
-                    APCScoring *tapScoring = (rowType == kAPHDashboardItemTypeIntervalTappingRight) ? self.tapRightScoring : self.tapLeftScoring;
+                    APHScoring *tapScoring = (rowType == kAPHDashboardItemTypeIntervalTappingRight) ? self.tapRightScoring : self.tapLeftScoring;
                     APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = tapScoring.caption;
                     item.taskId = APHTappingActivitySurveyIdentifier;
                     item.graphData = tapScoring;
-                    item.graphType = kAPCDashboardGraphTypeDiscreteScatter;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
                     
                     double avgValue = [[tapScoring averageDataPoint] doubleValue];
                     
@@ -398,7 +399,7 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
                     item.caption = self.gaitScoring.caption;
                     item.taskId = APHWalkingActivitySurveyIdentifier;
                     item.graphData = self.gaitScoring;
-                    item.graphType = kAPCDashboardGraphTypeDiscreteScatter;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
                     
                     double avgValue = [[self.gaitScoring averageDataPoint] doubleValue];
                     
@@ -426,7 +427,7 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
                     item.caption = self.memoryScoring.caption;
                     item.taskId = APHMemoryActivitySurveyIdentifier;
                     item.graphData = self.memoryScoring;
-                    item.graphType = kAPCDashboardGraphTypeDiscreteScatter;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
                     
                     double avgValue = [[self.memoryScoring averageDataPoint] doubleValue];
                     
@@ -454,7 +455,7 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
                     item.caption = self.phonationScoring.caption;
                     item.taskId = APHVoiceActivitySurveyIdentifier;
                     item.graphData = self.phonationScoring;
-                    item.graphType = kAPCDashboardGraphTypeDiscreteScatter;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
                     
                     double avgValue = [[self.phonationScoring averageDataPoint] doubleValue];
                     
@@ -791,7 +792,7 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
 
 #pragma mark - CorrelationsSelector Delegate
 
-- (void)viewController:(APCCorrelationsSelectorViewController *)__unused viewController didChangeCorrelatedScoringDataSource:(APCScoring *)scoring
+- (void)viewController:(APCCorrelationsSelectorViewController *)__unused viewController didChangeCorrelatedScoringDataSource:(APHScoring *)scoring
 {
     self.correlatedScoring = scoring;
     [self prepareData];
@@ -822,6 +823,9 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
         graphCell.medicationDelegate = self;
         graphCell.showMedicationLegend = graphItem.showMedicationLegend;
         graphCell.showMedicationSurveyPrompt = graphItem.showMedicationSurveyPrompt;
+        
+        graphCell.scatterGraphView.scatterGraphDelegate = (APHScoring *)graphItem.graphData;
+        graphCell.scatterGraphView.shouldConnectRanges = NO;
         
         for (UIView *tintView in graphCell.tintViews) {
             tintView.tintColor = graphItem.tintColor;

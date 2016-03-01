@@ -51,6 +51,11 @@ const CGFloat kMedicationLegendContainerHeight = 80.f;
     [self setNeedsLayout];
 }
 
+- (APHScatterGraphView *)scatterGraphView
+{
+    return (APHScatterGraphView *)self.discreteGraphView;
+}
+
 
 #pragma mark - IBActions
 

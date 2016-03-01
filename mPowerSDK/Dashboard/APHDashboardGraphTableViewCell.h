@@ -8,6 +8,7 @@
 
 #import <APCAppCore/APCAppCore.h>
 
+@class APHScatterGraphView;
 @protocol APHDashboardGraphTableViewCellMedicationDelegate;
 
 @interface APHDashboardGraphTableViewCell : APCDashboardGraphTableViewCell
@@ -28,6 +29,8 @@
 - (IBAction)enterMedicationsTapped:(id)sender;
 - (IBAction)notTakingMedicationsTapped:(id)sender;
 - (IBAction)doNotShowMedicationSurveyTapped:(id)sender;
+
+- (APHScatterGraphView *)scatterGraphView;
 
 @end
 
