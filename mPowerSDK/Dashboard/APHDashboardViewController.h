@@ -33,6 +33,8 @@
  
 @import APCAppCore;
 
+FOUNDATION_EXPORT NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey;
+
 @interface APHDashboardViewController : APCDashboardViewController
 
 @property (nonatomic, strong) APCScoring *correlatedScoring;

@@ -31,6 +31,7 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+#import "APHDashboardViewController.h"
 #import "APHMedicationTrackerViewController.h"
 #import "APHMedicationTrackerTask.h"
 
@@ -45,6 +46,15 @@
     if (self.scheduledTask) {
         self.scheduledTask.taskSchemaRevision = @(APHMedicationTrackerSchemaRevision);
     }
+}
+
+- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(NSError *)error
+{
+    [super taskViewController:taskViewController didFinishWithReason:reason error:error];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:NO forKey:kShouldShowDashboardMedicationSurveyDefaultsKey];
+    [defaults synchronize];
 }
 
 @end

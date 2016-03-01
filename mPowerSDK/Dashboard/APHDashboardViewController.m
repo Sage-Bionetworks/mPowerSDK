@@ -34,17 +34,25 @@
 /* Controllers */
 #import "APHDashboardViewController.h"
 #import "APHDashboardEditViewController.h"
+#import "APHDashboardGraphTableViewCell.h"
 #import "APHDataKeys.h"
 #import "APHLocalization.h"
+#import "APHMedicationTrackerTask.h"
+#import "APHMedicationTrackerViewController.h"
 #import "APHSpatialSpanMemoryGameViewController.h"
+#import "APHTableViewDashboardGraphItem.h"
+//#import "APHTremorTaskViewController.h"
 #import "APHWalkingTaskViewController.h"
 #import "APHAppDelegate.h"
 
 
-static NSString * const kAPCBasicTableViewCellIdentifier       = @"APCBasicTableViewCell";
-static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetailTableViewCell";
+static NSString * const kAPCBasicTableViewCellIdentifier          = @"APCBasicTableViewCell";
+static NSString * const kAPCRightDetailTableViewCellIdentifier    = @"APCRightDetailTableViewCell";
+static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboardGraphTableViewCell";
 
-@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate>
+NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDashboardMedicationSurvey";
+
+@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, APHDashboardGraphTableViewCellMedicationDelegate, ORKTaskViewControllerDelegate>
 
 @property (nonatomic, strong) NSArray *rowItemsOrder;
 
@@ -72,6 +80,9 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
     if (self = [super initWithCoder:aDecoder]) {
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults registerDefaults:@{ kShouldShowDashboardMedicationSurveyDefaultsKey: @YES }];
+        [defaults setBool:YES forKey:kShouldShowDashboardMedicationSurveyDefaultsKey];
+        
         _rowItemsOrder = [NSMutableArray arrayWithArray:[defaults objectForKey:kAPCDashboardRowItemsOrder]];
         
         if (!_rowItemsOrder.count) {
@@ -324,18 +335,18 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     
                 case kAPHDashboardItemTypeCorrelation:{
                     
-                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
                     item.graphData = self.correlatedScoring;
                     item.graphType = kAPCDashboardGraphTypeLine;
-                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryYellowColor];
                     
                     NSString *infoFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_CORRELATION_INFO", nil, APHLocaleBundle(), @"This chart plots the index of your %@ against the index of your %@. For more comparisons, click the series name.", @"Format of caption for correlation plot comparing indices of two series, to be filled in with the names of the series being compared.");
                     item.info = [NSString stringWithFormat:infoFormat, self.correlatedScoring.series1Name, self.correlatedScoring.series2Name];
                     item.detailText = @"";
-                    item.legend = [APCTableViewDashboardGraphItem legendForSeries1:self.correlatedScoring.series1Name series2:self.correlatedScoring.series2Name];
+                    item.legend = [APHTableViewDashboardGraphItem legendForSeries1:self.correlatedScoring.series1Name series2:self.correlatedScoring.series2Name];
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
                     row.itemType = rowType;
@@ -348,7 +359,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                 case kAPHDashboardItemTypeIntervalTappingLeft:
                 {
                     APCScoring *tapScoring = (rowType == kAPHDashboardItemTypeIntervalTappingRight) ? self.tapRightScoring : self.tapLeftScoring;
-                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = tapScoring.caption;
                     item.taskId = APHTappingActivitySurveyIdentifier;
                     item.graphData = tapScoring;
@@ -361,9 +372,16 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                                            APHLocalizedStringFromNumber([tapScoring minimumDataPoint]), APHLocalizedStringFromNumber([tapScoring maximumDataPoint])];
                     }
                     
-                    item.reuseIdentifier =  kAPCDashboardGraphTableViewCellIdentifier;
+                    item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
+                    
+                    BOOL shouldShowMedicationSurvey = [[NSUserDefaults standardUserDefaults] boolForKey:kShouldShowDashboardMedicationSurveyDefaultsKey];
+                    if (shouldShowMedicationSurvey && rowType == kAPHDashboardItemTypeIntervalTappingRight) {
+                        item.showMedicationSurveyPrompt = YES;
+                    } else {
+                        item.showMedicationLegend = YES;
+                    }
                 
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TAPPING_INFO", nil, APHLocaleBundle(), @"This plot shows your finger tapping speed each day as measured by the Tapping Interval Activity. The length and position of each vertical bar represents the range in the number of taps you made in 20 seconds for a given day. Any differences in length or position over time reflect variations and trends in your tapping speed, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Tapping in Parkinson");
                     
@@ -376,7 +394,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     break;
                 case kAPHDashboardItemTypeGait:
                 {
-                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.gaitScoring.caption;
                     item.taskId = APHWalkingActivitySurveyIdentifier;
                     item.graphData = self.gaitScoring;
@@ -389,9 +407,10 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                                            APHLocalizedStringFromNumber([self.gaitScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.gaitScoring maximumDataPoint])];
                     }
                     
-                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
+                    item.showMedicationLegend = YES;
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_WALKING_INFO", nil, APHLocaleBundle(), @"This plot combines several accelerometer-based measures for the Walking Activity. The length and position of each vertical bar represents the range of measures for a given day. Any differences in length or position over time reflect variations and trends in your Walking measure, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Gait in Parkinson");
                     
@@ -403,7 +422,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     break;
                 case kAPHDashboardItemTypeSpatialMemory:
                 {
-                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.memoryScoring.caption;
                     item.taskId = APHMemoryActivitySurveyIdentifier;
                     item.graphData = self.memoryScoring;
@@ -416,9 +435,10 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                                            APHLocalizedStringFromNumber([self.memoryScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.memoryScoring maximumDataPoint])];
                     }
                     
-                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
+                    item.showMedicationLegend = YES;
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MEMORY_INFO", nil, APHLocaleBundle(), @"This plot shows the score you received each day for the Memory Game. The length and position of each vertical bar represents the range of scores for a given day. Any differences in length or position over time reflect variations and trends in your score, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Memory in Parkinson");
                     
@@ -430,7 +450,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     break;
                 case kAPHDashboardItemTypePhonation:
                 {
-                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.phonationScoring.caption;
                     item.taskId = APHVoiceActivitySurveyIdentifier;
                     item.graphData = self.phonationScoring;
@@ -443,9 +463,10 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                                            APHLocalizedStringFromNumber([self.phonationScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.phonationScoring maximumDataPoint])];
                     }
                     
-                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
+                    item.showMedicationLegend = YES;
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_VOICE_INFO", nil, APHLocaleBundle(), @"This plot combines several microphone-based measures as a single score for the Voice Activity. The length and position of each vertical bar represents the range of measures for a given day. Any differences in length or position over time reflect variations and trends in your Voice measure, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Voice in Parkinson");
                     
@@ -458,7 +479,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     
                 case kAPHDashboardItemTypeSteps:
                 {
-                    APCTableViewDashboardGraphItem  *item = [APCTableViewDashboardGraphItem new];
+                    APHTableViewDashboardGraphItem  *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.stepScoring.caption;
                     item.graphData = self.stepScoring;
                     
@@ -469,7 +490,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                                            APHLocalizedStringFromNumber([self.stepScoring averageDataPoint])];
                     }
                     
-                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryGreenColor];
                     
@@ -481,13 +502,42 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     [rowItems addObject:row];
                 }
                     break;
+                    
+                /*
+                case kAPHDashboardItemTypeTremor:
+                {
+                    APHTableViewDashboardGraphItem  *item = [APHTableViewDashboardGraphItem new];
+                    item.caption = self.tremorScoring.caption;
+                    item.graphData = self.tremorScoring;
+                    
+                    double avgValue = [[self.tremorScoring averageDataPoint] doubleValue];
+                    
+                    if (avgValue > 0) {
+                        item.detailText = [NSString stringWithFormat:detailAvgFormat,
+                                           APHLocalizedStringFromNumber([self.tremorScoring averageDataPoint])];
+                    }
+                    
+                    item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
+                    item.editable = YES;
+                    item.tintColor = [UIColor colorForTaskId:APHTremorActivitySurveyIdentifier];
+                    item.showMedicationLegend = YES;
+                    
+                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TREMOR_INFO", nil, APHLocaleBundle(), @"This plot shows the score you received each day for the Tremor Test.", @"Dashboard tooltip item info text for Tremor Test in Parkinson");
+                    
+                    APCTableViewRow *row = [APCTableViewRow new];
+                    row.item = item;
+                    row.itemType = rowType;
+                    [rowItems addObject:row];
+                }
+                    break;
+                    
                 case kAPHDashboardItemTypeDailyMood:{
                     
-                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.moodScoring.caption;
                     item.graphData = self.moodScoring;
-                    item.graphType = kAPCDashboardGraphTypeDiscreteRanged;
-                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryYellowColor];
                     
@@ -510,14 +560,15 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     [rowItems addObject:row];
                 }
                     break;
+                 */
                     
                 case kAPHDashboardItemTypeDailyEnergy:{
                     
-                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.energyScoring.caption;
                     item.graphData = self.energyScoring;
-                    item.graphType = kAPCDashboardGraphTypeDiscreteRanged;
-                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryGreenColor];
                     
@@ -544,11 +595,11 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     
                 case kAPHDashboardItemTypeDailyExercise:{
                     
-                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.exerciseScoring.caption;
                     item.graphData = self.exerciseScoring;
-                    item.graphType = kAPCDashboardGraphTypeDiscreteRanged;
-                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryYellowColor];
                     
@@ -575,11 +626,11 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     
                 case kAPHDashboardItemTypeDailySleep:{
                     
-                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.sleepScoring.caption;
                     item.graphData = self.sleepScoring;
-                    item.graphType = kAPCDashboardGraphTypeDiscreteRanged;
-                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryPurpleColor];
                     
@@ -605,11 +656,11 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     
                 case kAPHDashboardItemTypeDailyCognitive:
                 {
-                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.cognitiveScoring.caption;
                     item.graphData = self.cognitiveScoring;
-                    item.graphType = kAPCDashboardGraphTypeDiscreteRanged;
-                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryRedColor];
                     
@@ -638,11 +689,11 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
                     
                 case kAPHDashboardItemTypeDailyCustom:
                 {
-                    APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];
+                    APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.customScoring.caption;
                     item.graphData = self.customScoring;
-                    item.graphType = kAPCDashboardGraphTypeDiscreteRanged;
-                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryBlueColor];
                     item.minimumImage = [UIImage imageNamed:@"MoodSurveyCustom-5g"];
@@ -680,7 +731,8 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
     [self.tableView reloadData];
 }
 
-#pragma mark - CorrelationsSelector Delegate
+
+#pragma mark - APCDashboardTableViewCellDelegate
 
 - (void)dashboardTableViewCellDidTapLegendTitle:(APCDashboardTableViewCell *)__unused cell
 {
@@ -689,10 +741,119 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
     [self.navigationController pushViewController:correlationSelector animated:YES];
 }
 
+
+#pragma mark - APHDashboardGraphTableViewCellMedicationDelegate
+
+- (void)dashboardGraphTableViewCellDidTapEnterMedications:(APHDashboardGraphTableViewCell *)cell
+{
+    NSPredicate *taskFilter = [NSPredicate predicateWithFormat:@"%K == %@", NSStringFromSelector(@selector(taskID)), APHMedicationTrackerSurveyIdentifier];
+ 
+    APCSchedulerCallbackForTaskGroupQueries resultsBlock = ^(NSDictionary *taskGroups, NSError *queryError) {
+        if (taskGroups.count == 0) {
+            return;
+        }
+        
+        APCTaskGroup *taskGroup = ((NSArray *)taskGroups.allValues.firstObject).firstObject;
+        APHMedicationTrackerViewController *medicationTrackerVC = [APHMedicationTrackerViewController configureTaskViewController:taskGroup];
+        [self presentViewController:medicationTrackerVC animated:YES completion:nil];
+    };
+    
+    [[APCScheduler defaultScheduler] fetchTaskGroupsFromDate:[NSDate date]
+                                                      toDate:[NSDate dateWithTimeIntervalSinceNow:60]
+                                      forTasksMatchingFilter:taskFilter
+                                                  usingQueue:[NSOperationQueue mainQueue]
+                                             toReportResults:resultsBlock];
+}
+
+- (void)dashboardGraphTableViewCellDidTapNotTakingMedications:(APHDashboardGraphTableViewCell *)cell
+{
+    
+}
+
+- (void)dashboardGraphTableViewCellDidTapDoNotShowMedicationSurvey:(APHDashboardGraphTableViewCell *)cell
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:NO forKey:kShouldShowDashboardMedicationSurveyDefaultsKey];
+    [defaults synchronize];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    APCTableViewItem *dashboardItem = [self itemForIndexPath:indexPath];
+    
+    if ([dashboardItem isKindOfClass:[APHTableViewDashboardGraphItem class]]) {
+        APHTableViewDashboardGraphItem *graphItem = (APHTableViewDashboardGraphItem *)dashboardItem;
+        graphItem.showMedicationSurveyPrompt = NO;
+        graphItem.showMedicationLegend = YES;
+    }
+    
+    [self.tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+
+#pragma mark - CorrelationsSelector Delegate
+
 - (void)viewController:(APCCorrelationsSelectorViewController *)__unused viewController didChangeCorrelatedScoringDataSource:(APCScoring *)scoring
 {
     self.correlatedScoring = scoring;
     [self prepareData];
+}
+
+#pragma mark - ORKTaskViewControllerDelegate
+
+- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(nullable NSError *)error
+{
+    [self prepareData];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+#pragma mark - UITableViewDataSource
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    APCTableViewItem *dashboardItem = [self itemForIndexPath:indexPath];
+    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    
+    if ([dashboardItem isKindOfClass:[APHTableViewDashboardGraphItem class]]) {
+        
+        APHTableViewDashboardGraphItem *graphItem = (APHTableViewDashboardGraphItem *)dashboardItem;
+        APHDashboardGraphTableViewCell *graphCell = (APHDashboardGraphTableViewCell *)cell;
+        
+        graphCell.medicationDelegate = self;
+        graphCell.showMedicationLegend = graphItem.showMedicationLegend;
+        graphCell.showMedicationSurveyPrompt = graphItem.showMedicationSurveyPrompt;
+        
+        for (UIView *tintView in graphCell.tintViews) {
+            tintView.tintColor = graphItem.tintColor;
+        }
+    }
+    
+    return cell;
+}
+
+
+#pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    APCTableViewItem *dashboardItem = [self itemForIndexPath:indexPath];
+    
+    if ([dashboardItem isKindOfClass:[APHTableViewDashboardGraphItem class]]) {
+        APHTableViewDashboardGraphItem *graphItem = (APHTableViewDashboardGraphItem *)dashboardItem;
+        CGFloat rowHeight = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+        
+        if (graphItem.showMedicationLegend) {
+            rowHeight += [APHDashboardGraphTableViewCell medicationLegendContainerHeight];
+        }
+        
+        if (graphItem.showMedicationSurveyPrompt) {
+            rowHeight += [APHDashboardGraphTableViewCell medicationSurveyPromptContainerHeight];
+        }
+        
+        return rowHeight;
+    }
+    
+    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
 @end
