@@ -8,7 +8,6 @@
 
 #import <APCAppCore/APCAppCore.h>
 
-@class APHScatterGraphView;
 @protocol APHDashboardGraphTableViewCellMedicationDelegate;
 
 @interface APHDashboardGraphTableViewCell : APCDashboardGraphTableViewCell

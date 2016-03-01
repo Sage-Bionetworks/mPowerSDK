@@ -822,8 +822,7 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
         graphCell.medicationDelegate = self;
         graphCell.showMedicationLegend = graphItem.showMedicationLegend;
         graphCell.showMedicationSurveyPrompt = graphItem.showMedicationSurveyPrompt;
-        
-//        graphCell.scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
+        graphCell.scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
         
         for (UIView *tintView in graphCell.tintViews) {
             tintView.tintColor = graphItem.tintColor;
