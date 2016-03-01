@@ -7,8 +7,7 @@
 //
 
 #import <APCAppCore/APCAppCore.h>
-#import "APHScatterGraphView.h"
 
-@interface APHScoring : APCScoring <APHScatterGraphViewDelegate>
+@interface APHScoring : APCScoring
 
 @end

@@ -104,7 +104,7 @@
 
 #pragma mark - APHScatterGraphViewDelegate
 
-- (NSDictionary *)scatterGraph:(APHScatterGraphView *)graphView plot:(NSInteger)plotIndex valuesForPointsAtIndex:(NSInteger)pointIndex
+- (NSDictionary *)scatterGraph:(APCScatterGraphView *)graphView plot:(NSInteger)plotIndex valuesForPointsAtIndex:(NSInteger)pointIndex
 {
     NSDictionary *values = [NSDictionary new];
     
