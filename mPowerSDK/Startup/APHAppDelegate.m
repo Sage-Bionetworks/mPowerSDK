@@ -218,6 +218,8 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
                                            kBridgeEnvironmentKey                : @(self.environment),
                                            kShareMessageKey                     : shareMessage
                                            }];
+    
+    [APCUser setShouldPerformTestUserEmailCheckOnSignup:YES];
 
     self.initializationOptions = dictionary;
 }
