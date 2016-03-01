@@ -309,7 +309,7 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 }
 
 - (void)showStudyOverviewAnimated:(BOOL)animated {
-    APCStudyOverviewViewController *studyController = [[UIStoryboard storyboardWithName:@"APCOnboarding" bundle:[NSBundle appleCoreBundle]] instantiateViewControllerWithIdentifier:@"StudyOverviewVC"];
+    APCStudyOverviewViewController *studyController = [[UIStoryboard storyboardWithName:@"APHOnboarding" bundle:[self storyboardBundle]] instantiateViewControllerWithIdentifier:@"APHStudyOverviewVC"];
     if (animated) {
         [self setUpRootViewController:studyController];
     }

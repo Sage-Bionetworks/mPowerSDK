@@ -172,13 +172,14 @@
          "sectionType" : "studyTasks",
          "sectionTitle" : "Potential Benefits",
          "sectionSummary": "Your participation in this study could help researchers understand PD better. You may or may not benefit from this research study.",
+         "sectionLearnMoreButtonTitle" : "Learn more",
          "sectionHtmlContent" : "consent_10study_task"
      },
      {
          "sectionType" : "withdrawl",
          "sectionTitle" : "Potential Risks",
          "sectionSummary" : "If you participate in this study, your privacy may be at risk. There may be other risks to participating that we do not know about yet.",
-         "sectionLearnMoreButtonTitle" : "Learn More",
+         "sectionLearnMoreButtonTitle" : "Learn more",
          "sectionHtmlContent" : "consent_11potential_risk"
      },
      {
