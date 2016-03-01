@@ -30,8 +30,6 @@
 - (IBAction)notTakingMedicationsTapped:(id)sender;
 - (IBAction)doNotShowMedicationSurveyTapped:(id)sender;
 
-- (APHScatterGraphView *)scatterGraphView;
-
 @end
 
 @protocol APHDashboardGraphTableViewCellMedicationDelegate <NSObject>

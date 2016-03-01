@@ -39,7 +39,6 @@
 #import "APHLocalization.h"
 #import "APHMedicationTrackerTask.h"
 #import "APHMedicationTrackerViewController.h"
-#import "APHScatterGraphView.h"
 #import "APHSpatialSpanMemoryGameViewController.h"
 #import "APHTableViewDashboardGraphItem.h"
 #import "APHScoring.h"
@@ -364,7 +363,7 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
                     item.caption = tapScoring.caption;
                     item.taskId = APHTappingActivitySurveyIdentifier;
                     item.graphData = tapScoring;
-                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.graphType = kAPCDashboardGraphTypeScatter;
                     
                     double avgValue = [[tapScoring averageDataPoint] doubleValue];
                     
@@ -399,7 +398,7 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
                     item.caption = self.gaitScoring.caption;
                     item.taskId = APHWalkingActivitySurveyIdentifier;
                     item.graphData = self.gaitScoring;
-                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.graphType = kAPCDashboardGraphTypeScatter;
                     
                     double avgValue = [[self.gaitScoring averageDataPoint] doubleValue];
                     
@@ -427,7 +426,7 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
                     item.caption = self.memoryScoring.caption;
                     item.taskId = APHMemoryActivitySurveyIdentifier;
                     item.graphData = self.memoryScoring;
-                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.graphType = kAPCDashboardGraphTypeScatter;
                     
                     double avgValue = [[self.memoryScoring averageDataPoint] doubleValue];
                     
@@ -455,7 +454,7 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
                     item.caption = self.phonationScoring.caption;
                     item.taskId = APHVoiceActivitySurveyIdentifier;
                     item.graphData = self.phonationScoring;
-                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.graphType = kAPCDashboardGraphTypeScatter;
                     
                     double avgValue = [[self.phonationScoring averageDataPoint] doubleValue];
                     
@@ -824,8 +823,7 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
         graphCell.showMedicationLegend = graphItem.showMedicationLegend;
         graphCell.showMedicationSurveyPrompt = graphItem.showMedicationSurveyPrompt;
         
-        graphCell.scatterGraphView.scatterGraphDelegate = (APHScoring *)graphItem.graphData;
-        graphCell.scatterGraphView.shouldConnectRanges = NO;
+//        graphCell.scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
         
         for (UIView *tintView in graphCell.tintViews) {
             tintView.tintColor = graphItem.tintColor;
