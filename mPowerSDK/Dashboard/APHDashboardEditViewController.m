@@ -122,6 +122,17 @@
                 }
                     break;
                     
+                case kAPHDashboardItemTypeTremor:
+                {
+                    APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
+                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_TREMOR_CAPTION", nil, APHLocaleBundle(), @"Tremor", @"Dashboard caption for results of tremor activity.");
+                    item.taskId = APHTremorActivitySurveyIdentifier;
+                    item.tintColor = [UIColor colorForTaskId:item.taskId];
+                    
+                    [self.items addObject:item];
+                }
+                    break;
+                    
                     
                 case kAPHDashboardItemTypeDailyMood:
                 {

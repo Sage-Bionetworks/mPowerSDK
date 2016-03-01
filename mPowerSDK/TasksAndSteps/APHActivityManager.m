@@ -90,6 +90,12 @@ static  NSUInteger      kNumberOfStepsPerLeg                  = 100;  // set to 
 static  NSTimeInterval  kStandStillDuration                   = 30.0;
 static  NSTimeInterval  kWalkDuration                         = 30.0; // we'll set the step duration back to this
 
+//
+// constants for setting up the tremor activity
+//
+static NSString *const kTremorAssessmentTitleIdentifier     = @"Tremor Activity";
+static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
+
 
 @interface APHActivityManager ()
 
@@ -125,10 +131,20 @@ static  NSTimeInterval  kWalkDuration                         = 30.0; // we'll s
     else if ([surveyId isEqualToString:APHWalkingActivitySurveyIdentifier]) {
         task = [self createCustomWalkingTask];
     }
+    else if ([surveyId isEqualToString:APHTremorActivitySurveyIdentifier]) {
+        task = [self createCustomTremorTask];
+    }
     
     // Replace the language in the last step
-    [task.steps.lastObject setTitle:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Thank You!", @"Main text shown to participant upon completion of an activity.")];
-    [task.steps.lastObject setText:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_DETAIL", nil, APHLocaleBundle(), @"The results of this activity can be viewed on the dashboard", @"Detail text shown to participant upon completion of an activity.")];
+    ORKStep *lastStep = task.steps.lastObject;
+    [lastStep setTitle:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Thank You!", @"Main text shown to participant upon completion of an activity.")];
+    
+    // Tremor scores for display in dashboard are not yet available
+    if ([surveyId isEqualToString:APHTremorActivitySurveyIdentifier]) {
+        [lastStep setText:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_DETAIL_NODASH", nil, APHLocaleBundle(), @"You have completed this activity", @"Detail text shown to participant upon completion of an activity (without mention of the dashboard).")];
+    } else {
+        [lastStep setText:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_DETAIL", nil, APHLocaleBundle(), @"The results of this activity can be viewed on the dashboard", @"Detail text shown to participant upon completion of an activity.")];
+    }
     
     // Create a medication tracker task with this as a subtask
     return [[APHMedicationTrackerTask alloc] initWithDictionaryRepresentation:nil subTask:task];
@@ -267,6 +283,14 @@ static  NSTimeInterval  kWalkDuration                         = 30.0; // we'll s
     orkTask = [[ORKOrderedTask alloc] initWithIdentifier:kWalkingActivityTitle steps:copyOfTaskSteps];
     
     return  orkTask;
+}
+
+- (ORKOrderedTask *)createCustomTremorTask
+{
+    return [ORKOrderedTask tremorTestTaskWithIdentifier:kTremorAssessmentTitleIdentifier
+                                 intendedUseDescription:nil
+                                     activeStepDuration:kTremorAssessmentStepDuration
+                                                options:ORKPredefinedTaskOptionNone];
 }
 
 @end
