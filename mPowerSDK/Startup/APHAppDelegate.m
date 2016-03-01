@@ -311,12 +311,14 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 }
 
 - (void)showStudyOverviewAnimated:(BOOL)animated {
-    APCStudyOverviewViewController *studyController = [[UIStoryboard storyboardWithName:@"APHOnboarding" bundle:[self storyboardBundle]] instantiateViewControllerWithIdentifier:@"APHStudyOverviewVC"];
+    UIViewController *studyController = [[UIStoryboard storyboardWithName:@"APHOnboarding" bundle:[self storyboardBundle]] instantiateViewControllerWithIdentifier:@"APHStudyOverviewVC"];
     if (animated) {
         [self setUpRootViewController:studyController];
     }
     else {
-        self.window.rootViewController = studyController;
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:studyController];
+        navController.navigationBar.translucent = NO;
+        self.window.rootViewController = navController;
     }
 }
 
