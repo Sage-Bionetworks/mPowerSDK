@@ -36,6 +36,8 @@
 		80DC1BDE1C6A8F2600235C2E /* APHCustomSurveyTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 80DC1BD01C6A8F2500235C2E /* APHCustomSurveyTableViewCell.h */; };
 		80DC1BDF1C6A8F2600235C2E /* APHCustomSurveyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC1BD11C6A8F2500235C2E /* APHCustomSurveyTableViewCell.m */; };
 		80DC1BE01C6A8F2600235C2E /* APHCustomSurveyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 80DC1BD21C6A8F2500235C2E /* APHCustomSurveyTableViewCell.xib */; };
+		A6B29FA21C863E49005CEF3F /* APHRegularShapeView.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B29FA01C863E49005CEF3F /* APHRegularShapeView.h */; };
+		A6B29FA31C863E49005CEF3F /* APHRegularShapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B29FA11C863E49005CEF3F /* APHRegularShapeView.m */; };
 		FB4E46711C7E671C00CADC1F /* EligibilityRequirements.json in Resources */ = {isa = PBXBuildFile; fileRef = FB4E466F1C7E671C00CADC1F /* EligibilityRequirements.json */; };
 		FB4E46771C7E673E00CADC1F /* APHInstructionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FB4E46731C7E673E00CADC1F /* APHInstructionStepViewController.h */; };
 		FB4E46781C7E673E00CADC1F /* APHInstructionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4E46741C7E673E00CADC1F /* APHInstructionStepViewController.m */; };
@@ -183,6 +185,8 @@
 		80DC1BD01C6A8F2500235C2E /* APHCustomSurveyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHCustomSurveyTableViewCell.h; sourceTree = "<group>"; };
 		80DC1BD11C6A8F2500235C2E /* APHCustomSurveyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHCustomSurveyTableViewCell.m; sourceTree = "<group>"; };
 		80DC1BD21C6A8F2500235C2E /* APHCustomSurveyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = APHCustomSurveyTableViewCell.xib; sourceTree = "<group>"; };
+		A6B29FA01C863E49005CEF3F /* APHRegularShapeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHRegularShapeView.h; sourceTree = "<group>"; };
+		A6B29FA11C863E49005CEF3F /* APHRegularShapeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHRegularShapeView.m; sourceTree = "<group>"; };
 		FB4E46701C7E671C00CADC1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/EligibilityRequirements.json; sourceTree = "<group>"; };
 		FB4E46731C7E673E00CADC1F /* APHInstructionStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHInstructionStepViewController.h; sourceTree = "<group>"; };
 		FB4E46741C7E673E00CADC1F /* APHInstructionStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHInstructionStepViewController.m; sourceTree = "<group>"; };
@@ -700,6 +704,8 @@
 				6BED4D761C8550A600A4269D /* APHDashboardGraphTableViewCell.m */,
 				6BED4D811C8595EC00A4269D /* APHTableViewDashboardGraphItem.h */,
 				6BED4D821C8595EC00A4269D /* APHTableViewDashboardGraphItem.m */,
+				A6B29FA01C863E49005CEF3F /* APHRegularShapeView.h */,
+				A6B29FA11C863E49005CEF3F /* APHRegularShapeView.m */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -746,6 +752,7 @@
 				FFFA248D1C236AE700727DA8 /* APHDataKeys.h in Headers */,
 				FB4E46771C7E673E00CADC1F /* APHInstructionStepViewController.h in Headers */,
 				FF0B4AC21C29FCB800224EF7 /* APHScoreCalculator.h in Headers */,
+				A6B29FA21C863E49005CEF3F /* APHRegularShapeView.h in Headers */,
 				80DC1BC01C6A8EE800235C2E /* APHDynamicMoodSurveyTask.h in Headers */,
 				FFFA24851C23664500727DA8 /* APHAppDelegate+APHMigration.h in Headers */,
 			);
@@ -912,6 +919,7 @@
 				FF346CEE1C5BE762006D9AC9 /* NSArray+APHExtensions.m in Sources */,
 				FFFA24921C236E9A00727DA8 /* APHProfileExtender.m in Sources */,
 				803237931C6BD0DB00208365 /* APHMoodLogDictionaryKeys.m in Sources */,
+				A6B29FA31C863E49005CEF3F /* APHRegularShapeView.m in Sources */,
 				8032378F1C6BCFF700208365 /* APHCustomTextView.m in Sources */,
 				6BED4D781C8550A600A4269D /* APHDashboardGraphTableViewCell.m in Sources */,
 				6BED4D841C8595EC00A4269D /* APHTableViewDashboardGraphItem.m in Sources */,

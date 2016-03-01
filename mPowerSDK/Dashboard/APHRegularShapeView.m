@@ -62,13 +62,17 @@
 		}
 
 		[bezierPath closePath];
-	} else {
-		bezierPath = [UIBezierPath bezierPathWithOvalInRect:self.bounds];
-	}
+		[bezierPath applyTransform:CGAffineTransformMakeTranslation(-origin.x, -origin.y)];
+		[bezierPath applyTransform:CGAffineTransformMakeRotation((CGFloat) (M_PI / 2 - M_PI / self.numberOfSides))];
+		[bezierPath applyTransform:CGAffineTransformMakeTranslation(origin.x, origin.y)];
 
-	[bezierPath applyTransform:CGAffineTransformMakeTranslation(-origin.x, -origin.y)];
-	[bezierPath applyTransform:CGAffineTransformMakeRotation((CGFloat) (M_PI / 2 - M_PI / self.numberOfSides))];
-	[bezierPath applyTransform:CGAffineTransformMakeTranslation(origin.x, origin.y)];
+	} else {
+		bezierPath = [UIBezierPath bezierPathWithArcCenter:origin
+													radius:radius * 0.8f
+												startAngle:0
+												  endAngle:(CGFloat) (2 * M_PI)
+												 clockwise:YES];
+	}
 
 	return bezierPath;
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Y3q-0i-ptk">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -377,9 +378,20 @@
                                                                 <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZOD-jl-vPl">
                                                                     <rect key="frame" x="264" y="0.0" width="66" height="30"/>
                                                                     <subviews>
-                                                                        <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mdK-VH-z0z" customClass="APCCircleView">
-                                                                            <rect key="frame" x="28" y="6" width="10" height="10"/>
+                                                                        <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mdK-VH-z0z" customClass="APHRegularShapeView">
+                                                                            <rect key="frame" x="22" y="0.0" width="22" height="22"/>
                                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="numberOfSides">
+                                                                                    <integer key="value" value="0"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="color" keyPath="fillColor">
+                                                                                    <color key="value" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                                                                                    <color key="value" red="0.76017628205128207" green="0.76017628205128207" blue="0.76017628205128207" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
                                                                         </view>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not sure" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bTT-Vj-zMv">
                                                                             <rect key="frame" x="0.0" y="18" width="66" height="12"/>
@@ -401,9 +413,17 @@
                                                                 <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5lq-OL-3b9">
                                                                     <rect key="frame" x="0.0" y="0.0" width="66" height="30"/>
                                                                     <subviews>
-                                                                        <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ORd-8F-Q7D" customClass="APCCircleView">
-                                                                            <rect key="frame" x="28" y="6" width="10" height="10"/>
+                                                                        <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ORd-8F-Q7D" customClass="APHRegularShapeView">
+                                                                            <rect key="frame" x="22" y="0.0" width="22" height="22"/>
                                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="numberOfSides">
+                                                                                    <integer key="value" value="0"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="color" keyPath="fillColor">
+                                                                                    <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
                                                                         </view>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0-30m ago" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UFs-fU-aAP">
                                                                             <rect key="frame" x="0.0" y="18" width="66" height="12"/>
@@ -637,7 +657,6 @@
                                     <outletCollection property="tintViews" destination="hc9-Pq-ORD" id="kcK-8Q-hsV"/>
                                     <outletCollection property="tintViews" destination="yX2-pt-AlV" id="m3T-AB-gEQ"/>
                                     <outletCollection property="tintViews" destination="a21-Aa-Hy5" id="g0G-cC-ARx"/>
-                                    <outletCollection property="tintViews" destination="mdK-VH-z0z" id="rVO-G3-JDG"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
