@@ -561,110 +561,11 @@
                                                 <constraint firstAttribute="bottom" secondItem="Y0K-al-odl" secondAttribute="bottom" constant="10" id="xOg-CX-e9g"/>
                                             </constraints>
                                         </view>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eQ0-Uk-Omu" userLabel="Medication Survey Prompt Container">
-                                            <rect key="frame" x="4" y="297" width="371" height="128"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9s4-lf-pdy">
-                                                    <rect key="frame" x="10" y="10" width="347" height="108"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="thG-EN-IPf">
-                                                            <rect key="frame" x="8" y="8" width="331" height="35"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="35" id="RvF-sr-YZw"/>
-                                                            </constraints>
-                                                            <string key="text">To see medication interval details, please
-enter the medication(s) you are currently taking</string>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E6h-jS-J6M">
-                                                            <rect key="frame" x="114" y="76" width="120" height="24"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="24" id="1Al-Ba-gun"/>
-                                                                <constraint firstAttribute="width" constant="120" id="7DZ-Wa-5fd"/>
-                                                            </constraints>
-                                                            <state key="normal">
-                                                                <attributedString key="attributedTitle">
-                                                                    <fragment content="Do not show again">
-                                                                        <attributes>
-                                                                            <color key="NSColor" red="0.49803921568627452" green="0.5490196078431373" blue="0.55294117647058827" alpha="1" colorSpace="calibratedRGB"/>
-                                                                            <font key="NSFont" size="9" name="HelveticaNeue"/>
-                                                                            <integer key="NSUnderline" value="1"/>
-                                                                        </attributes>
-                                                                    </fragment>
-                                                                </attributedString>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="doNotShowMedicationSurveyTapped:" destination="QEd-B9-1V7" eventType="touchUpInside" id="tQn-dW-CYy"/>
-                                                            </connections>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bdV-rI-TfM">
-                                                            <rect key="frame" x="42" y="48" width="120" height="22"/>
-                                                            <color key="backgroundColor" red="0.94117647058823528" green="0.35686274509803922" blue="0.48627450980392156" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="22" id="EME-NG-XxP"/>
-                                                                <constraint firstAttribute="width" constant="120" id="txP-pV-DyQ"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                            <color key="tintColor" red="0.94117647059999998" green="0.35686274509999999" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <state key="normal" title="Enter med(s)">
-                                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="enterMedicationsTapped:" destination="QEd-B9-1V7" eventType="touchUpInside" id="vdA-i3-yP8"/>
-                                                            </connections>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RPl-OW-bjR">
-                                                            <rect key="frame" x="190" y="47" width="120" height="24"/>
-                                                            <color key="backgroundColor" red="0.94117647059999998" green="0.35686274509999999" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="120" id="7Yo-j6-Fo7"/>
-                                                                <constraint firstAttribute="height" constant="24" id="bC2-O8-uC0"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                            <state key="normal" title="I do not take any meds">
-                                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="notTakingMedicationsTapped:" destination="QEd-B9-1V7" eventType="touchUpInside" id="BHL-vm-OHw"/>
-                                                            </connections>
-                                                        </button>
-                                                    </subviews>
-                                                    <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstItem="thG-EN-IPf" firstAttribute="top" secondItem="9s4-lf-pdy" secondAttribute="top" constant="8" id="2mS-9H-4jD"/>
-                                                        <constraint firstItem="RPl-OW-bjR" firstAttribute="centerX" secondItem="9s4-lf-pdy" secondAttribute="centerX" constant="76.5" id="DuW-it-ZhM"/>
-                                                        <constraint firstAttribute="bottom" secondItem="E6h-jS-J6M" secondAttribute="bottom" constant="8" id="Ed0-Ls-Agp"/>
-                                                        <constraint firstItem="bdV-rI-TfM" firstAttribute="centerX" secondItem="9s4-lf-pdy" secondAttribute="centerX" constant="-71.5" id="Fue-oE-GQh"/>
-                                                        <constraint firstItem="RPl-OW-bjR" firstAttribute="top" secondItem="thG-EN-IPf" secondAttribute="bottom" constant="4" id="T0o-MZ-l6m"/>
-                                                        <constraint firstAttribute="trailing" secondItem="thG-EN-IPf" secondAttribute="trailing" constant="8" id="Xps-O1-Qw4"/>
-                                                        <constraint firstItem="bdV-rI-TfM" firstAttribute="top" secondItem="thG-EN-IPf" secondAttribute="bottom" constant="5" id="kES-TX-duG"/>
-                                                        <constraint firstItem="thG-EN-IPf" firstAttribute="leading" secondItem="9s4-lf-pdy" secondAttribute="leading" constant="8" id="o4B-OQ-NCd"/>
-                                                        <constraint firstItem="E6h-jS-J6M" firstAttribute="centerX" secondItem="9s4-lf-pdy" secondAttribute="centerX" id="tb6-6b-sx4"/>
-                                                    </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="5"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="9s4-lf-pdy" secondAttribute="bottom" constant="10" id="8gB-YF-5Nn"/>
-                                                <constraint firstItem="9s4-lf-pdy" firstAttribute="top" secondItem="eQ0-Uk-Omu" secondAttribute="top" constant="10" id="KZQ-8R-p6T"/>
-                                                <constraint firstItem="9s4-lf-pdy" firstAttribute="leading" secondItem="eQ0-Uk-Omu" secondAttribute="leading" constant="10" id="N17-o1-mB4"/>
-                                                <constraint firstAttribute="trailing" secondItem="9s4-lf-pdy" secondAttribute="trailing" constant="14" id="TIn-zY-vOG"/>
-                                                <constraint firstAttribute="height" constant="128" id="iCH-au-0Rc"/>
-                                            </constraints>
-                                        </view>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstItem="3vK-Sn-o8D" firstAttribute="top" secondItem="Mnx-13-eWt" secondAttribute="bottom" id="0te-Ww-9fS"/>
                                         <constraint firstItem="7Bk-FK-8bK" firstAttribute="leading" secondItem="9Of-sT-n9y" secondAttribute="trailing" constant="-96" id="12a-6G-e9b"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="eQ0-Uk-Omu" secondAttribute="trailing" constant="-8" id="1jS-LV-3gj"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="3PS-Ja-Yr4" secondAttribute="trailing" constant="2" id="5lA-wS-Xpa"/>
                                         <constraint firstItem="7Bk-FK-8bK" firstAttribute="leading" secondItem="9Of-sT-n9y" secondAttribute="leading" constant="-70" id="5ne-RH-q1N"/>
                                         <constraint firstItem="W0R-8m-HvR" firstAttribute="leading" secondItem="H4m-mE-6nc" secondAttribute="leading" id="5sa-yh-4Mr"/>
@@ -675,7 +576,6 @@ enter the medication(s) you are currently taking</string>
                                         <constraint firstItem="WsQ-8F-MNk" firstAttribute="leading" secondItem="H4m-mE-6nc" secondAttribute="leading" id="FF7-nP-SuM"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="7Bk-FK-8bK" secondAttribute="trailing" constant="48" id="G7M-Yw-0St"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="d2X-wq-8wN" secondAttribute="bottom" constant="-1" id="HIh-8Z-lqk"/>
-                                        <constraint firstItem="eQ0-Uk-Omu" firstAttribute="leading" secondItem="d2X-wq-8wN" secondAttribute="trailing" id="Idz-O9-blq"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="WsQ-8F-MNk" secondAttribute="bottom" constant="-1" id="M9A-Lq-JMH"/>
                                         <constraint firstItem="1Zg-Zn-gLE" firstAttribute="leading" secondItem="H4m-mE-6nc" secondAttribute="leading" constant="4" id="MrI-An-zWG"/>
                                         <constraint firstItem="1Zg-Zn-gLE" firstAttribute="top" secondItem="H4m-mE-6nc" secondAttribute="topMargin" constant="55" id="OD9-lq-U1E"/>
@@ -696,7 +596,6 @@ enter the medication(s) you are currently taking</string>
                                         <constraint firstItem="eBr-AW-1qt" firstAttribute="leading" secondItem="H4m-mE-6nc" secondAttribute="leading" id="ssh-TP-LHF"/>
                                         <constraint firstItem="9Of-sT-n9y" firstAttribute="top" secondItem="7ri-Tf-gM4" secondAttribute="bottom" constant="3" id="tXH-HC-O8j"/>
                                         <constraint firstItem="m4F-Z8-afv" firstAttribute="leading" secondItem="7ri-Tf-gM4" secondAttribute="leading" id="tq3-mH-qoh"/>
-                                        <constraint firstItem="eQ0-Uk-Omu" firstAttribute="top" secondItem="3vK-Sn-o8D" secondAttribute="bottom" id="vbp-hn-2hx"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="W0R-8m-HvR" secondAttribute="bottom" constant="-8" id="vxC-Up-IvJ"/>
                                         <constraint firstItem="7ri-Tf-gM4" firstAttribute="leading" secondItem="H4m-mE-6nc" secondAttribute="leading" constant="16" id="wD9-QS-YQS"/>
                                         <constraint firstItem="ETi-5O-atC" firstAttribute="top" secondItem="H4m-mE-6nc" secondAttribute="topMargin" id="xIp-Pa-Jnp"/>
@@ -716,16 +615,11 @@ enter the medication(s) you are currently taking</string>
                                 <connections>
                                     <outlet property="averageImageView" destination="9Of-sT-n9y" id="k4n-yy-ZpE"/>
                                     <outlet property="discreteGraphView" destination="Mnx-13-eWt" id="zHz-U6-zmv"/>
-                                    <outlet property="doNotShowMedicationSurveyButton" destination="E6h-jS-J6M" id="q3r-ov-hLk"/>
-                                    <outlet property="enterMedicationsButton" destination="bdV-rI-TfM" id="5KO-wX-M5w"/>
                                     <outlet property="infoButton" destination="ETi-5O-atC" id="GPe-JS-Juy"/>
                                     <outlet property="legendButton" destination="m4F-Z8-afv" id="m08-1k-RAk"/>
                                     <outlet property="lineGraphView" destination="1Zg-Zn-gLE" id="5Ms-Zd-Zgq"/>
                                     <outlet property="medicationLegendContainerHeightConstraint" destination="Mpt-Pk-C9C" id="BLQ-cf-w1T"/>
                                     <outlet property="medicationLegendContainerView" destination="3vK-Sn-o8D" id="rTZ-cS-4iI"/>
-                                    <outlet property="medicationSurveyPromptContainerHeightConstraint" destination="iCH-au-0Rc" id="PlE-CI-Cko"/>
-                                    <outlet property="medicationSurveyPromptContainerView" destination="eQ0-Uk-Omu" id="2zi-ar-fw0"/>
-                                    <outlet property="notTakingMedicationsButton" destination="RPl-OW-bjR" id="TPl-jD-pxa"/>
                                     <outlet property="resizeButton" destination="3PS-Ja-Yr4" id="gux-zI-4tL"/>
                                     <outlet property="subTitleLabel" destination="7Bk-FK-8bK" id="PPc-At-C0A"/>
                                     <outlet property="tintView" destination="d2X-wq-8wN" id="mmW-rP-i8q"/>

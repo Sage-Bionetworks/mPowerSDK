@@ -51,9 +51,7 @@ static NSString * const kAPCBasicTableViewCellIdentifier          = @"APCBasicTa
 static NSString * const kAPCRightDetailTableViewCellIdentifier    = @"APCRightDetailTableViewCell";
 static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboardGraphTableViewCell";
 
-NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDashboardMedicationSurvey";
-
-@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, APHDashboardGraphTableViewCellMedicationDelegate, ORKTaskViewControllerDelegate>
+@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, ORKTaskViewControllerDelegate>
 
 @property (nonatomic, strong) NSArray *rowItemsOrder;
 
@@ -81,7 +79,6 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
     if (self = [super initWithCoder:aDecoder]) {
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults registerDefaults:@{ kShouldShowDashboardMedicationSurveyDefaultsKey: @YES }];
         
         _rowItemsOrder = [NSMutableArray arrayWithArray:[defaults objectForKey:kAPCDashboardRowItemsOrder]];
         
@@ -375,13 +372,7 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
-                    
-                    BOOL shouldShowMedicationSurvey = [[NSUserDefaults standardUserDefaults] boolForKey:kShouldShowDashboardMedicationSurveyDefaultsKey];
-                    if (shouldShowMedicationSurvey && rowType == kAPHDashboardItemTypeIntervalTappingRight) {
-                        item.showMedicationSurveyPrompt = YES;
-                    } else {
-                        item.showMedicationLegend = YES;
-                    }
+					item.showMedicationLegend = YES;
                 
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TAPPING_INFO", nil, APHLocaleBundle(), @"This plot shows your finger tapping speed each day as measured by the Tapping Interval Activity. The length and position of each vertical bar represents the range in the number of taps you made in 20 seconds for a given day. Any differences in length or position over time reflect variations and trends in your tapping speed, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Tapping in Parkinson");
                     
@@ -741,54 +732,6 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
     [self.navigationController pushViewController:correlationSelector animated:YES];
 }
 
-
-#pragma mark - APHDashboardGraphTableViewCellMedicationDelegate
-
-- (void)dashboardGraphTableViewCellDidTapEnterMedications:(APHDashboardGraphTableViewCell *)cell
-{
-    NSPredicate *taskFilter = [NSPredicate predicateWithFormat:@"%K == %@", NSStringFromSelector(@selector(taskID)), APHMedicationTrackerSurveyIdentifier];
- 
-    APCSchedulerCallbackForTaskGroupQueries resultsBlock = ^(NSDictionary *taskGroups, NSError *queryError) {
-        if (taskGroups.count == 0) {
-            return;
-        }
-        
-        APCTaskGroup *taskGroup = ((NSArray *)taskGroups.allValues.firstObject).firstObject;
-        APHMedicationTrackerViewController *medicationTrackerVC = [APHMedicationTrackerViewController configureTaskViewController:taskGroup];
-        [self presentViewController:medicationTrackerVC animated:YES completion:nil];
-    };
-    
-    [[APCScheduler defaultScheduler] fetchTaskGroupsFromDate:[NSDate date]
-                                                      toDate:[NSDate dateWithTimeIntervalSinceNow:60]
-                                      forTasksMatchingFilter:taskFilter
-                                                  usingQueue:[NSOperationQueue mainQueue]
-                                             toReportResults:resultsBlock];
-}
-
-- (void)dashboardGraphTableViewCellDidTapNotTakingMedications:(APHDashboardGraphTableViewCell *)cell
-{
-    
-}
-
-- (void)dashboardGraphTableViewCellDidTapDoNotShowMedicationSurvey:(APHDashboardGraphTableViewCell *)cell
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:NO forKey:kShouldShowDashboardMedicationSurveyDefaultsKey];
-    [defaults synchronize];
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    APCTableViewItem *dashboardItem = [self itemForIndexPath:indexPath];
-    
-    if ([dashboardItem isKindOfClass:[APHTableViewDashboardGraphItem class]]) {
-        APHTableViewDashboardGraphItem *graphItem = (APHTableViewDashboardGraphItem *)dashboardItem;
-        graphItem.showMedicationSurveyPrompt = NO;
-        graphItem.showMedicationLegend = YES;
-    }
-    
-    [self.tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
-
-
 #pragma mark - CorrelationsSelector Delegate
 
 - (void)viewController:(APCCorrelationsSelectorViewController *)__unused viewController didChangeCorrelatedScoringDataSource:(APHScoring *)scoring
@@ -818,10 +761,8 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
         
         APHTableViewDashboardGraphItem *graphItem = (APHTableViewDashboardGraphItem *)dashboardItem;
         APHDashboardGraphTableViewCell *graphCell = (APHDashboardGraphTableViewCell *)cell;
-        
-        graphCell.medicationDelegate = self;
+
         graphCell.showMedicationLegend = graphItem.showMedicationLegend;
-        graphCell.showMedicationSurveyPrompt = graphItem.showMedicationSurveyPrompt;
         graphCell.scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
         
         for (UIView *tintView in graphCell.tintViews) {
@@ -845,10 +786,6 @@ NSString *const kShouldShowDashboardMedicationSurveyDefaultsKey = @"ShouldShowDa
         
         if (graphItem.showMedicationLegend) {
             rowHeight += [APHDashboardGraphTableViewCell medicationLegendContainerHeight];
-        }
-        
-        if (graphItem.showMedicationSurveyPrompt) {
-            rowHeight += [APHDashboardGraphTableViewCell medicationSurveyPromptContainerHeight];
         }
         
         return rowHeight;

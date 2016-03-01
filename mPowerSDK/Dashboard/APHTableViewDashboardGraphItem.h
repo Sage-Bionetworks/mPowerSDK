@@ -11,6 +11,5 @@
 @interface APHTableViewDashboardGraphItem : APCTableViewDashboardGraphItem
 
 @property (nonatomic) BOOL showMedicationLegend;
-@property (nonatomic) BOOL showMedicationSurveyPrompt;
 
 @end
