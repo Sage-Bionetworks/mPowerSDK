@@ -301,13 +301,17 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 - (void)showNeedsEmailVerification
 {
     [self showStudyOverviewAnimated:NO];
-    UIViewController *taskVC = [self.parkinsonOnboardingManager instantiateOnboardingTaskViewController];
+    UIViewController *taskVC = [self.parkinsonOnboardingManager instantiateOnboardingTaskViewController:YES];
     [self.window.rootViewController presentViewController:taskVC animated:NO completion:nil];
 }
 
 - (void)showStudyOverview
 {
     [self showStudyOverviewAnimated:YES];
+}
+
+- (ORKTaskViewController *)consentViewController {
+    return [self.parkinsonOnboardingManager instantiateConsentViewController];
 }
 
 - (void)showStudyOverviewAnimated:(BOOL)animated {
@@ -323,7 +327,13 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 }
 
 - (BOOL)didHandleSignupFromViewController:(UIViewController *)viewController {
-    UIViewController *taskVC = [self.parkinsonOnboardingManager instantiateOnboardingTaskViewController];
+    UIViewController *taskVC = [self.parkinsonOnboardingManager instantiateOnboardingTaskViewController:YES];
+    [viewController presentViewController:taskVC animated:YES completion:nil];
+    return YES;
+}
+
+- (BOOL)didHandleSignInFromViewController:(UIViewController *)viewController {
+    UIViewController *taskVC = [self.parkinsonOnboardingManager instantiateOnboardingTaskViewController:NO];
     [viewController presentViewController:taskVC animated:YES completion:nil];
     return YES;
 }
@@ -787,18 +797,6 @@ static NSDate *determineConsentDate(id object)
               ];
 }
 
-/*********************************************************************************/
-#pragma mark - Consent
-/*********************************************************************************/
-
-- (ORKTaskViewController *)consentViewController
-{
-    APCConsentTask*         task = [[APCConsentTask alloc] initWithIdentifier:@"Consent"
-                                                           propertiesFileName:kConsentPropertiesFileName];
-    ORKTaskViewController*  consentVC = [[ORKTaskViewController alloc] initWithTask:task
-                                                                        taskRunUUID:[NSUUID UUID]];
-    return consentVC;
-}
 
 /*********************************************************************************/
 #pragma mark - Tab Bar Stuff

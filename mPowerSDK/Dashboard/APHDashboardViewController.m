@@ -741,6 +741,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         NSString *sessionToken = isStaging ? @"aaa" : [[[[APHAppDelegate sharedAppDelegate] dataSubstrate] currentUser] sessionToken];
         vc.javascriptCall = [NSString stringWithFormat:@"window.display(\"%@\")", sessionToken];
         vc.cancelButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissPresentedViewController)];
+        vc.backButtonItem = nil;
         return vc;
     }
     return nil;
