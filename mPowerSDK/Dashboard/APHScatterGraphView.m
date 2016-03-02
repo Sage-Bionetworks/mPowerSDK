@@ -566,8 +566,11 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
             } else {
                 point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
             }
+
+            point.tintColor = plotIndex == 0 ?
+                [medicationActivityTiming isEqualToString:@"Not sure"] ?
+                    [UIColor appTertiaryGrayColor] : self.tintColor : self.secondaryTintColor;
             
-            point.tintColor = (plotIndex == 0) ? self.tintColor : self.secondaryTintColor;
             point.center = CGPointMake(positionOnXAxis, [[rawDataPoint valueForKey:kDatasetValueKey] floatValue]);
             [self.plotsView.layer addSublayer:point.layer];
             
