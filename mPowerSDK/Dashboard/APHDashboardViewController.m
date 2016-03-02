@@ -801,6 +801,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
             graphCell.discreteGraphView.hidden = YES;
             graphCell.lineGraphView.hidden = YES;
             graphCell.scatterGraphView.hidden = NO;
+            graphCell.subTitleLabel.hidden = YES;
             
             [graphCell.legendButton setUserInteractionEnabled:graphItem.legend ? YES : NO];
             
@@ -831,6 +832,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
             }
         } else {
             graphCell.scatterGraphView.hidden = YES;
+            graphCell.subTitleLabel.hidden = NO;
         }
         
         for (UIView *tintView in graphCell.tintViews) {

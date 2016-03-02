@@ -374,19 +374,6 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     xAxisLineLayer.strokeColor = self.axisColor.CGColor;
     xAxisLineLayer.path = xAxispath.CGPath;
     [self.xAxisView.layer addSublayer:xAxisLineLayer];
-    
-    for (NSUInteger i=0; i<self.xAxisTitles.count; i++) {
-        CGFloat positionOnXAxis = kAPCGraphLeftPadding + ((CGRectGetWidth(self.plotsView.frame) / (self.numberOfXAxisTitles - 1)) * i);
-        
-        UIBezierPath *rulerPath = [UIBezierPath bezierPath];
-        [rulerPath moveToPoint:CGPointMake(positionOnXAxis, - kAxisMarkingRulerLength)];
-        [rulerPath addLineToPoint:CGPointMake(positionOnXAxis, 0)];
-        
-        CAShapeLayer *rulerLayer = [CAShapeLayer layer];
-        rulerLayer.strokeColor = self.axisColor.CGColor;
-        rulerLayer.path = rulerPath.CGPath;
-        [self.xAxisView.layer addSublayer:rulerLayer];
-    }
 }
 
 - (void)drawYAxis
