@@ -46,6 +46,7 @@
 //#import "APHTremorTaskViewController.h"
 #import "APHWalkingTaskViewController.h"
 #import "APHAppDelegate.h"
+#import "APHCorrelationsSelectorViewController.h"
 
 
 static NSString * const kAPCBasicTableViewCellIdentifier          = @"APCBasicTableViewCell";
@@ -57,9 +58,10 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 @property (nonatomic, strong) NSMutableArray *lineCharts;
 @end
 
-@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, ORKTaskViewControllerDelegate, APHDashboardGraphTableViewCellDelegate>
+@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, ORKTaskViewControllerDelegate, APHDashboardGraphTableViewCellDelegate, APHCorrelationsSelectorDelegate>
 
 @property (nonatomic, strong) NSArray *rowItemsOrder;
+@property (nonatomic, strong) NSMutableArray<APHScoring *> *correlatedScores; // Should have two!
 
 @property (nonatomic, strong) APHScoring *tapRightScoring;
 @property (nonatomic, strong) APHScoring *tapLeftScoring;
@@ -273,9 +275,10 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
     self.customScoring.customMaximumPoint = 5.0;
     self.customScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_CUSTOM_CAPTION", nil, APHLocaleBundle(), @"Custom Question", @"Dashboard caption for daily user-defined custom question report");
 
-    if (!self.correlatedScoring) {
-        [self prepareCorrelatedScoring];
+    if (!self.correlatedScores) {
+        self.correlatedScores = @[self.tapLeftScoring, self.tapRightScoring].mutableCopy;
     }
+    [self prepareCorrelatedScoring];
 }
 
 - (APHScoring *)scoringForValueKey:(NSString *)valueKey
@@ -288,20 +291,15 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 
 - (void)prepareCorrelatedScoring{
 
-    self.correlatedScoring = [[APHScoring alloc] initWithTask:APHWalkingActivitySurveyIdentifier
-                                                 numberOfDays:-kNumberOfDaysToDisplay
-                                                     valueKey:kGaitScoreKey];
-    
-    HKQuantityType *hkQuantity = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
-    [self.correlatedScoring correlateWithScoringObject:[[APHScoring alloc] initWithHealthKitQuantityType:hkQuantity
-                                                                                                    unit:[HKUnit countUnit]
-                                                                                            numberOfDays:-kNumberOfDaysToDisplay]];
-    
-    self.correlatedScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
+    self.correlatedScoring = self.correlatedScores[0];
+    [self.correlatedScoring correlateWithScoringObject:self.correlatedScores[1]];
     
     //default series
-    self.correlatedScoring.series1Name = self.gaitScoring.caption;
-    self.correlatedScoring.series2Name = self.stepScoring.caption;
+    self.correlatedScoring.series1Name = self.correlatedScores[0].caption;
+    self.correlatedScoring.series2Name = self.correlatedScores[1].caption;
+    
+    // Commented out because it overwrites
+//    self.correlatedScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
 }
 
 - (void)prepareData
@@ -350,7 +348,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
                     item.tintColor = [UIColor appTertiaryYellowColor];
                     
                     NSString *infoFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_CORRELATION_INFO", nil, APHLocaleBundle(), @"This chart plots the index of your %@ against the index of your %@. For more comparisons, click the series name.", @"Format of caption for correlation plot comparing indices of two series, to be filled in with the names of the series being compared.");
-                    item.info = [NSString stringWithFormat:infoFormat, self.correlatedScoring.series1Name, self.correlatedScoring.series2Name];
+                    item.info = [NSString stringWithFormat:infoFormat, self.correlatedScoring.series1Name, self.self.correlatedScoring.series2Name];
                     item.detailText = @"";
                     item.legend = [APHTableViewDashboardGraphItem legendForSeries1:self.correlatedScoring.series1Name series2:self.correlatedScoring.series2Name];
                     APCTableViewRow *row = [APCTableViewRow new];
@@ -773,18 +771,34 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 
 - (void)dashboardTableViewCellDidTapCorrelation1:(APCDashboardTableViewCell *)cell
 {
-    APCCorrelationsSelectorViewController *correlationSelector = [[APCCorrelationsSelectorViewController alloc]initWithScoringObjects:@[self.tapRightScoring, self.tapLeftScoring, self.gaitScoring, self.stepScoring, self.memoryScoring, self.phonationScoring]];
+    APHCorrelationsSelectorViewController *correlationSelector = [[APHCorrelationsSelectorViewController alloc]initWithScoringObjects:@[self.tapRightScoring, self.tapLeftScoring, self.gaitScoring, self.stepScoring, self.memoryScoring, self.phonationScoring]];
     [correlationSelector setTitle:@"Correlation 1"];
+    correlationSelector.isForButton1 = YES;
     correlationSelector.delegate = self;
     [self.navigationController pushViewController:correlationSelector animated:YES];
 }
 
 - (void)dashboardTableViewCellDidTapCorrelation2:(APCDashboardTableViewCell *)cell
 {
-    APCCorrelationsSelectorViewController *correlationSelector = [[APCCorrelationsSelectorViewController alloc]initWithScoringObjects:@[self.tapRightScoring, self.tapLeftScoring, self.gaitScoring, self.stepScoring, self.memoryScoring, self.phonationScoring]];
+    APHCorrelationsSelectorViewController *correlationSelector = [[APHCorrelationsSelectorViewController alloc]initWithScoringObjects:@[self.tapRightScoring, self.tapLeftScoring, self.gaitScoring, self.stepScoring, self.memoryScoring, self.phonationScoring]];
     [correlationSelector setTitle:@"Correlation 2"];
+    correlationSelector.isForButton1 = NO;
     correlationSelector.delegate = self;
     [self.navigationController pushViewController:correlationSelector animated:YES];
+}
+
+#pragma mark - APHCorrelationsSelector Delegate
+
+- (void)didChangeCorrelatedScoringDataSourceForButton1:(APHScoring*)scoring
+{
+    self.correlatedScores[0] = scoring;
+    [self prepareData];
+}
+
+- (void)didChangeCorrelatedScoringDataSourceForButton2:(APHScoring*)scoring
+{
+    self.correlatedScores[1] = scoring;
+    [self prepareData];
 }
 
 #pragma mark - CorrelationsSelector Delegate
@@ -821,6 +835,9 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         graphCell.showMedicationLegend = graphItem.showMedicationLegend;
         graphCell.showSparkLineGraph = graphItem.showSparkLineGraph;
         graphCell.showCorrelationSelectorView = graphItem.showCorrelationSelectorView;
+        
+        graphCell.button1Title = self.correlatedScoring.series1Name;
+        graphCell.button2Title = self.correlatedScoring.series2Name;
         graphCell.correlationButton1TitleColor = [UIColor appTertiaryRedColor];
         graphCell.correlationButton2TitleColor = [UIColor appTertiaryYellowColor];
         graphCell.correlationDelegate = self;

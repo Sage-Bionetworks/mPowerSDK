@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -599,7 +600,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QPF-4n-Mbj">
                                             <rect key="frame" x="16" y="38" width="303" height="21"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xal-gA-tbc">
+                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xal-gA-tbc">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="RJ8-bG-RXS"/>
@@ -612,20 +613,35 @@
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="RJ8-bG-RXS"/>
+                                                            <exclude reference="hY2-5j-Vx6"/>
                                                         </mask>
                                                     </variation>
                                                     <connections>
                                                         <action selector="correlationButton1Pressed:" destination="QEd-B9-1V7" eventType="touchUpInside" id="zi4-PC-dk2"/>
                                                     </connections>
                                                 </button>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_carrot" translatesAutoresizingMaskIntoConstraints="NO" id="QEC-58-NeX">
+                                                    <rect key="frame" x="120" y="0.0" width="15" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="QEC-58-NeX" secondAttribute="height" multiplier="20:21" id="Ta7-wU-pre"/>
+                                                        <constraint firstAttribute="width" secondItem="QEC-58-NeX" secondAttribute="height" multiplier="15:10" id="Ugy-Ub-4aE"/>
+                                                        <constraint firstAttribute="width" constant="15" id="fZZ-nb-vKv"/>
+                                                    </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="Ta7-wU-pre"/>
+                                                            <exclude reference="Ugy-Ub-4aE"/>
+                                                        </mask>
+                                                    </variation>
+                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="vs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MPB-2A-qt3">
-                                                    <rect key="frame" x="108" y="0.0" width="17.5" height="21"/>
+                                                    <rect key="frame" x="143" y="0.0" width="17.5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="byg-rA-OYJ">
-                                                    <rect key="frame" x="141.5" y="0.0" width="99.5" height="21"/>
+                                                    <rect key="frame" x="168.5" y="0.0" width="119.5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <state key="normal" title="Voice">
                                                         <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -634,21 +650,51 @@
                                                         <action selector="correlationButton2Pressed:" destination="QEd-B9-1V7" eventType="touchUpInside" id="N6G-mg-F0f"/>
                                                     </connections>
                                                 </button>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_carrot" translatesAutoresizingMaskIntoConstraints="NO" id="0ya-RM-kNB">
+                                                    <rect key="frame" x="288" y="0.0" width="15" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="0ya-RM-kNB" secondAttribute="height" multiplier="20:21" id="36U-Zb-Go8"/>
+                                                        <constraint firstAttribute="width" secondItem="0ya-RM-kNB" secondAttribute="height" multiplier="15:10" id="7Qo-kg-OCP"/>
+                                                        <constraint firstAttribute="width" constant="15" id="Rfu-dp-VKM"/>
+                                                    </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="36U-Zb-Go8"/>
+                                                            <exclude reference="7Qo-kg-OCP"/>
+                                                        </mask>
+                                                    </variation>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="byg-rA-OYJ" secondAttribute="trailing" id="0ej-5o-fwS"/>
+                                                <constraint firstAttribute="trailing" secondItem="byg-rA-OYJ" secondAttribute="trailing" id="0ej-5o-fwS"/>
+                                                <constraint firstAttribute="trailing" secondItem="0ya-RM-kNB" secondAttribute="trailing" id="8bU-Ut-OPK"/>
+                                                <constraint firstItem="0ya-RM-kNB" firstAttribute="leading" secondItem="byg-rA-OYJ" secondAttribute="trailing" id="I7M-EE-j9o"/>
+                                                <constraint firstItem="QEC-58-NeX" firstAttribute="leading" secondItem="Xal-gA-tbc" secondAttribute="trailing" id="KP7-N7-85C"/>
                                                 <constraint firstItem="Xal-gA-tbc" firstAttribute="leading" secondItem="QPF-4n-Mbj" secondAttribute="leading" id="LMz-tg-flH"/>
+                                                <constraint firstAttribute="bottom" secondItem="QEC-58-NeX" secondAttribute="bottom" id="Nce-wb-UxF"/>
+                                                <constraint firstItem="0ya-RM-kNB" firstAttribute="top" secondItem="byg-rA-OYJ" secondAttribute="bottom" id="Olq-fv-Q1p"/>
                                                 <constraint firstItem="byg-rA-OYJ" firstAttribute="top" secondItem="QPF-4n-Mbj" secondAttribute="top" id="RcY-EC-zvO"/>
+                                                <constraint firstItem="QEC-58-NeX" firstAttribute="top" secondItem="QPF-4n-Mbj" secondAttribute="top" id="acK-G4-vUs"/>
                                                 <constraint firstItem="MPB-2A-qt3" firstAttribute="leading" secondItem="Xal-gA-tbc" secondAttribute="trailing" constant="8" symbolic="YES" id="cJY-r6-G1L"/>
                                                 <constraint firstItem="byg-rA-OYJ" firstAttribute="width" secondItem="Xal-gA-tbc" secondAttribute="width" id="hcI-Pm-6Bj"/>
+                                                <constraint firstItem="0ya-RM-kNB" firstAttribute="top" secondItem="QPF-4n-Mbj" secondAttribute="top" id="ir7-Qq-Aye"/>
                                                 <constraint firstAttribute="bottom" secondItem="MPB-2A-qt3" secondAttribute="bottom" id="n5Z-Cx-lOq"/>
                                                 <constraint firstItem="MPB-2A-qt3" firstAttribute="top" secondItem="QPF-4n-Mbj" secondAttribute="top" id="nWU-BZ-9Ou"/>
+                                                <constraint firstAttribute="bottom" secondItem="0ya-RM-kNB" secondAttribute="bottom" id="nj0-XO-dc2"/>
                                                 <constraint firstAttribute="bottom" secondItem="Xal-gA-tbc" secondAttribute="bottom" id="o9k-LE-yZL"/>
-                                                <constraint firstItem="byg-rA-OYJ" firstAttribute="leading" secondItem="MPB-2A-qt3" secondAttribute="trailing" constant="16" id="sNF-lC-Joh"/>
+                                                <constraint firstItem="byg-rA-OYJ" firstAttribute="leading" secondItem="MPB-2A-qt3" secondAttribute="trailing" constant="8" symbolic="YES" id="sNF-lC-Joh"/>
+                                                <constraint firstItem="MPB-2A-qt3" firstAttribute="leading" secondItem="QEC-58-NeX" secondAttribute="trailing" constant="8" symbolic="YES" id="sSe-rP-sIX"/>
                                                 <constraint firstItem="Xal-gA-tbc" firstAttribute="top" secondItem="QPF-4n-Mbj" secondAttribute="top" id="xIi-ji-vVX"/>
                                                 <constraint firstAttribute="bottom" secondItem="byg-rA-OYJ" secondAttribute="bottom" id="zxL-bX-7g9"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="cJY-r6-G1L"/>
+                                                    <exclude reference="0ej-5o-fwS"/>
+                                                    <exclude reference="Olq-fv-Q1p"/>
+                                                </mask>
+                                            </variation>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l4c-9O-IfQ">
                                             <rect key="frame" x="4" y="297" width="371" height="142"/>
@@ -730,6 +776,8 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="averageImageView" destination="9Of-sT-n9y" id="k4n-yy-ZpE"/>
+                                    <outlet property="button1DownCarrot" destination="QEC-58-NeX" id="29y-ce-ybJ"/>
+                                    <outlet property="button2DownCarrot" destination="0ya-RM-kNB" id="ujM-Gb-vwJ"/>
                                     <outlet property="correlationButton1" destination="Xal-gA-tbc" id="byF-kh-TWi"/>
                                     <outlet property="correlationButton2" destination="byg-rA-OYJ" id="9eo-UP-heZ"/>
                                     <outlet property="correlationSelectorView" destination="QPF-4n-Mbj" id="RMM-m0-uEr"/>
@@ -796,6 +844,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="down_carrot" width="20" height="11"/>
         <image name="expand_icon" width="44" height="44"/>
         <image name="info_icon" width="27" height="27"/>
         <image name="info_icon_selected" width="44" height="44"/>

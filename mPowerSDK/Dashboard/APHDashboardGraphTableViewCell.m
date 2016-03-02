@@ -36,25 +36,28 @@ const CGFloat kSparkLineGraphContainerHeight = 142.f;
 {
     [super awakeFromNib];
     
-    [self giveButtonDownCarrot:self.correlationButton1];
-    [self giveButtonDownCarrot:self.correlationButton2];
-}
-
-#pragma mark - Helper Methods
-
-- (void)giveButtonDownCarrot:(UIButton *)button
-{
-    CGFloat buttonWidth = button.frame.size.width;
-    CGFloat offset = buttonWidth - 20;
+    [self.button1DownCarrot setImage:[UIImage imageNamed:@"down_carrot"]];
+    [self.button1DownCarrot setTintColor:[UIColor lightGrayColor]];
     
-    [button setImage:[UIImage imageNamed:@"down_carrot"] forState:UIControlStateNormal];
-    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, -offset, 0, 0)];
-    [button setImageEdgeInsets:UIEdgeInsetsMake(5, offset - 5, 5, 5)];
-    
-    [button.imageView setTintColor:[UIColor lightGrayColor]];
+    [self.button2DownCarrot setImage:[UIImage imageNamed:@"down_carrot"]];
+    [self.button2DownCarrot setTintColor:[UIColor lightGrayColor]];
 }
 
 #pragma mark - Accessors
+
+- (void)setButton1Title:(NSString *)button1Title
+{
+    _button1Title = button1Title;
+//    self.correlationButton1.titleLabel.text = button1Title;
+    [self.correlationButton1 setTitle:button1Title forState:UIControlStateNormal];
+}
+
+- (void)setButton2Title:(NSString *)button2Title
+{
+    _button2Title = button2Title;
+//    self.correlationButton2.titleLabel.text = button2Title;
+    [self.correlationButton2 setTitle:button2Title forState:UIControlStateNormal];
+}
 
 - (void)setCorrelationButton1TitleColor:(UIColor *)correlationButton1TitleColor
 {

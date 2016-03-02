@@ -28,7 +28,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *correlationButton1;
 @property (weak, nonatomic) IBOutlet UIButton *correlationButton2;
 @property (weak, nonatomic) IBOutlet UILabel *correlationVSLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *button1DownCarrot;
+@property (weak, nonatomic) IBOutlet UIImageView *button2DownCarrot;
 
+@property (weak, nonatomic) NSString *button1Title;
+@property (weak, nonatomic) NSString *button2Title;
 @property (weak, nonatomic) UIColor *correlationButton1TitleColor;
 @property (weak, nonatomic) UIColor *correlationButton2TitleColor;
 

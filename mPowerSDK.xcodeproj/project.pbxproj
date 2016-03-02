@@ -11,6 +11,8 @@
 		43FEA4A51C86DEC80005B38F /* APHLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FEA4A31C86DEC80005B38F /* APHLineGraphView.m */; };
 		43FEA4A81C86E33C0005B38F /* APHDiscreteGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 43FEA4A61C86E33C0005B38F /* APHDiscreteGraphView.h */; };
 		43FEA4A91C86E33C0005B38F /* APHDiscreteGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FEA4A71C86E33C0005B38F /* APHDiscreteGraphView.m */; };
+		43FEA4B71C8794960005B38F /* APHCorrelationsSelectorViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 43FEA4B51C8794960005B38F /* APHCorrelationsSelectorViewController.h */; };
+		43FEA4B81C8794960005B38F /* APHCorrelationsSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FEA4B61C8794960005B38F /* APHCorrelationsSelectorViewController.m */; };
 		6BE0CD951C86293700B74276 /* APHScatterGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE0CD931C86293700B74276 /* APHScatterGraphView.h */; };
 		6BE0CD961C86293700B74276 /* APHScatterGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE0CD941C86293700B74276 /* APHScatterGraphView.m */; };
 		6BED4D771C8550A600A4269D /* APHDashboardGraphTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BED4D751C8550A600A4269D /* APHDashboardGraphTableViewCell.h */; };
@@ -166,6 +168,8 @@
 		43FEA4A31C86DEC80005B38F /* APHLineGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHLineGraphView.m; sourceTree = "<group>"; };
 		43FEA4A61C86E33C0005B38F /* APHDiscreteGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDiscreteGraphView.h; sourceTree = "<group>"; };
 		43FEA4A71C86E33C0005B38F /* APHDiscreteGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHDiscreteGraphView.m; sourceTree = "<group>"; };
+		43FEA4B51C8794960005B38F /* APHCorrelationsSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHCorrelationsSelectorViewController.h; sourceTree = "<group>"; };
+		43FEA4B61C8794960005B38F /* APHCorrelationsSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHCorrelationsSelectorViewController.m; sourceTree = "<group>"; };
 		6BE0CD931C86293700B74276 /* APHScatterGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHScatterGraphView.h; sourceTree = "<group>"; };
 		6BE0CD941C86293700B74276 /* APHScatterGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHScatterGraphView.m; sourceTree = "<group>"; };
 		6BED4D751C8550A600A4269D /* APHDashboardGraphTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDashboardGraphTableViewCell.h; sourceTree = "<group>"; };
@@ -708,6 +712,8 @@
 			isa = PBXGroup;
 			children = (
 				FFFA24C01C237E1500727DA8 /* APHDashboard.storyboard */,
+				43FEA4B51C8794960005B38F /* APHCorrelationsSelectorViewController.h */,
+				43FEA4B61C8794960005B38F /* APHCorrelationsSelectorViewController.m */,
 				FFFA24BC1C237E1500727DA8 /* APHDashboardEditViewController.h */,
 				FFFA24BD1C237E1500727DA8 /* APHDashboardEditViewController.m */,
 				FFFA24BE1C237E1500727DA8 /* APHDashboardViewController.h */,
@@ -754,6 +760,7 @@
 				80DC1BD31C6A8F2500235C2E /* APHMoodSurveyTaskViewController.h in Headers */,
 				FF2D8BD81C497D28004EC642 /* APHMedicationTrackerTask.h in Headers */,
 				803237921C6BD0DB00208365 /* APHMoodLogDictionaryKeys.h in Headers */,
+				43FEA4B71C8794960005B38F /* APHCorrelationsSelectorViewController.h in Headers */,
 				FF5842C11C517D3100C85C2E /* APHMedicationTrackerDataStore.h in Headers */,
 				80DC1BDE1C6A8F2600235C2E /* APHCustomSurveyTableViewCell.h in Headers */,
 				80DC1BD51C6A8F2500235C2E /* APHMoodSurveyIntroStepViewController.h in Headers */,
@@ -949,6 +956,7 @@
 				6BED4D841C8595EC00A4269D /* APHTableViewDashboardGraphItem.m in Sources */,
 				FF0B4AC61C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m in Sources */,
 				FFFA24C81C237E1500727DA8 /* APHDashboardViewController.m in Sources */,
+				43FEA4B81C8794960005B38F /* APHCorrelationsSelectorViewController.m in Sources */,
 				FF2D8BD91C497D28004EC642 /* APHMedicationTrackerTask.m in Sources */,
 				FFFA24741C23657700727DA8 /* APHAppDelegate.m in Sources */,
 				FFFA24861C23664500727DA8 /* APHAppDelegate+APHMigration.m in Sources */,
