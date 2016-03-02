@@ -808,6 +808,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
             graphView.delegate = self;
             graphView.tintColor = graphItem.tintColor;
             graphView.axisColor = [UIColor appTertiaryGrayColor];
+            graphView.showsVerticalReferenceLines = YES;
             graphView.panGestureRecognizer.delegate = self;
             graphView.axisTitleFont = [UIFont appRegularFontWithSize:14.0f];
             graphView.showsHorizontalReferenceLines = NO;

@@ -487,18 +487,18 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
 
 - (void)drawVerticalReferenceLines
 {
-    for (int i=1; i<self.numberOfXAxisTitles; i++) {
+    for (int i=1; i<self.numberOfXAxisTitles; i += 2) {
         
         CGFloat positionOnXAxis = ((CGRectGetWidth(self.plotsView.frame) / (self.numberOfXAxisTitles - 1)) * i);
         
         UIBezierPath *referenceLinePath = [UIBezierPath bezierPath];
         [referenceLinePath moveToPoint:CGPointMake(positionOnXAxis, 0)];
-        [referenceLinePath addLineToPoint:CGPointMake(positionOnXAxis, CGRectGetHeight(self.plotsView.frame))];
+        [referenceLinePath addLineToPoint:CGPointMake(positionOnXAxis, CGRectGetHeight(self.plotsView.frame) - 1)];
         
         CAShapeLayer *referenceLineLayer = [CAShapeLayer layer];
-        referenceLineLayer.strokeColor = self.referenceLineColor.CGColor;
+        referenceLineLayer.strokeColor = [UIColor appSecondaryColor4].CGColor;
         referenceLineLayer.path = referenceLinePath.CGPath;
-        referenceLineLayer.lineDashPattern = self.isLandscapeMode ? @[@12, @7] : @[@6, @4];
+        referenceLineLayer.lineWidth = (CGRectGetWidth(self.plotsView.frame) / (self.numberOfXAxisTitles - 1));
         [self.plotsView.layer addSublayer:referenceLineLayer];
         
         [self.referenceLines addObject:referenceLineLayer];
