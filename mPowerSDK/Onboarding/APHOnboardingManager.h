@@ -35,6 +35,7 @@
 
 @interface APHOnboardingManager : APCOnboardingManager
 
-- (ORKTaskViewController *)instantiateOnboardingTaskViewController;
+- (ORKTaskViewController *)instantiateOnboardingTaskViewController:(BOOL)signUp;
+- (ORKTaskViewController *)instantiateConsentViewController;
 
 @end
