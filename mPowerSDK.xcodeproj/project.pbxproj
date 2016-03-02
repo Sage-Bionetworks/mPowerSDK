@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6BE0CD951C86293700B74276 /* APHScatterGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE0CD931C86293700B74276 /* APHScatterGraphView.h */; };
+		6BE0CD961C86293700B74276 /* APHScatterGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE0CD941C86293700B74276 /* APHScatterGraphView.m */; };
 		6BED4D771C8550A600A4269D /* APHDashboardGraphTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BED4D751C8550A600A4269D /* APHDashboardGraphTableViewCell.h */; };
 		6BED4D781C8550A600A4269D /* APHDashboardGraphTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BED4D761C8550A600A4269D /* APHDashboardGraphTableViewCell.m */; };
 		6BED4D831C8595EC00A4269D /* APHTableViewDashboardGraphItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BED4D811C8595EC00A4269D /* APHTableViewDashboardGraphItem.h */; };
@@ -156,6 +158,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6BE0CD931C86293700B74276 /* APHScatterGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHScatterGraphView.h; sourceTree = "<group>"; };
+		6BE0CD941C86293700B74276 /* APHScatterGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHScatterGraphView.m; sourceTree = "<group>"; };
 		6BED4D751C8550A600A4269D /* APHDashboardGraphTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDashboardGraphTableViewCell.h; sourceTree = "<group>"; };
 		6BED4D761C8550A600A4269D /* APHDashboardGraphTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHDashboardGraphTableViewCell.m; sourceTree = "<group>"; };
 		6BED4D811C8595EC00A4269D /* APHTableViewDashboardGraphItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHTableViewDashboardGraphItem.h; sourceTree = "<group>"; };
@@ -702,6 +706,8 @@
 				FFFA24BF1C237E1500727DA8 /* APHDashboardViewController.m */,
 				6BED4D751C8550A600A4269D /* APHDashboardGraphTableViewCell.h */,
 				6BED4D761C8550A600A4269D /* APHDashboardGraphTableViewCell.m */,
+				6BE0CD931C86293700B74276 /* APHScatterGraphView.h */,
+				6BE0CD941C86293700B74276 /* APHScatterGraphView.m */,
 				6BED4D811C8595EC00A4269D /* APHTableViewDashboardGraphItem.h */,
 				6BED4D821C8595EC00A4269D /* APHTableViewDashboardGraphItem.m */,
 				A6B29FA01C863E49005CEF3F /* APHRegularShapeView.h */,
@@ -729,6 +735,7 @@
 				FF2D34421C31B7DC0033838A /* APHLocalization.h in Headers */,
 				6BED4D831C8595EC00A4269D /* APHTableViewDashboardGraphItem.h in Headers */,
 				FFFA24C51C237E1500727DA8 /* APHDashboardEditViewController.h in Headers */,
+				6BE0CD951C86293700B74276 /* APHScatterGraphView.h in Headers */,
 				8032378E1C6BCFF700208365 /* APHCustomTextView.h in Headers */,
 				6BED4D8F1C85C1B400A4269D /* APHScoring.h in Headers */,
 				80DC1BD31C6A8F2500235C2E /* APHMoodSurveyTaskViewController.h in Headers */,
@@ -916,6 +923,7 @@
 				FF2D8BDD1C497D4D004EC642 /* APHMedicationTrackerViewController.m in Sources */,
 				6BED4D901C85C1B400A4269D /* APHScoring.m in Sources */,
 				80DC1BC11C6A8EE800235C2E /* APHDynamicMoodSurveyTask.m in Sources */,
+				6BE0CD961C86293700B74276 /* APHScatterGraphView.m in Sources */,
 				FF346CEE1C5BE762006D9AC9 /* NSArray+APHExtensions.m in Sources */,
 				FFFA24921C236E9A00727DA8 /* APHProfileExtender.m in Sources */,
 				803237931C6BD0DB00208365 /* APHMoodLogDictionaryKeys.m in Sources */,

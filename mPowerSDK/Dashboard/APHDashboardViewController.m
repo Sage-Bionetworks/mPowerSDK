@@ -40,6 +40,7 @@
 #import "APHMedicationTrackerTask.h"
 #import "APHMedicationTrackerViewController.h"
 #import "APHSpatialSpanMemoryGameViewController.h"
+#import "APHScatterGraphView.h"
 #import "APHTableViewDashboardGraphItem.h"
 #import "APHScoring.h"
 //#import "APHTremorTaskViewController.h"
@@ -50,6 +51,10 @@
 static NSString * const kAPCBasicTableViewCellIdentifier          = @"APCBasicTableViewCell";
 static NSString * const kAPCRightDetailTableViewCellIdentifier    = @"APCRightDetailTableViewCell";
 static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboardGraphTableViewCell";
+
+@interface APCDashboardViewController (Private) <UIGestureRecognizerDelegate>
+@property (nonatomic, strong) NSMutableArray *lineCharts;
+@end
 
 @interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, ORKTaskViewControllerDelegate>
 
@@ -79,7 +84,6 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
     if (self = [super initWithCoder:aDecoder]) {
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        
         _rowItemsOrder = [NSMutableArray arrayWithArray:[defaults objectForKey:kAPCDashboardRowItemsOrder]];
         
         if (!_rowItemsOrder.count) {
@@ -360,7 +364,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
                     item.caption = tapScoring.caption;
                     item.taskId = APHTappingActivitySurveyIdentifier;
                     item.graphData = tapScoring;
-                    item.graphType = kAPCDashboardGraphTypeScatter;
+                    item.graphType = kAPHDashboardGraphTypeScatter;
                     
                     double avgValue = [[tapScoring averageDataPoint] doubleValue];
                     
@@ -389,7 +393,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
                     item.caption = self.gaitScoring.caption;
                     item.taskId = APHWalkingActivitySurveyIdentifier;
                     item.graphData = self.gaitScoring;
-                    item.graphType = kAPCDashboardGraphTypeScatter;
+                    item.graphType = kAPHDashboardGraphTypeScatter;
                     
                     double avgValue = [[self.gaitScoring averageDataPoint] doubleValue];
                     
@@ -417,7 +421,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
                     item.caption = self.memoryScoring.caption;
                     item.taskId = APHMemoryActivitySurveyIdentifier;
                     item.graphData = self.memoryScoring;
-                    item.graphType = kAPCDashboardGraphTypeScatter;
+                    item.graphType = kAPHDashboardGraphTypeScatter;
                     
                     double avgValue = [[self.memoryScoring averageDataPoint] doubleValue];
                     
@@ -445,7 +449,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
                     item.caption = self.phonationScoring.caption;
                     item.taskId = APHVoiceActivitySurveyIdentifier;
                     item.graphData = self.phonationScoring;
-                    item.graphType = kAPCDashboardGraphTypeScatter;
+                    item.graphType = kAPHDashboardGraphTypeScatter;
                     
                     double avgValue = [[self.phonationScoring averageDataPoint] doubleValue];
                     
@@ -764,6 +768,40 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 
         graphCell.showMedicationLegend = graphItem.showMedicationLegend;
         graphCell.scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
+        [graphCell.legendButton setAttributedTitle:graphItem.legend forState:UIControlStateNormal];
+        
+        if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
+            graphCell.discreteGraphView.hidden = YES;
+            graphCell.lineGraphView.hidden = YES;
+            graphCell.scatterGraphView.hidden = NO;
+            
+            [graphCell.legendButton setUserInteractionEnabled:graphItem.legend ? YES : NO];
+            
+            APHScatterGraphView *graphView = graphCell.scatterGraphView;
+            graphView.delegate = self;
+            graphView.tintColor = graphItem.tintColor;
+            graphView.panGestureRecognizer.delegate = self;
+            graphView.axisTitleFont = [UIFont appRegularFontWithSize:14.0f];
+            
+            graphView.maximumValueImage = graphItem.maximumImage;
+            graphView.minimumValueImage = graphItem.minimumImage;
+            
+            graphCell.averageImageView.image = graphItem.averageImage;
+            graphCell.title = graphItem.caption;
+            graphCell.subTitleLabel.text = graphItem.detailText;
+            
+            graphCell.tintColor = graphItem.tintColor;
+            graphCell.delegate = self;
+            
+            [graphView layoutSubviews];
+            
+            if (graphView != nil)
+            {
+                [self.lineCharts addObject:graphView];
+            }
+        } else {
+            graphCell.scatterGraphView.hidden = YES;
+        }
         
         for (UIView *tintView in graphCell.tintViews) {
             tintView.tintColor = graphItem.tintColor;
@@ -792,6 +830,26 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
     }
     
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+}
+
+- (void)tableView:(UITableView *)__unused tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    APCTableViewItem *dashboardItem = [self itemForIndexPath:indexPath];
+    
+    if ([dashboardItem isKindOfClass:[APHTableViewDashboardGraphItem class]]){
+        APCTableViewDashboardGraphItem *graphItem = (APCTableViewDashboardGraphItem *)dashboardItem;
+        APHDashboardGraphTableViewCell *graphCell = (APHDashboardGraphTableViewCell *)cell;
+        
+        APCBaseGraphView *graphView;
+        
+        if (graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
+            graphView = (APHScatterGraphView *)graphCell.scatterGraphView;
+            
+            [graphView setNeedsLayout];
+            [graphView layoutIfNeeded];
+            [graphView refreshGraph];
+        }
+    }
 }
 
 @end

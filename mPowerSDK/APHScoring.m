@@ -86,33 +86,22 @@
 }
 
 
-#pragma mark - APCDiscreteGraphViewDataSource
+#pragma mark - APHScatterGraphViewDataSource
 
-- (APCRangePoint *)discreteGraph:(APCDiscreteGraphView *) __unused graphView plot:(NSInteger)plotIndex valueForPointAtIndex:(NSInteger)pointIndex
+- (NSInteger)scatterGraph:(APHScatterGraphView *)graphView numberOfPointsInPlot:(NSInteger)plotIndex
 {
-    APCRangePoint *value;
-    NSDictionary *point = [NSDictionary new];
-    
-    if (plotIndex == 0) {
-        point = [self.dataPoints objectAtIndex:pointIndex];
-        value = [point valueForKey:@"datasetRangeValueKey"];
-    }
-    
-    return value;
+    return self.dataPoints.count;
 }
 
-
-#pragma mark - APHScatterGraphViewDelegate
-
-- (NSDictionary *)scatterGraph:(APCScatterGraphView *)graphView plot:(NSInteger)plotIndex valuesForPointsAtIndex:(NSInteger)pointIndex
+- (NSDictionary *)scatterGraph:(APHScatterGraphView *)graphView plot:(NSInteger)plotIndex valueForPointAtIndex:(NSInteger)pointIndex
 {
-    NSDictionary *values = [NSDictionary new];
+    NSDictionary *dataPointValue = [NSDictionary new];
     
     if (plotIndex == 0) {
-        values = [self.dataPoints objectAtIndex:pointIndex];
+        dataPointValue = [self.dataPoints objectAtIndex:pointIndex];
     }
     
-    return values;
+    return dataPointValue;
 }
 
 @end

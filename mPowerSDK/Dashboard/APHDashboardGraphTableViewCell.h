@@ -8,9 +8,12 @@
 
 #import <APCAppCore/APCAppCore.h>
 
+@class APHScatterGraphView;
+
 @interface APHDashboardGraphTableViewCell : APCDashboardGraphTableViewCell
 
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *tintViews;
+@property (weak, nonatomic) IBOutlet APHScatterGraphView *scatterGraphView;
 
 @property (nonatomic) BOOL showMedicationLegend;
 
