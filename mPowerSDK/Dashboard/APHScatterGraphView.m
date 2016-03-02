@@ -496,12 +496,24 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
         [referenceLinePath addLineToPoint:CGPointMake(positionOnXAxis, CGRectGetHeight(self.plotsView.frame) - 1)];
         
         CAShapeLayer *referenceLineLayer = [CAShapeLayer layer];
+        referenceLineLayer.fillColor = [UIColor clearColor].CGColor;
         referenceLineLayer.strokeColor = [UIColor appSecondaryColor4].CGColor;
         referenceLineLayer.path = referenceLinePath.CGPath;
         referenceLineLayer.lineWidth = (CGRectGetWidth(self.plotsView.frame) / (self.numberOfXAxisTitles - 1));
-        [self.plotsView.layer addSublayer:referenceLineLayer];
         
-        [self.referenceLines addObject:referenceLineLayer];
+        CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+        gradientLayer.startPoint = CGPointMake(0.3,1.0);
+        gradientLayer.endPoint = CGPointMake(0.3,0.0);
+        gradientLayer.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+        NSMutableArray *colors = [NSMutableArray array];
+        [colors addObject:(id)[UIColor appSecondaryColor4].CGColor];
+        [colors addObject:(id)[UIColor whiteColor].CGColor];
+        gradientLayer.colors = colors;
+        [gradientLayer setMask:referenceLineLayer];
+        
+        [self.plotsView.layer addSublayer:gradientLayer];
+        
+        [self.referenceLines addObject:gradientLayer];
     }
 }
 
