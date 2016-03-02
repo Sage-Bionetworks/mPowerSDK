@@ -22,6 +22,7 @@
 
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *tintViews;
 @property (weak, nonatomic) IBOutlet APHScatterGraphView *scatterGraphView;
+@property (weak, nonatomic) IBOutlet APCLineGraphView *sparkLineGraphView;
 
 @property (weak, nonatomic) IBOutlet UIView *correlationSelectorView;
 @property (weak, nonatomic) IBOutlet UIButton *correlationButton1;
@@ -31,11 +32,13 @@
 @property (weak, nonatomic) UIColor *correlationButton1TitleColor;
 @property (weak, nonatomic) UIColor *correlationButton2TitleColor;
 
-@property (nonatomic) BOOL showMedicationLegend;
 @property (nonatomic) BOOL showCorrelationSelectorView;
+@property (nonatomic) BOOL showMedicationLegend;
+@property (nonatomic) BOOL showSparkLineGraph;
 
 @property (weak, nonatomic) id <APHDashboardGraphTableViewCellDelegate> correlationDelegate;
 
 + (CGFloat)medicationLegendContainerHeight;
++ (CGFloat)sparkLineGraphContainerHeight;
 
 @end

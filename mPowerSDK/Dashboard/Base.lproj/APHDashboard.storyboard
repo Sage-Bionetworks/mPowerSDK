@@ -650,6 +650,23 @@
                                                 <constraint firstAttribute="bottom" secondItem="byg-rA-OYJ" secondAttribute="bottom" id="zxL-bX-7g9"/>
                                             </constraints>
                                         </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l4c-9O-IfQ">
+                                            <rect key="frame" x="4" y="297" width="371" height="142"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q4P-a3-EVs" customClass="APCLineGraphView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="371" height="142"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="Q4P-a3-EVs" secondAttribute="trailing" id="7Kl-FR-icA"/>
+                                                <constraint firstAttribute="bottom" secondItem="Q4P-a3-EVs" secondAttribute="bottom" id="96V-wU-P2d"/>
+                                                <constraint firstItem="Q4P-a3-EVs" firstAttribute="top" secondItem="l4c-9O-IfQ" secondAttribute="top" id="EFf-Jw-m8N"/>
+                                                <constraint firstItem="Q4P-a3-EVs" firstAttribute="leading" secondItem="l4c-9O-IfQ" secondAttribute="leading" id="IIh-Sl-Gpn"/>
+                                                <constraint firstAttribute="height" constant="142" id="Qer-NE-8iD"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
@@ -672,6 +689,7 @@
                                         <constraint firstAttribute="bottomMargin" secondItem="WsQ-8F-MNk" secondAttribute="bottom" constant="-1" id="M9A-Lq-JMH"/>
                                         <constraint firstItem="1Zg-Zn-gLE" firstAttribute="leading" secondItem="H4m-mE-6nc" secondAttribute="leading" constant="4" id="MrI-An-zWG"/>
                                         <constraint firstItem="1Zg-Zn-gLE" firstAttribute="top" secondItem="H4m-mE-6nc" secondAttribute="topMargin" constant="55" id="OD9-lq-U1E"/>
+                                        <constraint firstItem="l4c-9O-IfQ" firstAttribute="leading" secondItem="d2X-wq-8wN" secondAttribute="trailing" id="OEE-Cq-CDp"/>
                                         <constraint firstItem="3PS-Ja-Yr4" firstAttribute="top" secondItem="H4m-mE-6nc" secondAttribute="topMargin" constant="6" id="OyU-cK-PrR"/>
                                         <constraint firstItem="7Bk-FK-8bK" firstAttribute="top" secondItem="7ri-Tf-gM4" secondAttribute="bottom" constant="4" id="Vrv-mM-LjO"/>
                                         <constraint firstItem="d2X-wq-8wN" firstAttribute="top" secondItem="H4m-mE-6nc" secondAttribute="topMargin" constant="-7" id="VwV-lS-ahU"/>
@@ -685,6 +703,8 @@
                                         <constraint firstAttribute="trailing" secondItem="eBr-AW-1qt" secondAttribute="trailing" id="hgB-Oa-vlQ"/>
                                         <constraint firstItem="eBr-AW-1qt" firstAttribute="top" secondItem="H4m-mE-6nc" secondAttribute="topMargin" constant="-8" id="idb-Pv-9bq"/>
                                         <constraint firstItem="d2X-wq-8wN" firstAttribute="leading" secondItem="H4m-mE-6nc" secondAttribute="leading" id="jHB-8x-01r"/>
+                                        <constraint firstItem="l4c-9O-IfQ" firstAttribute="top" secondItem="3vK-Sn-o8D" secondAttribute="bottom" id="lDz-yg-AAU"/>
+                                        <constraint firstAttribute="trailing" secondItem="l4c-9O-IfQ" secondAttribute="trailing" id="laW-Ve-VjX"/>
                                         <constraint firstItem="7ri-Tf-gM4" firstAttribute="top" secondItem="H4m-mE-6nc" secondAttribute="topMargin" id="osS-vP-hvp"/>
                                         <constraint firstItem="m4F-Z8-afv" firstAttribute="top" secondItem="7ri-Tf-gM4" secondAttribute="bottom" id="q0S-Vt-ECL"/>
                                         <constraint firstItem="eBr-AW-1qt" firstAttribute="leading" secondItem="H4m-mE-6nc" secondAttribute="leading" id="ssh-TP-LHF"/>
@@ -722,6 +742,9 @@
                                     <outlet property="medicationLegendContainerView" destination="3vK-Sn-o8D" id="rTZ-cS-4iI"/>
                                     <outlet property="resizeButton" destination="3PS-Ja-Yr4" id="gux-zI-4tL"/>
                                     <outlet property="scatterGraphView" destination="3QR-Ph-tiT" id="q8c-Hi-CO5"/>
+                                    <outlet property="sparkLineGraphContainerHeightConstraint" destination="Qer-NE-8iD" id="ajX-DC-nHI"/>
+                                    <outlet property="sparkLineGraphContainerView" destination="l4c-9O-IfQ" id="xht-6n-qbT"/>
+                                    <outlet property="sparkLineGraphView" destination="Q4P-a3-EVs" id="YAn-U5-RFD"/>
                                     <outlet property="subTitleLabel" destination="7Bk-FK-8bK" id="PPc-At-C0A"/>
                                     <outlet property="tintView" destination="d2X-wq-8wN" id="mmW-rP-i8q"/>
                                     <outlet property="titleLabel" destination="7ri-Tf-gM4" id="YQ9-Ii-orD"/>

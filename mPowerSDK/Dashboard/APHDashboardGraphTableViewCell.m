@@ -9,11 +9,14 @@
 #import "APHDashboardGraphTableViewCell.h"
 
 const CGFloat kMedicationLegendContainerHeight = 80.f;
+const CGFloat kSparkLineGraphContainerHeight = 142.f;
 
 @interface APHDashboardGraphTableViewCell ()
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *medicationLegendContainerHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sparkLineGraphContainerHeightConstraint;
 @property (weak, nonatomic) IBOutlet UIView *medicationLegendContainerView;
+@property (weak, nonatomic) IBOutlet UIView *sparkLineGraphContainerView;
 
 @end
 
@@ -22,6 +25,11 @@ const CGFloat kMedicationLegendContainerHeight = 80.f;
 + (CGFloat)medicationLegendContainerHeight
 {
     return kMedicationLegendContainerHeight;
+}
+
++ (CGFloat)sparkLineGraphContainerHeight
+{
+    return kSparkLineGraphContainerHeight;
 }
 
 - (void)awakeFromNib
@@ -60,14 +68,6 @@ const CGFloat kMedicationLegendContainerHeight = 80.f;
     self.correlationButton2.titleLabel.textColor = correlationButton2TitleColor;
 }
 
-- (void)setShowMedicationLegend:(BOOL)showMedicationLegend
-{
-    _showMedicationLegend = showMedicationLegend;
-    self.medicationLegendContainerHeightConstraint.constant = showMedicationLegend ? [[self class] medicationLegendContainerHeight] : 0.0f;
-    self.medicationLegendContainerView.hidden = !showMedicationLegend;
-    [self setNeedsLayout];
-}
-
 - (void)setShowCorrelationSelectorView:(BOOL)showCorrelationSelectorView
 {
     _showCorrelationSelectorView = showCorrelationSelectorView;
@@ -75,7 +75,23 @@ const CGFloat kMedicationLegendContainerHeight = 80.f;
     self.legendButton.userInteractionEnabled = !showCorrelationSelectorView;
 }
 
-#pragma mark - Outlets
+- (void)setShowMedicationLegend:(BOOL)showMedicationLegend
+{
+    _showMedicationLegend = showMedicationLegend;
+    self.medicationLegendContainerHeightConstraint.constant = showMedicationLegend ? [[self class] medicationLegendContainerHeight] : 0.f;
+    self.medicationLegendContainerView.hidden = !showMedicationLegend;
+    [self setNeedsLayout];
+}
+
+- (void)setShowSparkLineGraph:(BOOL)showSparkLineGraph
+{
+    _showSparkLineGraph = showSparkLineGraph;
+    self.sparkLineGraphContainerHeightConstraint.constant = showSparkLineGraph ? [[self class] sparkLineGraphContainerHeight] : 0.f;
+    self.sparkLineGraphContainerView.hidden = !showSparkLineGraph;
+    [self setNeedsLayout];
+}
+
+#pragma mark - IBActions
 
 - (IBAction)correlationButton1Pressed:(UIButton *)sender {
     [self.correlationDelegate dashboardTableViewCellDidTapCorrelation1:self];

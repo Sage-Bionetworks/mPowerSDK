@@ -16,7 +16,8 @@ typedef NS_ENUM(NSUInteger, APHDashboardGraphType) {
 
 @interface APHTableViewDashboardGraphItem : APCTableViewDashboardGraphItem
 
-@property (nonatomic) BOOL showMedicationLegend;
 @property (nonatomic) BOOL showCorrelationSelectorView;
+@property (nonatomic) BOOL showMedicationLegend;
+@property (nonatomic) BOOL showSparkLineGraph;
 
 @end
