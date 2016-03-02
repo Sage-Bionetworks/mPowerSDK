@@ -57,7 +57,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 @property (nonatomic, strong) NSMutableArray *lineCharts;
 @end
 
-@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, ORKTaskViewControllerDelegate>
+@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, ORKTaskViewControllerDelegate, APHDashboardGraphTableViewCellDelegate>
 
 @property (nonatomic, strong) NSArray *rowItemsOrder;
 
@@ -346,6 +346,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
                     item.graphType = kAPCDashboardGraphTypeLine;
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
+                    item.showCorrelationSelectorView = YES;
                     item.tintColor = [UIColor appTertiaryYellowColor];
                     
                     NSString *infoFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_CORRELATION_INFO", nil, APHLocaleBundle(), @"This chart plots the index of your %@ against the index of your %@. For more comparisons, click the series name.", @"Format of caption for correlation plot comparing indices of two series, to be filled in with the names of the series being compared.");
@@ -763,6 +764,24 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
     }
 }
 
+#pragma mark - APHDashboardGraphTableViewCellDelegate
+
+- (void)dashboardTableViewCellDidTapCorrelation1:(APCDashboardTableViewCell *)cell
+{
+    APCCorrelationsSelectorViewController *correlationSelector = [[APCCorrelationsSelectorViewController alloc]initWithScoringObjects:@[self.tapRightScoring, self.tapLeftScoring, self.gaitScoring, self.stepScoring, self.memoryScoring, self.phonationScoring]];
+    [correlationSelector setTitle:@"Correlation 1"];
+    correlationSelector.delegate = self;
+    [self.navigationController pushViewController:correlationSelector animated:YES];
+}
+
+- (void)dashboardTableViewCellDidTapCorrelation2:(APCDashboardTableViewCell *)cell
+{
+    APCCorrelationsSelectorViewController *correlationSelector = [[APCCorrelationsSelectorViewController alloc]initWithScoringObjects:@[self.tapRightScoring, self.tapLeftScoring, self.gaitScoring, self.stepScoring, self.memoryScoring, self.phonationScoring]];
+    [correlationSelector setTitle:@"Correlation 2"];
+    correlationSelector.delegate = self;
+    [self.navigationController pushViewController:correlationSelector animated:YES];
+}
+
 #pragma mark - CorrelationsSelector Delegate
 
 - (void)viewController:(APCCorrelationsSelectorViewController *)__unused viewController didChangeCorrelatedScoringDataSource:(APHScoring *)scoring
@@ -792,10 +811,14 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         
         APHTableViewDashboardGraphItem *graphItem = (APHTableViewDashboardGraphItem *)dashboardItem;
         APHDashboardGraphTableViewCell *graphCell = (APHDashboardGraphTableViewCell *)cell;
-
+        
+        [graphCell.legendButton setAttributedTitle:graphItem.legend forState:UIControlStateNormal];
         graphCell.showMedicationLegend = graphItem.showMedicationLegend;
         graphCell.scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
-        [graphCell.legendButton setAttributedTitle:graphItem.legend forState:UIControlStateNormal];
+        graphCell.showCorrelationSelectorView = graphItem.showCorrelationSelectorView;
+        graphCell.correlationButton1TitleColor = [UIColor appTertiaryRedColor];
+        graphCell.correlationButton2TitleColor = [UIColor appTertiaryYellowColor];
+        graphCell.correlationDelegate = self;
         
         if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
             graphCell.discreteGraphView.hidden = YES;

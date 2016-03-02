@@ -10,12 +10,31 @@
 
 @class APHScatterGraphView;
 
+@protocol APHDashboardGraphTableViewCellDelegate <NSObject>
+
+- (void)dashboardTableViewCellDidTapCorrelation1:(APCDashboardTableViewCell *)cell;
+- (void)dashboardTableViewCellDidTapCorrelation2:(APCDashboardTableViewCell *)cell;
+
+@end
+
+
 @interface APHDashboardGraphTableViewCell : APCDashboardGraphTableViewCell
 
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *tintViews;
 @property (weak, nonatomic) IBOutlet APHScatterGraphView *scatterGraphView;
 
+@property (weak, nonatomic) IBOutlet UIView *correlationSelectorView;
+@property (weak, nonatomic) IBOutlet UIButton *correlationButton1;
+@property (weak, nonatomic) IBOutlet UIButton *correlationButton2;
+@property (weak, nonatomic) IBOutlet UILabel *correlationVSLabel;
+
+@property (weak, nonatomic) UIColor *correlationButton1TitleColor;
+@property (weak, nonatomic) UIColor *correlationButton2TitleColor;
+
 @property (nonatomic) BOOL showMedicationLegend;
+@property (nonatomic) BOOL showCorrelationSelectorView;
+
+@property (weak, nonatomic) id <APHDashboardGraphTableViewCellDelegate> correlationDelegate;
 
 + (CGFloat)medicationLegendContainerHeight;
 

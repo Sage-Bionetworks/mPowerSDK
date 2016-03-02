@@ -24,7 +24,41 @@ const CGFloat kMedicationLegendContainerHeight = 80.f;
     return kMedicationLegendContainerHeight;
 }
 
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    
+    [self giveButtonDownCarrot:self.correlationButton1];
+    [self giveButtonDownCarrot:self.correlationButton2];
+}
+
+#pragma mark - Helper Methods
+
+- (void)giveButtonDownCarrot:(UIButton *)button
+{
+    CGFloat buttonWidth = button.frame.size.width;
+    CGFloat offset = buttonWidth - 20;
+    
+    [button setImage:[UIImage imageNamed:@"down_carrot"] forState:UIControlStateNormal];
+    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, -offset, 0, 0)];
+    [button setImageEdgeInsets:UIEdgeInsetsMake(5, offset - 5, 5, 5)];
+    
+    [button.imageView setTintColor:[UIColor lightGrayColor]];
+}
+
 #pragma mark - Accessors
+
+- (void)setCorrelationButton1TitleColor:(UIColor *)correlationButton1TitleColor
+{
+    _correlationButton1TitleColor = correlationButton1TitleColor;
+    self.correlationButton1.titleLabel.textColor = correlationButton1TitleColor;
+}
+
+- (void)setCorrelationButton2TitleColor:(UIColor *)correlationButton2TitleColor
+{
+    _correlationButton2TitleColor = correlationButton2TitleColor;
+    self.correlationButton2.titleLabel.textColor = correlationButton2TitleColor;
+}
 
 - (void)setShowMedicationLegend:(BOOL)showMedicationLegend
 {
@@ -32,6 +66,23 @@ const CGFloat kMedicationLegendContainerHeight = 80.f;
     self.medicationLegendContainerHeightConstraint.constant = showMedicationLegend ? [[self class] medicationLegendContainerHeight] : 0.0f;
     self.medicationLegendContainerView.hidden = !showMedicationLegend;
     [self setNeedsLayout];
+}
+
+- (void)setShowCorrelationSelectorView:(BOOL)showCorrelationSelectorView
+{
+    _showCorrelationSelectorView = showCorrelationSelectorView;
+    self.correlationSelectorView.hidden = !showCorrelationSelectorView;
+    self.legendButton.userInteractionEnabled = !showCorrelationSelectorView;
+}
+
+#pragma mark - Outlets
+
+- (IBAction)correlationButton1Pressed:(UIButton *)sender {
+    [self.correlationDelegate dashboardTableViewCellDidTapCorrelation1:self];
+}
+
+- (IBAction)correlationButton2Pressed:(UIButton *)sender {
+    [self.correlationDelegate dashboardTableViewCellDidTapCorrelation2:self];
 }
 
 @end
