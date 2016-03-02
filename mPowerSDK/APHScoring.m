@@ -148,5 +148,21 @@
     return xAxisTitle;
 }
 
+- (CGFloat)minimumValueForScatterGraph:(APHScatterGraphView *)graphView
+{
+    CGFloat factor = 0.2;
+    CGFloat maxDataPoint = (self.customMaximumPoint == CGFLOAT_MAX) ? [[self maximumDataPoint] doubleValue] : self.customMaximumPoint;
+    CGFloat minDataPoint = (self.customMinimumPoint == CGFLOAT_MIN) ? [[self minimumDataPoint] doubleValue] : self.customMinimumPoint;
+    
+    CGFloat minValue = (minDataPoint - factor*maxDataPoint)/(1-factor);
+    
+    return minValue;
+}
+
+- (CGFloat)maximumValueForScatterGraph:(APHScatterGraphView *)graphView
+{
+    return (self.customMaximumPoint == CGFLOAT_MAX) ? [[self maximumDataPoint] doubleValue] : self.customMaximumPoint;
+}
+
 
 @end
