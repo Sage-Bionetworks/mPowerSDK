@@ -246,6 +246,7 @@
 }
 
 - (void)deleteTempPDFFile {
+    // TODO: replace OLD CODE @synschronized with serial dispatch queue. syoung 03/01/2016
     @synchronized(self) {
         if (self.pdfURL) {
             NSError *error;
