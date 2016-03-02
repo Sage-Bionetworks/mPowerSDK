@@ -64,8 +64,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 
 @interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, ORKTaskViewControllerDelegate>
 
-@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, ORKTaskViewControllerDelegate>
-
 @property (weak, nonatomic) IBOutlet UIButton *monthlyReportButton;
 
 @property (nonatomic, strong) NSArray *rowItemsOrder;
@@ -788,16 +786,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
     [self prepareData];
 }
 
-#pragma mark - ORKTaskViewControllerDelegate
-
-- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(nullable NSError *)error
-{
-    [self prepareData];
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-
 #pragma mark - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -907,21 +895,18 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
     }
 }
 
-#pragma mark - monthly report
+#pragma mark - ORKTaskViewControllerDelegate
 
-- (IBAction)monthlyReportTapped:(id)sender {
-    SBAConsentDocumentFactory *factory = [[SBAConsentDocumentFactory alloc] initWithJsonNamed:@"MonthlyReport"];
-    SBANavigableOrderedTask *task = [[SBANavigableOrderedTask alloc] initWithIdentifier:kAPHMonthlyReportTaskIdentifier
-                                                                                  steps:factory.steps];
-    ORKTaskViewController *vc = [[ORKTaskViewController alloc] initWithTask:task restorationData:nil delegate:self];
-    [self presentViewController:vc animated:YES completion:nil];
-}
-
-- (void)dismissPresentedViewController {
+- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(nullable NSError *)error
+{
+    if (![[taskViewController.task identifier] isEqualToString:kAPHMonthlyReportTaskIdentifier]) {
+        [self prepareData];
+    }
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(nullable NSError *)error {
+- (void)dismissPresentedViewController {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -942,5 +927,18 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
     }
     return nil;
 }
+
+
+#pragma mark - monthly report
+
+- (IBAction)monthlyReportTapped:(id)sender {
+    SBAConsentDocumentFactory *factory = [[SBAConsentDocumentFactory alloc] initWithJsonNamed:@"MonthlyReport"];
+    SBANavigableOrderedTask *task = [[SBANavigableOrderedTask alloc] initWithIdentifier:kAPHMonthlyReportTaskIdentifier
+                                                                                  steps:factory.steps];
+    ORKTaskViewController *vc = [[ORKTaskViewController alloc] initWithTask:task restorationData:nil delegate:self];
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+
 
 @end
