@@ -8,6 +8,7 @@
 
 #import "APHScatterGraphView.h"
 #import "APHRegularShapeView.h"
+#import "APHMedicationTrackerTask.h"
 
 NSString *const kDatasetRangeValueKey = @"datasetRangeValueKey";
 NSString *const kDatasetRawDataPointsKey = @"datasetRawDataPoints";
@@ -555,14 +556,17 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
             
             APHRegularShapeView *point;
             BOOL pointColorGray = NO;
-            
-            if ([medicationActivityTiming isEqualToString:@"0-30 minutes ago"]) {
+
+            APHMedicationTrackerTask *medTrackerTask = [[APHMedicationTrackerTask alloc] init];
+            NSArray<ORKTextChoice *> *choices = medTrackerTask.activityTimingChoices;
+
+            if ([medicationActivityTiming isEqualToString:((ORKTextChoice *)choices[0]).text]) {
                 point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
-            } else if ([medicationActivityTiming isEqualToString:@"30-60 minutes ago"]) {
+            } else if ([medicationActivityTiming isEqualToString:((ORKTextChoice *)choices[1]).text]) {
                 point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:3];
-            } else if ([medicationActivityTiming isEqualToString:@"1-2 hours ago"]) {
+            } else if ([medicationActivityTiming isEqualToString:((ORKTextChoice *)choices[2]).text]) {
                 point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:4];
-            } else if ([medicationActivityTiming isEqualToString:@"More than 2 hours ago"]) {
+            } else if ([medicationActivityTiming isEqualToString:((ORKTextChoice *)choices[3]).text]) {
                 point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:5];
             } else {
                 pointColorGray = YES;
