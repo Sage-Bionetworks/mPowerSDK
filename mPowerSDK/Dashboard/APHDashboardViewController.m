@@ -807,6 +807,8 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
             tintView.tintColor = graphItem.tintColor;
         }
     }
+
+	((APCDashboardTableViewCell *)cell).titleLabel.textColor = [UIColor blackColor];
     
     return cell;
 }
