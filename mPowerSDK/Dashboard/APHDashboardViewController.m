@@ -852,6 +852,8 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
             [graphView layoutIfNeeded];
             [graphView refreshGraph];
         }
+    } else {
+        [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
     }
 }
 

@@ -554,6 +554,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
             }
             
             APHRegularShapeView *point;
+            BOOL pointColorGray = NO;
             
             if ([medicationActivityTiming isEqualToString:@"0-30 minutes ago"]) {
                 point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
@@ -564,11 +565,12 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
             } else if ([medicationActivityTiming isEqualToString:@"More than 2 hours ago"]) {
                 point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:5];
             } else {
+                pointColorGray = YES;
                 point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
             }
 
             point.tintColor = plotIndex == 0 ?
-                [medicationActivityTiming isEqualToString:@"Not sure"] ?
+                pointColorGray ?
                     [UIColor appTertiaryGrayColor] : self.tintColor : self.secondaryTintColor;
             
             point.center = CGPointMake(positionOnXAxis, [[rawDataPoint valueForKey:kDatasetValueKey] floatValue]);
