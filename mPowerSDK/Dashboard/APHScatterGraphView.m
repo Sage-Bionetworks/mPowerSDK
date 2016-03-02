@@ -329,6 +329,10 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
             if (value) {
                 [self.dataPoints addObject:value];
             }
+
+            if (value.count > 0){
+                self.hasDataPoint = YES;
+            }
         }
     }
     

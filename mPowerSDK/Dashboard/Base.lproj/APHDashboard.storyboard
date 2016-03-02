@@ -396,7 +396,7 @@
                                                                                     <color key="value" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                                                                 </userDefinedRuntimeAttribute>
                                                                                 <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                                                                    <color key="value" red="0.76017628205128207" green="0.76017628205128207" blue="0.76017628205128207" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    <color key="value" red="0.6705882352941176" green="0.6705882352941176" blue="0.6705882352941176" alpha="1" colorSpace="calibratedRGB"/>
                                                                                 </userDefinedRuntimeAttribute>
                                                                             </userDefinedRuntimeAttributes>
                                                                         </view>

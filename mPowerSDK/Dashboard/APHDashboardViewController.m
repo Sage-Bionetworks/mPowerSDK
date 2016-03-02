@@ -782,6 +782,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
             graphView.tintColor = graphItem.tintColor;
             graphView.panGestureRecognizer.delegate = self;
             graphView.axisTitleFont = [UIFont appRegularFontWithSize:14.0f];
+            graphView.showsHorizontalReferenceLines = NO;
             
             graphView.maximumValueImage = graphItem.maximumImage;
             graphView.minimumValueImage = graphItem.minimumImage;
