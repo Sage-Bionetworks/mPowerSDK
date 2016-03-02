@@ -48,15 +48,19 @@ const CGFloat kSparkLineGraphContainerHeight = 142.f;
 - (void)setButton1Title:(NSString *)button1Title
 {
     _button1Title = button1Title;
-//    self.correlationButton1.titleLabel.text = button1Title;
     [self.correlationButton1 setTitle:button1Title forState:UIControlStateNormal];
+    
+    CGRect frame = self.correlationButton1.titleLabel.frame;
+    self.correlationButton1.titleLabel.frame = CGRectMake(0, frame.origin.y, frame.size.width, frame.size.height);
 }
 
 - (void)setButton2Title:(NSString *)button2Title
 {
     _button2Title = button2Title;
-//    self.correlationButton2.titleLabel.text = button2Title;
     [self.correlationButton2 setTitle:button2Title forState:UIControlStateNormal];
+    
+    CGRect frame = self.correlationButton2.titleLabel.frame;
+    self.correlationButton2.titleLabel.frame = CGRectMake(0, frame.origin.y, frame.size.width, frame.size.height);
 }
 
 - (void)setCorrelationButton1TitleColor:(UIColor *)correlationButton1TitleColor
