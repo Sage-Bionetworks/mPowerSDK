@@ -1,0 +1,45 @@
+{
+    "steps":
+    [
+         {
+             "identifier": "consentVisual",
+             "type": "consentVisual",
+         },
+         {
+             "identifier": "shouldShowReport",
+             "type": "boolean",
+             "skipIdentifier": "Exit",
+             "text": "Do you want to receive your monthly report?",
+             "expectedAnswer": true,
+         },
+         {
+             "identifier": "report",
+             "type": "report",
+             "title": "mPower Monthly Report"
+         },
+     ],
+    "sections":
+    [
+     {
+         "sectionType" : "custom",
+         "sectionTitle": "Your Monthly Report",
+         "sectionSummary": "Your monthly report is a summary of your activity data for the past 30 days.\nIf you use the app regularly for at least 2 weeks then you can generate a Monthly Report.",
+        "sectionImage": "consent_lineChart",
+        "sectionHtmlContent" : "consent_report_1data"
+     },
+     {
+         "sectionType" : "custom",
+         "sectionTitle": "Issues to Consider",
+         "sectionSummary": "Seeing your data trends on the monthly report may generate a wide range of emotions. It may be stressful for some people.",
+         "sectionImage": "consent_mood",
+         "sectionHtmlContent" : "consent_report_2mood",
+     },
+     {
+         "sectionType" : "custom",
+         "sectionTitle": "NOT Medical Care",
+         "sectionSummary": "mPower is not used for medical care. It is a research study. The mPower app is not a diagnosis tool. We do not give medical advice or treatment recommendations.",
+         "sectionHtmlContent" : "consent_12medical_care",
+         "sectionImage": "stethoscope"
+     },
+ ]
+}

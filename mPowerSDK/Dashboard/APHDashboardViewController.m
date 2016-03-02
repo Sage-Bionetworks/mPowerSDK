@@ -1,4 +1,4 @@
-// 
+//
 //  APHDashboardViewController.m 
 //  mPower 
 // 
@@ -39,12 +39,20 @@
 #import "APHSpatialSpanMemoryGameViewController.h"
 #import "APHWalkingTaskViewController.h"
 #import "APHAppDelegate.h"
+#import "APHMedicationTrackerDataStore.h"
+#import "APHWebviewViewController.h"
+@import BridgeAppSDK;
 
 
 static NSString * const kAPCBasicTableViewCellIdentifier       = @"APCBasicTableViewCell";
 static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetailTableViewCell";
 
-@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate>
+static NSString * const kAPHMonthlyReportTaskIdentifier        = @"Monthly Report";
+static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
+
+@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, ORKTaskViewControllerDelegate>
+
+@property (weak, nonatomic) IBOutlet UIButton *monthlyReportButton;
 
 @property (nonatomic, strong) NSArray *rowItemsOrder;
 
@@ -94,11 +102,19 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
 {
     [super viewDidLoad];
     
+    self.monthlyReportButton.tintColor = [UIColor appTertiaryBlueColor];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(prepareCorrelatedScoring) name:APCSchedulerUpdatedScheduledTasksNotification object:nil];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self prepareScoringObjects];
     [self prepareData];
+    
+    // Hide the monthly reports button if this is a control group or the user does not take a tracked medication
+    APCDataGroupsManager *dataGroupsManager = [[APHAppDelegate sharedAppDelegate] dataGroupsManagerForUser:nil];
+    if (dataGroupsManager.isStudyControlGroup || [[APHMedicationTrackerDataStore defaultStore] hasNoTrackedMedication]) {
+        self.monthlyReportButton.hidden = YES;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -693,6 +709,41 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier = @"APCRightDetai
 {
     self.correlatedScoring = scoring;
     [self prepareData];
+}
+
+#pragma mark - monthly report
+
+- (IBAction)monthlyReportTapped:(id)sender {
+    SBAConsentDocumentFactory *factory = [[SBAConsentDocumentFactory alloc] initWithJsonNamed:@"MonthlyReport"];
+    SBANavigableOrderedTask *task = [[SBANavigableOrderedTask alloc] initWithIdentifier:kAPHMonthlyReportTaskIdentifier
+                                                                                  steps:factory.steps];
+    ORKTaskViewController *vc = [[ORKTaskViewController alloc] initWithTask:task restorationData:nil delegate:self];
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (void)dismissPresentedViewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(nullable NSError *)error {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (nullable ORKStepViewController *)taskViewController:(ORKTaskViewController *)taskViewController viewControllerForStep:(ORKStep *)step {
+    if ([[taskViewController.task identifier] isEqualToString:kAPHMonthlyReportTaskIdentifier] &&
+        [step.identifier isEqualToString:kAPHMonthlyReportHTMLStepIdentifier]) {
+        APHWebviewViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"APHWebviewViewController"];
+        vc.step = step;
+        // TODO: syoung 03/01/2016 Remove hardcoding and clean up architecture
+        vc.displayURLString = @"http://parkinsonmpower.org/report/index.html";
+        vc.pdfURLSuffix = @"#pdf";
+        BOOL isStaging = ([[APHAppDelegate sharedAppDelegate] environment] == SBBEnvironmentStaging);
+        NSString *sessionToken = isStaging ? @"aaa" : [[[[APHAppDelegate sharedAppDelegate] dataSubstrate] currentUser] sessionToken];
+        vc.javascriptCall = [NSString stringWithFormat:@"window.display(\"%@\")", sessionToken];
+        vc.cancelButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissPresentedViewController)];
+        return vc;
+    }
+    return nil;
 }
 
 @end
