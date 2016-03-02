@@ -1,23 +1,24 @@
 //
-//  APHLineGraphView.m
+//  APHDiscreteGraphView.m
 //  mPowerSDK
 //
 //  Created by Andy Yeung on 3/2/16.
 //  Copyright © 2016 Sage Bionetworks. All rights reserved.
 //
 
-#import "APHLineGraphView.h"
+#import "APHDiscreteGraphView.h"
 
 static CGFloat const kAPCGraphLeftPadding = 10.f;
 static CGFloat const kAxisMarkingRulerLength = 8.0f;
 
-@interface APCLineGraphView (Private)
+@interface APCDiscreteGraphView (Private)
 @property (nonatomic, strong) APCAxisView *xAxisView;
 @property (nonatomic, strong) NSMutableArray *xAxisTitles;
 @property (nonatomic) NSInteger numberOfXAxisTitles;
+@property (nonatomic, strong) UIView *plotsView;
 @end
 
-@implementation APHLineGraphView
+@implementation APHDiscreteGraphView
 
 - (void)drawXAxis
 {
@@ -25,8 +26,8 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
     [self.xAxisTitles removeAllObjects];
     
     for (int i=0; i<self.numberOfXAxisTitles; i++) {
-        if ([self.datasource respondsToSelector:@selector(lineGraph:titleForXAxisAtIndex:)]) {
-            NSString *title = [self.datasource lineGraph:self titleForXAxisAtIndex:i];
+        if ([self.datasource respondsToSelector:@selector(discreteGraph:titleForXAxisAtIndex:)]) {
+            NSString *title = [self.datasource discreteGraph:self titleForXAxisAtIndex:i];
             
             [self.xAxisTitles addObject:title];
         }
@@ -40,7 +41,6 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
     self.xAxisView = [[APCAxisView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.plotsView.frame), CGRectGetWidth(self.plotsView.frame), kXAxisHeight)];
     self.xAxisView.landscapeMode = self.landscapeMode;
     self.xAxisView.tintColor = [UIColor appSecondaryColor2];
-    self.xAxisView.shouldHighlightLastLabel = self.shouldHighlightXaxisLastTitle;
     [self.xAxisView setupLabels:self.xAxisTitles forAxisType:kAPCGraphAxisTypeX];
     self.xAxisView.leftOffset = kAPCGraphLeftPadding;
     [self insertSubview:self.xAxisView belowSubview:self.plotsView];
@@ -67,5 +67,6 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
         [self.xAxisView.layer addSublayer:rulerLayer];
     }
 }
+
 
 @end
