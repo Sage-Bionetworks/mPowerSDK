@@ -63,17 +63,25 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
+
     // stop loading and disconnect
     [self.webview stopLoading];
     self.webview.delegate = nil;
     [self.pdfWebView stopLoading];
     self.pdfWebView.delegate = nil;
     
-    // remove the temp file
+    // cancel save PDF
     self.cancelled = YES;
-    if (!self.printing) {
-        [self deleteTempPDFFile];
+}
+
+- (void)dealloc {
+    // Delete the temp file
+    if (_pdfURL) {
+        NSError *error;
+        [[NSFileManager defaultManager] removeItemAtURL:_pdfURL error:&error];
+        if (error) {
+            NSLog(@"Error deleting temp file: %@", error);
+        }
     }
 }
 
@@ -238,25 +246,8 @@
     self.pdfURL = savedPDF;
     self.pdfWebView.delegate = nil;
     self.pdfWebView = nil;
-    if (self.isCancelled) {
-        [self deleteTempPDFFile];
-    }
     self.printing = NO;
     self.shareButton.enabled = YES;
-}
-
-- (void)deleteTempPDFFile {
-    // TODO: replace OLD CODE @synschronized with serial dispatch queue. syoung 03/01/2016
-    @synchronized(self) {
-        if (self.pdfURL) {
-            NSError *error;
-            [[NSFileManager defaultManager] removeItemAtURL:self.pdfURL error:&error];
-            if (error) {
-                NSLog(@"Error deleting temp file: %@", error);
-            }
-            self.pdfURL = nil;
-        }
-    }
 }
 
 @end
