@@ -83,12 +83,9 @@
 #if DEBUG
     NSLog(@"shouldStartLoadWithRequest:%@\nnavigationType:%@", request, @(navigationType));
 #endif
+    // Only should start loading the request if this is an http url.
+    // Otherwise, it is intended for messaging
     BOOL isHTTP = [request.URL.absoluteString.lowercaseString hasPrefix:@"http"];
-    if (!isHTTP) {
-        // If the url is *not* http, then this is the callback. Use a slight delay to give the
-        // page time to load images.
-        [self webViewDidFinishLoadingData:webView delay:0.5];
-    }
     return isHTTP;
 }
 
@@ -105,25 +102,7 @@
     }
     
     // TODO: remove this line once callback is implemented syoung 03/01/2016
-    [self webViewDidFinishLoadingData:webView delay:3.0];
-}
-
-- (void)webViewDidFinishLoadingData:(UIWebView *)webView delay:(NSTimeInterval)timeInterval {
-
-    if ([self hasPrintableWebView] && (self.pdfWebView != webView)) {
-        // If there is a printable url (that is different from the main view)
-        // then need to load the PDF URL request.
-        [self loadPDFToPage];
-    }
-    else if (!self.printing && !self.isCancelled) {
-        // Otherwise, if not already printing and not cancelled, then save the PDF
-        // Note: Use a delay to load the data since the webview delegate does not
-        // get any callback after javascript load. syoung 03/01/2016
-        __weak typeof(self) weakSelf = self;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [weakSelf savePDFFromWebView:webView];
-        });
-    }
+    [self webViewDidFinishLoadingData:webView delay:5.0];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
@@ -174,55 +153,96 @@
     [self.pdfWebView loadRequest:request];
 }
 
-- (void)savePDFFromWebView:(UIWebView*)webView {
+- (void)webViewDidFinishLoadingData:(UIWebView *)webView delay:(NSTimeInterval)timeInterval {
     
-    if (self.printing || self.isCancelled || (self.pdfURL != nil)) {
+    if ([self hasPrintableWebView] && (self.pdfWebView != webView)) {
+        // If there is a printable url (that is different from the main view)
+        // then need to load the PDF URL request.
+        [self loadPDFToPage];
+    }
+    else if (!self.printing && !self.isCancelled) {
+        // Otherwise, if not already printing and not cancelled, then save the PDF
+        // Note: Use a delay to load the data since otherwise the webview rendering will sometimes
+        // crash due to a nil pointer. syoung 03/01/2016
+        __weak typeof(self) weakSelf = self;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakSelf savePDFFromWebView:webView];
+        });
+    }
+}
+
+- (void)savePDFFromWebView:(UIWebView*)webView {
+    if (self.printing) {
         return;
     }
     self.printing = YES;
-    
-    // setup the temporary file
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *fileName = [NSString stringWithFormat:@"MonthlyReport_%@.pdf", [dateFormatter stringFromDate:[NSDate date]]];
-    NSString *tempDir = NSTemporaryDirectory();
-    NSString *filepath = [tempDir stringByAppendingPathComponent:fileName];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:tempDir]) {
-        NSError *error;
-        [[NSFileManager defaultManager] createDirectoryAtPath:tempDir withIntermediateDirectories:YES attributes:nil error:&error];
-    }
-    self.pdfURL = [NSURL fileURLWithPath:filepath];
-    
-    // setup the renderer
-    SBAPDFPrintPageRenderer *renderer = [[SBAPDFPrintPageRenderer alloc] init];
-    [renderer addPrintFormatter:webView.viewPrintFormatter startingAtPageAtIndex:0];
+    [self trySavePDFFromWebView:webView retryCount:0];
+}
 
-    // Draw to a file
-    CGSize pageSize = [renderer pageSize];
-    CGRect pageRect = CGRectMake(0, 0, pageSize.width, pageSize.height);
+- (void)trySavePDFFromWebView:(UIWebView*)webView retryCount:(NSUInteger)retryCount {
     
-    UIGraphicsBeginPDFContextToFile(filepath, pageRect, nil);
-    
-    NSInteger pages = [renderer numberOfPages];
-    [renderer prepareForDrawingPages:NSMakeRange(0, pages)];
-    
-    for (NSInteger i = 0; i < pages && !self.isCancelled; i++) {
-        UIGraphicsBeginPDFPage();
-        [renderer drawPageAtIndex:i inRect:renderer.printableRect];
+    if (self.isCancelled || (self.pdfURL != nil)) {
+        return;
     }
     
-    UIGraphicsEndPDFContext();
+    NSURL *savedPDF = nil;
+    @try {
+        
+        // setup the temporary file
+        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSString *fileName = [NSString stringWithFormat:@"MonthlyReport_%@.pdf", [dateFormatter stringFromDate:[NSDate date]]];
+        NSString *tempDir = NSTemporaryDirectory();
+        NSString *filepath = [tempDir stringByAppendingPathComponent:fileName];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:tempDir]) {
+            NSError *error;
+            [[NSFileManager defaultManager] createDirectoryAtPath:tempDir withIntermediateDirectories:YES attributes:nil error:&error];
+        }
+        savedPDF = [NSURL fileURLWithPath:filepath];
+        
+        // setup the renderer
+        SBAPDFPrintPageRenderer *renderer = [[SBAPDFPrintPageRenderer alloc] init];
+        [renderer addPrintFormatter:webView.viewPrintFormatter startingAtPageAtIndex:0];
+        
+        // Draw to a file
+        CGSize pageSize = [renderer pageSize];
+        CGRect pageRect = CGRectMake(0, 0, pageSize.width, pageSize.height);
+        
+        UIGraphicsBeginPDFContextToFile(filepath, pageRect, nil);
+        
+        NSInteger pages = [renderer numberOfPages];
+        [renderer prepareForDrawingPages:NSMakeRange(0, pages)];
+        
+        for (NSInteger i = 0; i < pages && !self.isCancelled; i++) {
+            UIGraphicsBeginPDFPage();
+            [renderer drawPageAtIndex:i inRect:renderer.printableRect];
+        }
+        
+        UIGraphicsEndPDFContext();
+        
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Error printing: %@", exception);
+        
+        // retry once
+        if (retryCount < 1) {
+            __weak typeof(self) weakSelf = self;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [weakSelf trySavePDFFromWebView:webView retryCount:retryCount + 1];
+            });
+        }
+        return;
+    }
     
     // Cleanup
+    self.pdfURL = savedPDF;
+    self.pdfWebView.delegate = nil;
+    self.pdfWebView = nil;
     if (self.isCancelled) {
         [self deleteTempPDFFile];
     }
     self.printing = NO;
-    
-    // Finish webview handling
-    self.shareButton.enabled = true;
-    self.pdfWebView.delegate = nil;
-    self.pdfWebView = nil;
+    self.shareButton.enabled = YES;
 }
 
 - (void)deleteTempPDFFile {
