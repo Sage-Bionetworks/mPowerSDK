@@ -361,7 +361,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     
     self.xAxisView = [[APCAxisView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.plotsView.frame), CGRectGetWidth(self.plotsView.frame), kXAxisHeight)];
     self.xAxisView.landscapeMode = self.landscapeMode;
-    self.xAxisView.tintColor = self.tintColor;
+    self.xAxisView.tintColor = self.axisColor;
     [self.xAxisView setupLabels:self.xAxisTitles forAxisType:kAPCGraphAxisTypeX];
     self.xAxisView.leftOffset = kAPCGraphLeftPadding;
     [self insertSubview:self.xAxisView belowSubview:self.plotsView];
