@@ -7,8 +7,7 @@
 //
 
 #import "APHScatterGraphView.h"
-//#import "APCCircleView.h"
-//#import "APCAxisView.h"
+#import "APHRegularShapeView.h"
 
 NSString *const kDatasetRangeValueKey = @"datasetRangeValueKey";
 NSString *const kDatasetRawDataPointsKey = @"datasetRawDataPoints";
@@ -515,7 +514,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
 
 - (void)drawPointCirclesForPlotIndex:(NSInteger)plotIndex
 {
-    CGFloat pointSize = self.isLandscapeMode ? 10.0f : 8.0f;
+    CGFloat pointSize = self.isLandscapeMode ? 25.0f : 20.0f;
     
     for (NSUInteger i=0 ; i<self.yAxisPoints.count; i++) {
         
@@ -530,9 +529,10 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
         
         NSDictionary *positionOnYAxis = (NSDictionary *)self.yAxisPoints[i];
         NSArray *rawDataPoints = [positionOnYAxis valueForKey:kDatasetRawDataPointsKey];
+        CGRect pointFrame = CGRectMake(0, 0, pointSize, pointSize);
         
         if (rawDataPoints.count == 0) {
-            APCCircleView *point = [[APCCircleView alloc] initWithFrame:CGRectMake(0, 0, pointSize, pointSize)];
+            APHRegularShapeView *point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
             point.tintColor = (plotIndex == 0) ? self.tintColor : self.secondaryTintColor;
             point.center = CGPointMake(positionOnXAxis, [[positionOnYAxis valueForKey:kDatasetValueKey] floatValue]);
             [self.plotsView.layer addSublayer:point.layer];
@@ -546,7 +546,27 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
         }
         
         for (NSDictionary *rawDataPoint in rawDataPoints) {
-            APCCircleView *point = [[APCCircleView alloc] initWithFrame:CGRectMake(0, 0, pointSize, pointSize)];
+            NSDictionary *taskResult = [rawDataPoint valueForKey:@"datasetTaskResult"];
+            NSString *medicationActivityTiming = nil;
+            
+            if (taskResult) {
+                medicationActivityTiming = taskResult[@"MedicationActivityTiming"];
+            }
+            
+            APHRegularShapeView *point;
+            
+            if ([medicationActivityTiming isEqualToString:@"0-30 minutes ago"]) {
+                point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
+            } else if ([medicationActivityTiming isEqualToString:@"30-60 minutes ago"]) {
+                point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:3];
+            } else if ([medicationActivityTiming isEqualToString:@"1-2 hours ago"]) {
+                point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:4];
+            } else if ([medicationActivityTiming isEqualToString:@"More than 2 hours ago"]) {
+                point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:5];
+            } else {
+                point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
+            }
+            
             point.tintColor = (plotIndex == 0) ? self.tintColor : self.secondaryTintColor;
             point.center = CGPointMake(positionOnXAxis, [[rawDataPoint valueForKey:kDatasetValueKey] floatValue]);
             [self.plotsView.layer addSublayer:point.layer];
