@@ -75,6 +75,11 @@ extern NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier;
                                          subTask:(id <ORKTask> _Nullable)subTask;
 
 /**
+ * Exposes the text choices
+ */
+- (NSArray <ORKTextChoice *> *) activityTimingChoices;
+
+/**
  * Map the selected medication and frequency against the list of all possible answers
  */
 - (NSArray <APHMedication*> *)selectedMedicationFromResult:(ORKTaskResult*)result;
