@@ -38,9 +38,11 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
         self.xAxisView = nil;
     }
     
+    self.axisColor = [UIColor appTertiaryGrayColor];
+    
     self.xAxisView = [[APCAxisView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.plotsView.frame), CGRectGetWidth(self.plotsView.frame), kXAxisHeight)];
     self.xAxisView.landscapeMode = self.landscapeMode;
-    self.xAxisView.tintColor = [UIColor appSecondaryColor2];
+    self.xAxisView.tintColor = self.axisColor;
     [self.xAxisView setupLabels:self.xAxisTitles forAxisType:kAPCGraphAxisTypeX];
     self.xAxisView.leftOffset = kAPCGraphLeftPadding;
     [self insertSubview:self.xAxisView belowSubview:self.plotsView];
