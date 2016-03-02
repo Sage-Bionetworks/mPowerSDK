@@ -820,13 +820,28 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         [graphCell.legendButton setAttributedTitle:graphItem.legend forState:UIControlStateNormal];
         graphCell.showMedicationLegend = graphItem.showMedicationLegend;
         graphCell.showSparkLineGraph = graphItem.showSparkLineGraph;
-        graphCell.scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
-        graphCell.sparkLineGraphView.datasource = graphItem.graphData;
-        [graphCell.legendButton setAttributedTitle:graphItem.legend forState:UIControlStateNormal];
         graphCell.showCorrelationSelectorView = graphItem.showCorrelationSelectorView;
         graphCell.correlationButton1TitleColor = [UIColor appTertiaryRedColor];
         graphCell.correlationButton2TitleColor = [UIColor appTertiaryYellowColor];
         graphCell.correlationDelegate = self;
+        
+        APHScatterGraphView *scatterGraphView = graphCell.scatterGraphView;
+        scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
+        
+        APCLineGraphView *sparkLineGraphView = graphCell.sparkLineGraphView;
+        sparkLineGraphView.datasource = graphItem.graphData;
+        
+        sparkLineGraphView.delegate = self;
+        sparkLineGraphView.tintColor = graphItem.tintColor;
+        sparkLineGraphView.panGestureRecognizer.delegate = self;
+        sparkLineGraphView.axisTitleFont = [UIFont appRegularFontWithSize:14.0f];
+        sparkLineGraphView.maximumValueImage = graphItem.maximumImage;
+        sparkLineGraphView.minimumValueImage = graphItem.minimumImage;
+        [sparkLineGraphView layoutSubviews];
+        
+        if (sparkLineGraphView != nil) {
+            [self.lineCharts addObject:sparkLineGraphView];
+        }
         
         if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
             graphCell.discreteGraphView.hidden = YES;
@@ -836,17 +851,16 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
             
             [graphCell.legendButton setUserInteractionEnabled:graphItem.legend ? YES : NO];
             
-            APHScatterGraphView *graphView = graphCell.scatterGraphView;
-            graphView.delegate = self;
-            graphView.tintColor = graphItem.tintColor;
-            graphView.axisColor = [UIColor appTertiaryGrayColor];
-            graphView.showsVerticalReferenceLines = YES;
-            graphView.panGestureRecognizer.delegate = self;
-            graphView.axisTitleFont = [UIFont appRegularFontWithSize:14.0f];
-            graphView.showsHorizontalReferenceLines = NO;
+            scatterGraphView.delegate = self;
+            scatterGraphView.tintColor = graphItem.tintColor;
+            scatterGraphView.axisColor = [UIColor appTertiaryGrayColor];
+            scatterGraphView.showsVerticalReferenceLines = YES;
+            scatterGraphView.panGestureRecognizer.delegate = self;
+            scatterGraphView.axisTitleFont = [UIFont appRegularFontWithSize:14.0f];
+            scatterGraphView.showsHorizontalReferenceLines = NO;
             
-            graphView.maximumValueImage = graphItem.maximumImage;
-            graphView.minimumValueImage = graphItem.minimumImage;
+            scatterGraphView.maximumValueImage = graphItem.maximumImage;
+            scatterGraphView.minimumValueImage = graphItem.minimumImage;
             
             graphCell.averageImageView.image = graphItem.averageImage;
             graphCell.title = graphItem.caption;
@@ -855,11 +869,10 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
             graphCell.tintColor = graphItem.tintColor;
             graphCell.delegate = self;
             
-            [graphView layoutSubviews];
+            [scatterGraphView layoutSubviews];
             
-            if (graphView != nil)
-            {
-                [self.lineCharts addObject:graphView];
+            if (scatterGraphView != nil) {
+                [self.lineCharts addObject:scatterGraphView];
             }
         } else {
             graphCell.scatterGraphView.hidden = YES;
@@ -909,8 +922,12 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         APCTableViewDashboardGraphItem *graphItem = (APCTableViewDashboardGraphItem *)dashboardItem;
         APHDashboardGraphTableViewCell *graphCell = (APHDashboardGraphTableViewCell *)cell;
         
-        APCBaseGraphView *graphView;
+        APCLineGraphView *sparkLineGraphView = graphCell.sparkLineGraphView;
+        [sparkLineGraphView setNeedsLayout];
+        [sparkLineGraphView layoutIfNeeded];
+        [sparkLineGraphView refreshGraph];
         
+        APCBaseGraphView *graphView;
         if (graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
             graphView = (APHScatterGraphView *)graphCell.scatterGraphView;
             
