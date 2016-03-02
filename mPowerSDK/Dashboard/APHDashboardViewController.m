@@ -53,6 +53,7 @@ static NSString * const kAPCRightDetailTableViewCellIdentifier    = @"APCRightDe
 static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboardGraphTableViewCell";
 
 @interface APCDashboardViewController (Private) <UIGestureRecognizerDelegate>
+@property (nonatomic, strong) APCPresentAnimator *presentAnimator;
 @property (nonatomic, strong) NSMutableArray *lineCharts;
 @end
 
@@ -734,6 +735,28 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
     APCCorrelationsSelectorViewController *correlationSelector = [[APCCorrelationsSelectorViewController alloc]initWithScoringObjects:@[self.tapRightScoring, self.tapLeftScoring, self.gaitScoring, self.stepScoring, self.memoryScoring, self.phonationScoring]];
     correlationSelector.delegate = self;
     [self.navigationController pushViewController:correlationSelector animated:YES];
+}
+
+- (void)dashboardTableViewCellDidTapExpand:(APCDashboardTableViewCell *)cell
+{
+    if ([cell isKindOfClass:[APHDashboardGraphTableViewCell class]]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+        
+        APHTableViewDashboardGraphItem *graphItem = (APHTableViewDashboardGraphItem *)[self itemForIndexPath:indexPath];
+        
+        if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
+            graphItem.graphType = kAPHDashboardGraphTypeDiscrete;
+        }
+        
+        CGRect initialFrame = [cell convertRect:cell.bounds toView:self.view.window];
+        self.presentAnimator.initialFrame = initialFrame;
+        
+        APCGraphViewController *graphViewController = [[UIStoryboard storyboardWithName:@"APCDashboard" bundle:[NSBundle appleCoreBundle]] instantiateViewControllerWithIdentifier:@"APCLineGraphViewController"];
+        
+        graphViewController.graphItem = graphItem;
+        graphItem.graphData.scoringDelegate = graphViewController;
+        [self.navigationController presentViewController:graphViewController animated:YES completion:nil];
+    }
 }
 
 #pragma mark - CorrelationsSelector Delegate
