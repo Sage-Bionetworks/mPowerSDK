@@ -11,4 +11,6 @@
 
 @interface APHScoring : APCScoring <APHScatterGraphViewDataSource>
 
+@property (nonatomic) BOOL latestOnly;
+
 @end

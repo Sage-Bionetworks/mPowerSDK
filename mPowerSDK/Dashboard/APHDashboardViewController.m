@@ -208,30 +208,33 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 - (void)prepareScoringObjects
 {
     self.tapRightScoring = [[APHScoring alloc] initWithTask:APHTappingActivitySurveyIdentifier
-                                          numberOfDays:-kNumberOfDaysToDisplay
-                                              valueKey:APHRightSummaryNumberOfRecordsKey];
+                                               numberOfDays:-kNumberOfDaysToDisplay
+                                                   valueKey:APHRightSummaryNumberOfRecordsKey
+                                                 latestOnly:NO];
     self.tapRightScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TAPPING_RIGHT_CAPTION", nil, APHLocaleBundle(), @"Tapping - Right", @"Dashboard caption for results of right hand tapping activity.");
 
     self.tapLeftScoring = [[APHScoring alloc] initWithTask:APHTappingActivitySurveyIdentifier
-                                          numberOfDays:-kNumberOfDaysToDisplay
-                                              valueKey:APHLeftSummaryNumberOfRecordsKey];
+                                              numberOfDays:-kNumberOfDaysToDisplay
+                                                  valueKey:APHLeftSummaryNumberOfRecordsKey
+                                                latestOnly:NO];
     self.tapLeftScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TAPPING_LEFT_CAPTION", nil, APHLocaleBundle(), @"Tapping - Left", @"Dashboard caption for results of left hand tapping activity.");
     
     self.gaitScoring = [[APHScoring alloc] initWithTask:APHWalkingActivitySurveyIdentifier
                                            numberOfDays:-kNumberOfDaysToDisplay
-                                               valueKey:kGaitScoreKey];
+                                               valueKey:kGaitScoreKey
+                                             latestOnly:NO];
     self.gaitScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_WALKING_CAPTION", nil, APHLocaleBundle(), @"Gait", @"Dashboard caption for results of walking activity.");
-    
 
     self.memoryScoring = [[APHScoring alloc] initWithTask:APHMemoryActivitySurveyIdentifier
-                                           numberOfDays:-kNumberOfDaysToDisplay
-                                               valueKey:kSpatialMemoryScoreSummaryKey
+                                             numberOfDays:-kNumberOfDaysToDisplay
+                                                 valueKey:kSpatialMemoryScoreSummaryKey
                                                latestOnly:NO];
     self.memoryScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_MEMORY_CAPTION", nil, APHLocaleBundle(), @"Memory", @"Dashboard caption for results of memory activity.");
 
     self.phonationScoring = [[APHScoring alloc] initWithTask:APHVoiceActivitySurveyIdentifier
-                                             numberOfDays:-kNumberOfDaysToDisplay
-                                                 valueKey:APHPhonationScoreSummaryOfRecordsKey];
+                                                numberOfDays:-kNumberOfDaysToDisplay
+                                                    valueKey:APHPhonationScoreSummaryOfRecordsKey
+                                                  latestOnly:NO];
     self.phonationScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_VOICE_CAPTION", nil, APHLocaleBundle(), @"Voice", @"Dashboard caption for results of voice activity.");
     
     HKQuantityType *hkQuantity = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
@@ -746,6 +749,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         
         if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
             graphItem.graphType = kAPHDashboardGraphTypeDiscrete;
+            ((APHScoring *)graphItem.graphData).latestOnly = YES;
         }
         
         CGRect initialFrame = [cell convertRect:cell.bounds toView:self.view.window];
