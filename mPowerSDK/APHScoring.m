@@ -16,6 +16,8 @@
 - (NSDictionary *)generateDataPointForDate:(NSDate *)pointDate withValue:(NSNumber *)pointValue noDataValue:(BOOL)noDataValue;
 - (NSInteger)numberOfDivisionsInXAxisForDiscreteGraph:(APCDiscreteGraphView *) graphView;
 - (NSInteger)numberOfDivisionsInXAxisForLineGraph:(APCLineGraphView *) graphView;
+- (NSInteger)numberOfDivisionsInXAxis;
+- (NSInteger)numberOfPlotsInGraph;
 @end
 
 @implementation APHScoring
@@ -103,5 +105,48 @@
     
     return dataPointValue;
 }
+
+- (NSInteger)numberOfPlotsInScatterGraph:(APHScatterGraphView *)graphView
+{
+    return [self numberOfPlotsInGraph];
+}
+
+- (NSInteger)numberOfDivisionsInXAxisForGraph:(APHScatterGraphView *)graphView
+{
+    return [self numberOfDivisionsInXAxis];
+}
+
+- (NSString *)scatterGraph:(APHScatterGraphView *)graphView titleForXAxisAtIndex:(NSInteger)pointIndex
+{
+    NSDate *titleDate = nil;
+    NSInteger numOfTitles = [self numberOfDivisionsInXAxisForGraph:graphView];
+    
+    NSInteger actualIndex = ((self.dataPoints.count - 1)/numOfTitles + 1) * pointIndex;
+    
+    titleDate = [[self.dataPoints objectAtIndex:actualIndex] valueForKey:kDatasetDateKey];
+    
+    switch (self.groupBy) {
+            
+        case APHTimelineGroupMonth:
+        case APHTimelineGroupYear:
+            [self.dateFormatter setDateFormat:@"MMM"];
+            break;
+            
+        case APHTimelineGroupWeek:
+        case APHTimelineGroupDay:
+        default:
+            if (actualIndex == 0) {
+                [self.dateFormatter setDateFormat:@"MMM d"];
+            } else {
+                [self.dateFormatter setDateFormat:@"d"];
+            }
+            break;
+    }
+    
+    NSString *xAxisTitle = [self.dateFormatter stringFromDate:titleDate] ? [self.dateFormatter stringFromDate:titleDate] : @"";
+    
+    return xAxisTitle;
+}
+
 
 @end
