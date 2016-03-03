@@ -49,6 +49,7 @@
 #import "APHCorrelationsSelectorViewController.h"
 
 NSInteger const kNumberOfDaysToDisplayInSparkLineGraph = 30;
+NSInteger const kPaddingMagicNumber = 60; // For the cell height to make the dashboard look pretty.
 
 static NSString * const kAPCBasicTableViewCellIdentifier          = @"APCBasicTableViewCell";
 static NSString * const kAPCRightDetailTableViewCellIdentifier    = @"APCRightDetailTableViewCell";
@@ -985,7 +986,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
             rowHeight += [APHDashboardGraphTableViewCell correlationSelectorHeight];
         }
         
-        rowHeight += 40;
+        rowHeight += kPaddingMagicNumber;
         
         return rowHeight;
     }
