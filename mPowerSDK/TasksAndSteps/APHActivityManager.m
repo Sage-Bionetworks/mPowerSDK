@@ -93,8 +93,14 @@ static  NSTimeInterval  kWalkDuration                         = 30.0; // we'll s
 //
 // constants for setting up the tremor activity
 //
-static NSString *const kTremorAssessmentTitleIdentifier     = @"Tremor Activity";
-static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
+static NSString *const kTremorElbowBentInstructionStepIdentifier    = @"instruction5";
+static NSString *const kTremorElbowBentCountdownStepIdentifier      = @"countdown3";
+static NSString *const kTremorElbowBentStepIdentifier               = @"tremor.handAtShoulderLengthWithElbowBent";
+static NSString *const kTremorQueenWaveInstructionStepIdentifier    = @"instruction7";
+static NSString *const kTremorQueenWaveCountdownStepIdentifier      = @"countdown5";
+static NSString *const kTremorQueenWaveStepIdentifier               = @"tremor.handQueenWave";
+static NSString *const kTremorAssessmentTitleIdentifier             = @"Tremor Activity";
+static NSTimeInterval kTremorAssessmentStepDuration                 = 10.0;
 
 
 @interface APHActivityManager ()
@@ -280,10 +286,27 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
 
 - (ORKOrderedTask *)createCustomTremorTask
 {
-    return [ORKOrderedTask tremorTestTaskWithIdentifier:kTremorAssessmentTitleIdentifier
-                                 intendedUseDescription:nil
-                                     activeStepDuration:kTremorAssessmentStepDuration
-                                                options:ORKPredefinedTaskOptionNone];
+    ORKOrderedTask *orkTask = [ORKOrderedTask tremorTestTaskWithIdentifier:kTremorAssessmentTitleIdentifier
+                                                    intendedUseDescription:nil
+                                                        activeStepDuration:kTremorAssessmentStepDuration
+                                                                   options:ORKPredefinedTaskOptionNone];
+    
+    // Remove the elbow-bent and queen wave steps
+    NSMutableArray  *copyOfTaskSteps = [orkTask.steps mutableCopy];
+    for (ORKStep *step  in  orkTask.steps) {
+        if ([step.identifier isEqualToString:kTremorElbowBentInstructionStepIdentifier] ||
+            [step.identifier isEqualToString:kTremorElbowBentCountdownStepIdentifier] ||
+            [step.identifier isEqualToString:kTremorElbowBentStepIdentifier] ||
+            [step.identifier isEqualToString:kTremorQueenWaveInstructionStepIdentifier] ||
+            [step.identifier isEqualToString:kTremorQueenWaveCountdownStepIdentifier] ||
+            [step.identifier isEqualToString:kTremorQueenWaveStepIdentifier]) {
+            [copyOfTaskSteps removeObject:step];
+        }
+    }
+    
+    orkTask = [[ORKOrderedTask alloc] initWithIdentifier:kWalkingActivityTitle steps:copyOfTaskSteps];
+    
+    return orkTask;
 }
 
 @end

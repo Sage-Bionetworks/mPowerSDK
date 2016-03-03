@@ -158,7 +158,8 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
       @(kAPHDashboardItemTypeSpatialMemory),
       @(kAPHDashboardItemTypePhonation),
       @(kAPHDashboardItemTypeGait),
-      @(kAPHDashboardItemTypeTremor),
+      // TODO: Add this item when we implement scoring for Tremor activity -emm 2016-03-03
+//      @(kAPHDashboardItemTypeTremor),
       @(kAPHDashboardItemTypeDailyMood),
       @(kAPHDashboardItemTypeDailyEnergy),
       @(kAPHDashboardItemTypeDailyExercise),
