@@ -10,11 +10,15 @@
 
 const CGFloat kMedicationLegendContainerHeight = 80.f;
 const CGFloat kSparkLineGraphContainerHeight = 142.f;
+const CGFloat kCorrelationSelectorHeight = 28.0f;
 
 @interface APHDashboardGraphTableViewCell ()
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *medicationLegendContainerHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sparkLineGraphContainerHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *correlationSelectorHeight;
+
+
 @property (weak, nonatomic) IBOutlet UIView *medicationLegendContainerView;
 @property (weak, nonatomic) IBOutlet UIView *sparkLineGraphContainerView;
 
@@ -32,15 +36,74 @@ const CGFloat kSparkLineGraphContainerHeight = 142.f;
     return kSparkLineGraphContainerHeight;
 }
 
++ (CGFloat)correlationSelectorHeight
+{
+    return kCorrelationSelectorHeight;
+}
+
 - (void)awakeFromNib
 {
     [super awakeFromNib];
     
-    [self.button1DownCarrot setImage:[UIImage imageNamed:@"down_carrot"]];
-    [self.button1DownCarrot setTintColor:[UIColor lightGrayColor]];
+    [self giveImageViewDownCarrotImage:self.button1DownCarrot];
+    [self giveImageViewDownCarrotImage:self.button2DownCarrot];
     
-    [self.button2DownCarrot setImage:[UIImage imageNamed:@"down_carrot"]];
-    [self.button2DownCarrot setTintColor:[UIColor lightGrayColor]];
+    [self updateSegmentColors];
+}
+
+#pragma mark - Helper Methods
+
+- (void)giveImageViewDownCarrotImage:(UIImageView *)button
+{
+    [button setImage:[UIImage imageNamed:@"down_carrot"]];
+    [button setTintColor:[UIColor lightGrayColor]];
+}
+
+// From: http://stackoverflow.com/questions/1196679/customizing-the-colors-of-a-uisegmentedcontrol
+- (void) updateSegmentColors
+{
+    NSUInteger numSegments = [self.correlationSegmentControl.subviews count];
+    
+    // Reset segment's color
+    for( int i = 0; i < numSegments; i++ ) {
+        [[self.correlationSegmentControl.subviews objectAtIndex:i] setTintColor:nil];
+        [[self.correlationSegmentControl.subviews objectAtIndex:i] setTintColor:[UIColor appTertiaryGrayColor]];
+        
+        UIView *segmentView = [self.correlationSegmentControl.subviews objectAtIndex:i];
+        for (UIImageView *imageView in segmentView.subviews) {
+            [imageView setTintColor:[UIColor appTertiaryGrayColor]];
+        }
+    }
+    
+    // Sort Segments from left to right
+    NSArray *sortedViews = [self.correlationSegmentControl.subviews sortedArrayUsingFunction:compareViewsByOrigin context:NULL];
+    
+    // Set selected segment color
+    NSInteger selectedIdx = self.correlationSegmentControl.selectedSegmentIndex;
+    [[sortedViews objectAtIndex:selectedIdx] setTintColor:[UIColor appTertiaryBlueColor]];
+    
+    // Remove all original segments from the control
+    for (id view in self.correlationSegmentControl.subviews) {
+        [view removeFromSuperview];
+    }
+    
+    // Append sorted and colored segments to the control
+    for (id view in sortedViews) {
+        [self.correlationSegmentControl addSubview:view];
+    }
+}
+
+
+NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
+{
+    float v1 = ((UIView *)sp1).frame.origin.x;
+    float v2 = ((UIView *)sp2).frame.origin.x;
+    if (v1 < v2)
+        return NSOrderedAscending;
+    else if (v1 > v2)
+        return NSOrderedDescending;
+    else
+        return NSOrderedSame;
 }
 
 #pragma mark - Accessors
@@ -82,6 +145,14 @@ const CGFloat kSparkLineGraphContainerHeight = 142.f;
     self.legendButton.userInteractionEnabled = !showCorrelationSelectorView;
 }
 
+- (void)setShowCorrelationSegmentControl:(BOOL)showCorrelationSegmentControl
+{
+    _showCorrelationSegmentControl = showCorrelationSegmentControl;
+    self.correlationSelectorHeight.constant = showCorrelationSegmentControl ? [[self class] correlationSelectorHeight] : 0.f;
+    self.correlationSegmentControl.hidden = !showCorrelationSegmentControl;
+    [self setNeedsLayout];
+}
+
 - (void)setShowMedicationLegend:(BOOL)showMedicationLegend
 {
     _showMedicationLegend = showMedicationLegend;
@@ -107,5 +178,11 @@ const CGFloat kSparkLineGraphContainerHeight = 142.f;
 - (IBAction)correlationButton2Pressed:(UIButton *)sender {
     [self.correlationDelegate dashboardTableViewCellDidTapCorrelation2:self];
 }
+
+- (IBAction)correlationSegmentChanged:(UISegmentedControl *)sender {
+    [self updateSegmentColors];
+    [self.correlationDelegate dashboardTableViewCellDidChangeCorrelationSegment:self.correlationSegmentControl.selectedSegmentIndex];
+}
+
 
 @end

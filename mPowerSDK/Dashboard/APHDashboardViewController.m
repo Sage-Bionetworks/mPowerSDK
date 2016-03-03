@@ -379,6 +379,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.showCorrelationSelectorView = YES;
+                    item.showCorrelationSegmentControl = YES;
                     item.tintColor = [UIColor appTertiaryYellowColor];
                     
                     NSString *infoFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_CORRELATION_INFO", nil, APHLocaleBundle(), @"This chart plots the index of your %@ against the index of your %@. For more comparisons, click the series name.", @"Format of caption for correlation plot comparing indices of two series, to be filled in with the names of the series being compared.");
@@ -821,6 +822,11 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
     [self.navigationController pushViewController:correlationSelector animated:YES];
 }
 
+- (void)dashboardTableViewCellDidChangeCorrelationSegment:(NSInteger)selectedIndex
+{
+    
+}
+
 #pragma mark - APHCorrelationsSelector Delegate
 
 - (void)didChangeCorrelatedScoringDataSourceForButton1:(APHScoring*)scoring
@@ -869,6 +875,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         graphCell.showMedicationLegend = graphItem.showMedicationLegend;
         graphCell.showSparkLineGraph = graphItem.showSparkLineGraph;
         graphCell.showCorrelationSelectorView = graphItem.showCorrelationSelectorView;
+        graphCell.showCorrelationSegmentControl = graphItem.showCorrelationSegmentControl;
         
         graphCell.button1Title = self.correlatedScoring.series1Name;
         graphCell.button2Title = self.correlatedScoring.series2Name;
@@ -958,6 +965,12 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         if (graphItem.showSparkLineGraph) {
             rowHeight += [APHDashboardGraphTableViewCell sparkLineGraphContainerHeight];
         }
+        
+        if (graphItem.showCorrelationSegmentControl) {
+            rowHeight += [APHDashboardGraphTableViewCell correlationSelectorHeight];
+        }
+        
+        rowHeight += 40;
         
         return rowHeight;
     }

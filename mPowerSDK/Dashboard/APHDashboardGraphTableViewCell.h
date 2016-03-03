@@ -14,6 +14,7 @@
 
 - (void)dashboardTableViewCellDidTapCorrelation1:(APCDashboardTableViewCell *)cell;
 - (void)dashboardTableViewCellDidTapCorrelation2:(APCDashboardTableViewCell *)cell;
+- (void)dashboardTableViewCellDidChangeCorrelationSegment:(NSInteger) selectedIndex;
 
 @end
 
@@ -31,12 +32,15 @@
 @property (weak, nonatomic) IBOutlet UIImageView *button1DownCarrot;
 @property (weak, nonatomic) IBOutlet UIImageView *button2DownCarrot;
 
+@property (weak, nonatomic) IBOutlet UISegmentedControl *correlationSegmentControl;
+
 @property (weak, nonatomic) NSString *button1Title;
 @property (weak, nonatomic) NSString *button2Title;
 @property (weak, nonatomic) UIColor *correlationButton1TitleColor;
 @property (weak, nonatomic) UIColor *correlationButton2TitleColor;
 
 @property (nonatomic) BOOL showCorrelationSelectorView;
+@property (nonatomic) BOOL showCorrelationSegmentControl;
 @property (nonatomic) BOOL showMedicationLegend;
 @property (nonatomic) BOOL showSparkLineGraph;
 
@@ -44,5 +48,6 @@
 
 + (CGFloat)medicationLegendContainerHeight;
 + (CGFloat)sparkLineGraphContainerHeight;
++ (CGFloat)correlationSelectorHeight;
 
 @end
