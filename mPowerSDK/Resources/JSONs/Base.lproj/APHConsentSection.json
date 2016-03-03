@@ -188,7 +188,7 @@
          "sectionSummary": "mPower is not used for medical care. It is a research study. The mPower app is not a diagnosis tool. We do not give medical advice or treatment recommendations.",
          "sectionLearnMoreButtonTitle" : "Learn more about issues to consider",
          "sectionHtmlContent" : "consent_12medical_care",
-         "sectionImage": "stethoscope"
+         "sectionImage": "consent_medicalCare"
      },
      {
          "sectionType" : "custom",
@@ -196,14 +196,14 @@
          "sectionSummary": "We might want to reach out to you.\n\nYou can opt out of these follow up notifications at any time.",
          "sectionLearnMoreButtonTitle" : "Learn more about follow up",
          "sectionHtmlContent" : "consent_13follow_up",
-         "sectionImage": "envelop"
+         "sectionImage": "consent_followUp"
      },
      {
          "sectionType" : "custom",
          "sectionTitle": "Pause or Quit",
          "sectionSummary": "Your participation is voluntary. You can pause your participation or you can leave the study at any time.",
          "sectionHtmlContent" : "consent_14withdrawl",
-         "sectionImage": "exit_arrow"
+         "sectionImage": "consent_exitArrow"
      },
      {
          "sectionType" : "custom",
@@ -217,21 +217,21 @@
          "sectionTitle": "Future Independent Research",
          "sectionSummary": "Your coded study data is valuable. In addition to this study, it could be used for other research. You get to decide whether or not to share your data for other research. These screens explain more about this option.",
          "sectionHtmlContent" : "consent_16future",
-         "sectionImage": "consent_data_dots"
+         "sectionImage": "consent_dataDots"
      },
      {
          "sectionType" : "custom",
          "sectionTitle": "Sharable Data",
          "sectionSummary": "Only coded study data are sharable. Coded study data do not include your name or email address. A random code is used instead.",
          "sectionHtmlContent" : "consent_17data_sharing",
-         "sectionImage": "consent_data_sharing"
+         "sectionImage": "consent_dataSharing"
      },
      {
          "sectionType" : "custom",
          "sectionTitle": "Qualified Researchers",
          "sectionSummary": "With your permission, we will share your coded study data with qualified researchers worldwide. We have rules to qualify researchers. However, we do not control the research that they do with the shared data.",
          "sectionHtmlContent" : "consent_18researchers",
-         "sectionImage": "consent_data_sharing"
+         "sectionImage": "consent_qualifiedResearchers"
      },
  ]
 }
