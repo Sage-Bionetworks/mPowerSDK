@@ -10,7 +10,7 @@
 
 const CGFloat kMedicationLegendContainerHeight = 80.f;
 const CGFloat kSparkLineGraphContainerHeight = 172.f;
-const CGFloat kCorrelationSelectorHeight = 28.f;
+const CGFloat kCorrelationSelectorHeight = 48.f;
 
 @interface APHDashboardGraphTableViewCell ()
 
@@ -114,7 +114,7 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
     [self.correlationButton1 setTitle:button1Title forState:UIControlStateNormal];
     
     CGRect frame = self.correlationButton1.titleLabel.frame;
-    self.correlationButton1.titleLabel.frame = CGRectMake(0, frame.origin.y, frame.size.width, frame.size.height);
+    self.correlationButton1.titleLabel.frame = CGRectMake(8, frame.origin.y, frame.size.width, frame.size.height);
 }
 
 - (void)setButton2Title:(NSString *)button2Title
@@ -123,7 +123,7 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
     [self.correlationButton2 setTitle:button2Title forState:UIControlStateNormal];
     
     CGRect frame = self.correlationButton2.titleLabel.frame;
-    self.correlationButton2.titleLabel.frame = CGRectMake(0, frame.origin.y, frame.size.width, frame.size.height);
+    self.correlationButton2.titleLabel.frame = CGRectMake(8, frame.origin.y, frame.size.width, frame.size.height);
 }
 
 - (void)setCorrelationButton1TitleColor:(UIColor *)correlationButton1TitleColor
@@ -155,7 +155,7 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 {
     _showCorrelationSegmentControl = showCorrelationSegmentControl;
     self.correlationSelectorHeight.constant = showCorrelationSegmentControl ? [[self class] correlationSelectorHeight] : 0.f;
-    self.correlationSegmentControl.hidden = !showCorrelationSegmentControl;
+    self.correlationSegmentControlView.hidden = !showCorrelationSegmentControl;
     [self setNeedsLayout];
 }
 

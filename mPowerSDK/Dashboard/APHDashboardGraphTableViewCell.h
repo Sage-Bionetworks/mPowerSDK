@@ -33,6 +33,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *button1DownCarrot;
 @property (weak, nonatomic) IBOutlet UIImageView *button2DownCarrot;
 
+@property (weak, nonatomic) IBOutlet UIView *correlationSegmentControlView;
+@property (weak, nonatomic) IBOutlet UILabel *correlationControlTitle;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *correlationSegmentControl;
 
 @property (weak, nonatomic) NSString *button1Title;
