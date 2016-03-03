@@ -12,9 +12,18 @@ static CGFloat const kAPCGraphLeftPadding = 10.f;
 static CGFloat const kAxisMarkingRulerLength = 8.0f;
 
 @interface APCLineGraphView (Private)
+
+@property (nonatomic, strong) NSMutableArray *dataPoints;
 @property (nonatomic, strong) APCAxisView *xAxisView;
 @property (nonatomic, strong) NSMutableArray *xAxisTitles;
+@property (nonatomic, strong) NSMutableArray *xAxisPoints;
+@property (nonatomic, strong) NSMutableArray *yAxisPoints;
 @property (nonatomic) NSInteger numberOfXAxisTitles;
+@property (nonatomic, strong) NSMutableArray *dots;
+@property (nonatomic) BOOL shouldAnimate;
+
+- (void)drawGraphForPlotIndex:(NSInteger)plotIndex;
+
 @end
 
 @implementation APHLineGraphView
@@ -68,6 +77,42 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
         rulerLayer.path = rulerPath.CGPath;
         [self.xAxisView.layer addSublayer:rulerLayer];
     }
+}
+
+- (void)drawGraphForPlotIndex:(NSInteger)plotIndex {
+	[super drawGraphForPlotIndex:plotIndex];
+
+	if (self.drawLastPoint) {
+		[self drawLastPointDot:plotIndex];
+	}
+}
+
+- (void)drawLastPointDot:(NSInteger)plotIndex
+{
+
+	NSUInteger smallestArrayCount = self.yAxisPoints.count < self.xAxisPoints.count ?: self.xAxisPoints.count;
+	smallestArrayCount--;
+
+	CGFloat dataPointVal = [self.dataPoints[smallestArrayCount] floatValue];
+
+	CGFloat positionOnXAxis = [self.xAxisPoints[smallestArrayCount] floatValue];
+
+	if (dataPointVal != NSNotFound) {
+		CGFloat positionOnYAxis = ((NSNumber*)self.yAxisPoints[smallestArrayCount]).floatValue;
+
+		CGFloat pointSize = self.isLandscapeMode ? 10.0f : 8.0f;
+		APCCircleView *point = [[APCCircleView alloc] initWithFrame:CGRectMake(0, 0, pointSize, pointSize)];
+		point.tintColor = (plotIndex == 0) ? self.tintColor : self.secondaryTintColor;
+		point.shapeLayer.fillColor = point.tintColor.CGColor;
+		point.center = CGPointMake(positionOnXAxis, positionOnYAxis);
+		[self.plotsView.layer addSublayer:point.layer];
+
+		if (self.shouldAnimate) {
+			point.alpha = 0;
+		}
+
+		[self.dots addObject:point];
+	}
 }
 
 @end

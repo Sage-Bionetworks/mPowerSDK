@@ -47,6 +47,7 @@
 #import "APHWalkingTaskViewController.h"
 #import "APHAppDelegate.h"
 #import "APHCorrelationsSelectorViewController.h"
+#import "APHLineGraphView.h"
 
 NSInteger const kNumberOfDaysToDisplayInSparkLineGraph = 30;
 NSInteger const kPaddingMagicNumber = 60; // For the cell height to make the dashboard look pretty.
@@ -915,6 +916,14 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         
         if (sparkLineGraphView != nil) {
             [self.lineCharts addObject:sparkLineGraphView];
+        }
+        
+        if (graphCell.showCorrelationSelectorView && (APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeLine) {
+            ((APHLineGraphView *)graphCell.lineGraphView).drawLastPoint = YES;
+            graphCell.lineGraphView.hidesDataPoints = YES;
+        } else {
+            ((APHLineGraphView *)graphCell.lineGraphView).drawLastPoint = NO;
+            graphCell.lineGraphView.hidesDataPoints = NO;
         }
         
         if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
