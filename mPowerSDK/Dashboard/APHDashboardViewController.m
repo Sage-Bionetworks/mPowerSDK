@@ -48,6 +48,7 @@
 #import "APHAppDelegate.h"
 #import "APHCorrelationsSelectorViewController.h"
 
+NSInteger const kNumberOfDaysToDisplayInSparkLineGraph = 30;
 
 static NSString * const kAPCBasicTableViewCellIdentifier          = @"APCBasicTableViewCell";
 static NSString * const kAPCRightDetailTableViewCellIdentifier    = @"APCRightDetailTableViewCell";
@@ -62,6 +63,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 
 @property (nonatomic, strong) NSArray *rowItemsOrder;
 @property (nonatomic, strong) NSMutableArray<APHScoring *> *correlatedScores; // Should have two!
+@property (nonatomic, strong) NSMutableDictionary *sparkLineGraphScoring;
 
 @property (nonatomic, strong) APHScoring *tapRightScoring;
 @property (nonatomic, strong) APHScoring *tapLeftScoring;
@@ -279,6 +281,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         self.correlatedScores = @[self.tapLeftScoring, self.tapRightScoring].mutableCopy;
     }
     [self prepareCorrelatedScoring];
+    [self prepareSparkLineScoring];
 }
 
 - (APHScoring *)scoringForValueKey:(NSString *)valueKey
@@ -300,6 +303,37 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
     
     // Commented out because it overwrites
 //    self.correlatedScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
+}
+
+- (void)prepareSparkLineScoring
+{
+    NSArray *scoringObjects = @[ self.tapRightScoring,
+                                 self.tapLeftScoring,
+                                 self.gaitScoring,
+                                 self.stepScoring,
+                                 self.memoryScoring,
+                                 self.phonationScoring,
+                                 self.moodScoring,
+                                 self.energyScoring,
+                                 self.exerciseScoring,
+                                 self.sleepScoring,
+                                 self.cognitiveScoring,
+                                 self.customScoring ];
+    
+    [self.sparkLineGraphScoring removeAllObjects];
+    
+    for (APHScoring *scoring in scoringObjects) {
+        NSValue *key = [NSValue valueWithPointer:(const void *)scoring];
+        APHScoring *value = [scoring copy];
+        [value updatePeriodForDays:-kNumberOfDaysToDisplayInSparkLineGraph groupBy:APHTimelineGroupDay];
+        self.sparkLineGraphScoring[key] = value;
+    }
+}
+
+- (nullable APCScoring *)sparkLineScoringForScoring:(APCScoring *)scoring
+{
+    NSValue *key = [NSValue valueWithPointer:(const void *)scoring];
+    return self.sparkLineGraphScoring[key];
 }
 
 - (void)prepareData
@@ -846,7 +880,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
         
         APCLineGraphView *sparkLineGraphView = graphCell.sparkLineGraphView;
-        sparkLineGraphView.datasource = graphItem.graphData;
+        sparkLineGraphView.datasource = [self sparkLineScoringForScoring:graphItem.graphData];
         
         sparkLineGraphView.delegate = self;
         sparkLineGraphView.tintColor = graphItem.tintColor;

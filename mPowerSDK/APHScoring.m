@@ -165,4 +165,16 @@
 }
 
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(nullable NSZone *) zone
+{
+    id copy = [super copyWithZone:zone];
+    
+    [copy setLatestOnly:self.latestOnly];
+    
+    return copy;
+}
+
+
 @end
