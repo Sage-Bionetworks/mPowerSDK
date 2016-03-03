@@ -72,7 +72,19 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 }
 
 - (ORKTaskViewController *)instantiateOnboardingTaskViewController:(BOOL)signUp {
-    NSString *taskIdentifier = signUp ? APHOnboardingSignUpTaskIdentifier : APHOnboardingSignInTaskIdentifier;
+    NSString *taskIdentifier;
+    if (self.user.isSignedUp && self.user.isSignedIn && !self.user.isConsented) {
+        // This is a reconsent flow
+        taskIdentifier = APHConsentTaskIdentifier;
+    }
+    else if (signUp) {
+        // User tapped the "Join Study" button
+        taskIdentifier = APHOnboardingSignUpTaskIdentifier;
+    }
+    else {
+        // User tapped the "Sign in" button
+        taskIdentifier = APHOnboardingSignInTaskIdentifier;
+    }
     SBANavigableOrderedTask *task = [[SBANavigableOrderedTask alloc] initWithIdentifier:taskIdentifier
                                                                                   steps:[self buildSteps:signUp]];
     ORKTaskViewController *vc = [[ORKTaskViewController alloc] initWithTask:task restorationData:nil delegate:self];
@@ -253,11 +265,9 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
         self.user.signedUp = YES;
         [self onboardingDidFinishAsSignIn];
     }
-    else if (reason == ORKTaskViewControllerFinishReasonDiscarded) {
+    else if (reason == ORKTaskViewControllerFinishReasonDiscarded)  {
         // remove the passcode and user info if the flow is cancelled
-        [ORKPasscodeViewController removePasscodeFromKeychain];
-        self.user.email = nil;
-        self.user.password = nil;
+        [APCKeychainStore resetKeyChain];
         self.user.signedIn = NO;
         self.user.signedUp = NO;
     }

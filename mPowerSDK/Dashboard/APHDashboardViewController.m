@@ -68,18 +68,19 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 
 @property (nonatomic, strong) NSArray *rowItemsOrder;
 
-@property (nonatomic, strong) APHScoring *tapRightScoring;
-@property (nonatomic, strong) APHScoring *tapLeftScoring;
-@property (nonatomic, strong) APHScoring *gaitScoring;
-@property (nonatomic, strong) APHScoring *stepScoring;
-@property (nonatomic, strong) APHScoring *memoryScoring;
-@property (nonatomic, strong) APHScoring *phonationScoring;
-@property (nonatomic, strong) APHScoring *moodScoring;
-@property (nonatomic, strong) APHScoring *energyScoring;
-@property (nonatomic, strong) APHScoring *exerciseScoring;
-@property (nonatomic, strong) APHScoring *sleepScoring;
-@property (nonatomic, strong) APHScoring *cognitiveScoring;
-@property (nonatomic, strong) APHScoring *customScoring;
+@property (nonatomic, strong) APCScoring *tapRightScoring;
+@property (nonatomic, strong) APCScoring *tapLeftScoring;
+@property (nonatomic, strong) APCScoring *gaitScoring;
+@property (nonatomic, strong) APCScoring *stepScoring;
+@property (nonatomic, strong) APCScoring *memoryScoring;
+@property (nonatomic, strong) APCScoring *phonationScoring;
+@property (nonatomic, strong) APCScoring *tremorScoring;
+@property (nonatomic, strong) APCScoring *moodScoring;
+@property (nonatomic, strong) APCScoring *energyScoring;
+@property (nonatomic, strong) APCScoring *exerciseScoring;
+@property (nonatomic, strong) APCScoring *sleepScoring;
+@property (nonatomic, strong) APCScoring *cognitiveScoring;
+@property (nonatomic, strong) APCScoring *customScoring;
 
 @end
 
@@ -168,6 +169,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
       @(kAPHDashboardItemTypeSpatialMemory),
       @(kAPHDashboardItemTypePhonation),
       @(kAPHDashboardItemTypeGait),
+      @(kAPHDashboardItemTypeTremor),
       @(kAPHDashboardItemTypeDailyMood),
       @(kAPHDashboardItemTypeDailyEnergy),
       @(kAPHDashboardItemTypeDailyExercise),
@@ -257,6 +259,11 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                                                                     unit:[HKUnit countUnit]
                                                             numberOfDays:-kNumberOfDaysToDisplay];
     self.stepScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_STEPS_CAPTION", nil, APHLocaleBundle(), @"Steps", @"Dashboard caption for results of steps score.");
+    
+    self.tremorScoring = [[APCScoring alloc] initWithTask:APHTremorActivitySurveyIdentifier
+                                             numberOfDays:-kNumberOfDaysToDisplay
+                                                 valueKey:kTremorScoreKey];
+    self.tremorScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TREMOR_CAPTION", nil, APHLocaleBundle(), @"Tremor", @"Dashboard caption for results of tremor score.");
     
     self.moodScoring = [self scoringForValueKey:@"moodsurvey103"];
     self.moodScoring.customMinimumPoint = 1.0;
@@ -517,10 +524,9 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                 }
                     break;
                     
-                /*
                 case kAPHDashboardItemTypeTremor:
                 {
-                    APHTableViewDashboardGraphItem  *item = [APHTableViewDashboardGraphItem new];
+                    APCTableViewDashboardGraphItem  *item = [APCTableViewDashboardGraphItem new];
                     item.caption = self.tremorScoring.caption;
                     item.graphData = self.tremorScoring;
                     
@@ -531,10 +537,9 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                                            APHLocalizedStringFromNumber([self.tremorScoring averageDataPoint])];
                     }
                     
-                    item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
+                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:APHTremorActivitySurveyIdentifier];
-                    item.showMedicationLegend = YES;
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TREMOR_INFO", nil, APHLocaleBundle(), @"This plot shows the score you received each day for the Tremor Test.", @"Dashboard tooltip item info text for Tremor Test in Parkinson");
                     

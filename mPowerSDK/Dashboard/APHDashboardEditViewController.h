@@ -42,6 +42,7 @@ typedef NS_ENUM(APCTableViewItemType, APHDashboardItemType) {
     kAPHDashboardItemTypeSteps,
     kAPHDashboardItemTypeAlerts,
     kAPHDashboardItemTypeInsights,
+    kAPHDashboardItemTypeTremor,
     kAPHDashboardItemTypeDailyCognitive,
     kAPHDashboardItemTypeDailyMood,
     kAPHDashboardItemTypeDailyEnergy,
