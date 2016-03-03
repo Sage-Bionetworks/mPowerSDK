@@ -31,6 +31,7 @@
 @interface APHScoring ()
 
 @property(nonatomic) NSMutableDictionary *medTimingDataPoints;
+@property(nonatomic) NSMutableDictionary *medTimingDataPointsCorrelatedScoring;
 @property(nonatomic) NSArray *filteredDataPoints;
 
 @end
@@ -123,6 +124,7 @@
 
 - (void)filterDataForMedicationTiming {
     self.medTimingDataPoints = [[NSMutableDictionary alloc] init];
+    self.medTimingDataPointsCorrelatedScoring = [[NSMutableDictionary alloc] init];
     
 	APHMedicationTrackerTask *task = [[APHMedicationTrackerTask alloc] init];
 	NSArray<ORKTextChoice *> *activityTimingChoices = task.activityTimingChoices;
@@ -151,13 +153,44 @@
 			}
 		}
 	}
+    
+    if (!self.correlatedScoring) { return; }
+    
+    for (NSDictionary *dataPoint in self.correlatedScoring.dataPoints) {
+        for (NSDictionary *rawDataPoint in dataPoint[@"datasetRawDataPoints"]) {
+            NSDictionary *taskResult = rawDataPoint[@"datasetTaskResult"];
+            NSString *medActivityTimingString = taskResult[@"MedicationActivityTiming"];
+            
+            if (!medActivityTimingString) {
+                [(NSMutableArray *) self.medTimingDataPointsCorrelatedScoring[self.activityTimingChoicesStrings.lastObject] addObject:rawDataPoint];
+            } else {
+                for (NSString *choiceString in self.activityTimingChoicesStrings) {
+                    if ([medActivityTimingString isEqualToString:choiceString]) {
+                        [(NSMutableArray *) self.medTimingDataPointsCorrelatedScoring[choiceString] addObject:rawDataPoint];
+                    }
+                }
+            }
+        }
+    }
 }
 
 - (void)changeDataPointsWithTaskChoice:(NSString *)taskChoice {
 	[self updatePeriodForDays:self.numberOfDays groupBy:self.groupBy];
-//    [self filterDataForMedicationTiming];
+    [self filterDataForMedicationTiming];
+
+//    NSLog(@"Data: %@", self.dataPoints);
+//    NSLog(@"Correlated: %@", self.correlatedScoring.dataPoints);
+    
+    self.dataPoints = self.medTimingDataPoints[taskChoice];
+    self.correlatedScoring.dataPoints = self.medTimingDataPointsCorrelatedScoring[taskChoice] ?: self.correlatedScoring.dataPoints;
+    
+    [self correlateWithScoringObject:self.correlatedScoring];
+//    NSLog(@"Data After: %@", self.dataPoints);
+//    NSLog(@"Correlated After: %@", self.correlatedScoring.dataPoints);
+//    [self updateCharts];
 //    self.filteredDataPoints = self.medTimingDataPoints[taskChoice];
 //	self.dataPoints = self.medTimingDataPoints[taskChoice];
+//    self.correlatedScoring.dataPoints = self.medTimingDataPoints[taskChoice];
 //    self.dataPoints = self.dataPointsCopyForFiltering.mutableCopy;
 }
 
@@ -295,6 +328,7 @@
     id copy = [super copyWithZone:zone];
     
     [copy setLatestOnly:self.latestOnly];
+    [copy setActivityTimingChoicesStrings:self.activityTimingChoicesStrings.copy];
     
     return copy;
 }

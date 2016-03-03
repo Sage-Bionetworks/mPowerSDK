@@ -285,7 +285,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
     self.customScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_CUSTOM_CAPTION", nil, APHLocaleBundle(), @"Custom Question", @"Dashboard caption for daily user-defined custom question report");
 
     if (!self.correlatedScores) {
-        self.correlatedScores = @[self.tapLeftScoring, self.tapRightScoring].mutableCopy;
+        self.correlatedScores = @[self.tapLeftScoring.copy, self.tapRightScoring.copy].mutableCopy;
     }
     [self prepareCorrelatedScoring];
     [self prepareSparkLineScoring];
@@ -301,6 +301,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 
 - (void)prepareCorrelatedScoring
 {
+    self.correlatedScoring = nil;
     self.correlatedScoring = self.correlatedScores[0];
     [self.correlatedScoring correlateWithScoringObject:self.correlatedScores[1]];
     
@@ -313,14 +314,6 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
     
     // Commented out because it overwrites
 //    self.correlatedScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
-}
-
-// Deprecated!
-- (void)updateCorrelatedScoring
-{
-//    NSString *taskChoice = [self.correlatedScoring.activityTimingChoicesStrings objectAtIndex:self.selectedCorrelationTimeTab];
-//    [self.correlatedScores[0] changeDataPointsWithTaskChoice:taskChoice];
-//    [self.correlatedScores[1] changeDataPointsWithTaskChoice:taskChoice];
 }
 
 - (void)prepareSparkLineScoring
@@ -852,13 +845,15 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 
 - (void)didChangeCorrelatedScoringDataSourceForButton1:(APHScoring*)scoring
 {
-    self.correlatedScores[0] = scoring;
+    self.correlatedScores[0] = scoring.copy;
+    [self prepareCorrelatedScoring];
     [self prepareData];
 }
 
 - (void)didChangeCorrelatedScoringDataSourceForButton2:(APHScoring*)scoring
 {
-    self.correlatedScores[1] = scoring;
+    self.correlatedScores[1] = scoring.copy;
+    [self prepareCorrelatedScoring];
     [self prepareData];
 }
 
