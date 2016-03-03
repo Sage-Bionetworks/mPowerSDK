@@ -39,6 +39,7 @@
 @property (weak, nonatomic) UIColor *correlationButton1TitleColor;
 @property (weak, nonatomic) UIColor *correlationButton2TitleColor;
 
+@property (nonatomic) BOOL hideTintBar;
 @property (nonatomic) BOOL showCorrelationSelectorView;
 @property (nonatomic) BOOL showCorrelationSegmentControl;
 @property (nonatomic) BOOL showMedicationLegend;

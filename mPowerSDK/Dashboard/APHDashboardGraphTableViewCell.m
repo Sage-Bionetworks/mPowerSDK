@@ -138,6 +138,12 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
     self.correlationButton2.titleLabel.textColor = correlationButton2TitleColor;
 }
 
+- (void)setHideTintBar:(BOOL)hideTintBar
+{
+    _hideTintBar = hideTintBar;
+    self.tintView.hidden = hideTintBar;
+}
+
 - (void)setShowCorrelationSelectorView:(BOOL)showCorrelationSelectorView
 {
     _showCorrelationSelectorView = showCorrelationSelectorView;
