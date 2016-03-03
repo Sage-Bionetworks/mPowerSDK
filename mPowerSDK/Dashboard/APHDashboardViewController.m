@@ -43,6 +43,7 @@
 #import "APHScatterGraphView.h"
 #import "APHTableViewDashboardGraphItem.h"
 #import "APHScoring.h"
+#import "APHSparkGraphView.h"
 //#import "APHTremorTaskViewController.h"
 #import "APHWalkingTaskViewController.h"
 #import "APHAppDelegate.h"
@@ -343,7 +344,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
     }
 }
 
-- (nullable APCScoring *)sparkLineScoringForScoring:(APCScoring *)scoring
+- (nullable APHScoring *)sparkLineScoringForScoring:(APCScoring *)scoring
 {
     NSValue *key = [NSValue valueWithPointer:(const void *)scoring];
     return self.sparkLineGraphScoring[key];
@@ -903,15 +904,18 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         APHScatterGraphView *scatterGraphView = graphCell.scatterGraphView;
         scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
         
-        APCLineGraphView *sparkLineGraphView = graphCell.sparkLineGraphView;
+        APHSparkGraphView *sparkLineGraphView = graphCell.sparkLineGraphView;
         sparkLineGraphView.datasource = [self sparkLineScoringForScoring:graphItem.graphData];
         
         sparkLineGraphView.delegate = self;
-        sparkLineGraphView.tintColor = graphItem.tintColor;
-        sparkLineGraphView.panGestureRecognizer.delegate = self;
+        sparkLineGraphView.tintColor = [UIColor appTertiaryGrayColor] ;
         sparkLineGraphView.axisTitleFont = [UIFont appRegularFontWithSize:14.0f];
+        sparkLineGraphView.hidesYAxis = YES;
+        sparkLineGraphView.hidesDataPoints = YES;
+        sparkLineGraphView.shouldHighlightXaxisLastTitle = NO;
         sparkLineGraphView.maximumValueImage = graphItem.maximumImage;
         sparkLineGraphView.minimumValueImage = graphItem.minimumImage;
+        sparkLineGraphView.showsHorizontalReferenceLines = NO;
         [sparkLineGraphView layoutSubviews];
         
         if (sparkLineGraphView != nil) {
@@ -1011,7 +1015,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         APCTableViewDashboardGraphItem *graphItem = (APCTableViewDashboardGraphItem *)dashboardItem;
         APHDashboardGraphTableViewCell *graphCell = (APHDashboardGraphTableViewCell *)cell;
         
-        APCLineGraphView *sparkLineGraphView = graphCell.sparkLineGraphView;
+        APHSparkGraphView *sparkLineGraphView = graphCell.sparkLineGraphView;
         [sparkLineGraphView setNeedsLayout];
         [sparkLineGraphView layoutIfNeeded];
         [sparkLineGraphView refreshGraph];

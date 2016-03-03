@@ -9,6 +9,7 @@
 #import <APCAppCore/APCAppCore.h>
 
 @class APHScatterGraphView;
+@class APHSparkGraphView;
 
 @protocol APHDashboardGraphTableViewCellDelegate <NSObject>
 
@@ -23,7 +24,7 @@
 
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *tintViews;
 @property (weak, nonatomic) IBOutlet APHScatterGraphView *scatterGraphView;
-@property (weak, nonatomic) IBOutlet APCLineGraphView *sparkLineGraphView;
+@property (weak, nonatomic) IBOutlet APHSparkGraphView *sparkLineGraphView;
 
 @property (weak, nonatomic) IBOutlet UIView *correlationSelectorView;
 @property (weak, nonatomic) IBOutlet UIButton *correlationButton1;

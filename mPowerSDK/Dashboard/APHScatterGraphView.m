@@ -10,9 +10,7 @@
 #import "APHRegularShapeView.h"
 #import "APHMedicationTrackerTask.h"
 
-NSString *const kDatasetRangeValueKey = @"datasetRangeValueKey";
 NSString *const kDatasetRawDataPointsKey = @"datasetRawDataPoints";
-NSString *const kDatasetValueKey = @"datasetValueKey";
 
 static CGFloat const kYAxisPaddingFactor = 0.15f;
 static CGFloat const kAPCGraphLeftPadding = 10.f;
@@ -547,7 +545,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
         }
         
         for (NSDictionary *rawDataPoint in rawDataPoints) {
-            NSDictionary *taskResult = [rawDataPoint valueForKey:@"datasetTaskResult"];
+            NSDictionary *taskResult = [rawDataPoint valueForKey:kDatasetTaskResultKey];
             NSString *medicationActivityTiming = nil;
             
             if (taskResult) {

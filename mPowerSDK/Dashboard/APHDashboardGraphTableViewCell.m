@@ -9,8 +9,8 @@
 #import "APHDashboardGraphTableViewCell.h"
 
 const CGFloat kMedicationLegendContainerHeight = 80.f;
-const CGFloat kSparkLineGraphContainerHeight = 142.f;
-const CGFloat kCorrelationSelectorHeight = 28.0f;
+const CGFloat kSparkLineGraphContainerHeight = 172.f;
+const CGFloat kCorrelationSelectorHeight = 28.f;
 
 @interface APHDashboardGraphTableViewCell ()
 
