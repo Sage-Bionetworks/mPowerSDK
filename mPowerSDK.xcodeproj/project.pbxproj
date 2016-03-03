@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43FEA4A41C86DEC80005B38F /* APHLineGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 43FEA4A21C86DEC80005B38F /* APHLineGraphView.h */; };
+		43FEA4A51C86DEC80005B38F /* APHLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FEA4A31C86DEC80005B38F /* APHLineGraphView.m */; };
+		43FEA4A81C86E33C0005B38F /* APHDiscreteGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 43FEA4A61C86E33C0005B38F /* APHDiscreteGraphView.h */; };
+		43FEA4A91C86E33C0005B38F /* APHDiscreteGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FEA4A71C86E33C0005B38F /* APHDiscreteGraphView.m */; };
+		6BE0CD951C86293700B74276 /* APHScatterGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE0CD931C86293700B74276 /* APHScatterGraphView.h */; };
+		6BE0CD961C86293700B74276 /* APHScatterGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE0CD941C86293700B74276 /* APHScatterGraphView.m */; };
+		6BED4D771C8550A600A4269D /* APHDashboardGraphTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BED4D751C8550A600A4269D /* APHDashboardGraphTableViewCell.h */; };
+		6BED4D781C8550A600A4269D /* APHDashboardGraphTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BED4D761C8550A600A4269D /* APHDashboardGraphTableViewCell.m */; };
+		6BED4D831C8595EC00A4269D /* APHTableViewDashboardGraphItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BED4D811C8595EC00A4269D /* APHTableViewDashboardGraphItem.h */; };
+		6BED4D841C8595EC00A4269D /* APHTableViewDashboardGraphItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BED4D821C8595EC00A4269D /* APHTableViewDashboardGraphItem.m */; };
+		6BED4D8F1C85C1B400A4269D /* APHScoring.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BED4D8D1C85C1B400A4269D /* APHScoring.h */; };
+		6BED4D901C85C1B400A4269D /* APHScoring.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BED4D8E1C85C1B400A4269D /* APHScoring.m */; };
 		803237891C6BCF1A00208365 /* APHQuestionViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 803237861C6BCF1A00208365 /* APHQuestionViewController.h */; };
 		8032378A1C6BCF1A00208365 /* APHQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 803237871C6BCF1A00208365 /* APHQuestionViewController.m */; };
 		8032378B1C6BCF1A00208365 /* APHQuestionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 803237881C6BCF1A00208365 /* APHQuestionViewController.xib */; };
@@ -30,6 +42,8 @@
 		80DC1BDE1C6A8F2600235C2E /* APHCustomSurveyTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 80DC1BD01C6A8F2500235C2E /* APHCustomSurveyTableViewCell.h */; };
 		80DC1BDF1C6A8F2600235C2E /* APHCustomSurveyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC1BD11C6A8F2500235C2E /* APHCustomSurveyTableViewCell.m */; };
 		80DC1BE01C6A8F2600235C2E /* APHCustomSurveyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 80DC1BD21C6A8F2500235C2E /* APHCustomSurveyTableViewCell.xib */; };
+		A6B29FA21C863E49005CEF3F /* APHRegularShapeView.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B29FA01C863E49005CEF3F /* APHRegularShapeView.h */; };
+		A6B29FA31C863E49005CEF3F /* APHRegularShapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B29FA11C863E49005CEF3F /* APHRegularShapeView.m */; };
 		A690D92E1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = A690D92C1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.h */; };
 		A690D92F1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A690D92D1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.m */; };
 		A690D9361C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = A690D9341C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.h */; };
@@ -159,6 +173,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		43FEA4A21C86DEC80005B38F /* APHLineGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHLineGraphView.h; sourceTree = "<group>"; };
+		43FEA4A31C86DEC80005B38F /* APHLineGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHLineGraphView.m; sourceTree = "<group>"; };
+		43FEA4A61C86E33C0005B38F /* APHDiscreteGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDiscreteGraphView.h; sourceTree = "<group>"; };
+		43FEA4A71C86E33C0005B38F /* APHDiscreteGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHDiscreteGraphView.m; sourceTree = "<group>"; };
+		6BE0CD931C86293700B74276 /* APHScatterGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHScatterGraphView.h; sourceTree = "<group>"; };
+		6BE0CD941C86293700B74276 /* APHScatterGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHScatterGraphView.m; sourceTree = "<group>"; };
+		6BED4D751C8550A600A4269D /* APHDashboardGraphTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDashboardGraphTableViewCell.h; sourceTree = "<group>"; };
+		6BED4D761C8550A600A4269D /* APHDashboardGraphTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHDashboardGraphTableViewCell.m; sourceTree = "<group>"; };
+		6BED4D811C8595EC00A4269D /* APHTableViewDashboardGraphItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHTableViewDashboardGraphItem.h; sourceTree = "<group>"; };
+		6BED4D821C8595EC00A4269D /* APHTableViewDashboardGraphItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHTableViewDashboardGraphItem.m; sourceTree = "<group>"; };
+		6BED4D8D1C85C1B400A4269D /* APHScoring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHScoring.h; sourceTree = "<group>"; };
+		6BED4D8E1C85C1B400A4269D /* APHScoring.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHScoring.m; sourceTree = "<group>"; };
 		803237861C6BCF1A00208365 /* APHQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHQuestionViewController.h; sourceTree = "<group>"; };
 		803237871C6BCF1A00208365 /* APHQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHQuestionViewController.m; sourceTree = "<group>"; };
 		803237881C6BCF1A00208365 /* APHQuestionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = APHQuestionViewController.xib; sourceTree = "<group>"; };
@@ -182,6 +208,8 @@
 		80DC1BD01C6A8F2500235C2E /* APHCustomSurveyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHCustomSurveyTableViewCell.h; sourceTree = "<group>"; };
 		80DC1BD11C6A8F2500235C2E /* APHCustomSurveyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHCustomSurveyTableViewCell.m; sourceTree = "<group>"; };
 		80DC1BD21C6A8F2500235C2E /* APHCustomSurveyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = APHCustomSurveyTableViewCell.xib; sourceTree = "<group>"; };
+		A6B29FA01C863E49005CEF3F /* APHRegularShapeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHRegularShapeView.h; sourceTree = "<group>"; };
+		A6B29FA11C863E49005CEF3F /* APHRegularShapeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHRegularShapeView.m; sourceTree = "<group>"; };
 		A690D92C1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHStudyLandingCollectionViewCell.h; sourceTree = "<group>"; };
 		A690D92D1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHStudyLandingCollectionViewCell.m; sourceTree = "<group>"; };
 		A690D9341C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHStudyVideoCollectionViewCell.h; sourceTree = "<group>"; };
@@ -648,6 +676,8 @@
 				FFFA24301C2351D600727DA8 /* Info.plist */,
 				FFFA248B1C236AE700727DA8 /* APHDataKeys.h */,
 				FFFA248C1C236AE700727DA8 /* APHDataKeys.m */,
+				6BED4D8D1C85C1B400A4269D /* APHScoring.h */,
+				6BED4D8E1C85C1B400A4269D /* APHScoring.m */,
 				FFFA24701C23650900727DA8 /* Startup */,
 				FFFA24971C23773900727DA8 /* Onboarding */,
 				FFFA24BB1C237E1500727DA8 /* Dashboard */,
@@ -721,6 +751,18 @@
 				FFFA24BD1C237E1500727DA8 /* APHDashboardEditViewController.m */,
 				FFFA24BE1C237E1500727DA8 /* APHDashboardViewController.h */,
 				FFFA24BF1C237E1500727DA8 /* APHDashboardViewController.m */,
+				6BED4D751C8550A600A4269D /* APHDashboardGraphTableViewCell.h */,
+				6BED4D761C8550A600A4269D /* APHDashboardGraphTableViewCell.m */,
+				43FEA4A61C86E33C0005B38F /* APHDiscreteGraphView.h */,
+				43FEA4A71C86E33C0005B38F /* APHDiscreteGraphView.m */,
+				43FEA4A21C86DEC80005B38F /* APHLineGraphView.h */,
+				43FEA4A31C86DEC80005B38F /* APHLineGraphView.m */,
+				6BE0CD931C86293700B74276 /* APHScatterGraphView.h */,
+				6BE0CD941C86293700B74276 /* APHScatterGraphView.m */,
+				6BED4D811C8595EC00A4269D /* APHTableViewDashboardGraphItem.h */,
+				6BED4D821C8595EC00A4269D /* APHTableViewDashboardGraphItem.m */,
+				A6B29FA01C863E49005CEF3F /* APHRegularShapeView.h */,
+				A6B29FA11C863E49005CEF3F /* APHRegularShapeView.m */,
 				FBAE3D141C863A68003CEC4A /* APHWebviewViewController.h */,
 				FBAE3D151C863A68003CEC4A /* APHWebviewViewController.m */,
 			);
@@ -736,16 +778,21 @@
 			files = (
 				FB4E467D1C7E675500CADC1F /* APHOnboardingManager.h in Headers */,
 				FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */,
+				6BED4D771C8550A600A4269D /* APHDashboardGraphTableViewCell.h in Headers */,
 				FF0B4AC01C29FCB800224EF7 /* APHParkinsonActivityViewController.h in Headers */,
 				FF0B4AC91C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.h in Headers */,
 				FFFA24911C236E9A00727DA8 /* APHProfileExtender.h in Headers */,
 				FF2D344E1C3207060033838A /* APHActivityManager.h in Headers */,
+				43FEA4A81C86E33C0005B38F /* APHDiscreteGraphView.h in Headers */,
 				803237891C6BCF1A00208365 /* APHQuestionViewController.h in Headers */,
 				FFFA24C71C237E1500727DA8 /* APHDashboardViewController.h in Headers */,
 				6B41081B1C73E2BF00A2FB7B /* APHTremorTaskViewController.h in Headers */,
 				FF2D34421C31B7DC0033838A /* APHLocalization.h in Headers */,
+				6BED4D831C8595EC00A4269D /* APHTableViewDashboardGraphItem.h in Headers */,
 				FFFA24C51C237E1500727DA8 /* APHDashboardEditViewController.h in Headers */,
+				6BE0CD951C86293700B74276 /* APHScatterGraphView.h in Headers */,
 				8032378E1C6BCFF700208365 /* APHCustomTextView.h in Headers */,
+				6BED4D8F1C85C1B400A4269D /* APHScoring.h in Headers */,
 				80DC1BD31C6A8F2500235C2E /* APHMoodSurveyTaskViewController.h in Headers */,
 				FF2D8BD81C497D28004EC642 /* APHMedicationTrackerTask.h in Headers */,
 				803237921C6BD0DB00208365 /* APHMoodLogDictionaryKeys.h in Headers */,
@@ -769,7 +816,9 @@
 				FFFA248D1C236AE700727DA8 /* APHDataKeys.h in Headers */,
 				FB4E46771C7E673E00CADC1F /* APHInstructionStepViewController.h in Headers */,
 				FF0B4AC21C29FCB800224EF7 /* APHScoreCalculator.h in Headers */,
+				A6B29FA21C863E49005CEF3F /* APHRegularShapeView.h in Headers */,
 				80DC1BC01C6A8EE800235C2E /* APHDynamicMoodSurveyTask.h in Headers */,
+				43FEA4A41C86DEC80005B38F /* APHLineGraphView.h in Headers */,
 				FFFA24851C23664500727DA8 /* APHAppDelegate+APHMigration.h in Headers */,
 				A690D92E1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.h in Headers */,
 			);
@@ -932,16 +981,23 @@
 				80DC1BDC1C6A8F2600235C2E /* APHCustomSurveyQuestionViewController.m in Sources */,
 				FF0B4ACA1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m in Sources */,
 				FF2D34431C31B7DC0033838A /* APHLocalization.m in Sources */,
+				43FEA4A51C86DEC80005B38F /* APHLineGraphView.m in Sources */,
 				FF0B4AC11C29FCB800224EF7 /* APHParkinsonActivityViewController.m in Sources */,
 				8032378A1C6BCF1A00208365 /* APHQuestionViewController.m in Sources */,
 				FF0B4AC81C29FCB800224EF7 /* APHPhonationTaskViewController.m in Sources */,
 				FF2D8BDD1C497D4D004EC642 /* APHMedicationTrackerViewController.m in Sources */,
+				43FEA4A91C86E33C0005B38F /* APHDiscreteGraphView.m in Sources */,
+				6BED4D901C85C1B400A4269D /* APHScoring.m in Sources */,
 				80DC1BC11C6A8EE800235C2E /* APHDynamicMoodSurveyTask.m in Sources */,
+				6BE0CD961C86293700B74276 /* APHScatterGraphView.m in Sources */,
 				FF346CEE1C5BE762006D9AC9 /* NSArray+APHExtensions.m in Sources */,
 				A690D9371C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.m in Sources */,
 				FFFA24921C236E9A00727DA8 /* APHProfileExtender.m in Sources */,
 				803237931C6BD0DB00208365 /* APHMoodLogDictionaryKeys.m in Sources */,
+				A6B29FA31C863E49005CEF3F /* APHRegularShapeView.m in Sources */,
 				8032378F1C6BCFF700208365 /* APHCustomTextView.m in Sources */,
+				6BED4D781C8550A600A4269D /* APHDashboardGraphTableViewCell.m in Sources */,
+				6BED4D841C8595EC00A4269D /* APHTableViewDashboardGraphItem.m in Sources */,
 				A690D92F1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.m in Sources */,
 				FF0B4AC61C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m in Sources */,
 				FFFA24C81C237E1500727DA8 /* APHDashboardViewController.m in Sources */,

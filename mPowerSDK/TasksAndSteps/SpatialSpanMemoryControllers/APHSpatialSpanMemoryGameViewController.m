@@ -34,6 +34,7 @@
 #import "APHSpatialSpanMemoryGameViewController.h"
 #import "APHLocalization.h"
 #import "APHActivityManager.h"
+#import "APHMedicationTrackerDataStore.h"
 
     //
     //        Step Identifiers
@@ -123,9 +124,22 @@ static NSString * const kItemKey                    = @"item";
                 }
             }
         }
+
+        NSString *medicationActivityTimingString = nil;
+        APHMedicationTrackerDataStore *medTrackerDataStore = [APHMedicationTrackerDataStore defaultStore];
+        if (medTrackerDataStore.momentInDayResult) {
+            for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {
+                if ([orkStepResult.identifier isEqualToString:@"medicationActivityTiming"]) {
+                    medicationActivityTimingString = ((ORKChoiceQuestionResult *)orkStepResult.firstResult).choiceAnswers.firstObject ?: @"";
+                }
+            }
+        }
         
         // Create the summary dictionary
-        NSDictionary *summary = @{kSpatialMemoryScoreSummaryKey: @(memoryResults.score)};
+        NSDictionary *summary = @{
+            kSpatialMemoryScoreSummaryKey : @(memoryResults.score),
+            APHMedicationActivityTimingKey : medicationActivityTimingString
+        };
         
         NSError  *error = nil;
         NSData  *data = [NSJSONSerialization dataWithJSONObject:summary options:0 error:&error];

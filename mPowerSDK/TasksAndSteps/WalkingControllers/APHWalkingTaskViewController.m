@@ -38,6 +38,7 @@
 #import "APHAppDelegate.h"
 #import "APHLocalization.h"
 #import "APHActivityManager.h"
+#import "APHMedicationTrackerDataStore.h"
 
     //
     //        Step Identifiers
@@ -132,13 +133,24 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
             }
         }
 
+        NSString *medicationActivityTimingString = nil;
+        APHMedicationTrackerDataStore *medTrackerDataStore = [APHMedicationTrackerDataStore defaultStore];
+        if (medTrackerDataStore.momentInDayResult) {
+            for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {
+                if ([orkStepResult.identifier isEqualToString:@"medicationActivityTiming"]) {
+                    medicationActivityTimingString = ((ORKChoiceQuestionResult *)orkStepResult.firstResult).choiceAnswers.firstObject ?: @"";
+                }
+            }
+        }
+
         /***********/
         
         NSDictionary  *summary = @{
                                    kGaitScoreKey                  : @(avgScores),
                                    kScoreForwardGainRecordsKey    : @(forwardScores),
                                    kScorePostureRecordsKey        : @(postureScores),
-                                   kNumberOfStepsTotalOnReturnKey : walkingResults == nil ? @0 : [walkingResults objectForKey:kNumberOfStepsTotalOnReturn]
+                                   kNumberOfStepsTotalOnReturnKey : walkingResults == nil ? @0 : [walkingResults objectForKey:kNumberOfStepsTotalOnReturn],
+                                   APHMedicationActivityTimingKey : medicationActivityTimingString
                                   };
         
         NSError  *error = nil;
