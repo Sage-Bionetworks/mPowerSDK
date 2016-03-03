@@ -534,6 +534,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
         if (rawDataPoints.count == 0) {
             APHRegularShapeView *point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
             point.tintColor = (plotIndex == 0) ? self.tintColor : self.secondaryTintColor;
+            point.fillColor = [UIColor clearColor];
             point.center = CGPointMake(positionOnXAxis, [[positionOnYAxis valueForKey:kDatasetValueKey] floatValue]);
             [self.plotsView.layer addSublayer:point.layer];
             
@@ -576,6 +577,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
                 pointColorGray ?
                     [UIColor appTertiaryGrayColor] : self.tintColor : self.secondaryTintColor;
             
+            point.fillColor = [UIColor clearColor];
             point.center = CGPointMake(positionOnXAxis, [[rawDataPoint valueForKey:kDatasetValueKey] floatValue]);
             [self.plotsView.layer addSublayer:point.layer];
             
