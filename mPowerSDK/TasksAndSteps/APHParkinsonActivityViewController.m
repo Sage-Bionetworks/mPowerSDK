@@ -127,6 +127,9 @@ const NSInteger APHMedicationTrackerSchemaRevision = 8;
 
 - (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(nullable NSError *)error {
     
+    // Switch the tint color back to the appPrimaryColor
+    [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
+    
     if ((reason == ORKTaskViewControllerFinishReasonSaved) || (reason == ORKTaskViewControllerFinishReasonCompleted)) {
         [self saveChangesIfNeeded];
     }
