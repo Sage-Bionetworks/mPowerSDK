@@ -37,6 +37,7 @@
 #import "APHDataKeys.h"
 #import "APHLocalization.h"
 #import "APHSpatialSpanMemoryGameViewController.h"
+#import "APHTremorTaskViewController.h"
 #import "APHWalkingTaskViewController.h"
 #import "APHAppDelegate.h"
 #import "APHMedicationTrackerDataStore.h"
@@ -62,6 +63,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 @property (nonatomic, strong) APCScoring *stepScoring;
 @property (nonatomic, strong) APCScoring *memoryScoring;
 @property (nonatomic, strong) APCScoring *phonationScoring;
+@property (nonatomic, strong) APCScoring *tremorScoring;
 @property (nonatomic, strong) APCScoring *moodScoring;
 @property (nonatomic, strong) APCScoring *energyScoring;
 @property (nonatomic, strong) APCScoring *exerciseScoring;
@@ -156,6 +158,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
       @(kAPHDashboardItemTypeSpatialMemory),
       @(kAPHDashboardItemTypePhonation),
       @(kAPHDashboardItemTypeGait),
+      @(kAPHDashboardItemTypeTremor),
       @(kAPHDashboardItemTypeDailyMood),
       @(kAPHDashboardItemTypeDailyEnergy),
       @(kAPHDashboardItemTypeDailyExercise),
@@ -242,6 +245,11 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                                                                     unit:[HKUnit countUnit]
                                                             numberOfDays:-kNumberOfDaysToDisplay];
     self.stepScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_STEPS_CAPTION", nil, APHLocaleBundle(), @"Steps", @"Dashboard caption for results of steps score.");
+    
+    self.tremorScoring = [[APCScoring alloc] initWithTask:APHTremorActivitySurveyIdentifier
+                                             numberOfDays:-kNumberOfDaysToDisplay
+                                                 valueKey:kTremorScoreKey];
+    self.tremorScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TREMOR_CAPTION", nil, APHLocaleBundle(), @"Tremor", @"Dashboard caption for results of tremor score.");
     
     self.moodScoring = [self scoringForValueKey:@"moodsurvey103"];
     self.moodScoring.customMinimumPoint = 1.0;
@@ -497,6 +505,33 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     [rowItems addObject:row];
                 }
                     break;
+                    
+                case kAPHDashboardItemTypeTremor:
+                {
+                    APCTableViewDashboardGraphItem  *item = [APCTableViewDashboardGraphItem new];
+                    item.caption = self.tremorScoring.caption;
+                    item.graphData = self.tremorScoring;
+                    
+                    double avgValue = [[self.tremorScoring averageDataPoint] doubleValue];
+                    
+                    if (avgValue > 0) {
+                        item.detailText = [NSString stringWithFormat:detailAvgFormat,
+                                           APHLocalizedStringFromNumber([self.tremorScoring averageDataPoint])];
+                    }
+                    
+                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
+                    item.editable = YES;
+                    item.tintColor = [UIColor colorForTaskId:APHTremorActivitySurveyIdentifier];
+                    
+                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TREMOR_INFO", nil, APHLocaleBundle(), @"This plot shows the score you received each day for the Tremor Test.", @"Dashboard tooltip item info text for Tremor Test in Parkinson");
+                    
+                    APCTableViewRow *row = [APCTableViewRow new];
+                    row.item = item;
+                    row.itemType = rowType;
+                    [rowItems addObject:row];
+                }
+                    break;
+                    
                 case kAPHDashboardItemTypeDailyMood:{
                     
                     APCTableViewDashboardGraphItem *item = [APCTableViewDashboardGraphItem new];

@@ -41,6 +41,7 @@ NSString *const APHMyThoughtsSurveyIdentifier                   = @"8-MyThoughts
 NSString *const APHFeedbackSurveyIdentifier                     = @"9-Feedback-394348ce-ca4f-4abe-b97e-fedbfd7ffb8e";
 NSString *const APHMedicationTrackerSurveyIdentifier            = @"1-APHMedicationTracker-20EF8ED2-E461-4C20-9024-F43FCAAAF4C3";
 NSString *const APHDailySurveyIdentifier                          = @"3-APHMoodSurvey-7259AC18-D711-47A6-ADBD-6CFCECDED1DF";
+NSString *const APHTremorActivitySurveyIdentifier               = @"1-APHTremor-108E189F-4B5B-48DC-BFD7-FA6796EEf439";
 
 NSString *const APHPhonationScoreSummaryOfRecordsKey            = @"ScoreSummaryOfRecords";
 NSString *const APHRightSummaryNumberOfRecordsKey               = @"SummaryNumberOfRecords";
