@@ -177,21 +177,11 @@
 - (void)changeDataPointsWithTaskChoice:(NSString *)taskChoice {
 	[self updatePeriodForDays:self.numberOfDays groupBy:self.groupBy];
     [self filterDataForMedicationTiming];
-
-//    NSLog(@"Data: %@", self.dataPoints);
-//    NSLog(@"Correlated: %@", self.correlatedScoring.dataPoints);
     
     self.dataPoints = self.medTimingDataPoints[taskChoice];
     self.correlatedScoring.dataPoints = self.medTimingDataPointsCorrelatedScoring[taskChoice] ?: self.correlatedScoring.dataPoints;
     
     [self correlateWithScoringObject:self.correlatedScoring];
-//    NSLog(@"Data After: %@", self.dataPoints);
-//    NSLog(@"Correlated After: %@", self.correlatedScoring.dataPoints);
-//    [self updateCharts];
-//    self.filteredDataPoints = self.medTimingDataPoints[taskChoice];
-//	self.dataPoints = self.medTimingDataPoints[taskChoice];
-//    self.correlatedScoring.dataPoints = self.medTimingDataPoints[taskChoice];
-//    self.dataPoints = self.dataPointsCopyForFiltering.mutableCopy;
 }
 
 

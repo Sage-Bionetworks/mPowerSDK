@@ -66,6 +66,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 
 @property (nonatomic, strong) NSArray *rowItemsOrder;
 @property (nonatomic, strong) NSMutableArray<APHScoring *> *correlatedScores; // Should have two!
+@property (nonatomic, strong) NSArray<APHScoring *> *scoreArray;
 @property (nonatomic, strong) NSMutableDictionary *sparkLineGraphScoring;
 
 @property (nonatomic, strong) APHScoring *correlatedScoring;
@@ -151,6 +152,15 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 }
 
 #pragma mark - Data
+
+- (NSArray<APHScoring *> *)scoreArray
+{
+    if (nil == _scoreArray) {
+        _scoreArray = @[self.tapRightScoring, self.tapLeftScoring, self.gaitScoring, self.stepScoring, self.memoryScoring, self.phonationScoring];
+    }
+    
+    return _scoreArray;
+}
 
 // list of all the valid row items, in what will be the default order until the user rearranges them
 - (NSArray<NSNumber *> *)allRowItems
@@ -285,7 +295,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
     self.customScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_CUSTOM_CAPTION", nil, APHLocaleBundle(), @"Custom Question", @"Dashboard caption for daily user-defined custom question report");
 
     if (!self.correlatedScores) {
-        self.correlatedScores = @[self.tapLeftScoring.copy, self.tapRightScoring.copy].mutableCopy;
+        self.correlatedScores = [NSMutableArray arrayWithArray:@[self.scoreArray[0], self.scoreArray[1]]];
     }
     [self prepareCorrelatedScoring];
     [self prepareSparkLineScoring];
@@ -302,8 +312,8 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 - (void)prepareCorrelatedScoring
 {
     self.correlatedScoring = nil;
-    self.correlatedScoring = self.correlatedScores[0];
-    [self.correlatedScoring correlateWithScoringObject:self.correlatedScores[1]];
+    self.correlatedScoring = self.correlatedScores[0].copy;
+    [self.correlatedScoring correlateWithScoringObject:self.correlatedScores[1].copy];
     
     //default series
     self.correlatedScoring.series1Name = self.correlatedScores[0].caption;
@@ -818,20 +828,22 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 
 - (void)dashboardTableViewCellDidTapCorrelation1:(APCDashboardTableViewCell *)cell
 {
-    APHCorrelationsSelectorViewController *correlationSelector = [[APHCorrelationsSelectorViewController alloc]initWithScoringObjects:@[self.tapRightScoring, self.tapLeftScoring, self.gaitScoring, self.stepScoring, self.memoryScoring, self.phonationScoring]];
+    APHCorrelationsSelectorViewController *correlationSelector = [[APHCorrelationsSelectorViewController alloc]initWithScoringObjects:self.scoreArray];
     [correlationSelector setTitle:@"Correlation 1"];
     correlationSelector.isForButton1 = YES;
     correlationSelector.delegate = self;
-    [self.navigationController pushViewController:correlationSelector animated:YES];
+    correlationSelector.selectedObject = self.correlatedScores[0];
+    [self presentViewController:correlationSelector animated:YES completion:nil];
 }
 
 - (void)dashboardTableViewCellDidTapCorrelation2:(APCDashboardTableViewCell *)cell
 {
-    APHCorrelationsSelectorViewController *correlationSelector = [[APHCorrelationsSelectorViewController alloc]initWithScoringObjects:@[self.tapRightScoring, self.tapLeftScoring, self.gaitScoring, self.stepScoring, self.memoryScoring, self.phonationScoring]];
+    APHCorrelationsSelectorViewController *correlationSelector = [[APHCorrelationsSelectorViewController alloc]initWithScoringObjects:self.scoreArray];
     [correlationSelector setTitle:@"Correlation 2"];
     correlationSelector.isForButton1 = NO;
     correlationSelector.delegate = self;
-    [self.navigationController pushViewController:correlationSelector animated:YES];
+    correlationSelector.selectedObject = self.correlatedScores[1];
+    [self presentViewController:correlationSelector animated:YES completion:nil];
 }
 
 - (void)dashboardTableViewCellDidChangeCorrelationSegment:(NSInteger)selectedIndex
@@ -845,14 +857,14 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 
 - (void)didChangeCorrelatedScoringDataSourceForButton1:(APHScoring*)scoring
 {
-    self.correlatedScores[0] = scoring.copy;
+    self.correlatedScores[0] = scoring;
     [self prepareCorrelatedScoring];
     [self prepareData];
 }
 
 - (void)didChangeCorrelatedScoringDataSourceForButton2:(APHScoring*)scoring
 {
-    self.correlatedScores[1] = scoring.copy;
+    self.correlatedScores[1] = scoring;
     [self prepareCorrelatedScoring];
     [self prepareData];
 }

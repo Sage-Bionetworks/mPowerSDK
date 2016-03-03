@@ -40,17 +40,15 @@
 @interface APHCorrelationsSelectorViewController ()
 @property (strong, nonatomic) APHScoring *scoring;
 @property (strong, nonatomic) NSArray *scoringObjects;
-@property (weak, nonatomic) APHScoring *selectedObject;
 @end
 
 @implementation APHCorrelationsSelectorViewController
 
 - (id)initWithScoringObjects:(NSArray *)scoringObjects
 {
-    
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
-        [self.tableView setBackgroundColor:[UIColor appSecondaryColor4]];
+        [self.tableView setBackgroundColor:[UIColor whiteColor]];
         self.scoringObjects = scoringObjects;
         [self setTitle:@"Data Correlations"];
     }
@@ -60,12 +58,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
 }
 
 - (void) viewWillAppear:(BOOL)__unused animated
 {
+    [super viewWillAppear:animated];
+    
     [self.tableView reloadData];
+}
+
+#pragma mark - Helper Functions
+
+- (void)dismissView
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Table view data source
@@ -81,13 +89,21 @@
 }
 
 #pragma mark - UITableViewDelegate
+
 - (UIView *)tableView:(UITableView *)__unused tableView viewForHeaderInSection:(NSInteger)section
 {
+    NSString *cancelString = NSLocalizedStringWithDefaultValue(@"Cancel", @"APCAppCore", APHLocaleBundle(), @"Cancel", nil);
     
-    UITableViewHeaderFooterView *headerView;
+    UIButton *cancel = [UIButton buttonWithType:UIButtonTypeCustom];
+    cancel.frame = CGRectMake(self.tableView.frame.size.width - 100, 8, 100, 44.0);
+    [cancel setTitle:cancelString forState:UIControlStateNormal];
+    [cancel setTitleColor:[UIColor appTertiaryRedColor] forState:UIControlStateNormal];
+    [cancel addTarget:self action:@selector(dismissView) forControlEvents:UIControlEventTouchUpInside];
+    cancel.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
     
-    headerView = [[UITableViewHeaderFooterView alloc]init];
+    UITableViewHeaderFooterView *headerView = [[UITableViewHeaderFooterView alloc] init];
     headerView.textLabel.text = NSLocalizedStringWithDefaultValue(@"Select Category", @"APCAppCore", APHLocaleBundle(), @"Select Category", nil);
+    [headerView addSubview:cancel];
     
     return headerView;
 }
@@ -121,7 +137,7 @@
     [self updateSection:indexPath.section WithSelectedScoringObject:referenceScoring];
     
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
-    
+    [self dismissView];
 }
 
 - (void)updateSection:(NSUInteger)section WithSelectedScoringObject:(APHScoring *)selectedObject

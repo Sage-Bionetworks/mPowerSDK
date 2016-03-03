@@ -45,6 +45,7 @@
 @interface APHCorrelationsSelectorViewController : UITableViewController
 
 @property (weak, nonatomic) id<APHCorrelationsSelectorDelegate> delegate;
+@property (weak, nonatomic) APHScoring *selectedObject;
 
 @property (nonatomic) BOOL isForButton1;
 
