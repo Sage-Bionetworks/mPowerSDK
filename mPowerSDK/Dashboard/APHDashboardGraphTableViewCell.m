@@ -18,7 +18,6 @@ const CGFloat kCorrelationSelectorHeight = 48.f;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sparkLineGraphContainerHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *correlationSelectorHeight;
 
-
 @property (weak, nonatomic) IBOutlet UIView *medicationLegendContainerView;
 @property (weak, nonatomic) IBOutlet UIView *sparkLineGraphContainerView;
 

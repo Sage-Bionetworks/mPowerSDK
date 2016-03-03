@@ -51,7 +51,7 @@
 #import "APHLineGraphView.h"
 
 NSInteger const kNumberOfDaysToDisplayInSparkLineGraph = 30;
-NSInteger const kPaddingMagicNumber = 60; // For the cell height to make the dashboard look pretty.
+NSInteger const kPaddingMagicNumber = 80; // For the cell height to make the dashboard look pretty.
 
 static NSString * const kAPCBasicTableViewCellIdentifier          = @"APCBasicTableViewCell";
 static NSString * const kAPCRightDetailTableViewCellIdentifier    = @"APCRightDetailTableViewCell";
@@ -308,15 +308,19 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
     self.correlatedScoring.series1Name = self.correlatedScores[0].caption;
     self.correlatedScoring.series2Name = self.correlatedScores[1].caption;
     
+    NSString *taskChoice = [self.correlatedScoring.activityTimingChoicesStrings objectAtIndex:self.selectedCorrelationTimeTab];
+    [self.correlatedScoring changeDataPointsWithTaskChoice:taskChoice];
+    
     // Commented out because it overwrites
 //    self.correlatedScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
 }
 
+// Deprecated!
 - (void)updateCorrelatedScoring
 {
-    NSString *taskChoice = [self.correlatedScoring.medTrackerTaskChoices objectAtIndex:self.selectedCorrelationTimeTab];
-    [self.correlatedScores[0] changeDataPointsWithTaskChoice:taskChoice];
-    [self.correlatedScores[1] changeDataPointsWithTaskChoice:taskChoice];
+//    NSString *taskChoice = [self.correlatedScoring.activityTimingChoicesStrings objectAtIndex:self.selectedCorrelationTimeTab];
+//    [self.correlatedScores[0] changeDataPointsWithTaskChoice:taskChoice];
+//    [self.correlatedScores[1] changeDataPointsWithTaskChoice:taskChoice];
 }
 
 - (void)prepareSparkLineScoring
@@ -840,8 +844,8 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 - (void)dashboardTableViewCellDidChangeCorrelationSegment:(NSInteger)selectedIndex
 {
     self.selectedCorrelationTimeTab = selectedIndex;
+    [self prepareCorrelatedScoring];
     [self prepareData];
-    [self updateCorrelatedScoring];
 }
 
 #pragma mark - APHCorrelationsSelector Delegate

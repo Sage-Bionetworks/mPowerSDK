@@ -12,9 +12,9 @@
 
 @interface APHScoring : APCScoring <APHScatterGraphViewDataSource, APHSparkGraphViewDataSource>
 
+@property(nonatomic) NSArray *activityTimingChoicesStrings;
 @property(nonatomic) BOOL latestOnly;
 
-- (NSArray<NSString *> *)medTrackerTaskChoices;
 - (void)changeDataPointsWithTaskChoice:(NSString *)taskChoice;
 
 @end

@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSMutableArray *dataPoints;
 @property (nonatomic, strong) NSMutableArray *rawDataPoints;
+@property (nonatomic) NSUInteger current;
 - (NSDictionary *)generateDataPointForDate:(NSDate *)pointDate withValue:(NSNumber *)pointValue noDataValue:(BOOL)noDataValue;
 - (NSDictionary *)groupByKeyPath:(NSString *)key dataset:(NSArray *)dataset;
 - (NSInteger)numberOfDivisionsInXAxisForDiscreteGraph:(APCDiscreteGraphView *) graphView;
@@ -30,7 +31,7 @@
 @interface APHScoring ()
 
 @property(nonatomic) NSMutableDictionary *medTimingDataPoints;
-@property(nonatomic) NSArray *activityTimingChoicesStrings;
+@property(nonatomic) NSArray *filteredDataPoints;
 
 @end
 
@@ -101,6 +102,14 @@
     return summarizedDataset;
 }
 
+- (NSArray *)activityTimingChoicesStrings {
+    if (nil == _activityTimingChoicesStrings) {
+        _activityTimingChoicesStrings = [self medTrackerTaskChoices];
+    }
+    
+    return _activityTimingChoicesStrings;
+}
+
 - (NSArray<NSString*> *)medTrackerTaskChoices {
 	APHMedicationTrackerTask *task = [[APHMedicationTrackerTask alloc] init];
 	NSArray<ORKTextChoice *> *activityTimingChoices = task.activityTimingChoices;
@@ -117,10 +126,10 @@
     
 	APHMedicationTrackerTask *task = [[APHMedicationTrackerTask alloc] init];
 	NSArray<ORKTextChoice *> *activityTimingChoices = task.activityTimingChoices;
-
-	if (!self.activityTimingChoicesStrings) {
-		self.activityTimingChoicesStrings = [self medTrackerTaskChoices];
-	}
+    
+    if (!self.filteredDataPoints) {
+        self.filteredDataPoints = [NSArray arrayWithArray:self.dataPoints.copy];
+    }
 
 	for (ORKTextChoice *textChoice in activityTimingChoices) {
 		self.medTimingDataPoints[textChoice.text] = [[NSMutableArray alloc] init];
@@ -146,8 +155,10 @@
 
 - (void)changeDataPointsWithTaskChoice:(NSString *)taskChoice {
 	[self updatePeriodForDays:self.numberOfDays groupBy:self.groupBy];
-	[self filterDataForMedicationTiming];
-	self.dataPoints = self.medTimingDataPoints[taskChoice];
+//    [self filterDataForMedicationTiming];
+//    self.filteredDataPoints = self.medTimingDataPoints[taskChoice];
+//	self.dataPoints = self.medTimingDataPoints[taskChoice];
+//    self.dataPoints = self.dataPointsCopyForFiltering.mutableCopy;
 }
 
 
