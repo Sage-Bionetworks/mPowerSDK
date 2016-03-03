@@ -934,10 +934,10 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         }
         
         if (graphCell.showCorrelationSelectorView && (APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeLine) {
-            ((APHLineGraphView *)graphCell.lineGraphView).drawLastPoint = YES;
+            ((APHLineGraphView *)graphCell.lineGraphView).shouldDrawLastPoint = YES;
             graphCell.lineGraphView.hidesDataPoints = YES;
         } else {
-            ((APHLineGraphView *)graphCell.lineGraphView).drawLastPoint = NO;
+            ((APHLineGraphView *)graphCell.lineGraphView).shouldDrawLastPoint = NO;
             graphCell.lineGraphView.hidesDataPoints = NO;
         }
         

@@ -10,6 +10,6 @@
 
 @interface APHLineGraphView : APCLineGraphView
 
-@property (nonatomic) BOOL drawLastPoint;
+@property (nonatomic) BOOL shouldDrawLastPoint;
 
 @end
