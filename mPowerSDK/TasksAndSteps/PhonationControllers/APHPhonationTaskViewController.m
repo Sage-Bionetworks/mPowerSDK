@@ -34,6 +34,8 @@
 #import "APHPhonationTaskViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <APCAppCore/APCAppCore.h>
+#import <ResearchKit/ORKAudioStep.h>
+#import <ResearchKit/ORKAudioStepViewController.h>
 #import "APHAppDelegate.h"
 #import "APHDataKeys.h"
 #import "APHScoreCalculator.h"
@@ -104,6 +106,27 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
         return NO;
     }
     return YES;
+}
+
+- (ORKStepViewController *)taskViewController:(ORKTaskViewController *)taskViewController
+						viewControllerForStep:(ORKStep *)step {
+	if ([step isKindOfClass:[ORKAudioStep class]]) {
+		ORKAudioStepViewController *stepViewController = [[ORKAudioStepViewController alloc] initWithStep:step];
+		//remove "too loud" red indicator; requires ResearchKit commit 42aa4408dc04b6f856cccf33fc3fb4484ac728c4
+		stepViewController.alertThreshold = 1.f;
+		return stepViewController;
+	}
+
+	return nil;
+}
+
+- (void)  taskViewController:(ORKTaskViewController *)taskViewController
+stepViewControllerWillAppear:(ORKStepViewController *)stepViewController {
+	if ([stepViewController.step.identifier isEqualToString:kInstructionStepIdentifier]) {
+		stepViewController.continueButtonTitle = NSLocalizedStringWithDefaultValue(@"BUTTON_GET_STARTED", @"ResearchKit", ORKBundle(),  @"Get Started", @"Get Started Button Text");;
+	} else if ([stepViewController.step.identifier isEqualToString:kInstruction1StepIdentifier]) {
+		stepViewController.continueButtonTitle = NSLocalizedStringWithDefaultValue(@"BUTTON_NEXT", @"ResearchKit", ORKBundle(),  @"Next", @"Next Button Text");;
+	}
 }
 
 - (void)taskViewController:(ORKTaskViewController *) __unused taskViewController didChangeResult:(ORKTaskResult *)result

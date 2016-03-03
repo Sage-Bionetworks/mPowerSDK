@@ -174,7 +174,7 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
                                                      recordingSettings:audioSettings
                                                                options:0];
 
-    NSString *localizedTaskName = NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_TITLE", nil, APHLocaleBundle(),  @"Voice", @"Title for Voice activity");
+    NSString *localizedTaskName = NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_TITLE", nil, APHLocaleBundle(),  @"Voice Test", @"Title for Voice activity");
     [orkTask.steps[0] setTitle:localizedTaskName];
     
     const NSUInteger instructionIdx = 1;
@@ -183,8 +183,8 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
     {
         ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[instructionIdx];
         [instructionStep setTitle:localizedTaskName];
-        [instructionStep setText:NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Take a deep breath and say “Aaaaah” into the microphone for as long as you can. Keep a steady volume so the audio bars remain blue.", @"Instructions for performing the voice activity.")];
-        [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_NEXT_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Tap Next to begin the test.", @"Detail insctruction for how to begin a task.")];
+        [instructionStep setText:NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Hold your phone 6 inches from your mouth.", @"Instructions for performing the voice activity.")];
+        [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_NEXT_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Take a deep breath and say \"Aaaaaah\" into the microphone for as long as you can.", @"Detail insctruction for how to begin a task.")];
     }
     
     // Inject a step to test audio levels
