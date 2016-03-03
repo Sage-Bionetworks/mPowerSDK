@@ -75,6 +75,7 @@
              "image": "consent_quiz_retry",
              "type": "instruction",
              "nextIdentifier" : "consentVisual",
+             "learnMoreHTMLContentURL": "consent_2quiz_headsup",
          },
          {
              "identifier": "consentPassedQuiz",
@@ -89,7 +90,7 @@
              "type": "consentSharingOptions",
              "investigatorShortDescription": "Sage Bionetworks",
              "investigatorLongDescription": "Sage Bionetworks and its partners",
-             "learnMoreHTMLContent": "consent_19sharing_rsch",
+             "learnMoreHTMLContentURL": "consent_19sharing_rsch",
          },
          {
              "identifier": "consentReview",
