@@ -311,6 +311,27 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     }
 }
 
+- (BOOL)taskViewController:(ORKTaskViewController *)taskViewController hasLearnMoreForStep:(ORKStep *)step {
+    return [self usesLearnMoreViewControllerForStep:step];
+}
+
+- (void)taskViewController:(ORKTaskViewController *)taskViewController learnMoreForStep:(ORKStepViewController *)stepViewController {
+    ORKStep *step = stepViewController.step;
+    if (![self usesLearnMoreViewControllerForStep:step]) {
+        return;
+    }
+    NSString *htmlContent = ((SBADirectNavigationStep*)step).learnMoreHTMLContent;
+    ORKConsentLearnMoreViewController *vc = [[ORKConsentLearnMoreViewController alloc] initWithHTMLContent:htmlContent];
+    UINavigationController *navVc = [[UINavigationController alloc] initWithRootViewController:vc];
+    navVc.modalPresentationStyle = UIModalPresentationFormSheet;
+    [stepViewController presentViewController:navVc animated:YES completion:nil];
+}
+
+- (BOOL)usesLearnMoreViewControllerForStep:(ORKStep *)step  {
+    return [step isKindOfClass:[SBADirectNavigationStep class]] &&
+    (((SBADirectNavigationStep*)step).learnMoreHTMLContent != nil);
+}
+
 #pragma mark - passcode handling
 
 // Switching to use the new ResearchKit passcode but need to keep reverse compatibilility
