@@ -87,18 +87,12 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
 	}
 }
 
-- (void)drawLastPointDot:(NSInteger)plotIndex
-{
-
-	NSUInteger smallestArrayCount = self.yAxisPoints.count < self.xAxisPoints.count ?: self.xAxisPoints.count;
-	smallestArrayCount--;
-
-	CGFloat dataPointVal = [self.dataPoints[smallestArrayCount] floatValue];
-
-	CGFloat positionOnXAxis = [self.xAxisPoints[smallestArrayCount] floatValue];
+- (void)drawLastPointDot:(NSInteger)plotIndex {
+	CGFloat dataPointVal = [self.dataPoints.lastObject floatValue];
+	CGFloat positionOnXAxis = [self.xAxisPoints.lastObject floatValue];
 
 	if (dataPointVal != NSNotFound) {
-		CGFloat positionOnYAxis = ((NSNumber*)self.yAxisPoints[smallestArrayCount]).floatValue;
+		CGFloat positionOnYAxis = ((NSNumber *) self.yAxisPoints.lastObject).floatValue;
 
 		CGFloat pointSize = self.isLandscapeMode ? 10.0f : 8.0f;
 		APCCircleView *point = [[APCCircleView alloc] initWithFrame:CGRectMake(0, 0, pointSize, pointSize)];
