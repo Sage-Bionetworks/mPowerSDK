@@ -35,6 +35,4 @@
 
 @interface APHDashboardViewController : APCDashboardViewController
 
-@property (nonatomic, strong) APCScoring *correlatedScoring;
-
 @end

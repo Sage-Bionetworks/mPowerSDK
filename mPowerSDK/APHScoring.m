@@ -109,7 +109,8 @@
 }
 
 - (void)filterDataForMedicationTiming {
-	self.medTimingDataPoints = [[NSMutableDictionary alloc] init];
+    self.medTimingDataPoints = [[NSMutableDictionary alloc] init];
+    
 	APHMedicationTrackerTask *task = [[APHMedicationTrackerTask alloc] init];
 	NSArray<ORKTextChoice *> *activityTimingChoices = task.activityTimingChoices;
 
@@ -137,6 +138,12 @@
 			}
 		}
 	}
+}
+
+- (void)changeDataPointsWithTaskChoice:(NSString *)taskChoice
+{
+    [self filterDataForMedicationTiming];
+    self.dataPoints = self.medTimingDataPoints[taskChoice];
 }
 
 #pragma mark - APHScatterGraphViewDataSource

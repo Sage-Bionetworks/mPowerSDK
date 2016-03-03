@@ -65,6 +65,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 @property (nonatomic, strong) NSMutableArray<APHScoring *> *correlatedScores; // Should have two!
 @property (nonatomic, strong) NSMutableDictionary *sparkLineGraphScoring;
 
+@property (nonatomic, strong) APHScoring *correlatedScoring;
 @property (nonatomic, strong) APHScoring *tapRightScoring;
 @property (nonatomic, strong) APHScoring *tapLeftScoring;
 @property (nonatomic, strong) APHScoring *gaitScoring;
@@ -77,6 +78,8 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 @property (nonatomic, strong) APHScoring *sleepScoring;
 @property (nonatomic, strong) APHScoring *cognitiveScoring;
 @property (nonatomic, strong) APHScoring *customScoring;
+
+@property (nonatomic) NSInteger selectedCorrelationTimeTab;
 
 @end
 
@@ -99,6 +102,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
             
         }
         
+        self.selectedCorrelationTimeTab = 0;
         self.title = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TITLE", nil, APHLocaleBundle(), @"Dashboard", @"Title for the Dashboard view controller.");
     }
     
@@ -292,8 +296,8 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
                                  latestOnly:NO];
 }
 
-- (void)prepareCorrelatedScoring{
-
+- (void)prepareCorrelatedScoring
+{
     self.correlatedScoring = self.correlatedScores[0];
     [self.correlatedScoring correlateWithScoringObject:self.correlatedScores[1]];
     
@@ -303,6 +307,13 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
     
     // Commented out because it overwrites
 //    self.correlatedScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
+}
+
+- (void)updateCorrelatedScoring
+{
+    NSString *taskChoice = [self.correlatedScoring.medTrackerTaskChoices objectAtIndex:self.selectedCorrelationTimeTab];
+    [self.correlatedScores[0] changeDataPointsWithTaskChoice:taskChoice];
+    [self.correlatedScores[1] changeDataPointsWithTaskChoice:taskChoice];
 }
 
 - (void)prepareSparkLineScoring
@@ -370,8 +381,8 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
             
             switch (rowType) {
                     
-                case kAPHDashboardItemTypeCorrelation:{
-                    
+                case kAPHDashboardItemTypeCorrelation:
+                {
                     APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
                     item.graphData = self.correlatedScoring;
@@ -825,7 +836,9 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 
 - (void)dashboardTableViewCellDidChangeCorrelationSegment:(NSInteger)selectedIndex
 {
-    
+    self.selectedCorrelationTimeTab = selectedIndex;
+    [self prepareData];
+    [self updateCorrelatedScoring];
 }
 
 #pragma mark - APHCorrelationsSelector Delegate

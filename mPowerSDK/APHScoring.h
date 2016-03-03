@@ -14,5 +14,6 @@
 @property(nonatomic) BOOL latestOnly;
 
 - (NSArray<NSString *> *)medTrackerTaskChoices;
+- (void)changeDataPointsWithTaskChoice:(NSString *)taskChoice;
 
 @end
