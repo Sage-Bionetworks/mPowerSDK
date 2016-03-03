@@ -43,7 +43,7 @@
 #import "APHScatterGraphView.h"
 #import "APHTableViewDashboardGraphItem.h"
 #import "APHScoring.h"
-//#import "APHTremorTaskViewController.h"
+#import "APHTremorTaskViewController.h"
 #import "APHWalkingTaskViewController.h"
 #import "APHAppDelegate.h"
 #import "APHMedicationTrackerDataStore.h"
@@ -169,7 +169,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
       @(kAPHDashboardItemTypeSpatialMemory),
       @(kAPHDashboardItemTypePhonation),
       @(kAPHDashboardItemTypeGait),
-      @(kAPHDashboardItemTypeTremor),
+      //@(kAPHDashboardItemTypeTremor), // Hide the tremor module until analyzed for scoring. syoung 03/03/2016
       @(kAPHDashboardItemTypeDailyMood),
       @(kAPHDashboardItemTypeDailyEnergy),
       @(kAPHDashboardItemTypeDailyExercise),
@@ -385,7 +385,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                 case kAPHDashboardItemTypeIntervalTappingRight:
                 case kAPHDashboardItemTypeIntervalTappingLeft:
                 {
-                    APHScoring *tapScoring = (rowType == kAPHDashboardItemTypeIntervalTappingRight) ? self.tapRightScoring : self.tapLeftScoring;
+                    APCScoring *tapScoring = (rowType == kAPHDashboardItemTypeIntervalTappingRight) ? self.tapRightScoring : self.tapLeftScoring;
                     APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = tapScoring.caption;
                     item.taskId = APHTappingActivitySurveyIdentifier;
@@ -579,7 +579,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     [rowItems addObject:row];
                 }
                     break;
-                 */
                     
                 case kAPHDashboardItemTypeDailyEnergy:{
                     
