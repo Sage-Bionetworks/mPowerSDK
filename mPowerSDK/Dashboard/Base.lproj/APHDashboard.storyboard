@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Y3q-0i-ptk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Y3q-0i-ptk">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -345,34 +345,30 @@
                                             </connections>
                                         </button>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QPF-4n-Mbj">
-                                            <rect key="frame" x="16" y="54" width="303" height="21"/>
+                                            <rect key="frame" x="16" y="54" width="300" height="30"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xal-gA-tbc">
-                                                    <rect key="frame" x="0.0" y="0.0" width="120" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="RJ8-bG-RXS"/>
-                                                        <constraint firstAttribute="width" constant="100" id="hY2-5j-Vx6"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="139" height="30"/>
+                                                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <state key="normal" title="Tap">
                                                         <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="RJ8-bG-RXS"/>
-                                                            <exclude reference="hY2-5j-Vx6"/>
-                                                        </mask>
-                                                    </variation>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                     <connections>
                                                         <action selector="correlationButton1Pressed:" destination="QEd-B9-1V7" eventType="touchUpInside" id="zi4-PC-dk2"/>
                                                     </connections>
                                                 </button>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_carrot" translatesAutoresizingMaskIntoConstraints="NO" id="QEC-58-NeX">
-                                                    <rect key="frame" x="120" y="0.0" width="15" height="21"/>
+                                                    <rect key="frame" x="119" y="0.0" width="10" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="QEC-58-NeX" secondAttribute="height" multiplier="20:21" id="Ta7-wU-pre"/>
                                                         <constraint firstAttribute="width" secondItem="QEC-58-NeX" secondAttribute="height" multiplier="15:10" id="Ugy-Ub-4aE"/>
-                                                        <constraint firstAttribute="width" constant="15" id="fZZ-nb-vKv"/>
+                                                        <constraint firstAttribute="width" constant="10" id="fZZ-nb-vKv"/>
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
@@ -381,28 +377,34 @@
                                                         </mask>
                                                     </variation>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="vs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MPB-2A-qt3">
-                                                    <rect key="frame" x="143" y="0.0" width="17.5" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="vs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MPB-2A-qt3">
+                                                    <rect key="frame" x="150" y="0.0" width="14.5" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="byg-rA-OYJ">
-                                                    <rect key="frame" x="168.5" y="0.0" width="119.5" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <rect key="frame" x="171.5" y="0.0" width="138.5" height="30"/>
+                                                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <state key="normal" title="Voice">
                                                         <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                     <connections>
                                                         <action selector="correlationButton2Pressed:" destination="QEd-B9-1V7" eventType="touchUpInside" id="N6G-mg-F0f"/>
                                                     </connections>
                                                 </button>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_carrot" translatesAutoresizingMaskIntoConstraints="NO" id="0ya-RM-kNB">
-                                                    <rect key="frame" x="288" y="0.0" width="15" height="21"/>
+                                                    <rect key="frame" x="290" y="0.0" width="10" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="0ya-RM-kNB" secondAttribute="height" multiplier="20:21" id="36U-Zb-Go8"/>
                                                         <constraint firstAttribute="width" secondItem="0ya-RM-kNB" secondAttribute="height" multiplier="15:10" id="7Qo-kg-OCP"/>
-                                                        <constraint firstAttribute="width" constant="15" id="Rfu-dp-VKM"/>
+                                                        <constraint firstAttribute="width" constant="10" id="Rfu-dp-VKM"/>
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
@@ -416,14 +418,16 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="byg-rA-OYJ" secondAttribute="trailing" id="0ej-5o-fwS"/>
                                                 <constraint firstAttribute="trailing" secondItem="0ya-RM-kNB" secondAttribute="trailing" id="8bU-Ut-OPK"/>
-                                                <constraint firstItem="0ya-RM-kNB" firstAttribute="leading" secondItem="byg-rA-OYJ" secondAttribute="trailing" id="I7M-EE-j9o"/>
-                                                <constraint firstItem="QEC-58-NeX" firstAttribute="leading" secondItem="Xal-gA-tbc" secondAttribute="trailing" id="KP7-N7-85C"/>
+                                                <constraint firstItem="0ya-RM-kNB" firstAttribute="leading" secondItem="byg-rA-OYJ" secondAttribute="trailing" constant="-20" id="I7M-EE-j9o"/>
+                                                <constraint firstItem="QEC-58-NeX" firstAttribute="leading" secondItem="Xal-gA-tbc" secondAttribute="trailing" constant="-20" id="KP7-N7-85C"/>
                                                 <constraint firstItem="Xal-gA-tbc" firstAttribute="leading" secondItem="QPF-4n-Mbj" secondAttribute="leading" id="LMz-tg-flH"/>
                                                 <constraint firstAttribute="bottom" secondItem="QEC-58-NeX" secondAttribute="bottom" id="Nce-wb-UxF"/>
                                                 <constraint firstItem="0ya-RM-kNB" firstAttribute="top" secondItem="byg-rA-OYJ" secondAttribute="bottom" id="Olq-fv-Q1p"/>
+                                                <constraint firstAttribute="width" constant="300" id="R55-6B-1r4"/>
                                                 <constraint firstItem="byg-rA-OYJ" firstAttribute="top" secondItem="QPF-4n-Mbj" secondAttribute="top" id="RcY-EC-zvO"/>
                                                 <constraint firstItem="QEC-58-NeX" firstAttribute="top" secondItem="QPF-4n-Mbj" secondAttribute="top" id="acK-G4-vUs"/>
                                                 <constraint firstItem="MPB-2A-qt3" firstAttribute="leading" secondItem="Xal-gA-tbc" secondAttribute="trailing" constant="8" symbolic="YES" id="cJY-r6-G1L"/>
+                                                <constraint firstAttribute="height" constant="30" id="fD6-Jz-UcJ"/>
                                                 <constraint firstItem="byg-rA-OYJ" firstAttribute="width" secondItem="Xal-gA-tbc" secondAttribute="width" id="hcI-Pm-6Bj"/>
                                                 <constraint firstItem="0ya-RM-kNB" firstAttribute="top" secondItem="QPF-4n-Mbj" secondAttribute="top" id="ir7-Qq-Aye"/>
                                                 <constraint firstAttribute="bottom" secondItem="MPB-2A-qt3" secondAttribute="bottom" id="n5Z-Cx-lOq"/>
@@ -431,7 +435,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="0ya-RM-kNB" secondAttribute="bottom" id="nj0-XO-dc2"/>
                                                 <constraint firstAttribute="bottom" secondItem="Xal-gA-tbc" secondAttribute="bottom" id="o9k-LE-yZL"/>
                                                 <constraint firstItem="byg-rA-OYJ" firstAttribute="leading" secondItem="MPB-2A-qt3" secondAttribute="trailing" constant="8" symbolic="YES" id="sNF-lC-Joh"/>
-                                                <constraint firstItem="MPB-2A-qt3" firstAttribute="leading" secondItem="QEC-58-NeX" secondAttribute="trailing" constant="8" symbolic="YES" id="sSe-rP-sIX"/>
+                                                <constraint firstItem="MPB-2A-qt3" firstAttribute="leading" secondItem="QEC-58-NeX" secondAttribute="trailing" constant="20" id="sSe-rP-sIX"/>
                                                 <constraint firstItem="Xal-gA-tbc" firstAttribute="top" secondItem="QPF-4n-Mbj" secondAttribute="top" id="xIi-ji-vVX"/>
                                                 <constraint firstAttribute="bottom" secondItem="byg-rA-OYJ" secondAttribute="bottom" id="zxL-bX-7g9"/>
                                             </constraints>
@@ -790,10 +794,12 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="8iT-iD-01C"/>
-                                            <exclude reference="tq3-mH-qoh"/>
                                             <exclude reference="5ne-RH-q1N"/>
                                             <exclude reference="fTi-fv-9Wz"/>
+                                            <exclude reference="1bV-lK-EOv"/>
+                                            <exclude reference="xHy-za-yQO"/>
+                                            <exclude reference="8iT-iD-01C"/>
+                                            <exclude reference="tq3-mH-qoh"/>
                                             <exclude reference="Ncx-nm-R3T"/>
                                             <exclude reference="OD9-lq-U1E"/>
                                             <exclude reference="LOL-SW-KL9"/>
