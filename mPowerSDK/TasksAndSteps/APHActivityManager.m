@@ -280,9 +280,13 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
 
 - (ORKOrderedTask *)createCustomTremorTask
 {
+    ORKTremorActiveTaskOption excludeTasks =
+        ORKTremorActiveTaskOptionExcludeHandAtShoulderHeightElbowBent | ORKTremorActiveTaskOptionExcludeQueenWave;
+    
     return [ORKOrderedTask tremorTestTaskWithIdentifier:kTremorAssessmentTitleIdentifier
                                  intendedUseDescription:nil
                                      activeStepDuration:kTremorAssessmentStepDuration
+                                      activeTaskOptions:excludeTasks
                                                 options:ORKPredefinedTaskOptionNone];
 }
 
