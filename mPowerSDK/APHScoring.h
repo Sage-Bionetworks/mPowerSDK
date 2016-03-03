@@ -11,6 +11,8 @@
 
 @interface APHScoring : APCScoring <APHScatterGraphViewDataSource>
 
-@property (nonatomic) BOOL latestOnly;
+@property(nonatomic) BOOL latestOnly;
+
+- (NSArray<NSString *> *)medTrackerTaskChoices;
 
 @end

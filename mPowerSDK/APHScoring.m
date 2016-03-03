@@ -25,7 +25,8 @@
 
 @interface APHScoring ()
 
-@property(nonatomic, strong) NSMutableDictionary *medTimingDataPoints;
+@property(nonatomic) NSMutableDictionary *medTimingDataPoints;
+@property(nonatomic) NSArray *activityTimingChoicesStrings;
 
 @end
 
@@ -96,15 +97,28 @@
     return summarizedDataset;
 }
 
+- (NSArray<NSString*> *)medTrackerTaskChoices {
+	APHMedicationTrackerTask *task = [[APHMedicationTrackerTask alloc] init];
+	NSArray<ORKTextChoice *> *activityTimingChoices = task.activityTimingChoices;
+	NSMutableArray *activityTimingChoicesStrings = [[NSMutableArray alloc] init];
+	for (ORKTextChoice *textChoice in activityTimingChoices) {
+		[activityTimingChoicesStrings addObject:textChoice.text];
+	}
+	
+	return [activityTimingChoicesStrings copy];
+}
+
 - (void)filterDataForMedicationTiming {
 	self.medTimingDataPoints = [[NSMutableDictionary alloc] init];
 	APHMedicationTrackerTask *task = [[APHMedicationTrackerTask alloc] init];
 	NSArray<ORKTextChoice *> *activityTimingChoices = task.activityTimingChoices;
-	NSMutableArray *activityTimingChoicesStrings = [[NSMutableArray alloc] init];
+
+	if (!self.activityTimingChoicesStrings) {
+		self.activityTimingChoicesStrings = [self medTrackerTaskChoices];
+	}
 
 	for (ORKTextChoice *textChoice in activityTimingChoices) {
 		self.medTimingDataPoints[textChoice.text] = [[NSMutableArray alloc] init];
-		[activityTimingChoicesStrings addObject:textChoice.text];
 	}
 
 	for (NSDictionary *dataPoint in self.dataPoints) {
@@ -113,11 +127,11 @@
 			NSString *medActivityTimingString = taskResult[@"MedicationActivityTiming"];
 
 			if (!medActivityTimingString) {
-				[(NSMutableArray *) self.medTimingDataPoints[(activityTimingChoicesStrings.lastObject)] addObject:rawDataPoint];
+				[(NSMutableArray *) self.medTimingDataPoints[self.activityTimingChoicesStrings.lastObject] addObject:rawDataPoint];
 			} else {
-				for (NSString *choiceString in activityTimingChoicesStrings) {
+				for (NSString *choiceString in self.activityTimingChoicesStrings) {
 					if ([medActivityTimingString isEqualToString:choiceString]) {
-						[(NSMutableArray *) self.medTimingDataPoints[(choiceString)] addObject:rawDataPoint];
+						[(NSMutableArray *) self.medTimingDataPoints[choiceString] addObject:rawDataPoint];
 					}
 				}
 			}
