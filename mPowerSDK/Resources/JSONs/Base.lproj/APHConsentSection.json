@@ -38,7 +38,7 @@
                   "type": "singleChoiceText",
                   "items":[
                            {"text" :"Understand the fluctuations of Parkinson disease symptoms", "value" : true},
-                           {"text" :"Treating Parkinson disease", "value": false},
+                           {"text" :"Give medical advice and diagnose people with Parkinson disease", "value": false},
                            ],
                   "expectedAnswer": true,
               },
@@ -50,13 +50,13 @@
               },
               {
                   "identifier": "retraction",
-                  "title": "I can take back my data after it is used in other research.",
+                  "title": "My data can be recalled after it has been used for other research.",
                   "type": "boolean",
                   "expectedAnswer": false,
               },
               {
                   "identifier": "stressLevel",
-                  "title": "Some survey questions may be slightly stressful for some people.",
+                  "title": "The survey questions may be stressful for some people.",
                   "type": "boolean",
                   "expectedAnswer": true,
               },
@@ -176,7 +176,7 @@
          "sectionHtmlContent" : "consent_10study_task"
      },
      {
-         "sectionType" : "withdrawl",
+         "sectionType" : "withdrawing",
          "sectionTitle" : "Potential Risks",
          "sectionSummary" : "If you participate in this study, your privacy may be at risk. There may be other risks to participating that we do not know about yet.",
          "sectionLearnMoreButtonTitle" : "Learn more",
