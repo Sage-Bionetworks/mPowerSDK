@@ -93,14 +93,8 @@ static  NSTimeInterval  kWalkDuration                         = 30.0; // we'll s
 //
 // constants for setting up the tremor activity
 //
-static NSString *const kTremorElbowBentInstructionStepIdentifier    = @"instruction5";
-static NSString *const kTremorElbowBentCountdownStepIdentifier      = @"countdown3";
-static NSString *const kTremorElbowBentStepIdentifier               = @"tremor.handAtShoulderLengthWithElbowBent";
-static NSString *const kTremorQueenWaveInstructionStepIdentifier    = @"instruction7";
-static NSString *const kTremorQueenWaveCountdownStepIdentifier      = @"countdown5";
-static NSString *const kTremorQueenWaveStepIdentifier               = @"tremor.handQueenWave";
-static NSString *const kTremorAssessmentTitleIdentifier             = @"Tremor Activity";
-static NSTimeInterval kTremorAssessmentStepDuration                 = 10.0;
+static NSString *const kTremorAssessmentTitleIdentifier     = @"Tremor Activity";
+static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
 
 
 @interface APHActivityManager ()
