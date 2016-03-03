@@ -7,6 +7,7 @@
 //
 
 #import "APHScoring.h"
+#import "APHMedicationTrackerTask.h"
 
 @interface APCScoring (Private)
 @property (nonatomic) APHTimelineGroups groupBy;
@@ -14,10 +15,18 @@
 @property (nonatomic, strong) NSMutableArray *dataPoints;
 @property (nonatomic, strong) NSMutableArray *rawDataPoints;
 - (NSDictionary *)generateDataPointForDate:(NSDate *)pointDate withValue:(NSNumber *)pointValue noDataValue:(BOOL)noDataValue;
+- (NSDictionary *)groupByKeyPath:(NSString *)key dataset:(NSArray *)dataset;
 - (NSInteger)numberOfDivisionsInXAxisForDiscreteGraph:(APCDiscreteGraphView *) graphView;
 - (NSInteger)numberOfDivisionsInXAxisForLineGraph:(APCLineGraphView *) graphView;
 - (NSInteger)numberOfDivisionsInXAxis;
 - (NSInteger)numberOfPlotsInGraph;
+
+@end
+
+@interface APHScoring ()
+
+@property(nonatomic, strong) NSMutableDictionary *medTimingDataPoints;
+
 @end
 
 @implementation APHScoring
@@ -87,6 +96,34 @@
     return summarizedDataset;
 }
 
+- (void)filterDataForMedicationTiming {
+	self.medTimingDataPoints = [[NSMutableDictionary alloc] init];
+	APHMedicationTrackerTask *task = [[APHMedicationTrackerTask alloc] init];
+	NSArray<ORKTextChoice *> *activityTimingChoices = task.activityTimingChoices;
+	NSMutableArray *activityTimingChoicesStrings = [[NSMutableArray alloc] init];
+
+	for (ORKTextChoice *textChoice in activityTimingChoices) {
+		self.medTimingDataPoints[textChoice.text] = [[NSMutableArray alloc] init];
+		[activityTimingChoicesStrings addObject:textChoice.text];
+	}
+
+	for (NSDictionary *dataPoint in self.dataPoints) {
+		for (NSDictionary *rawDataPoint in dataPoint[@"datasetRawDataPoints"]) {
+			NSDictionary *taskResult = rawDataPoint[@"datasetTaskResult"];
+			NSString *medActivityTimingString = taskResult[@"MedicationActivityTiming"];
+
+			if (!medActivityTimingString) {
+				[(NSMutableArray *) self.medTimingDataPoints[(activityTimingChoicesStrings.lastObject)] addObject:rawDataPoint];
+			} else {
+				for (NSString *choiceString in activityTimingChoicesStrings) {
+					if ([medActivityTimingString isEqualToString:choiceString]) {
+						[(NSMutableArray *) self.medTimingDataPoints[(choiceString)] addObject:rawDataPoint];
+					}
+				}
+			}
+		}
+	}
+}
 
 #pragma mark - APHScatterGraphViewDataSource
 
