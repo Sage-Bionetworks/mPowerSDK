@@ -7,11 +7,13 @@
 //
 
 #import "APHScoring.h"
+#import "APHLocalization.h"
 #import "APHMedicationTrackerTask.h"
 
 @interface APCScoring (Private)
 @property (nonatomic) APHTimelineGroups groupBy;
 @property (nonatomic) NSInteger numberOfDays;
+@property (nonatomic, strong) APCScoring *correlatedScoring;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSMutableArray *dataPoints;
 @property (nonatomic, strong) NSMutableArray *rawDataPoints;
@@ -21,7 +23,8 @@
 - (NSInteger)numberOfDivisionsInXAxisForLineGraph:(APCLineGraphView *) graphView;
 - (NSInteger)numberOfDivisionsInXAxis;
 - (NSInteger)numberOfPlotsInGraph;
-
+- (NSInteger)numberOfPointsInPlot:(NSInteger)plotIndex;
+- (NSString *)graph:(APCBaseGraphView *) graphView titleForXAxisAtIndex:(NSInteger)pointIndex;
 @end
 
 @interface APHScoring ()
@@ -85,8 +88,8 @@
         }
         
         NSMutableDictionary *entry = [[self generateDataPointForDate:key withValue:@(dayAverage) noDataValue:YES] mutableCopy];
-        entry[@"datasetRangeValueKey"] = rangePoint;
-        entry[@"datasetRawDataPoints"] = filteredDataPoints;
+        entry[kDatasetRangeValueKey] = rangePoint;
+        entry[kDatasetRawDataPointsKey] = filteredDataPoints;
         
         if (rawData) {
             entry[kDatasetRawDataKey] = rawData;
@@ -145,6 +148,56 @@
 	[self updatePeriodForDays:self.numberOfDays groupBy:self.groupBy];
 	[self filterDataForMedicationTiming];
 	self.dataPoints = self.medTimingDataPoints[taskChoice];
+}
+
+
+#pragma mark - APHSparkGraphViewDataSource
+
+- (NSInteger)sparkGraph:(APHSparkGraphView *) __unused graphView numberOfPointsInPlot:(NSInteger)plotIndex
+{
+    return [self numberOfPointsInPlot:plotIndex];
+}
+
+- (NSInteger)numberOfPlotsInSparkGraph:(APHSparkGraphView *) __unused graphView
+{
+    return [self numberOfPlotsInGraph];
+}
+
+- (CGFloat)minimumValueForSparkGraph:(APHSparkGraphView *) __unused graphView
+{
+    CGFloat factor = 0.2;
+    CGFloat maxDataPoint = (self.customMaximumPoint == CGFLOAT_MAX) ? [[self maximumDataPoint] doubleValue] : self.customMaximumPoint;
+    CGFloat minDataPoint = (self.customMinimumPoint == CGFLOAT_MIN) ? [[self minimumDataPoint] doubleValue] : self.customMinimumPoint;
+    
+    CGFloat minValue = (minDataPoint - factor*maxDataPoint)/(1-factor);
+    
+    return minValue;
+}
+
+- (CGFloat)maximumValueForSparkGraph:(APHSparkGraphView *) __unused graphView
+{
+    return (self.customMaximumPoint == CGFLOAT_MAX) ? [[self maximumDataPoint] doubleValue] : self.customMaximumPoint;
+}
+
+- (NSDictionary *)sparkGraph:(APHSparkGraphView *) __unused graphView plot:(NSInteger)plotIndex valueForPointAtIndex:(NSInteger) pointIndex
+{
+    return self.dataPoints[pointIndex];
+}
+
+- (NSString *)sparkGraph:(APHSparkGraphView *) graphView titleForXAxisAtIndex:(NSInteger)pointIndex
+{
+    if (pointIndex == 0) {
+        return [self graph:graphView titleForXAxisAtIndex:pointIndex];
+    } else if (pointIndex == self.dataPoints.count - 1) {
+        return NSLocalizedStringWithDefaultValue(@"Today", nil, APHLocaleBundle(), @"Today", @"Today");
+    }
+    
+    return @"";
+}
+
+- (NSInteger)numberOfDivisionsInXAxisForSparkGraph:(APHSparkGraphView *)__unused graphView
+{
+    return [self numberOfDivisionsInXAxis];
 }
 
 #pragma mark - APHScatterGraphViewDataSource

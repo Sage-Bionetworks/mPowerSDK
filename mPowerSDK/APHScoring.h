@@ -8,8 +8,9 @@
 
 #import <APCAppCore/APCAppCore.h>
 #import "APHScatterGraphView.h"
+#import "APHSparkGraphView.h"
 
-@interface APHScoring : APCScoring <APHScatterGraphViewDataSource>
+@interface APHScoring : APCScoring <APHScatterGraphViewDataSource, APHSparkGraphViewDataSource>
 
 @property(nonatomic) BOOL latestOnly;
 
