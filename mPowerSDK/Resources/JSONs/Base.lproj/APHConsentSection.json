@@ -50,7 +50,7 @@
               },
               {
                   "identifier": "retraction",
-                  "title": "My data can be recalled after it has been used for other research.",
+                  "title": "I decide to share my data with qualified researchers. Then I change my mind. Can my data be deleted from their studies?",
                   "type": "boolean",
                   "expectedAnswer": false,
               },
