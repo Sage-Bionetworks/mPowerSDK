@@ -11,6 +11,7 @@
 
 @interface APCScoring (Private)
 @property (nonatomic) APHTimelineGroups groupBy;
+@property (nonatomic) NSInteger numberOfDays;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSMutableArray *dataPoints;
 @property (nonatomic, strong) NSMutableArray *rawDataPoints;
@@ -140,10 +141,10 @@
 	}
 }
 
-- (void)changeDataPointsWithTaskChoice:(NSString *)taskChoice
-{
-    [self filterDataForMedicationTiming];
-    self.dataPoints = self.medTimingDataPoints[taskChoice];
+- (void)changeDataPointsWithTaskChoice:(NSString *)taskChoice {
+	[self updatePeriodForDays:self.numberOfDays groupBy:self.groupBy];
+	[self filterDataForMedicationTiming];
+	self.dataPoints = self.medTimingDataPoints[taskChoice];
 }
 
 #pragma mark - APHScatterGraphViewDataSource
