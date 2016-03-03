@@ -304,6 +304,18 @@ static NSTimeInterval kTremorAssessmentStepDuration                 = 10.0;
         }
     }
     
+    // move the "you're done" spoken instruction to the new last step
+    NSInteger oldFinalIndex = orkTask.steps.count - 2;
+    NSInteger newFinalIndex = copyOfTaskSteps.count - 2;
+    if (oldFinalIndex >= 0 && newFinalIndex >= 0) {
+        ORKActiveStep *oldFinalActiveStep = (ORKActiveStep *)[orkTask.steps objectAtIndex:oldFinalIndex];
+        ORKActiveStep *newFinalActiveStep = (ORKActiveStep *)[copyOfTaskSteps objectAtIndex:newFinalIndex];
+        if ([oldFinalActiveStep respondsToSelector:@selector(finishedSpokenInstruction)] &&
+            [newFinalActiveStep respondsToSelector:@selector(setFinishedSpokenInstruction:)]) {
+            newFinalActiveStep.finishedSpokenInstruction = oldFinalActiveStep.finishedSpokenInstruction;
+        }
+    }
+    
     orkTask = [[ORKOrderedTask alloc] initWithIdentifier:kWalkingActivityTitle steps:copyOfTaskSteps];
     
     return orkTask;
