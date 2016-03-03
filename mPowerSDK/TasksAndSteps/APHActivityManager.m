@@ -286,39 +286,14 @@ static NSTimeInterval kTremorAssessmentStepDuration                 = 10.0;
 
 - (ORKOrderedTask *)createCustomTremorTask
 {
-    ORKOrderedTask *orkTask = [ORKOrderedTask tremorTestTaskWithIdentifier:kTremorAssessmentTitleIdentifier
-                                                    intendedUseDescription:nil
-                                                        activeStepDuration:kTremorAssessmentStepDuration
-                                                                   options:ORKPredefinedTaskOptionNone];
+    ORKTremorActiveTaskOption excludeTasks =
+        ORKTremorActiveTaskOptionExcludeHandAtShoulderHeightElbowBent |ORKTremorActiveTaskOptionExcludeQueenWave;
     
-    // Remove the elbow-bent and queen wave steps
-    NSMutableArray  *copyOfTaskSteps = [orkTask.steps mutableCopy];
-    for (ORKStep *step  in  orkTask.steps) {
-        if ([step.identifier isEqualToString:kTremorElbowBentInstructionStepIdentifier] ||
-            [step.identifier isEqualToString:kTremorElbowBentCountdownStepIdentifier] ||
-            [step.identifier isEqualToString:kTremorElbowBentStepIdentifier] ||
-            [step.identifier isEqualToString:kTremorQueenWaveInstructionStepIdentifier] ||
-            [step.identifier isEqualToString:kTremorQueenWaveCountdownStepIdentifier] ||
-            [step.identifier isEqualToString:kTremorQueenWaveStepIdentifier]) {
-            [copyOfTaskSteps removeObject:step];
-        }
-    }
-    
-    // move the "you're done" spoken instruction to the new last step
-    NSInteger oldFinalIndex = orkTask.steps.count - 2;
-    NSInteger newFinalIndex = copyOfTaskSteps.count - 2;
-    if (oldFinalIndex >= 0 && newFinalIndex >= 0) {
-        ORKActiveStep *oldFinalActiveStep = (ORKActiveStep *)[orkTask.steps objectAtIndex:oldFinalIndex];
-        ORKActiveStep *newFinalActiveStep = (ORKActiveStep *)[copyOfTaskSteps objectAtIndex:newFinalIndex];
-        if ([oldFinalActiveStep respondsToSelector:@selector(finishedSpokenInstruction)] &&
-            [newFinalActiveStep respondsToSelector:@selector(setFinishedSpokenInstruction:)]) {
-            newFinalActiveStep.finishedSpokenInstruction = oldFinalActiveStep.finishedSpokenInstruction;
-        }
-    }
-    
-    orkTask = [[ORKOrderedTask alloc] initWithIdentifier:kWalkingActivityTitle steps:copyOfTaskSteps];
-    
-    return orkTask;
+    return [ORKOrderedTask tremorTestTaskWithIdentifier:kTremorAssessmentTitleIdentifier
+                                 intendedUseDescription:nil
+                                     activeStepDuration:kTremorAssessmentStepDuration
+                                      activeTaskOptions:excludeTasks
+                                                options:ORKPredefinedTaskOptionNone];
 }
 
 @end
