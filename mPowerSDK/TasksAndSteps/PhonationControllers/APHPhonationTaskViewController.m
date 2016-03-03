@@ -239,6 +239,11 @@ Float32 const kVolumeClamp = 60.0;
 {
     // Setup reader
     AVURLAsset * urlAsset = [AVURLAsset URLAssetWithURL:fileURL options:nil];
+    if (urlAsset.tracks.count == 0) {
+        NSLog(@"No tracks found for urlAsset: %@", fileURL);
+        return NO;
+    }
+
     NSError * error = nil;
     AVAssetReader * reader = [[AVAssetReader alloc] initWithAsset:urlAsset error:&error];
     AVAssetTrack * track = [urlAsset.tracks objectAtIndex:0];
