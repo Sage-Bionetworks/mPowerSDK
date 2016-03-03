@@ -27,7 +27,7 @@
 			[UIColor appSecondaryColor1] : [UIColor appSecondaryColor3];
 
 	if (cellRepresentsToday) {
-		self.confirmationView.completedBackgroundColor = [UIColor colorWithRed:0.39 green:0.76 blue:0.46 alpha:1];
+        self.confirmationView.completedBackgroundColor = [UIColor appConfirmationCheckmarkColor];
 		self.confirmationView.hidden = NO;
 
 		self.countLabel.hidden = self.cyclesRemainingLabel.hidden = !(taskGroup.totalRequiredTasksForThisTimeRange > 1 && !taskGroup.isFullyCompleted);
