@@ -103,7 +103,6 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
             
             [defaults setObject:[NSArray arrayWithArray:_rowItemsOrder] forKey:kAPCDashboardRowItemsOrder];
             [defaults synchronize];
-            
         }
         
         self.selectedCorrelationTimeTab = 0;
@@ -341,7 +340,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
                                  self.cognitiveScoring,
                                  self.customScoring ];
     
-    [self.sparkLineGraphScoring removeAllObjects];
+    self.sparkLineGraphScoring = [[NSMutableDictionary alloc] initWithCapacity:scoringObjects.count];
     
     for (APHScoring *scoring in scoringObjects) {
         NSValue *key = [NSValue valueWithPointer:(const void *)scoring];
