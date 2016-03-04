@@ -80,8 +80,9 @@ static const NSInteger APHMoodSurveySchemaRevision = 2;
     for (ORKStepResult *stepResult in arrayOfResults) {
         if (stepResult.results.firstObject) {
             
-            if ( ![stepResult.results.firstObject isKindOfClass:[ORKTextQuestionResult class]]) {
-                ORKChoiceQuestionResult *questionResult = stepResult.results.firstObject;
+            if ( ![stepResult.results.firstObject isKindOfClass:[ORKTextQuestionResult class]] &&
+                  [stepResult.results.firstObject isKindOfClass:[ORKChoiceQuestionResult class]]) {
+                ORKChoiceQuestionResult *questionResult = (ORKChoiceQuestionResult *)stepResult.results.firstObject;
                 
                 if (questionResult.choiceAnswers != nil) {
                     id selectedAnswer = [questionResult.choiceAnswers firstObject];

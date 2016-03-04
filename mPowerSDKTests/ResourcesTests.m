@@ -155,6 +155,12 @@
     
 }
 
+- (void)testMonthlyReport
+{
+    id json = [self jsonForResource:@"MonthlyReport"];
+    XCTAssertTrue([json isKindOfClass:[NSDictionary class]]);
+}
+
 - (void)testEligibilityRequirements
 {
     id json = [self jsonForResource:@"EligibilityRequirements"];

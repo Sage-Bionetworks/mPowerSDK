@@ -38,6 +38,8 @@
 @import BridgeAppSDK;
 
 NSString * const APHOnboardingSignUpTaskIdentifier = @"onboarding";
+NSString * const APHOnboardingSignInTaskIdentifier = @"signin";
+NSString * const APHConsentTaskIdentifier = @"consent";
 NSString * const APHOnboardingVerificationTaskIdentifier = @"onboardingVerification";
 NSString * const APHOnboardingReconsentTaskIdentifier = @"onboardingReconsent";
 
@@ -62,34 +64,64 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 
 @implementation APHOnboardingManager
 
-- (ORKTaskViewController *)instantiateOnboardingTaskViewController {
-    SBANavigableOrderedTask *task = [[SBANavigableOrderedTask alloc] initWithIdentifier:APHOnboardingSignUpTaskIdentifier
-                                                                                  steps:[self buildSteps]];
-    ORKTaskViewController *vc = [[ORKTaskViewController alloc] initWithTask:task restorationData:nil delegate:self];
-    
+- (ORKTaskViewController *)instantiateConsentViewController {
+    SBANavigableOrderedTask *task = [[SBANavigableOrderedTask alloc] initWithIdentifier:APHConsentTaskIdentifier
+                                                                                  steps:[self consentSteps]];
+    ORKTaskViewController *vc = [[ORKTaskViewController alloc] initWithTask:task taskRunUUID:nil];
     return vc;
 }
 
-- (NSMutableArray <ORKStep *> *)buildSteps {
+- (ORKTaskViewController *)instantiateOnboardingTaskViewController:(BOOL)signUp {
+    NSString *taskIdentifier;
+    if (self.user.isSignedUp && self.user.isSignedIn && !self.user.isConsented) {
+        // This is a reconsent flow
+        taskIdentifier = APHConsentTaskIdentifier;
+    }
+    else if (signUp) {
+        // User tapped the "Join Study" button
+        taskIdentifier = APHOnboardingSignUpTaskIdentifier;
+    }
+    else {
+        // User tapped the "Sign in" button
+        taskIdentifier = APHOnboardingSignInTaskIdentifier;
+    }
+    SBANavigableOrderedTask *task = [[SBANavigableOrderedTask alloc] initWithIdentifier:taskIdentifier
+                                                                                  steps:[self buildSteps:signUp]];
+    ORKTaskViewController *vc = [[ORKTaskViewController alloc] initWithTask:task restorationData:nil delegate:self];
+    return vc;
+}
+
+- (NSMutableArray <ORKStep *> *)buildSteps:(BOOL)signUp {
     
     // syoung 2/22/2016 TODO: cleanup the steps management to remove the need to
     // instantiate the APCOnboarding (and inherit from APCOnboardingManager.
-    [self instantiateOnboardingForType:kAPCOnboardingTaskTypeSignUp];
+    APCOnboardingTaskType taskType = signUp ? kAPCOnboardingTaskTypeSignUp : kAPCOnboardingTaskTypeSignIn;
+    [self instantiateOnboardingForType:taskType];
     
     // Build the steps
     NSMutableArray *steps = [NSMutableArray new];
-    if (!self.user.isSignedUp) {
-        // If the user is not signed up then need to check for eligibility
-        [steps addObjectsFromArray:[self eligibilitySteps]];
+    
+    // Beginning steps are different depending upon whether or not this is an
+    // initial registration and/or reconsent
+    if (!signUp) {
+        [steps addObject:[self signInStep]];
     }
-    if (!self.user.isUserConsented) {
-        // Need to add the consent flow if the user is not consented
-        [steps addObjectsFromArray:[self consentSteps]];
+    else {
+        if (!self.user.isSignedUp) {
+            // If the user is not signed up then need to check for eligibility
+            [steps addObjectsFromArray:[self eligibilitySteps]];
+        }
+        if (!self.user.isUserConsented) {
+            // Need to add the consent flow if the user is not consented
+            [steps addObjectsFromArray:[self consentSteps]];
+        }
+        if (!self.user.isSignedUp) {
+            // Next is registration for the user who is *not* signed up
+            [steps addObject:[self registrationStep]];
+        }
     }
-    if (!self.user.isSignedUp) {
-        // Next is registration for the user who is *not* signed up
-        [steps addObject:[self registrationStep]];
-    }
+    
+    // If the user does not have an ORKpasscode, then add one
     if (!self.hasORKPasscode) {
         if (self.user.isSignedIn && !self.user.isUserConsented) {
             // If the user is signed in but needs to reconsent then
@@ -101,10 +133,16 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
             [steps addObject:[self passcodeStep]];
         }
     }
+    
+    // If the user is being reconsented but has already signed in then do not need to add these steps
     if (!self.user.isSignedIn) {
         // If the user is signed up but *not* verified (signed in) then
         // show the email verification and finish profile setup
-        [steps addObject:[self verificationStep]];
+        if (signUp) {
+            [steps addObject:[self verificationStep]];
+        }
+        // The profile and permission steps need to be added to the flow b/c this
+        // is a new device/user.
         [steps addObjectsFromArray:[self profileSteps]];
     }
     
@@ -146,6 +184,10 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 
 - (ORKStep *)verificationStep {
     return [[ORKStep alloc] initWithIdentifier:APHVerificationStepIdentifier];
+}
+
+- (ORKStep *)signInStep {
+    return [[ORKStep alloc] initWithIdentifier:kAPCSignInStepIdentifier];
 }
 
 - (NSArray <ORKStep *> *)profileSteps {
@@ -223,11 +265,9 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
         self.user.signedUp = YES;
         [self onboardingDidFinishAsSignIn];
     }
-    else if (reason == ORKTaskViewControllerFinishReasonDiscarded) {
+    else if (reason == ORKTaskViewControllerFinishReasonDiscarded)  {
         // remove the passcode and user info if the flow is cancelled
-        [ORKPasscodeViewController removePasscodeFromKeychain];
-        self.user.email = nil;
-        self.user.password = nil;
+        [APCKeychainStore resetKeyChain];
         self.user.signedIn = NO;
         self.user.signedUp = NO;
     }
@@ -245,6 +285,7 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     
     if ([stepViewController.step.identifier isEqualToString:APHConsentCompletionStepIdentifier]) {
         [self checkForConsentWithTaskViewController:taskViewController];
+        stepViewController.backButtonItem = nil;
     }
     
     if (![stepViewController.step isKindOfClass:[ORKRegistrationStep class]]) {
@@ -254,7 +295,45 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
                                                                               target:stepViewController
                                                                             action:@selector(onboardingCancelAction)];
     }
+    
+    // Do not allow back button for certain steps
+    NSArray *noBackButton = @[APHConsentCompletionStepIdentifier,
+                              APHPasscodeStepIdentifier,
+                              APHVerificationStepIdentifier,
+                              APHPermissionsIntroStepIdentifier];
+    if ([noBackButton containsObject:stepViewController.step.identifier]) {
+        stepViewController.backButtonItem = nil;
+    }
+    
+    // For the last step, do not show any button in the top right
+    if ([stepViewController.step.identifier isEqualToString:kAPCSignUpThankYouStepIdentifier]) {
+        stepViewController.cancelButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] initWithFrame:CGRectZero]];
+    }
 }
+
+// TODO: syoung 03/03/2016 Figure out why ORKConsentLearnMoreViewController isn't being found and/or replace
+// with a different webviewcontroller
+//
+//- (BOOL)taskViewController:(ORKTaskViewController *)taskViewController hasLearnMoreForStep:(ORKStep *)step {
+//    return [self usesLearnMoreViewControllerForStep:step];
+//}
+//
+//- (void)taskViewController:(ORKTaskViewController *)taskViewController learnMoreForStep:(ORKStepViewController *)stepViewController {
+//    ORKStep *step = stepViewController.step;
+//    if (![self usesLearnMoreViewControllerForStep:step]) {
+//        return;
+//    }
+//    NSString *htmlContent = ((SBADirectNavigationStep*)step).learnMoreHTMLContent;
+//    ORKConsentLearnMoreViewController *vc = [[ORKConsentLearnMoreViewController alloc] initWithHTMLContent:htmlContent];
+//    UINavigationController *navVc = [[UINavigationController alloc] initWithRootViewController:vc];
+//    navVc.modalPresentationStyle = UIModalPresentationFormSheet;
+//    [stepViewController presentViewController:navVc animated:YES completion:nil];
+//}
+//
+//- (BOOL)usesLearnMoreViewControllerForStep:(ORKStep *)step  {
+//    return [step isKindOfClass:[SBADirectNavigationStep class]] &&
+//    (((SBADirectNavigationStep*)step).learnMoreHTMLContent != nil);
+//}
 
 #pragma mark - passcode handling
 

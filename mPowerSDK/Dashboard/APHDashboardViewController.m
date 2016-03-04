@@ -1,4 +1,4 @@
-// 
+//
 //  APHDashboardViewController.m 
 //  mPower 
 // 
@@ -44,12 +44,15 @@
 #import "APHTableViewDashboardGraphItem.h"
 #import "APHScoring.h"
 #import "APHSparkGraphView.h"
-//#import "APHTremorTaskViewController.h"
+#import "APHTremorTaskViewController.h"
 #import "APHWalkingTaskViewController.h"
 #import "APHAppDelegate.h"
 #import "APHCorrelationsSelectorViewController.h"
 #import "APHGraphViewController.h"
 #import "APHLineGraphView.h"
+#import "APHMedicationTrackerDataStore.h"
+#import "APHWebviewViewController.h"
+@import BridgeAppSDK;
 
 NSInteger const kNumberOfDaysToDisplayInSparkLineGraph = 30;
 NSInteger const kPaddingMagicNumber = 80; // For the cell height to make the dashboard look pretty.
@@ -62,8 +65,12 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 @property (nonatomic, strong) APCPresentAnimator *presentAnimator;
 @property (nonatomic, strong) NSMutableArray *lineCharts;
 @end
+static NSString * const kAPHMonthlyReportTaskIdentifier        = @"Monthly Report";
+static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 
 @interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, ORKTaskViewControllerDelegate, APHDashboardGraphTableViewCellDelegate, APHCorrelationsSelectorDelegate>
+
+@property (weak, nonatomic) IBOutlet UIButton *monthlyReportButton;
 
 @property (nonatomic, strong) NSArray *rowItemsOrder;
 @property (nonatomic, strong) NSMutableArray<APHScoring *> *correlatedScores; // Should have two!
@@ -77,6 +84,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 @property (nonatomic, strong) APHScoring *stepScoring;
 @property (nonatomic, strong) APHScoring *memoryScoring;
 @property (nonatomic, strong) APHScoring *phonationScoring;
+@property (nonatomic, strong) APHScoring *tremorScoring;
 @property (nonatomic, strong) APHScoring *moodScoring;
 @property (nonatomic, strong) APHScoring *energyScoring;
 @property (nonatomic, strong) APHScoring *exerciseScoring;
@@ -119,11 +127,19 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 {
     [super viewDidLoad];
     
+    self.monthlyReportButton.tintColor = [UIColor appTertiaryBlueColor];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(prepareCorrelatedScoring) name:APCSchedulerUpdatedScheduledTasksNotification object:nil];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self prepareScoringObjects];
     [self prepareData];
+    
+    // Hide the monthly reports button if this is a control group or the user does not take a tracked medication
+    APCDataGroupsManager *dataGroupsManager = [[APHAppDelegate sharedAppDelegate] dataGroupsManagerForUser:nil];
+    if (dataGroupsManager.isStudyControlGroup || [[APHMedicationTrackerDataStore defaultStore] hasNoTrackedMedication]) {
+        self.monthlyReportButton.hidden = YES;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -174,6 +190,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
       @(kAPHDashboardItemTypeSpatialMemory),
       @(kAPHDashboardItemTypePhonation),
       @(kAPHDashboardItemTypeGait),
+      //@(kAPHDashboardItemTypeTremor), // Hide the tremor module until analyzed for scoring. syoung 03/03/2016
       @(kAPHDashboardItemTypeDailyMood),
       @(kAPHDashboardItemTypeDailyEnergy),
       @(kAPHDashboardItemTypeDailyExercise),
@@ -263,6 +280,11 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
                                                                     unit:[HKUnit countUnit]
                                                             numberOfDays:-kNumberOfDaysToDisplay];
     self.stepScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_STEPS_CAPTION", nil, APHLocaleBundle(), @"Steps", @"Dashboard caption for results of steps score.");
+    
+    self.tremorScoring = [[APCScoring alloc] initWithTask:APHTremorActivitySurveyIdentifier
+                                             numberOfDays:-kNumberOfDaysToDisplay
+                                                 valueKey:kTremorScoreKey];
+    self.tremorScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TREMOR_CAPTION", nil, APHLocaleBundle(), @"Tremor", @"Dashboard caption for results of tremor score.");
     
     self.moodScoring = [self scoringForValueKey:@"moodsurvey103"];
     self.moodScoring.customMinimumPoint = 1.0;
@@ -419,7 +441,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
                 case kAPHDashboardItemTypeIntervalTappingRight:
                 case kAPHDashboardItemTypeIntervalTappingLeft:
                 {
-                    APHScoring *tapScoring = (rowType == kAPHDashboardItemTypeIntervalTappingRight) ? self.tapRightScoring : self.tapLeftScoring;
+                    APCScoring *tapScoring = (rowType == kAPHDashboardItemTypeIntervalTappingRight) ? self.tapRightScoring : self.tapLeftScoring;
                     APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = tapScoring.caption;
                     item.taskId = APHTappingActivitySurveyIdentifier;
@@ -562,10 +584,9 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
                 }
                     break;
                     
-                /*
                 case kAPHDashboardItemTypeTremor:
                 {
-                    APHTableViewDashboardGraphItem  *item = [APHTableViewDashboardGraphItem new];
+                    APCTableViewDashboardGraphItem  *item = [APCTableViewDashboardGraphItem new];
                     item.caption = self.tremorScoring.caption;
                     item.graphData = self.tremorScoring;
                     
@@ -576,7 +597,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
                                            APHLocalizedStringFromNumber([self.tremorScoring averageDataPoint])];
                     }
                     
-                    item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
+                    item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:APHTremorActivitySurveyIdentifier];
                     item.showMedicationLegend = YES;
@@ -620,7 +641,6 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
                     [rowItems addObject:row];
                 }
                     break;
-                 */
                     
                 case kAPHDashboardItemTypeDailyEnergy:{
                     
@@ -892,16 +912,6 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
     [self prepareData];
 }
 
-#pragma mark - ORKTaskViewControllerDelegate
-
-- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(nullable NSError *)error
-{
-    [self prepareData];
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-
 #pragma mark - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1064,5 +1074,51 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
     }
 }
+
+#pragma mark - ORKTaskViewControllerDelegate
+
+- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(nullable NSError *)error
+{
+    if (![[taskViewController.task identifier] isEqualToString:kAPHMonthlyReportTaskIdentifier]) {
+        [self prepareData];
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)dismissPresentedViewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (nullable ORKStepViewController *)taskViewController:(ORKTaskViewController *)taskViewController viewControllerForStep:(ORKStep *)step {
+    if ([[taskViewController.task identifier] isEqualToString:kAPHMonthlyReportTaskIdentifier] &&
+        [step.identifier isEqualToString:kAPHMonthlyReportHTMLStepIdentifier]) {
+        APHWebviewViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"APHWebviewViewController"];
+        vc.step = step;
+        // TODO: syoung 03/01/2016 Remove hardcoding and clean up architecture
+        vc.displayURLString = @"http://parkinsonmpower.org/report/index.html";
+        vc.pdfURLSuffix = @"#pdf";
+        BOOL isStaging = ([[APHAppDelegate sharedAppDelegate] environment] == SBBEnvironmentStaging);
+        NSString *sessionToken = isStaging ? @"aaa" : [[[[APHAppDelegate sharedAppDelegate] dataSubstrate] currentUser] sessionToken];
+        vc.javascriptCall = [NSString stringWithFormat:@"window.display(\"%@\")", sessionToken];
+        vc.cancelButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissPresentedViewController)];
+        vc.backButtonItem = nil;
+        return vc;
+    }
+    return nil;
+}
+
+
+#pragma mark - monthly report
+
+- (IBAction)monthlyReportTapped:(id)sender {
+    SBAConsentDocumentFactory *factory = [[SBAConsentDocumentFactory alloc] initWithJsonNamed:@"MonthlyReport"];
+    SBANavigableOrderedTask *task = [[SBANavigableOrderedTask alloc] initWithIdentifier:kAPHMonthlyReportTaskIdentifier
+                                                                                  steps:factory.steps];
+    ORKTaskViewController *vc = [[ORKTaskViewController alloc] initWithTask:task restorationData:nil delegate:self];
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+
 
 @end
