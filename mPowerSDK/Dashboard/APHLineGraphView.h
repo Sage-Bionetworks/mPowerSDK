@@ -10,6 +10,9 @@
 
 @interface APHLineGraphView : APCLineGraphView
 
+@property (nonatomic) UIColor *colorForFirstCorrelationLine;
+@property (nonatomic) UIColor *colorForSecondCorrelationLine;
+
 @property (nonatomic) BOOL shouldDrawLastPoint;
 
 @end

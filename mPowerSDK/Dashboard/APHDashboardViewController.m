@@ -48,6 +48,7 @@
 #import "APHWalkingTaskViewController.h"
 #import "APHAppDelegate.h"
 #import "APHCorrelationsSelectorViewController.h"
+#import "APHGraphViewController.h"
 #import "APHLineGraphView.h"
 
 NSInteger const kNumberOfDaysToDisplayInSparkLineGraph = 30;
@@ -815,7 +816,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         CGRect initialFrame = [cell convertRect:cell.bounds toView:self.view.window];
         self.presentAnimator.initialFrame = initialFrame;
         
-        APCGraphViewController *graphViewController = [[UIStoryboard storyboardWithName:@"APCDashboard" bundle:[NSBundle appleCoreBundle]] instantiateViewControllerWithIdentifier:@"APCLineGraphViewController"];
+        APHGraphViewController *graphViewController = [[UIStoryboard storyboardWithName:@"APHDashboard" bundle:[NSBundle bundleWithIdentifier:@"org.sagebase.mPowerSDK"]] instantiateViewControllerWithIdentifier:@"APHLineGraphViewController"];
         
         graphViewController.graphItem = graphItem;
         graphItem.graphData.scoringDelegate = graphViewController;

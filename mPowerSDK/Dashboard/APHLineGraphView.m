@@ -34,6 +34,24 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
 
 @implementation APHLineGraphView
 
+- (UIColor *)colorForFirstCorrelationLine
+{
+    if (nil == _colorForFirstCorrelationLine) {
+        _colorForFirstCorrelationLine = [UIColor appTertiaryRedColor];
+    }
+    
+    return _colorForFirstCorrelationLine;
+}
+
+- (UIColor *)colorForSecondCorrelationLine
+{
+    if (nil == _colorForSecondCorrelationLine) {
+        _colorForSecondCorrelationLine = [UIColor appTertiaryYellowColor];
+    }
+    
+    return _colorForSecondCorrelationLine;
+}
+
 - (void)drawXAxis
 {
     //Add Title Labels
@@ -176,7 +194,7 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
                 CAShapeLayer *plotLineLayer = [CAShapeLayer layer];
                 plotLineLayer.path = plotLinePath.CGPath;
                 plotLineLayer.fillColor = [UIColor clearColor].CGColor;
-                plotLineLayer.strokeColor = (plotIndex == 0) ? self.tintColor.CGColor : self.secondaryTintColor.CGColor;
+                plotLineLayer.strokeColor = (plotIndex == 0) ? self.colorForFirstCorrelationLine.CGColor : self.colorForSecondCorrelationLine.CGColor;
                 plotLineLayer.lineJoin = kCALineJoinRound;
                 plotLineLayer.lineCap = kCALineCapRound;
                 plotLineLayer.lineWidth = self.isLandscapeMode ? 3.0 : 2.0;
@@ -207,7 +225,7 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
     
     CAShapeLayer *fillPathLayer = [CAShapeLayer layer];
     fillPathLayer.path = fillPath.CGPath;
-    fillPathLayer.fillColor = (plotIndex == 0) ? [self.tintColor colorWithAlphaComponent:0.4].CGColor : [self.secondaryTintColor colorWithAlphaComponent:0.2].CGColor;
+    fillPathLayer.fillColor = (plotIndex == 0) ? self.colorForFirstCorrelationLine.CGColor : self.colorForSecondCorrelationLine.CGColor;
     [self.plotsView.layer addSublayer:fillPathLayer];
     
     if (self.shouldAnimate) {
