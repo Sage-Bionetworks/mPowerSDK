@@ -10,4 +10,6 @@
 
 @interface APHGraphViewController : APCGraphViewController
 
+@property (nonatomic) BOOL shouldHideAverageLabel;
+
 @end

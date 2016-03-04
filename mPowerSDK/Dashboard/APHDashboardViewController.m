@@ -807,6 +807,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
         
         APHTableViewDashboardGraphItem *graphItem = (APHTableViewDashboardGraphItem *)[self itemForIndexPath:indexPath];
+        APHDashboardGraphTableViewCell *graphCell = (APHDashboardGraphTableViewCell *)cell;
         
         if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
             graphItem.graphType = kAPHDashboardGraphTypeDiscrete;
@@ -817,6 +818,10 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         self.presentAnimator.initialFrame = initialFrame;
         
         APHGraphViewController *graphViewController = [[UIStoryboard storyboardWithName:@"APHDashboard" bundle:[NSBundle bundleWithIdentifier:@"org.sagebase.mPowerSDK"]] instantiateViewControllerWithIdentifier:@"APHLineGraphViewController"];
+        
+        if (graphCell.showCorrelationSelectorView && (APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeLine) {
+            graphViewController.shouldHideAverageLabel = YES;
+        }
         
         graphViewController.graphItem = graphItem;
         graphItem.graphData.scoringDelegate = graphViewController;
@@ -939,6 +944,8 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         
         if (graphCell.showCorrelationSelectorView && (APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeLine) {
             ((APHLineGraphView *)graphCell.lineGraphView).shouldDrawLastPoint = YES;
+            ((APHLineGraphView *)graphCell.lineGraphView).colorForFirstCorrelationLine = graphCell.correlationButton1TitleColor;
+            ((APHLineGraphView *)graphCell.lineGraphView).colorForSecondCorrelationLine = graphCell.correlationButton2TitleColor;
             graphCell.lineGraphView.hidesDataPoints = YES;
         } else {
             ((APHLineGraphView *)graphCell.lineGraphView).shouldDrawLastPoint = NO;

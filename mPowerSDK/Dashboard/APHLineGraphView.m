@@ -37,7 +37,7 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
 - (UIColor *)colorForFirstCorrelationLine
 {
     if (nil == _colorForFirstCorrelationLine) {
-        _colorForFirstCorrelationLine = [UIColor appTertiaryRedColor];
+        _colorForFirstCorrelationLine = self.tintColor;
     }
     
     return _colorForFirstCorrelationLine;
@@ -46,7 +46,7 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
 - (UIColor *)colorForSecondCorrelationLine
 {
     if (nil == _colorForSecondCorrelationLine) {
-        _colorForSecondCorrelationLine = [UIColor appTertiaryYellowColor];
+        _colorForSecondCorrelationLine = self.secondaryTintColor;
     }
     
     return _colorForSecondCorrelationLine;
@@ -126,7 +126,7 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
 
 	CGFloat pointSize = 6.0f;
 	APCCircleView *point = [[APCCircleView alloc] initWithFrame:CGRectMake(0, 0, pointSize, pointSize)];
-	point.tintColor = (plotIndex == 0) ? self.tintColor : self.secondaryTintColor;
+	point.tintColor = (plotIndex == 0) ? self.colorForFirstCorrelationLine : self.colorForSecondCorrelationLine;
 	point.shapeLayer.fillColor = point.tintColor.CGColor;
 	point.center = CGPointMake(positionOnXAxis, positionOnYAxis);
 	[self.plotsView.layer addSublayer:point.layer];
