@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Y3q-0i-ptk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Y3q-0i-ptk">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -355,10 +355,10 @@
                                                 </button>
                                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xal-gA-tbc">
                                                     <rect key="frame" x="0.0" y="0.0" width="137" height="30"/>
-                                                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <state key="normal">
-                                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                     </state>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -404,10 +404,10 @@
                                                 </button>
                                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="byg-rA-OYJ">
                                                     <rect key="frame" x="173" y="0.0" width="137" height="30"/>
-                                                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <state key="normal">
-                                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -492,7 +492,7 @@
                                             </variation>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AO6-h6-6ih">
-                                            <rect key="frame" x="8" y="104" width="359" height="40"/>
+                                            <rect key="frame" x="8" y="104" width="359" height="50"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MEDICATION TAKEN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4k1-jA-iPR">
                                                     <rect key="frame" x="0.0" y="0.0" width="359" height="15"/>
@@ -501,9 +501,9 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="4Qh-P3-uhc">
-                                                    <rect key="frame" x="0.0" y="19" width="359" height="21"/>
+                                                    <rect key="frame" x="0.0" y="19" width="359" height="31"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="Qf5-oq-010"/>
+                                                        <constraint firstAttribute="height" constant="30" id="Qf5-oq-010"/>
                                                     </constraints>
                                                     <segments>
                                                         <segment title="0-30m ago"/>
@@ -521,7 +521,7 @@
                                             <constraints>
                                                 <constraint firstItem="4Qh-P3-uhc" firstAttribute="leading" secondItem="AO6-h6-6ih" secondAttribute="leading" id="4wG-C6-LWF"/>
                                                 <constraint firstItem="4Qh-P3-uhc" firstAttribute="top" secondItem="4k1-jA-iPR" secondAttribute="bottom" constant="4" id="7Jl-nJ-a7j"/>
-                                                <constraint firstAttribute="height" constant="40" id="8zI-Y0-BfO"/>
+                                                <constraint firstAttribute="height" constant="50" id="8zI-Y0-BfO"/>
                                                 <constraint firstAttribute="trailing" secondItem="4k1-jA-iPR" secondAttribute="trailing" id="AbZ-gP-EIF"/>
                                                 <constraint firstAttribute="trailing" secondItem="4Qh-P3-uhc" secondAttribute="trailing" id="ITB-Jr-AEv"/>
                                                 <constraint firstItem="4k1-jA-iPR" firstAttribute="top" secondItem="AO6-h6-6ih" secondAttribute="top" id="KQz-Hn-Xi4"/>
@@ -530,28 +530,28 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Zg-Zn-gLE" customClass="APHLineGraphView">
-                                            <rect key="frame" x="4" y="164" width="371" height="154"/>
+                                            <rect key="frame" x="4" y="174" width="371" height="154"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="154" id="WZ9-7b-d4h"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mnx-13-eWt" customClass="APHDiscreteGraphView">
-                                            <rect key="frame" x="4" y="164" width="371" height="154"/>
+                                            <rect key="frame" x="4" y="174" width="371" height="154"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="154" id="wh2-Za-gj2"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3QR-Ph-tiT" customClass="APHScatterGraphView">
-                                            <rect key="frame" x="4" y="164" width="371" height="154"/>
+                                            <rect key="frame" x="4" y="174" width="371" height="154"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="154" id="VNv-F9-4mw"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3vK-Sn-o8D" userLabel="Medication Legend Container">
-                                            <rect key="frame" x="4" y="318" width="371" height="80"/>
+                                            <rect key="frame" x="4" y="328" width="371" height="80"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y0K-al-odl">
                                                     <rect key="frame" x="10" y="10" width="347" height="60"/>
@@ -793,7 +793,7 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l4c-9O-IfQ">
-                                            <rect key="frame" x="4" y="403" width="371" height="172"/>
+                                            <rect key="frame" x="4" y="413" width="371" height="172"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q4P-a3-EVs" customClass="APHSparkGraphView">
                                                     <rect key="frame" x="8" y="20" width="383" height="132"/>

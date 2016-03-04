@@ -92,6 +92,7 @@
     self.upFrame = CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height - 20);
     
     self.tableView = [[UITableView alloc] initWithFrame:self.downFrame style:UITableViewStylePlain];
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.view addSubview:self.tableView];
@@ -171,6 +172,11 @@
     }
     
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
 }
 
 - (void)tableView:(UITableView *)__unused tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

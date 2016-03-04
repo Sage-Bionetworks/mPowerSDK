@@ -66,7 +66,7 @@ const CGFloat kCorrelationSelectorHeight = 48.f;
     // Reset segment's color
     for( int i = 0; i < numSegments; i++ ) {
         [[self.correlationSegmentControl.subviews objectAtIndex:i] setTintColor:nil];
-        [[self.correlationSegmentControl.subviews objectAtIndex:i] setTintColor:[UIColor appTertiaryGrayColor]];
+        [[self.correlationSegmentControl.subviews objectAtIndex:i] setTintColor:[UIColor appSecondaryColor2]];
         
         UIView *segmentView = [self.correlationSegmentControl.subviews objectAtIndex:i];
         for (UIImageView *imageView in segmentView.subviews) {

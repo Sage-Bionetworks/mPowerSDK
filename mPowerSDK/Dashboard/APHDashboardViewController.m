@@ -401,7 +401,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
                     item.showCorrelationSelectorView = YES;
                     item.showCorrelationSegmentControl = YES;
                     item.hideTintBar = YES;
-                    item.tintColor = [UIColor appTertiaryYellowColor];
+                    item.tintColor = [UIColor appSecondaryColor2];
                     
                     NSString *infoFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_CORRELATION_INFO", nil, APHLocaleBundle(), @"This chart plots the index of your %@ against the index of your %@. For more comparisons, click the series name.", @"Format of caption for correlation plot comparing indices of two series, to be filled in with the names of the series being compared.");
                     item.info = [NSString stringWithFormat:infoFormat, self.correlatedScoring.series1Name, self.self.correlatedScoring.series2Name];
