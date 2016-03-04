@@ -66,8 +66,8 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 
 - (ORKTaskViewController *)instantiateConsentViewController {
     SBANavigableOrderedTask *task = [[SBANavigableOrderedTask alloc] initWithIdentifier:APHConsentTaskIdentifier
-                                                                                  steps:[self consentSteps]];
-    ORKTaskViewController *vc = [[ORKTaskViewController alloc] initWithTask:task taskRunUUID:nil];
+                                                                                  steps:[self consentSteps:YES]];
+    ORKTaskViewController *vc = [[ORKTaskViewController alloc] initWithTask:task restorationData:nil delegate:self];
     return vc;
 }
 
@@ -93,10 +93,7 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 
 - (NSMutableArray <ORKStep *> *)buildSteps:(BOOL)signUp {
     
-    // syoung 2/22/2016 TODO: cleanup the steps management to remove the need to
-    // instantiate the APCOnboarding (and inherit from APCOnboardingManager.
-    APCOnboardingTaskType taskType = signUp ? kAPCOnboardingTaskTypeSignUp : kAPCOnboardingTaskTypeSignIn;
-    [self instantiateOnboardingForType:taskType];
+
     
     // Build the steps
     NSMutableArray *steps = [NSMutableArray new];
@@ -113,7 +110,7 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
         }
         if (!self.user.isUserConsented) {
             // Need to add the consent flow if the user is not consented
-            [steps addObjectsFromArray:[self consentSteps]];
+            [steps addObjectsFromArray:[self consentSteps: self.user.isSignedUp]];
         }
         if (!self.user.isSignedUp) {
             // Next is registration for the user who is *not* signed up
@@ -154,13 +151,20 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     return factory.steps;
 }
 
-- (NSArray <ORKStep *> *)consentSteps {
+- (NSArray <ORKStep *> *)consentSteps:(BOOL)isReconsent {
+    
+    // syoung 2/22/2016 TODO: cleanup the steps management to remove the need to
+    // instantiate the APCOnboarding (and inherit from APCOnboardingManager.
+    APCOnboardingTaskType taskType = isReconsent ? kAPCOnboardingTaskTypeSignIn : kAPCOnboardingTaskTypeSignUp;
+    [self instantiateOnboardingForType:taskType];
+    
     SBAConsentDocumentFactory *factory = [[SBAConsentDocumentFactory alloc] initWithJsonNamed:@"APHConsentSection"];
     NSArray <ORKStep *> *steps = factory.steps;
-    if (!self.user.isSignedUp && [steps.firstObject.identifier isEqualToString:APHReconsentIntroductionStepIdentifier]) {
+    if (!isReconsent && [steps.firstObject.identifier isEqualToString:APHReconsentIntroductionStepIdentifier]) {
         // Strip out the reconsent introduction if not applicable
         steps = [steps subarrayWithRange:NSMakeRange(1, steps.count - 1)];
     }
+    
     return steps;
 }
 
