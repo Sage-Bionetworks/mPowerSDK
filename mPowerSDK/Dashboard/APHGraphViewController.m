@@ -8,6 +8,8 @@
 
 #import "APHGraphViewController.h"
 #import "APHLineGraphView.h"
+#import "APHScoring.h"
+#import "APHTableViewDashboardGraphItem.h"
 
 @interface APHGraphViewController ()
 
@@ -18,8 +20,31 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    APCBaseGraphView *graphView;
+    if (self.graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
+        graphView = self.scatterGraphView;
+        self.scatterGraphView.dataSource = (APHScoring *)self.graphItem.graphData;
+        self.discreteGraphView.hidden = YES;
+        self.lineGraphView.hidden = YES;
+    }
+    
+    graphView.tintColor = self.graphItem.tintColor;
+    graphView.landscapeMode = YES;
+    
+    graphView.minimumValueImage = self.graphItem.minimumImage;
+    graphView.maximumValueImage = self.graphItem.maximumImage;
+    
     [self updateViews];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (self.graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
+        [self.scatterGraphView refreshGraph];
+    }
 }
 
 - (void)didReceiveMemoryWarning
