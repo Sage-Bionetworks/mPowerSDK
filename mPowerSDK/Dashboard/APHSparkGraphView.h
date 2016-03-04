@@ -40,4 +40,6 @@
 
 - (NSString *)sparkGraph:(APHSparkGraphView *)graphView titleForXAxisAtIndex:(NSInteger)pointIndex;
 
+- (NSString *)sparkGraph:(APHSparkGraphView *)graphView medTimingForPlot:(NSInteger)plotIndex;
+
 @end

@@ -258,6 +258,11 @@
     return [self numberOfDivisionsInXAxis];
 }
 
+- (NSString *)sparkGraph:(APHSparkGraphView *)graphView medTimingForPlot:(NSInteger)plotIndex
+{
+    return self.activityTimingChoicesStrings[plotIndex];
+}
+
 #pragma mark - APHScatterGraphViewDataSource
 
 - (NSInteger)scatterGraph:(APHScatterGraphView *)graphView numberOfPointsInPlot:(NSInteger)plotIndex
