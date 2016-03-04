@@ -296,7 +296,12 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     self.onboarding.currentStep = stepViewController.step;
     
     if ([stepViewController.step.identifier isEqualToString:APHConsentCompletionStepIdentifier]) {
-        [self checkForConsentWithTaskViewController:taskViewController];
+        if (![self checkForConsentWithTaskViewController:taskViewController]) {
+            [self userDeclinedConsent];
+            [self taskViewController:taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+            return;
+        }
+        // Do not allow user to go back from this step
         stepViewController.backButtonItem = nil;
     }
     
@@ -390,74 +395,6 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - handle user consent
-
-- (ORKConsentSignatureResult *)findConsentSignatureResult:(ORKTaskResult*)taskResult {
-    for (ORKStepResult *stepResult in taskResult.results) {
-        for (ORKResult *result in stepResult.results) {
-            if ([result isKindOfClass:[ORKConsentSignatureResult class]]) {
-                return (ORKConsentSignatureResult*)result;
-            }
-        }
-    }
-    return nil;
-}
-
-- (ORKConsentSharingStep *)findConsentSharingStep:(ORKTaskViewController *)taskViewController {
-    NSArray *steps = ((ORKOrderedTask*)taskViewController.task).steps;
-    for (ORKStep *step in steps) {
-        if ([step isKindOfClass:[ORKConsentSharingStep class]]) {
-            return (ORKConsentSharingStep*)step;
-        }
-    }
-    return nil;
-}
-
-- (void)checkForConsentWithTaskViewController:(ORKTaskViewController *)taskViewController {
-    
-    // search for the consent signature
-    ORKConsentSignatureResult *consentResult = [self findConsentSignatureResult:taskViewController.result];
-        
-    //  if no signature (no consent result) then assume the user failed the quiz
-    if (consentResult != nil && consentResult.signature.requiresName && (consentResult.signature.givenName && consentResult.signature.familyName)) {
-        
-        // extract the user's sharing choice
-        ORKConsentSharingStep *sharingStep = [self findConsentSharingStep:taskViewController];
-        APCUserConsentSharingScope sharingScope = APCUserConsentSharingScopeNone;
-        
-        for (ORKStepResult* result in taskViewController.result.results) {
-            if ([result.identifier isEqualToString:sharingStep.identifier]) {
-                for (ORKChoiceQuestionResult *choice in result.results) {
-                    if ([choice isKindOfClass:[ORKChoiceQuestionResult class]]) {
-                        NSNumber *answer = [choice.choiceAnswers firstObject];
-                        if ([answer isKindOfClass:[NSNumber class]]) {
-                            if (0 == answer.integerValue) {
-                                sharingScope = APCUserConsentSharingScopeStudy;
-                            }
-                            else if (1 == answer.integerValue) {
-                                sharingScope = APCUserConsentSharingScopeAll;
-                            }
-                            else {
-                                APCLogDebug(@"Unknown sharing choice answer: %@", answer);
-                            }
-                        }
-                        else {
-                            APCLogDebug(@"Unknown sharing choice answer(s): %@", choice.choiceAnswers);
-                        }
-                    }
-                }
-                break;
-            }
-        }
-        
-        // signal the onboarding manager that we're done here
-        [self userDidConsentWithResult:consentResult sharingScope:sharingScope];
-        
-    } else {
-        [self userDeclinedConsent];
-        [taskViewController dismissViewControllerAnimated:YES completion:nil];
-    }
-}
 
 @end
 
