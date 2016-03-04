@@ -362,8 +362,10 @@
 {
     id copy = [super copyWithZone:zone];
     
-    [copy setLatestOnly:self.latestOnly];
     [copy setActivityTimingChoicesStrings:self.activityTimingChoicesStrings.copy];
+    [copy setMedTimingDataPoints:self.medTimingDataPoints];
+    [copy setMedTimingDataPointsCorrelatedScoring:self.medTimingDataPointsCorrelatedScoring];
+    [copy setFilteredDataPoints:self.filteredDataPoints];
     
     return copy;
 }
