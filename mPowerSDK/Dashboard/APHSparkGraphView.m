@@ -476,17 +476,22 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
 {
     [self.referenceLines removeAllObjects];
     
-    UIBezierPath *referenceLinePath = [UIBezierPath bezierPath];
-    [referenceLinePath moveToPoint:CGPointMake(0, kAPCGraphTopPadding + CGRectGetHeight(self.plotsView.frame)/2)];
-    [referenceLinePath addLineToPoint:CGPointMake(CGRectGetWidth(self.frame), kAPCGraphTopPadding + CGRectGetHeight(self.plotsView.frame)/2)];
+    NSInteger numberOfPlots = [self numberOfPlots];
+    CGSize adjustedCanvasSize = self.plotsView.frame.size;
+    adjustedCanvasSize.height = adjustedCanvasSize.height / (CGFloat)numberOfPlots;
     
-    CAShapeLayer *referenceLineLayer = [CAShapeLayer layer];
-    referenceLineLayer.strokeColor = self.referenceLineColor.CGColor;
-    referenceLineLayer.path = referenceLinePath.CGPath;
-    referenceLineLayer.lineDashPattern = self.isLandscapeMode ? @[@12, @7] : @[@6, @4];
-    [self.plotsView.layer addSublayer:referenceLineLayer];
-    
-    [self.referenceLines addObject:referenceLineLayer];
+    for (int i = 0; i < numberOfPlots - 1; i++) {
+        UIBezierPath *referenceLinePath = [UIBezierPath bezierPath];
+        [referenceLinePath moveToPoint:CGPointMake(0, kAPCGraphTopPadding + adjustedCanvasSize.height * (i + 1))];
+        [referenceLinePath addLineToPoint:CGPointMake(CGRectGetWidth(self.frame), kAPCGraphTopPadding + adjustedCanvasSize.height * (i + 1) )];
+        
+        CAShapeLayer *referenceLineLayer = [CAShapeLayer layer];
+        referenceLineLayer.strokeColor = self.referenceLineColor.CGColor;
+        referenceLineLayer.path = referenceLinePath.CGPath;
+        [self.plotsView.layer addSublayer:referenceLineLayer];
+        
+        [self.referenceLines addObject:referenceLineLayer];
+    }
 }
 
 - (void)drawVerticalReferenceLines
