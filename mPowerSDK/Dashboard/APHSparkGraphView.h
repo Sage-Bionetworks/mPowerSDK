@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UIView *plotsView;
 @property (nonatomic) BOOL smoothLines;
 @property (nonatomic) BOOL showsFillPath;
+@property (nonatomic) BOOL shouldDrawShapePointKey;
 
 @end
 

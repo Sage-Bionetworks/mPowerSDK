@@ -7,6 +7,9 @@
 //
 
 #import "APHSparkGraphView.h"
+#import "APHRegularShapeView.h"
+#import "APHMedicationTrackerTask.h"
+#import "NSNull+APHExtensions.h"
 
 NSString * const kAPCLineGraphViewTriggerAnimationsNotification = @"APCLineGraphViewTriggerAnimationsNotification";
 NSString * const kAPCLineGraphViewRefreshNotification = @"APCLineGraphViewRefreshNotification";
@@ -516,6 +519,10 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     if (!self.hidesDataPoints) {
         [self drawPointCirclesForPlotIndex:plotIndex];
     }
+
+    if (self.shouldDrawShapePointKey) {
+        [self drawShapePointKey:plotIndex];
+    }
 }
 
 - (void)drawPointCirclesForPlotIndex:(NSInteger)plotIndex
@@ -649,6 +656,56 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     if (self.showsFillPath) {
         [self.fillLayers addObject:fillPathLayer];
     }
+}
+
+- (void)drawShapePointKey:(NSInteger)plotIndex {
+    __block NSInteger i = -1;
+    [self.dataPoints enumerateObjectsUsingBlock:^(NSDictionary *dataPoint, NSUInteger idx, BOOL *stop) {
+        if ([dataPoint[kDatasetValueKey] floatValue] != NSNotFound) {
+            i = idx;
+            *stop = YES;
+        }
+    }];
+
+    if (i < 0) return;
+
+    CGFloat pointSize = 25.f;
+    CGFloat positionOnXAxis = ((NSNumber *)self.xAxisPoints[i]).floatValue - 10.f;
+	CGFloat positionOnYAxis = ((NSNumber *)[self.yAxisPoints[i] valueForKey:kDatasetValueKey]).floatValue;
+    CGRect pointFrame = CGRectMake(0, 0, pointSize, pointSize);
+
+    NSString *medicationActivityTiming = [self.datasource sparkGraph:self medTimingForPlot:plotIndex];
+
+    APHRegularShapeView *point;
+    BOOL pointColorGray = NO;
+    
+    APHMedicationTrackerTask *medTrackerTask = [[APHMedicationTrackerTask alloc] init];
+    NSArray<ORKTextChoice *> *choices = medTrackerTask.activityTimingChoices;
+    
+    if ([medicationActivityTiming isEqualToString:((ORKTextChoice *)choices[0]).text]) {
+        point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
+    } else if ([medicationActivityTiming isEqualToString:((ORKTextChoice *)choices[1]).text]) {
+        point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:3];
+    } else if ([medicationActivityTiming isEqualToString:((ORKTextChoice *)choices[2]).text]) {
+        point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:4];
+    } else if ([medicationActivityTiming isEqualToString:((ORKTextChoice *)choices[3]).text]) {
+        point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:5];
+    } else {
+        pointColorGray = YES;
+        point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
+    }
+
+    point.tintColor = pointColorGray ? [UIColor appTertiaryGrayColor] : self.tintColor;
+
+    point.fillColor = [UIColor clearColor];
+    point.center = CGPointMake(positionOnXAxis, positionOnYAxis);
+    [self.plotsView.layer addSublayer:point.layer];
+
+    if (self.shouldAnimate) {
+        point.alpha = 0;
+    }
+
+    [self.dots addObject:point];
 }
 
 #pragma mark - Graph Calculations
