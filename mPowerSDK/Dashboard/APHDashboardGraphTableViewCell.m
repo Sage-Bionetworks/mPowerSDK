@@ -79,7 +79,8 @@ const CGFloat kCorrelationSelectorHeight = 48.f;
     
     // Set selected segment color
     NSInteger selectedIdx = self.correlationSegmentControl.selectedSegmentIndex;
-    [[sortedViews objectAtIndex:selectedIdx] setTintColor:[UIColor appTertiaryBlueColor]];
+    UIColor *darkBlueColor = [UIColor colorWithRed:0.24 green:0.37 blue:0.51 alpha:1];
+    [[sortedViews objectAtIndex:selectedIdx] setTintColor:darkBlueColor];
     
     // Remove all original segments from the control
     for (id view in self.correlationSegmentControl.subviews) {

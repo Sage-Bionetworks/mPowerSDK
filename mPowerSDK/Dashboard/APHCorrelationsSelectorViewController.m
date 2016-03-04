@@ -52,7 +52,7 @@
 {
     self = [super init];
     if (self) {
-        self.view.backgroundColor = [[UIColor appSecondaryColor2] colorWithAlphaComponent:0.8];
+        self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
         self.scoringObjects = scoringObjects;
         
         [self initTableView];
