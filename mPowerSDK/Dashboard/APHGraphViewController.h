@@ -11,6 +11,8 @@
 
 @interface APHGraphViewController : APCGraphViewController
 
+@property (nonatomic) IBOutletCollection(UIView) NSArray *keyShapeViewsArray;
+
 @property (weak, nonatomic) IBOutlet UISegmentedControl *correlationSegmentControl;
 @property (weak, nonatomic) IBOutlet APHScatterGraphView *scatterGraphView;
 

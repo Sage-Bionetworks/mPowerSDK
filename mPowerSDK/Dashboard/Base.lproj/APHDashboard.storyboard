@@ -1037,20 +1037,6 @@
                                     <action selector="correlationSegmentChanged:" destination="S0R-8d-cJA" eventType="valueChanged" id="zET-sf-TKn"/>
                                 </connections>
                             </segmentedControl>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="7aU-8k-PLj">
-                                <rect key="frame" x="8" y="13" width="496" height="29"/>
-                                <segments>
-                                    <segment title="5D"/>
-                                    <segment title="1W"/>
-                                    <segment title="1M"/>
-                                    <segment title="3M"/>
-                                    <segment title="6M"/>
-                                    <segment title="1Y"/>
-                                </segments>
-                                <connections>
-                                    <action selector="segmentControlChanged:" destination="S0R-8d-cJA" eventType="valueChanged" id="xtY-PN-QjN"/>
-                                </connections>
-                            </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fMS-CB-9W2">
                                 <rect key="frame" x="4" y="54" width="560" height="1"/>
                                 <color key="backgroundColor" red="0.94509803920000002" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1067,7 +1053,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FzI-6F-HRX" customClass="APHScatterGraphView">
-                                <rect key="frame" x="4" y="121" width="564" height="191"/>
+                                <rect key="frame" x="20" y="121" width="548" height="191"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0K6-CB-Hd7">
@@ -1250,7 +1236,7 @@
                                     <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lDA-Lr-6Hw" userLabel="View - &gt;2h">
                                         <rect key="frame" x="430.5" y="8" width="60.5" height="33"/>
                                         <subviews>
-                                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gfb-Rt-fhq" customClass="APHRegularShapeView">
+                                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gfb-Rt-fhq" userLabel="Pentagon Key Shape View" customClass="APHRegularShapeView">
                                                 <rect key="frame" x="19.5" y="0.0" width="22" height="22"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -1413,6 +1399,20 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="7aU-8k-PLj">
+                                <rect key="frame" x="8" y="13" width="496" height="29"/>
+                                <segments>
+                                    <segment title="5D"/>
+                                    <segment title="1W"/>
+                                    <segment title="1M"/>
+                                    <segment title="3M"/>
+                                    <segment title="6M"/>
+                                    <segment title="1Y"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentControlChanged:" destination="S0R-8d-cJA" eventType="valueChanged" id="xtY-PN-QjN"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1447,7 +1447,7 @@
                             <constraint firstItem="0K6-CB-Hd7" firstAttribute="top" secondItem="EPL-gR-Xyw" secondAttribute="bottom" constant="8" id="e2V-Nm-6oW"/>
                             <constraint firstItem="EmM-Ws-tJj" firstAttribute="leading" secondItem="mSa-AC-xYj" secondAttribute="trailing" constant="8" id="fCQ-rP-GZ0"/>
                             <constraint firstAttribute="trailingMargin" secondItem="FCj-7z-OMq" secondAttribute="trailing" constant="44" id="fpS-6c-LP0"/>
-                            <constraint firstItem="FzI-6F-HRX" firstAttribute="leading" secondItem="BRc-mg-KnS" secondAttribute="leading" id="h9R-f2-l5m"/>
+                            <constraint firstItem="FzI-6F-HRX" firstAttribute="leading" secondItem="BRc-mg-KnS" secondAttribute="leading" constant="16" id="h9R-f2-l5m"/>
                             <constraint firstItem="5aF-Zc-gmm" firstAttribute="top" secondItem="XyQ-VU-SOc" secondAttribute="bottom" constant="8" id="icf-UA-rOK"/>
                             <constraint firstItem="FCj-7z-OMq" firstAttribute="leading" secondItem="ljG-eA-egg" secondAttribute="leadingMargin" constant="-12" id="jua-9Y-eae"/>
                             <constraint firstItem="ldN-KI-ec0" firstAttribute="leading" secondItem="mSa-AC-xYj" secondAttribute="trailing" constant="8" id="k4I-C1-ejG"/>
@@ -1484,6 +1484,10 @@
                         <outlet property="tintView" destination="NYH-zE-dN0" id="b2O-p9-xIh"/>
                         <outlet property="titleLabel" destination="mSa-AC-xYj" id="7BY-7z-jem"/>
                         <outlet property="titleLabelWidthConstraint" destination="o1H-Fw-BHG" id="kGp-Q9-ZX7"/>
+                        <outletCollection property="keyShapeViewsArray" destination="J5o-SV-YYw" id="fOQ-F7-g4h"/>
+                        <outletCollection property="keyShapeViewsArray" destination="JNC-bK-04u" id="DH0-WX-uh5"/>
+                        <outletCollection property="keyShapeViewsArray" destination="ZAg-8P-F3s" id="TNr-5s-I7s"/>
+                        <outletCollection property="keyShapeViewsArray" destination="gfb-Rt-fhq" id="wMv-Wu-Jqh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QVm-fW-a1P" userLabel="First Responder" sceneMemberID="firstResponder"/>

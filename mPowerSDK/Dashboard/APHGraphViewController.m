@@ -10,6 +10,7 @@
 #import "APHLineGraphView.h"
 #import "APHScoring.h"
 #import "APHTableViewDashboardGraphItem.h"
+#import "APHRegularShapeView.h"
 
 @interface APCGraphViewController (Private)
 @property (strong, nonatomic) APCSpinnerViewController *spinnerController;
@@ -33,6 +34,14 @@
     if (self.graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
         graphView = self.scatterGraphView;
         self.scatterGraphView.dataSource = (APHScoring *)self.graphItem.graphData;
+        
+        self.scatterGraphView.showsVerticalReferenceLines = YES;
+        self.scatterGraphView.showsHorizontalReferenceLines = NO;
+
+        for (APHRegularShapeView *shapeView in self.keyShapeViewsArray) {
+            shapeView.tintColor = self.graphItem.tintColor;
+        }
+        
         self.discreteGraphView.hidden = YES;
         self.lineGraphView.hidden = YES;
     }
