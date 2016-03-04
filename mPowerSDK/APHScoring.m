@@ -225,14 +225,42 @@
 
 - (NSInteger)sparkGraph:(APHSparkGraphView *) __unused graphView numberOfPointsInPlot:(NSInteger)plotIndex
 {
-    NSString *key = self.activityTimingChoicesStrings[plotIndex];
+    NSInteger plotCounter = 0;
     
-    return [self.medTimingDataPoints[key] count];
+    for (NSString *activityTimingChoice in self.activityTimingChoicesStrings) {
+        NSArray *points = self.medTimingDataPoints[activityTimingChoice];
+        NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"datasetValueKey != %@", @(NSNotFound)];
+        NSArray *filteredPoints = [points filteredArrayUsingPredicate:filterPredicate];
+        
+        if (filteredPoints.count == 0 || activityTimingChoice == self.activityTimingChoicesStrings.lastObject) {
+            continue;
+        }
+        
+        if (plotCounter == plotIndex && filteredPoints.count > 0) {
+            return points.count;
+        }
+        
+        plotCounter++;
+    }
+    
+    return 0.f;
 }
 
 - (NSInteger)numberOfPlotsInSparkGraph:(APHSparkGraphView *) __unused graphView
 {
-    return self.activityTimingChoicesStrings.count;
+    NSInteger numberOfPlots = 0;
+    
+    for (NSString *activityTimingChoice in self.activityTimingChoicesStrings) {
+        NSArray *points = self.medTimingDataPoints[activityTimingChoice];
+        NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"datasetValueKey != %@", @(NSNotFound)];
+        NSArray *filteredPoints = [points filteredArrayUsingPredicate:filterPredicate];
+        
+        if ([filteredPoints count] > 0 && activityTimingChoice != self.activityTimingChoicesStrings.lastObject) {
+            numberOfPlots++;
+        }
+    }
+    
+    return numberOfPlots;
 }
 
 - (CGFloat)minimumValueForSparkGraph:(APHSparkGraphView *) __unused graphView
@@ -253,9 +281,27 @@
 
 - (NSDictionary *)sparkGraph:(APHSparkGraphView *) __unused graphView plot:(NSInteger)plotIndex valueForPointAtIndex:(NSInteger) pointIndex
 {
-    NSString *key = self.activityTimingChoicesStrings[plotIndex];
+    NSDictionary *value = @{};
+    NSInteger counter = 0;
     
-    return [self.medTimingDataPoints[key] objectAtIndex:pointIndex];
+    for (NSString *activityTimingChoice in self.activityTimingChoicesStrings) {
+        NSArray *points = self.medTimingDataPoints[activityTimingChoice];
+        NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"datasetValueKey != %@", @(NSNotFound)];
+        NSArray *filteredPoints = [points filteredArrayUsingPredicate:filterPredicate];
+        
+        if (filteredPoints.count == 0 || activityTimingChoice == self.activityTimingChoicesStrings.lastObject) {
+            continue;
+        }
+
+        if (counter == plotIndex && points.count > 0) {
+            value = points[pointIndex];
+            break;
+        }
+        
+        counter++;
+    }
+    
+    return value;
 }
 
 - (NSString *)sparkGraph:(APHSparkGraphView *) graphView titleForXAxisAtIndex:(NSInteger)pointIndex
@@ -276,7 +322,25 @@
 
 - (NSString *)sparkGraph:(APHSparkGraphView *)graphView medTimingForPlot:(NSInteger)plotIndex
 {
-    return self.activityTimingChoicesStrings[plotIndex];
+    NSInteger counter = 0;
+    
+    for (NSString *activityTimingChoice in self.activityTimingChoicesStrings) {
+        NSArray *points = self.medTimingDataPoints[activityTimingChoice];
+        NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"datasetValueKey != %@", @(NSNotFound)];
+        NSArray *filteredPoints = [points filteredArrayUsingPredicate:filterPredicate];
+        
+        if (filteredPoints.count == 0 || activityTimingChoice == self.activityTimingChoicesStrings.lastObject) {
+            continue;
+        }
+        
+        if (counter == plotIndex && filteredPoints.count > 0) {
+            return activityTimingChoice;
+        }
+        
+        counter++;
+    }
+    
+    return nil;
 }
 
 #pragma mark - APHScatterGraphViewDataSource

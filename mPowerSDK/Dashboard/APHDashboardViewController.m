@@ -943,7 +943,6 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         sparkLineGraphView.shouldHighlightXaxisLastTitle = NO;
         sparkLineGraphView.maximumValueImage = graphItem.maximumImage;
         sparkLineGraphView.minimumValueImage = graphItem.minimumImage;
-        sparkLineGraphView.showsHorizontalReferenceLines = NO;
         [sparkLineGraphView layoutSubviews];
         
         if (sparkLineGraphView != nil) {

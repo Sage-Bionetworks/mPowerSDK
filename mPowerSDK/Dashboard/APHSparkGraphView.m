@@ -350,7 +350,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
         }
     }
     
-    [self.yAxisPoints addObjectsFromArray:[self normalizeCanvasPoints:self.dataPoints forRect:self.plotsView.frame.size]];
+    [self.yAxisPoints addObjectsFromArray:[self normalizeCanvasPoints:self.dataPoints forRect:self.plotsView.frame.size plotIndex:plotIndex]];
 }
 
 #pragma mark - Draw
@@ -765,11 +765,13 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     }
 }
 
-- (NSArray *)normalizeCanvasPoints:(NSArray *) __unused dataPoints forRect:(CGSize)canvasSize
+- (NSArray *)normalizeCanvasPoints:(NSArray *) __unused dataPoints forRect:(CGSize)canvasSize plotIndex:(NSInteger)plotIndex
 {
     [self calculateMinAndMaxPoints];
     
     NSMutableArray *normalizedDataPointValues = [NSMutableArray new];
+    CGSize adjustedCanvasSize = canvasSize;
+    adjustedCanvasSize.height = canvasSize.height / (CGFloat)[self numberOfPlots];
     
     for (NSUInteger i=0; i<self.dataPoints.count; i++) {
         NSDictionary *dataPointValue = self.dataPoints[i];
@@ -779,13 +781,13 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
         CGFloat normalizedPointValue;
         
         if (pointValue == 0){
-            normalizedPointValue = canvasSize.height;
+            normalizedPointValue = adjustedCanvasSize.height;
         } else if (self.minimumValue == self.maximumValue) {
-            normalizedPointValue = canvasSize.height/2;
+            normalizedPointValue = adjustedCanvasSize.height/2;
         } else {
             CGFloat range = self.maximumValue - self.minimumValue;
-            CGFloat normalizedValue = (pointValue - self.minimumValue)/range * canvasSize.height;
-            normalizedPointValue = canvasSize.height - normalizedValue;
+            CGFloat normalizedValue = (pointValue - self.minimumValue)/range * adjustedCanvasSize.height;
+            normalizedPointValue = adjustedCanvasSize.height - normalizedValue;
         }
         
         // Normalize raw data points
@@ -796,19 +798,23 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
             CGFloat normalizedSubPointValue;
             
             if (subPointValue == 0){
-                normalizedSubPointValue = canvasSize.height;
+                normalizedSubPointValue = adjustedCanvasSize.height;
             } else if (self.minimumValue == self.maximumValue) {
-                normalizedSubPointValue = canvasSize.height/2;
+                normalizedSubPointValue = adjustedCanvasSize.height/2;
             } else {
                 CGFloat range = self.maximumValue - self.minimumValue;
-                CGFloat normalizedValue = (subPointValue - self.minimumValue)/range * canvasSize.height;
-                normalizedSubPointValue = canvasSize.height - normalizedValue;
+                CGFloat normalizedValue = (subPointValue - self.minimumValue)/range * adjustedCanvasSize.height;
+                normalizedSubPointValue = adjustedCanvasSize.height - normalizedValue;
             }
+            
+            normalizedSubPointValue += plotIndex * adjustedCanvasSize.height;
             
             NSMutableDictionary *mutableRawDataPoint = rawDataPoint.mutableCopy;
             mutableRawDataPoint[kDatasetValueKey] = @(normalizedSubPointValue);
             [normalizedRawDataPoints addObject:[mutableRawDataPoint copy]];
         }
+        
+        normalizedPointValue += plotIndex * adjustedCanvasSize.height;
         
         NSMutableDictionary *mutableDataPoint = dataPointValue.mutableCopy;
         mutableDataPoint[kDatasetValueKey] = @(normalizedPointValue);
