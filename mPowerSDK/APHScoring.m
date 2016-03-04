@@ -169,29 +169,42 @@
     if (!self.correlatedScoring) { return; }
     
     for (NSDictionary *dataPoint in self.correlatedScoring.dataPoints) {
-        for (NSDictionary *rawDataPoint in dataPoint[@"datasetRawDataPoints"]) {
-            NSDictionary *taskResult = rawDataPoint[@"datasetTaskResult"];
-            NSString *medActivityTimingString = taskResult[@"MedicationActivityTiming"];
+        NSArray *rawDataPoints = dataPoint[@"datasetRawDataPoints"];
+        
+        for (NSString *activityTimingChoiceString in self.activityTimingChoicesStrings) {
+            NSMutableDictionary *filteredDataPoint = [dataPoint mutableCopy];
             
-            if (!medActivityTimingString) {
-                [(NSMutableArray *) self.medTimingDataPointsCorrelatedScoring[self.activityTimingChoicesStrings.lastObject] addObject:rawDataPoint];
+            NSPredicate *filterPredicate;
+            if ([activityTimingChoiceString isEqualToString:noMedicationTimingKey]) {
+                filterPredicate = [NSPredicate predicateWithFormat:@"(datasetTaskResult == nil) || (datasetTaskResult.MedicationActivityTiming == nil)"];
             } else {
-                for (NSString *choiceString in self.activityTimingChoicesStrings) {
-                    if ([medActivityTimingString isEqualToString:choiceString]) {
-                        [(NSMutableArray *) self.medTimingDataPointsCorrelatedScoring[choiceString] addObject:rawDataPoint];
-                    }
-                }
+                filterPredicate = [NSPredicate predicateWithFormat:@"(dataSetTaskResult.MedicationActivityTiming == '%@')", activityTimingChoiceString];
             }
+            
+            NSArray *filteredRawDataPoints = [rawDataPoints filteredArrayUsingPredicate:filterPredicate];
+            filteredDataPoint[@"datasetRawDataPoints"] = filteredRawDataPoints;
+            
+            if (filteredRawDataPoints.count == 0) {
+                filteredDataPoint[kDatasetValueKey] = @(NSNotFound);
+            } else {
+                NSNumber *averageRawDataPointValue = [[filteredRawDataPoints valueForKey:kDatasetValueKey] valueForKeyPath:@"@avg.intValue"];
+                filteredDataPoint[kDatasetValueKey] = averageRawDataPointValue;
+            }
+            
+            [self.medTimingDataPointsCorrelatedScoring[activityTimingChoiceString] addObject:filteredDataPoint];
         }
     }
 }
 
-- (void)changeDataPointsWithTaskChoice:(NSString *)taskChoice {
+- (void)changeDataPointsWithTaskChoice:(NSString *)taskChoice
+{
 	[self updatePeriodForDays:self.numberOfDays groupBy:self.groupBy];
-    [self filterDataForMedicationTiming];
     
     self.dataPoints = self.medTimingDataPoints[taskChoice];
-    self.correlatedScoring.dataPoints = self.medTimingDataPointsCorrelatedScoring[taskChoice] ?: self.correlatedScoring.dataPoints;
+    
+    if (self.correlatedScoring) {
+        self.correlatedScoring.dataPoints = self.medTimingDataPointsCorrelatedScoring[taskChoice] ?: self.correlatedScoring.dataPoints;
+    }
     
     [self correlateWithScoringObject:self.correlatedScoring];
 }
@@ -201,7 +214,6 @@
     [super updatePeriodForDays:numberOfDays groupBy:groupBy];
     
     [self filterDataForMedicationTiming];
-    
 }
 
 

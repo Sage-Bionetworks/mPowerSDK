@@ -115,7 +115,7 @@
      }
      completion:^(BOOL finished) {
          [self dismissViewControllerAnimated:NO completion:nil];
-     }];
+    }];
 }
 
 #pragma mark - Table view data source
@@ -137,11 +137,11 @@
     NSString *cancelString = NSLocalizedStringWithDefaultValue(@"Cancel", @"APCAppCore", APHLocaleBundle(), @"Cancel", nil);
     
     UIButton *cancel = [UIButton buttonWithType:UIButtonTypeCustom];
-    cancel.frame = CGRectMake(self.tableView.frame.size.width - 100, 8, 100, 44.0);
+    cancel.frame = CGRectMake(self.tableView.frame.size.width - 100, 0, 100, 44.0);
     [cancel setTitle:cancelString forState:UIControlStateNormal];
     [cancel setTitleColor:[UIColor appTertiaryRedColor] forState:UIControlStateNormal];
     [cancel addTarget:self action:@selector(dismissView) forControlEvents:UIControlEventTouchUpInside];
-    cancel.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    cancel.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
     
     UITableViewHeaderFooterView *headerView = [[UITableViewHeaderFooterView alloc] init];
     headerView.textLabel.text = NSLocalizedStringWithDefaultValue(@"Select Category", @"APCAppCore", APHLocaleBundle(), @"Select Category", nil);

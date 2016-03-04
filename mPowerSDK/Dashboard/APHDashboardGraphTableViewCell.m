@@ -110,31 +110,25 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 - (void)setButton1Title:(NSString *)button1Title
 {
     _button1Title = button1Title;
-    [self.correlationButton1 setTitle:button1Title forState:UIControlStateNormal];
-    
-    CGRect frame = self.correlationButton1.titleLabel.frame;
-    self.correlationButton1.titleLabel.frame = CGRectMake(8, frame.origin.y, frame.size.width, frame.size.height);
+    self.button1Label.text = button1Title;
 }
 
 - (void)setButton2Title:(NSString *)button2Title
 {
     _button2Title = button2Title;
-    [self.correlationButton2 setTitle:button2Title forState:UIControlStateNormal];
-    
-    CGRect frame = self.correlationButton2.titleLabel.frame;
-    self.correlationButton2.titleLabel.frame = CGRectMake(8, frame.origin.y, frame.size.width, frame.size.height);
+    self.button2Label.text = button2Title;
 }
 
 - (void)setCorrelationButton1TitleColor:(UIColor *)correlationButton1TitleColor
 {
     _correlationButton1TitleColor = correlationButton1TitleColor;
-    [self.correlationButton1 setTitleColor:correlationButton1TitleColor forState:UIControlStateNormal];
+    self.button1Label.textColor = correlationButton1TitleColor;
 }
 
 - (void)setCorrelationButton2TitleColor:(UIColor *)correlationButton2TitleColor
 {
     _correlationButton2TitleColor = correlationButton2TitleColor;
-    [self.correlationButton2 setTitleColor:correlationButton2TitleColor forState:UIControlStateNormal];
+    self.button2Label.textColor = correlationButton2TitleColor;
 }
 
 - (void)setHideTintBar:(BOOL)hideTintBar

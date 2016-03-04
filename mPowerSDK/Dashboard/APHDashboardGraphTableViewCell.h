@@ -32,6 +32,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *correlationVSLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *button1DownCarrot;
 @property (weak, nonatomic) IBOutlet UIImageView *button2DownCarrot;
+@property (weak, nonatomic) IBOutlet UILabel *button1Label;
+@property (weak, nonatomic) IBOutlet UILabel *button2Label;
 
 @property (weak, nonatomic) IBOutlet UIView *correlationSegmentControlView;
 @property (weak, nonatomic) IBOutlet UILabel *correlationControlTitle;
