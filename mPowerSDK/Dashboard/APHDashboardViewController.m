@@ -925,6 +925,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         sparkLineGraphView.axisTitleFont = [UIFont appRegularFontWithSize:14.0f];
         sparkLineGraphView.hidesYAxis = YES;
         sparkLineGraphView.hidesDataPoints = YES;
+        sparkLineGraphView.shouldDrawShapePointKey = YES;
         sparkLineGraphView.shouldHighlightXaxisLastTitle = NO;
         sparkLineGraphView.maximumValueImage = graphItem.maximumImage;
         sparkLineGraphView.minimumValueImage = graphItem.minimumImage;
