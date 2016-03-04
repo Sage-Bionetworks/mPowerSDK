@@ -815,7 +815,6 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         APHGraphViewController *graphViewController = [[UIStoryboard storyboardWithName:@"APHDashboard" bundle:[NSBundle bundleForClass:[self class]]] instantiateViewControllerWithIdentifier:@"APHLineGraphViewController"];
 
 		if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
-			graphItem.graphType = kAPHDashboardGraphTypeScatter;
 			((APHScoring *)graphItem.graphData).latestOnly = NO;
 
 			graphViewController.scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
