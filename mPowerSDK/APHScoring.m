@@ -136,22 +136,34 @@
 	for (ORKTextChoice *textChoice in activityTimingChoices) {
 		self.medTimingDataPoints[textChoice.text] = [[NSMutableArray alloc] init];
 	}
+    
+    NSString *noMedicationTimingKey = self.activityTimingChoicesStrings.lastObject;
 
 	for (NSDictionary *dataPoint in self.dataPoints) {
-		for (NSDictionary *rawDataPoint in dataPoint[@"datasetRawDataPoints"]) {
-			NSDictionary *taskResult = rawDataPoint[@"datasetTaskResult"];
-			NSString *medActivityTimingString = taskResult[@"MedicationActivityTiming"];
-
-			if (!medActivityTimingString) {
-				[(NSMutableArray *) self.medTimingDataPoints[self.activityTimingChoicesStrings.lastObject] addObject:rawDataPoint];
-			} else {
-				for (NSString *choiceString in self.activityTimingChoicesStrings) {
-					if ([medActivityTimingString isEqualToString:choiceString]) {
-						[(NSMutableArray *) self.medTimingDataPoints[choiceString] addObject:rawDataPoint];
-					}
-				}
-			}
-		}
+        NSArray *rawDataPoints = dataPoint[@"datasetRawDataPoints"];
+        
+        for (NSString *activityTimingChoiceString in self.activityTimingChoicesStrings) {
+            NSMutableDictionary *filteredDataPoint = [dataPoint mutableCopy];
+            
+            NSPredicate *filterPredicate;
+            if ([activityTimingChoiceString isEqualToString:noMedicationTimingKey]) {
+                filterPredicate = [NSPredicate predicateWithFormat:@"(datasetTaskResult == nil) || (datasetTaskResult.MedicationActivityTiming == nil)"];
+            } else {
+                filterPredicate = [NSPredicate predicateWithFormat:@"(dataSetTaskResult.MedicationActivityTiming == '%@')", activityTimingChoiceString];
+            }
+            
+            NSArray *filteredRawDataPoints = [rawDataPoints filteredArrayUsingPredicate:filterPredicate];
+            filteredDataPoint[@"datasetRawDataPoints"] = filteredRawDataPoints;
+            
+            if (filteredRawDataPoints.count == 0) {
+                filteredDataPoint[kDatasetValueKey] = @(NSNotFound);
+            } else {
+                NSNumber *averageRawDataPointValue = [[filteredRawDataPoints valueForKey:kDatasetValueKey] valueForKeyPath:@"@avg.intValue"];
+                filteredDataPoint[kDatasetValueKey] = averageRawDataPointValue;
+            }
+            
+            [self.medTimingDataPoints[activityTimingChoiceString] addObject:filteredDataPoint];
+        }
 	}
     
     if (!self.correlatedScoring) { return; }
@@ -184,17 +196,27 @@
     [self correlateWithScoringObject:self.correlatedScoring];
 }
 
+- (void)updatePeriodForDays:(NSInteger)numberOfDays groupBy:(APHTimelineGroups)groupBy
+{
+    [super updatePeriodForDays:numberOfDays groupBy:groupBy];
+    
+    [self filterDataForMedicationTiming];
+    
+}
+
 
 #pragma mark - APHSparkGraphViewDataSource
 
 - (NSInteger)sparkGraph:(APHSparkGraphView *) __unused graphView numberOfPointsInPlot:(NSInteger)plotIndex
 {
-    return [self numberOfPointsInPlot:plotIndex];
+    NSString *key = self.activityTimingChoicesStrings[plotIndex];
+    
+    return [self.medTimingDataPoints[key] count];
 }
 
 - (NSInteger)numberOfPlotsInSparkGraph:(APHSparkGraphView *) __unused graphView
 {
-    return [self numberOfPlotsInGraph];
+    return self.activityTimingChoicesStrings.count;
 }
 
 - (CGFloat)minimumValueForSparkGraph:(APHSparkGraphView *) __unused graphView
@@ -215,7 +237,9 @@
 
 - (NSDictionary *)sparkGraph:(APHSparkGraphView *) __unused graphView plot:(NSInteger)plotIndex valueForPointAtIndex:(NSInteger) pointIndex
 {
-    return self.dataPoints[pointIndex];
+    NSString *key = self.activityTimingChoicesStrings[plotIndex];
+    
+    return [self.medTimingDataPoints[key] objectAtIndex:pointIndex];
 }
 
 - (NSString *)sparkGraph:(APHSparkGraphView *) graphView titleForXAxisAtIndex:(NSInteger)pointIndex
