@@ -350,7 +350,8 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 
 - (UIViewController *)instantiatePasscodeViewControllerWithDelegate:(id)delegate {
     if ([self hasORKPasscode]) {
-        return [ORKPasscodeViewController passcodeAuthenticationViewControllerWithText:nil delegate:delegate];
+        NSString* forgotPasscodeText = NSLocalizedStringWithDefaultValue(@"Forgot Passcode?", @"APCAppCore", APCBundle(), @"Forgot Passcode?", @"Action for when user forgets their passcode");
+        return [ORKPasscodeViewController passcodeAuthenticationViewControllerWithForgotPasscodeText:forgotPasscodeText andTitleText:nil delegate:delegate];
     }
     else {
         return [super instantiatePasscodeViewControllerWithDelegate:delegate];
@@ -376,6 +377,11 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 
 - (void)passcodeViewControllerDidCancel:(UIViewController *)viewController {
     [viewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)passcodeViewControllerForgotPasscode:(UIViewController *)viewController
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:APCUserForgotPasscodeNotification object:nil];
 }
 
 #pragma mark - handle user consent
