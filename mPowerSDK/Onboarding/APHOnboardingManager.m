@@ -65,6 +65,13 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 @implementation APHOnboardingManager
 
 - (ORKTaskViewController *)instantiateConsentViewController {
+    
+    // syoung 2/22/2016 TODO: cleanup the steps management to remove the need to
+    // instantiate the APCOnboarding (and inherit from APCOnboardingManager.
+    if (!self.onboarding) {
+        [self instantiateOnboardingForType:kAPCOnboardingTaskTypeSignIn];
+    }
+    
     SBANavigableOrderedTask *task = [[SBANavigableOrderedTask alloc] initWithIdentifier:APHConsentTaskIdentifier
                                                                                   steps:[self consentSteps:YES]];
     ORKTaskViewController *vc = [[ORKTaskViewController alloc] initWithTask:task restorationData:nil delegate:self];
@@ -72,6 +79,14 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 }
 
 - (ORKTaskViewController *)instantiateOnboardingTaskViewController:(BOOL)signUp {
+    
+    // syoung 2/22/2016 TODO: cleanup the steps management to remove the need to
+    // instantiate the APCOnboarding (and inherit from APCOnboardingManager.
+    if (!self.onboarding) {
+        APCOnboardingTaskType taskType = signUp ? kAPCOnboardingTaskTypeSignUp : kAPCOnboardingTaskTypeSignIn;
+        [self instantiateOnboardingForType:taskType];
+    }
+    
     NSString *taskIdentifier;
     if (self.user.isSignedUp && self.user.isSignedIn && !self.user.isConsented) {
         // This is a reconsent flow
@@ -92,8 +107,6 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 }
 
 - (NSMutableArray <ORKStep *> *)buildSteps:(BOOL)signUp {
-    
-
     
     // Build the steps
     NSMutableArray *steps = [NSMutableArray new];
@@ -152,11 +165,6 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 }
 
 - (NSArray <ORKStep *> *)consentSteps:(BOOL)isReconsent {
-    
-    // syoung 2/22/2016 TODO: cleanup the steps management to remove the need to
-    // instantiate the APCOnboarding (and inherit from APCOnboardingManager.
-    APCOnboardingTaskType taskType = isReconsent ? kAPCOnboardingTaskTypeSignIn : kAPCOnboardingTaskTypeSignUp;
-    [self instantiateOnboardingForType:taskType];
     
     SBAConsentDocumentFactory *factory = [[SBAConsentDocumentFactory alloc] initWithJsonNamed:@"APHConsentSection"];
     NSArray <ORKStep *> *steps = factory.steps;
