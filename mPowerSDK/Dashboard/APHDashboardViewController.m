@@ -819,8 +819,15 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         
         APHGraphViewController *graphViewController = [[UIStoryboard storyboardWithName:@"APHDashboard" bundle:[NSBundle bundleWithIdentifier:@"org.sagebase.mPowerSDK"]] instantiateViewControllerWithIdentifier:@"APHLineGraphViewController"];
         
-        if (graphCell.showCorrelationSelectorView && (APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeLine) {
+        if (graphCell.showCorrelationSelectorView
+                && (APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeLine) {
+            [((APHScoring *)graphItem.graphData) resetChanges];
+            
+            graphViewController.selectedCorrelationTimeTab = self.selectedCorrelationTimeTab;
             graphViewController.shouldHideAverageLabel = YES;
+            graphViewController.shouldHideCorrelationSegmentControl = YES;
+        } else {
+            graphViewController.shouldHideCorrelationSegmentControl = YES;
         }
         
         graphViewController.graphItem = graphItem;

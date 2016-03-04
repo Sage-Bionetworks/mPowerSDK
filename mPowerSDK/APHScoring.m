@@ -216,6 +216,10 @@
     [self filterDataForMedicationTiming];
 }
 
+- (void)resetChanges
+{
+    [self updatePeriodForDays:self.numberOfDays groupBy:self.groupBy];
+}
 
 #pragma mark - APHSparkGraphViewDataSource
 

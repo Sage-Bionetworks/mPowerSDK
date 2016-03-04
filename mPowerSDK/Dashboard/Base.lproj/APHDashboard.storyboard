@@ -987,8 +987,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="7aU-8k-PLj">
-                                <rect key="frame" x="4" y="13" width="504" height="29"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="FCj-7z-OMq">
+                                <rect key="frame" x="8" y="13" width="496" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="1mJ-tQ-9jJ"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="0-30m ago"/>
+                                    <segment title="30-60m ago"/>
+                                    <segment title="1-2h ago"/>
+                                    <segment title="&gt;2h ago"/>
+                                </segments>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="correlationSegmentChanged:" destination="S0R-8d-cJA" eventType="valueChanged" id="zET-sf-TKn"/>
+                                </connections>
+                            </segmentedControl>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="7aU-8k-PLj">
+                                <rect key="frame" x="8" y="13" width="496" height="29"/>
                                 <segments>
                                     <segment title="5D"/>
                                     <segment title="1W"/>
@@ -1001,14 +1017,14 @@
                                     <action selector="segmentControlChanged:" destination="S0R-8d-cJA" eventType="valueChanged" id="xtY-PN-QjN"/>
                                 </connections>
                             </segmentedControl>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fMS-CB-9W2">
-                                <rect key="frame" x="0.0" y="54" width="568" height="1"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fMS-CB-9W2">
+                                <rect key="frame" x="4" y="54" width="560" height="1"/>
                                 <color key="backgroundColor" red="0.94509803920000002" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="vZz-nv-fpl"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XyQ-VU-SOc" customClass="APCLineGraphView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XyQ-VU-SOc" customClass="APHLineGraphView">
                                 <rect key="frame" x="4" y="95" width="564" height="217"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -1036,8 +1052,8 @@
                                     <constraint firstAttribute="width" constant="4" id="3Qa-XQ-py4"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Steps" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mSa-AC-xYj">
-                                <rect key="frame" x="16" y="56" width="130" height="33"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Steps" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mSa-AC-xYj">
+                                <rect key="frame" x="20" y="56" width="130" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="J8V-8z-zHQ"/>
                                     <constraint firstAttribute="width" constant="130" id="o1H-Fw-BHG"/>
@@ -1046,8 +1062,8 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Average: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ldN-KI-ec0">
-                                <rect key="frame" x="154" y="61" width="180" height="26"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Average: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ldN-KI-ec0">
+                                <rect key="frame" x="158" y="61" width="180" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="7DS-Zh-jlX"/>
                                     <constraint firstAttribute="width" constant="180" id="eP0-zr-jaH"/>
@@ -1056,15 +1072,15 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LnR-RL-PBc">
-                                <rect key="frame" x="225" y="60" width="25" height="25"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LnR-RL-PBc">
+                                <rect key="frame" x="229" y="60" width="25" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="IHY-0h-fvG"/>
                                     <constraint firstAttribute="width" constant="25" id="kfA-j5-RKn"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebo-kJ-AjA">
-                                <rect key="frame" x="154" y="64" width="329" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebo-kJ-AjA">
+                                <rect key="frame" x="158" y="64" width="329" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="RS7-xI-dD0"/>
                                     <constraint firstAttribute="width" constant="329" id="yTi-Aq-1fX"/>
@@ -1092,10 +1108,13 @@
                             <constraint firstAttribute="trailing" secondItem="0K6-CB-Hd7" secondAttribute="trailing" constant="8" id="RH9-t7-6IR"/>
                             <constraint firstItem="BRc-mg-KnS" firstAttribute="top" secondItem="EPL-gR-Xyw" secondAttribute="bottom" constant="100" id="TxQ-TT-nXW"/>
                             <constraint firstItem="mSa-AC-xYj" firstAttribute="leading" secondItem="ljG-eA-egg" secondAttribute="leadingMargin" id="Y9A-ul-1te"/>
+                            <constraint firstItem="FCj-7z-OMq" firstAttribute="top" secondItem="EPL-gR-Xyw" secondAttribute="bottom" constant="13" id="aXq-ZZ-koX"/>
                             <constraint firstItem="XyQ-VU-SOc" firstAttribute="leading" secondItem="ljG-eA-egg" secondAttribute="leading" constant="4" id="dl8-oH-18K"/>
                             <constraint firstItem="BRc-mg-KnS" firstAttribute="leading" secondItem="ljG-eA-egg" secondAttribute="leading" constant="4" id="dob-DC-NHX"/>
                             <constraint firstItem="0K6-CB-Hd7" firstAttribute="top" secondItem="EPL-gR-Xyw" secondAttribute="bottom" constant="8" id="e2V-Nm-6oW"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="FCj-7z-OMq" secondAttribute="trailing" constant="44" id="fpS-6c-LP0"/>
                             <constraint firstItem="5aF-Zc-gmm" firstAttribute="top" secondItem="XyQ-VU-SOc" secondAttribute="bottom" constant="8" id="icf-UA-rOK"/>
+                            <constraint firstItem="FCj-7z-OMq" firstAttribute="leading" secondItem="ljG-eA-egg" secondAttribute="leadingMargin" constant="-12" id="jua-9Y-eae"/>
                             <constraint firstItem="ldN-KI-ec0" firstAttribute="leading" secondItem="mSa-AC-xYj" secondAttribute="trailing" constant="8" id="k4I-C1-ejG"/>
                             <constraint firstItem="ldN-KI-ec0" firstAttribute="top" secondItem="LnR-RL-PBc" secondAttribute="bottom" constant="-24" id="k9m-3A-HBc"/>
                             <constraint firstAttribute="trailingMargin" secondItem="7aU-8k-PLj" secondAttribute="trailing" constant="44" id="lAa-mT-02M"/>
@@ -1112,6 +1131,7 @@
                     <connections>
                         <outlet property="averageImageView" destination="LnR-RL-PBc" id="x8V-vU-wwU"/>
                         <outlet property="collapseButton" destination="0K6-CB-Hd7" id="0W8-5Q-xJj"/>
+                        <outlet property="correlationSegmentControl" destination="FCj-7z-OMq" id="2an-F5-ES1"/>
                         <outlet property="discreteGraphView" destination="BRc-mg-KnS" id="JvV-AL-Db0"/>
                         <outlet property="legendLabel" destination="ebo-kJ-AjA" id="L3F-OM-uNf"/>
                         <outlet property="lineGraphView" destination="XyQ-VU-SOc" id="gsw-gs-8Nu"/>

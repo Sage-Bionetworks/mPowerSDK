@@ -10,6 +10,11 @@
 
 @interface APHGraphViewController : APCGraphViewController
 
+@property (weak, nonatomic) IBOutlet UISegmentedControl *correlationSegmentControl;
+
+@property (nonatomic) NSInteger selectedCorrelationTimeTab;
+
+@property (nonatomic) BOOL shouldHideCorrelationSegmentControl;
 @property (nonatomic) BOOL shouldHideAverageLabel;
 
 @end

@@ -16,5 +16,6 @@
 @property(nonatomic) BOOL latestOnly;
 
 - (void)changeDataPointsWithTaskChoice:(NSString *)taskChoice;
+- (void)resetChanges;
 
 @end

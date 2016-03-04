@@ -33,6 +33,12 @@
 - (void)updateViews
 {
     self.subTitleLabel.hidden = self.shouldHideAverageLabel;
+    self.correlationSegmentControl.hidden = self.shouldHideCorrelationSegmentControl;
+    self.segmentedControl.hidden = !self.shouldHideCorrelationSegmentControl;
+    
+    if (!self.shouldHideCorrelationSegmentControl) {
+        [self.correlationSegmentControl setSelectedSegmentIndex:self.selectedCorrelationTimeTab];
+    }
     
     if ([self.lineGraphView isKindOfClass:[APHLineGraphView class]]) {
         ((APHLineGraphView *)self.lineGraphView).shouldDrawLastPoint = YES;
@@ -42,5 +48,12 @@
         self.lineGraphView.hidesDataPoints = YES;
     }
 }
+
+#pragma mark - Outlet Functions
+
+- (IBAction)correlationSegmentChanged:(UISegmentedControl *)sender {
+    
+}
+
 
 @end
