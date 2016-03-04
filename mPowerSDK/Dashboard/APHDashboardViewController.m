@@ -936,6 +936,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         sparkLineGraphView.delegate = self;
         sparkLineGraphView.tintColor = graphItem.tintColor;
         sparkLineGraphView.secondaryTintColor = [UIColor appTertiaryGrayColor];
+        sparkLineGraphView.axisColor = [UIColor appTertiaryGrayColor];
         sparkLineGraphView.axisTitleFont = [UIFont appRegularFontWithSize:14.0f];
         sparkLineGraphView.hidesYAxis = YES;
         sparkLineGraphView.hidesDataPoints = YES;
