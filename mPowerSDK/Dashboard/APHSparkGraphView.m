@@ -375,7 +375,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     
     self.xAxisView = [[APCAxisView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.plotsView.frame), CGRectGetWidth(self.plotsView.frame), kXAxisHeight)];
     self.xAxisView.landscapeMode = self.landscapeMode;
-    self.xAxisView.tintColor = self.tintColor;
+    self.xAxisView.tintColor = self.secondaryTintColor;
     self.xAxisView.shouldHighlightLastLabel = self.shouldHighlightXaxisLastTitle;
     [self.xAxisView setupLabels:self.xAxisTitles forAxisType:kAPCGraphAxisTypeX];
     self.xAxisView.leftOffset = kAPCGraphLeftPadding;
@@ -615,7 +615,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
                 CAShapeLayer *plotLineLayer = [CAShapeLayer layer];
                 plotLineLayer.path = plotLinePath.CGPath;
                 plotLineLayer.fillColor = [UIColor clearColor].CGColor;
-                plotLineLayer.strokeColor = (plotIndex == 0) ? self.tintColor.CGColor : self.secondaryTintColor.CGColor;
+                plotLineLayer.strokeColor = self.secondaryTintColor.CGColor;
                 plotLineLayer.lineJoin = kCALineJoinRound;
                 plotLineLayer.lineCap = kCALineCapRound;
                 plotLineLayer.lineWidth = self.isLandscapeMode ? 3.0 : 2.0;
@@ -646,7 +646,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     
     CAShapeLayer *fillPathLayer = [CAShapeLayer layer];
     fillPathLayer.path = fillPath.CGPath;
-    fillPathLayer.fillColor = (plotIndex == 0) ? [self.tintColor colorWithAlphaComponent:0.4].CGColor : [self.secondaryTintColor colorWithAlphaComponent:0.2].CGColor;
+    fillPathLayer.fillColor = [self.secondaryTintColor colorWithAlphaComponent:0.2].CGColor;
     [self.plotsView.layer addSublayer:fillPathLayer];
     
     if (self.shouldAnimate) {
