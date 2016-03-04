@@ -149,15 +149,15 @@
             if ([activityTimingChoiceString isEqualToString:noMedicationTimingKey]) {
                 filterPredicate = [NSPredicate predicateWithFormat:@"(datasetTaskResult == nil) || (datasetTaskResult.MedicationActivityTiming == nil)"];
             } else {
-                filterPredicate = [NSPredicate predicateWithFormat:@"(dataSetTaskResult.MedicationActivityTiming == '%@')", activityTimingChoiceString];
+                filterPredicate = [NSPredicate predicateWithFormat:@"(datasetTaskResult.MedicationActivityTiming == %@)", activityTimingChoiceString];
             }
             
             NSArray *filteredRawDataPoints = [rawDataPoints filteredArrayUsingPredicate:filterPredicate];
             filteredDataPoint[@"datasetRawDataPoints"] = filteredRawDataPoints;
             
-            if (filteredRawDataPoints.count == 0) {
+            if (filteredRawDataPoints.count == 0 && ![activityTimingChoiceString isEqualToString:noMedicationTimingKey]) {
                 filteredDataPoint[kDatasetValueKey] = @(NSNotFound);
-            } else {
+            } else if (filteredRawDataPoints.count > 0) {
                 NSNumber *averageRawDataPointValue = [[filteredRawDataPoints valueForKey:kDatasetValueKey] valueForKeyPath:@"@avg.intValue"];
                 filteredDataPoint[kDatasetValueKey] = averageRawDataPointValue;
             }
