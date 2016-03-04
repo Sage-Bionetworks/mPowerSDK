@@ -817,7 +817,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         CGRect initialFrame = [cell convertRect:cell.bounds toView:self.view.window];
         self.presentAnimator.initialFrame = initialFrame;
         
-        APHGraphViewController *graphViewController = [[UIStoryboard storyboardWithName:@"APHDashboard" bundle:[NSBundle bundleWithIdentifier:@"org.sagebase.mPowerSDK"]] instantiateViewControllerWithIdentifier:@"APHLineGraphViewController"];
+        APHGraphViewController *graphViewController = [[UIStoryboard storyboardWithName:@"APHDashboard" bundle:[NSBundle bundleForClass:[self class]]] instantiateViewControllerWithIdentifier:@"APHLineGraphViewController"];
         
         if (graphCell.showCorrelationSelectorView
                 && (APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeLine) {
