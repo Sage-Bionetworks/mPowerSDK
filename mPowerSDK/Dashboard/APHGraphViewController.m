@@ -40,7 +40,8 @@
         [self.correlationSegmentControl setSelectedSegmentIndex:self.selectedCorrelationTimeTab];
     }
     
-    if ([self.lineGraphView isKindOfClass:[APHLineGraphView class]]) {
+    if ([self.lineGraphView isKindOfClass:[APHLineGraphView class]]
+            && self.isForCorrelation) {
         ((APHLineGraphView *)self.lineGraphView).shouldDrawLastPoint = YES;
         ((APHLineGraphView *)self.lineGraphView).colorForFirstCorrelationLine = [UIColor appTertiaryRedColor];
         ((APHLineGraphView *)self.lineGraphView).colorForSecondCorrelationLine = [UIColor appTertiaryYellowColor];

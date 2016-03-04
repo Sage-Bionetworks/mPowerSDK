@@ -14,6 +14,7 @@
 
 @property (nonatomic) NSInteger selectedCorrelationTimeTab;
 
+@property (nonatomic) BOOL isForCorrelation;
 @property (nonatomic) BOOL shouldHideCorrelationSegmentControl;
 @property (nonatomic) BOOL shouldHideAverageLabel;
 

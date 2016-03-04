@@ -824,6 +824,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
             [((APHScoring *)graphItem.graphData) resetChanges];
             
             graphViewController.selectedCorrelationTimeTab = self.selectedCorrelationTimeTab;
+            graphViewController.isForCorrelation = YES;
             graphViewController.shouldHideAverageLabel = YES;
             graphViewController.shouldHideCorrelationSegmentControl = YES;
         } else {
