@@ -834,7 +834,7 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last 30 days" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvQ-MR-dOH">
-                                                    <rect key="frame" x="8" y="0.0" width="98" height="20.5"/>
+                                                    <rect key="frame" x="8" y="0.0" width="98" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -1066,6 +1066,10 @@
                                 <rect key="frame" x="4" y="100" width="564" height="212"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FzI-6F-HRX" customClass="APHScatterGraphView">
+                                <rect key="frame" x="4" y="100" width="564" height="212"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0K6-CB-Hd7">
                                 <rect key="frame" x="522" y="8" width="38" height="38"/>
                                 <constraints>
@@ -1127,15 +1131,18 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="7aU-8k-PLj" firstAttribute="leading" secondItem="ljG-eA-egg" secondAttribute="leadingMargin" constant="-12" id="2ks-5d-AMU"/>
+                            <constraint firstItem="FzI-6F-HRX" firstAttribute="bottom" secondItem="BRc-mg-KnS" secondAttribute="bottom" id="5EW-AV-gv2"/>
                             <constraint firstItem="5aF-Zc-gmm" firstAttribute="top" secondItem="BRc-mg-KnS" secondAttribute="bottom" constant="8" id="7ne-6Z-EFf"/>
                             <constraint firstItem="mSa-AC-xYj" firstAttribute="top" secondItem="EPL-gR-Xyw" secondAttribute="bottom" constant="56" id="8np-YD-NfX"/>
                             <constraint firstItem="7aU-8k-PLj" firstAttribute="top" secondItem="EPL-gR-Xyw" secondAttribute="bottom" constant="13" id="BLf-uZ-Wzc"/>
                             <constraint firstItem="fMS-CB-9W2" firstAttribute="leading" secondItem="ljG-eA-egg" secondAttribute="leadingMargin" constant="-16" id="C0u-w0-cjy"/>
                             <constraint firstItem="ldN-KI-ec0" firstAttribute="top" secondItem="EPL-gR-Xyw" secondAttribute="bottom" constant="61" id="Di9-sC-0gR"/>
+                            <constraint firstItem="FzI-6F-HRX" firstAttribute="trailing" secondItem="BRc-mg-KnS" secondAttribute="trailing" id="Er2-VN-NtX"/>
                             <constraint firstAttribute="trailing" secondItem="BRc-mg-KnS" secondAttribute="trailing" id="F1h-ml-CW2"/>
                             <constraint firstItem="fMS-CB-9W2" firstAttribute="top" secondItem="EPL-gR-Xyw" secondAttribute="bottom" constant="54" id="FU9-UH-mCZ"/>
                             <constraint firstItem="ebo-kJ-AjA" firstAttribute="leading" secondItem="mSa-AC-xYj" secondAttribute="trailing" constant="8" id="GdL-e1-ntG"/>
                             <constraint firstItem="NYH-zE-dN0" firstAttribute="leading" secondItem="ljG-eA-egg" secondAttribute="leading" id="KxR-PH-F7v"/>
+                            <constraint firstItem="FzI-6F-HRX" firstAttribute="top" secondItem="BRc-mg-KnS" secondAttribute="top" id="LJ6-TQ-nbP"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fMS-CB-9W2" secondAttribute="trailing" constant="-16" id="LJo-c0-qaP"/>
                             <constraint firstItem="ldN-KI-ec0" firstAttribute="leading" secondItem="LnR-RL-PBc" secondAttribute="trailing" constant="-96" id="P4Z-TF-VXx"/>
                             <constraint firstItem="5aF-Zc-gmm" firstAttribute="top" secondItem="NYH-zE-dN0" secondAttribute="bottom" id="Qym-IH-lhb"/>
@@ -1147,6 +1154,7 @@
                             <constraint firstItem="BRc-mg-KnS" firstAttribute="leading" secondItem="ljG-eA-egg" secondAttribute="leading" constant="4" id="dob-DC-NHX"/>
                             <constraint firstItem="0K6-CB-Hd7" firstAttribute="top" secondItem="EPL-gR-Xyw" secondAttribute="bottom" constant="8" id="e2V-Nm-6oW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="FCj-7z-OMq" secondAttribute="trailing" constant="44" id="fpS-6c-LP0"/>
+                            <constraint firstItem="FzI-6F-HRX" firstAttribute="leading" secondItem="BRc-mg-KnS" secondAttribute="leading" id="h9R-f2-l5m"/>
                             <constraint firstItem="5aF-Zc-gmm" firstAttribute="top" secondItem="XyQ-VU-SOc" secondAttribute="bottom" constant="8" id="icf-UA-rOK"/>
                             <constraint firstItem="FCj-7z-OMq" firstAttribute="leading" secondItem="ljG-eA-egg" secondAttribute="leadingMargin" constant="-12" id="jua-9Y-eae"/>
                             <constraint firstItem="ldN-KI-ec0" firstAttribute="leading" secondItem="mSa-AC-xYj" secondAttribute="trailing" constant="8" id="k4I-C1-ejG"/>
@@ -1169,6 +1177,7 @@
                         <outlet property="discreteGraphView" destination="BRc-mg-KnS" id="JvV-AL-Db0"/>
                         <outlet property="legendLabel" destination="ebo-kJ-AjA" id="L3F-OM-uNf"/>
                         <outlet property="lineGraphView" destination="XyQ-VU-SOc" id="gsw-gs-8Nu"/>
+                        <outlet property="scatterGraphView" destination="FzI-6F-HRX" id="h0j-4s-PhQ"/>
                         <outlet property="segmentedControl" destination="7aU-8k-PLj" id="0gB-Fw-Rg4"/>
                         <outlet property="subTitleLabel" destination="ldN-KI-ec0" id="mB9-h1-P68"/>
                         <outlet property="tintView" destination="NYH-zE-dN0" id="b2O-p9-xIh"/>

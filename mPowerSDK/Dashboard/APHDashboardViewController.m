@@ -809,16 +809,25 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
         APHTableViewDashboardGraphItem *graphItem = (APHTableViewDashboardGraphItem *)[self itemForIndexPath:indexPath];
         APHDashboardGraphTableViewCell *graphCell = (APHDashboardGraphTableViewCell *)cell;
         
-        if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
-            graphItem.graphType = kAPHDashboardGraphTypeDiscrete;
-            ((APHScoring *)graphItem.graphData).latestOnly = YES;
-        }
-        
         CGRect initialFrame = [cell convertRect:cell.bounds toView:self.view.window];
         self.presentAnimator.initialFrame = initialFrame;
         
         APHGraphViewController *graphViewController = [[UIStoryboard storyboardWithName:@"APHDashboard" bundle:[NSBundle bundleForClass:[self class]]] instantiateViewControllerWithIdentifier:@"APHLineGraphViewController"];
-        
+
+		if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
+			graphItem.graphType = kAPHDashboardGraphTypeScatter;
+			((APHScoring *)graphItem.graphData).latestOnly = NO;
+
+			graphViewController.scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
+			graphViewController.scatterGraphView.hidden = NO;
+			graphViewController.lineGraphView.hidden = YES;
+			graphViewController.discreteGraphView.hidden = YES;
+		} else {
+			graphViewController.scatterGraphView.hidden = YES;
+			graphViewController.lineGraphView.hidden = NO;
+			graphViewController.discreteGraphView.hidden = NO;
+		}
+
         if (graphCell.showCorrelationSelectorView
                 && (APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeLine) {
             [((APHScoring *)graphItem.graphData) resetChanges];
