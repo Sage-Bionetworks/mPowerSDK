@@ -143,6 +143,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     
     self.panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
     self.panGestureRecognizer.delaysTouchesBegan = YES;
+    self.panGestureRecognizer.enabled = NO;
     [self addGestureRecognizer:self.panGestureRecognizer];
 }
 
