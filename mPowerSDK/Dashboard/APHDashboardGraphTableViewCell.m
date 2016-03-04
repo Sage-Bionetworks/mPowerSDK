@@ -128,13 +128,13 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 - (void)setCorrelationButton1TitleColor:(UIColor *)correlationButton1TitleColor
 {
     _correlationButton1TitleColor = correlationButton1TitleColor;
-    self.correlationButton1.titleLabel.textColor = correlationButton1TitleColor;
+    [self.correlationButton1 setTitleColor:correlationButton1TitleColor forState:UIControlStateNormal];
 }
 
 - (void)setCorrelationButton2TitleColor:(UIColor *)correlationButton2TitleColor
 {
     _correlationButton2TitleColor = correlationButton2TitleColor;
-    self.correlationButton2.titleLabel.textColor = correlationButton2TitleColor;
+    [self.correlationButton2 setTitleColor:correlationButton2TitleColor forState:UIControlStateNormal];
 }
 
 - (void)setHideTintBar:(BOOL)hideTintBar
@@ -176,15 +176,18 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 
 #pragma mark - IBActions
 
-- (IBAction)correlationButton1Pressed:(UIButton *)sender {
+- (IBAction)correlationButton1Pressed:(UIButton *)sender
+{
     [self.correlationDelegate dashboardTableViewCellDidTapCorrelation1:self];
 }
 
-- (IBAction)correlationButton2Pressed:(UIButton *)sender {
+- (IBAction)correlationButton2Pressed:(UIButton *)sender
+{
     [self.correlationDelegate dashboardTableViewCellDidTapCorrelation2:self];
 }
 
-- (IBAction)correlationSegmentChanged:(UISegmentedControl *)sender {
+- (IBAction)correlationSegmentChanged:(UISegmentedControl *)sender
+{
     [self updateSegmentColors];
     [self.correlationDelegate dashboardTableViewCellDidChangeCorrelationSegment:self.correlationSegmentControl.selectedSegmentIndex];
 }

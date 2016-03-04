@@ -40,17 +40,23 @@
 @interface APHCorrelationsSelectorViewController ()
 @property (strong, nonatomic) APHScoring *scoring;
 @property (strong, nonatomic) NSArray *scoringObjects;
+
+@property (strong, nonatomic) UITableView *tableView;
+@property (nonatomic) CGRect downFrame;
+@property (nonatomic) CGRect upFrame;
 @end
 
-@implementation APHCorrelationsSelectorViewController
+@implementation APHCorrelationsSelectorViewController 
 
 - (id)initWithScoringObjects:(NSArray *)scoringObjects
 {
-    self = [super initWithStyle:UITableViewStyleGrouped];
+    self = [super init];
     if (self) {
-        [self.tableView setBackgroundColor:[UIColor whiteColor]];
+        self.view.backgroundColor = [[UIColor appSecondaryColor2] colorWithAlphaComponent:0.8];
         self.scoringObjects = scoringObjects;
-        [self setTitle:@"Data Correlations"];
+        
+        [self initTableView];
+        [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
     }
     return self;
 }
@@ -58,22 +64,58 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
 }
 
-- (void) viewWillAppear:(BOOL)__unused animated
+- (void)viewWillAppear:(BOOL)__unused animated
 {
     [super viewWillAppear:animated];
     
     [self.tableView reloadData];
+    [self moveUpTableView];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
 }
 
 #pragma mark - Helper Functions
 
 - (void)dismissView
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self moveDownTableView];
+}
+
+- (void)initTableView
+{
+    self.downFrame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height - 20);
+    self.upFrame = CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height - 20);
+    
+    self.tableView = [[UITableView alloc] initWithFrame:self.downFrame style:UITableViewStylePlain];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    [self.view addSubview:self.tableView];
+}
+
+- (void)moveUpTableView
+{
+    [UIView
+     animateWithDuration:0.5
+     animations:^{
+         self.tableView.frame = self.upFrame;
+     }];
+}
+
+- (void)moveDownTableView
+{
+    [UIView
+     animateWithDuration:0.5
+     animations:^{
+         self.tableView.frame = self.downFrame;
+     }
+     completion:^(BOOL finished) {
+         [self dismissViewControllerAnimated:NO completion:nil];
+     }];
 }
 
 #pragma mark - Table view data source
@@ -130,6 +172,7 @@
     
     return cell;
 }
+
 - (void)tableView:(UITableView *)__unused tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //initialize a new scoring object - cannot corrupt the original data by indexing

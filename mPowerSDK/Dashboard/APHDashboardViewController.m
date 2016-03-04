@@ -833,7 +833,8 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
     correlationSelector.isForButton1 = YES;
     correlationSelector.delegate = self;
     correlationSelector.selectedObject = self.correlatedScores[0];
-    [self presentViewController:correlationSelector animated:YES completion:nil];
+    correlationSelector.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    [self.tabBarController presentViewController:correlationSelector animated:NO completion:nil];
 }
 
 - (void)dashboardTableViewCellDidTapCorrelation2:(APCDashboardTableViewCell *)cell
@@ -843,7 +844,8 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
     correlationSelector.isForButton1 = NO;
     correlationSelector.delegate = self;
     correlationSelector.selectedObject = self.correlatedScores[1];
-    [self presentViewController:correlationSelector animated:YES completion:nil];
+    correlationSelector.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    [self.tabBarController presentViewController:correlationSelector animated:NO completion:nil];
 }
 
 - (void)dashboardTableViewCellDidChangeCorrelationSegment:(NSInteger)selectedIndex

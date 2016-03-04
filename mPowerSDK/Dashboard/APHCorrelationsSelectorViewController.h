@@ -42,7 +42,7 @@
 
 @end
 
-@interface APHCorrelationsSelectorViewController : UITableViewController
+@interface APHCorrelationsSelectorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) id<APHCorrelationsSelectorDelegate> delegate;
 @property (weak, nonatomic) APHScoring *selectedObject;
