@@ -751,7 +751,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
         }
         
         NSDictionary *dataPoint = self.yAxisPoints[positionIndex];
-        canvasYPosition = ((APCRangePoint *)dataPoint).maximumValue;
+        canvasYPosition = ((APCRangePoint *)[dataPoint valueForKey:kDatasetRangeValueKey]).maximumValue;
     }
     
     return canvasYPosition;
@@ -795,7 +795,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     NSUInteger positionIndex;
     for (positionIndex = 0; positionIndex<self.xAxisPoints.count; positionIndex++) {
         NSDictionary *dataPoint = self.dataPoints[positionIndex];
-        CGFloat dataPointVal = ((APCRangePoint *)[dataPoint valueForKey:@""]).maximumValue;
+        CGFloat dataPointVal = ((APCRangePoint *)[dataPoint valueForKey:kDatasetRangeValueKey]).maximumValue;
         
         if (dataPointVal != NSNotFound) {
             CGFloat num = [self.xAxisPoints[positionIndex] floatValue];

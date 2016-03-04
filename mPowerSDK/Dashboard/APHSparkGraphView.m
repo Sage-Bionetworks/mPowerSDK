@@ -675,10 +675,12 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     } else {
         
         if (self.dataPoints.count) {
-            self.minimumValue = [self.dataPoints[0] floatValue];
+            NSDictionary *dataPoint = self.dataPoints[0];
+            self.minimumValue = [[dataPoint valueForKey:kDatasetValueKey ] floatValue];
             
             for (NSUInteger i=1; i<self.dataPoints.count; i++) {
-                NSNumber *num = self.dataPoints[i];
+                dataPoint = self.dataPoints[i];
+                NSNumber *num = dataPoint[kDatasetValueKey];
                 if ((self.minimumValue == NSNotFound) || (num.floatValue < self.minimumValue)) {
                     self.minimumValue = num.floatValue;
                 }
@@ -692,10 +694,12 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
         self.maximumValue = [self.datasource maximumValueForSparkGraph:self];
     } else {
         if (self.dataPoints.count) {
-            self.maximumValue = [self.dataPoints[0] floatValue];
+            NSDictionary *dataPoint = self.dataPoints[0];
+            self.maximumValue = [dataPoint[kDatasetValueKey] floatValue];
             
             for (NSUInteger i=1; i<self.dataPoints.count; i++) {
-                NSNumber *num = self.dataPoints[i];
+                dataPoint = self.dataPoints[i];
+                NSNumber *num = dataPoint[kDatasetValueKey];
                 if (((num.floatValue != NSNotFound) && (num.floatValue > self.maximumValue)) || (self.maximumValue == NSNotFound)) {
                     self.maximumValue = num.floatValue;
                 }
@@ -778,7 +782,8 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
             }
         }
         
-        value = [self.dataPoints[positionIndex] floatValue];
+        NSDictionary *dataPoint = self.dataPoints[positionIndex];
+        value = [dataPoint[kDatasetValueKey] floatValue];
         
     }
     
@@ -796,8 +801,8 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
         CGFloat x1 = [self.xAxisPoints[prevValidIndex] floatValue];
         CGFloat x2 = [self.xAxisPoints[nextValidIndex] floatValue];
         
-        CGFloat y1 = [self.dataPoints[prevValidIndex] floatValue];
-        CGFloat y2 = [self.dataPoints[nextValidIndex] floatValue];
+        CGFloat y1 = [[self.dataPoints[prevValidIndex] valueForKey:kDatasetValueKey] floatValue];
+        CGFloat y2 = [[self.dataPoints[nextValidIndex] valueForKey:kDatasetValueKey] floatValue];
         
         CGFloat slope = (y2 - y1)/(x2 - x1);
         
@@ -826,8 +831,8 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     CGFloat x1 = [self.xAxisPoints[prevValidIndex] floatValue];
     CGFloat x2 = [self.xAxisPoints[nextValidIndex] floatValue];
     
-    CGFloat y1 = [self.yAxisPoints[prevValidIndex] floatValue];
-    CGFloat y2 = [self.yAxisPoints[nextValidIndex] floatValue];
+    CGFloat y1 = [[self.yAxisPoints[prevValidIndex] valueForKey:kDatasetValueKey] floatValue];
+    CGFloat y2 = [[self.yAxisPoints[nextValidIndex] valueForKey:kDatasetValueKey] floatValue];
     
     CGFloat slope = (y2 - y1)/(x2 - x1);
     
@@ -843,7 +848,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     NSUInteger validPosition = positionIndex;
     
     while (validPosition < (self.dataPoints.count-1)) {
-        if ([self.dataPoints[validPosition] floatValue] != NSNotFound) {
+        if ([[self.dataPoints[validPosition] valueForKey:kDatasetValueKey] floatValue] != NSNotFound) {
             break;
         }
         validPosition ++;
@@ -857,7 +862,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     NSInteger validPosition = positionIndex - 1;
     
     while (validPosition > 0) {
-        if ([self.dataPoints[validPosition] floatValue] != NSNotFound) {
+        if ([[self.dataPoints[validPosition] valueForKey:kDatasetValueKey] floatValue] != NSNotFound) {
             break;
         }
         validPosition --;
@@ -873,7 +878,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     NSUInteger positionIndex;
     for (positionIndex = 0; positionIndex<self.xAxisPoints.count; positionIndex++) {
         
-        CGFloat dataPointVal = [self.dataPoints[positionIndex] floatValue];
+        CGFloat dataPointVal = [[self.dataPoints[positionIndex] valueForKey:kDatasetValueKey] floatValue];
         
         if (dataPointVal != NSNotFound) {
             CGFloat num = [self.xAxisPoints[positionIndex] floatValue];
