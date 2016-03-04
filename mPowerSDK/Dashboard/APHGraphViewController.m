@@ -11,11 +11,19 @@
 #import "APHScoring.h"
 #import "APHTableViewDashboardGraphItem.h"
 
+@interface APCGraphViewController (Private)
+@property (strong, nonatomic) APCSpinnerViewController *spinnerController;
+- (void)reloadCharts;
+- (void)setSubTitleText;
+@end
+
 @interface APHGraphViewController ()
 
 @end
 
 @implementation APHGraphViewController
+
+#pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
@@ -75,7 +83,33 @@
     }
 }
 
-#pragma mark - Outlet Functions
+#pragma mark - APCGraphViewController Overrides
+
+- (void)reloadCharts
+{
+    [super reloadCharts];
+    
+    if (self.graphItem.graphType != (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
+        return;
+    }
+    
+    __weak typeof(self) weakSelf = self;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if (weakSelf.spinnerController) {
+            [weakSelf.spinnerController dismissViewControllerAnimated:YES completion:nil];
+            weakSelf.spinnerController = nil;
+        }
+        
+        [weakSelf.scatterGraphView layoutSubviews];
+        [weakSelf.scatterGraphView refreshGraph];
+        
+        [weakSelf setSubTitleText];
+    });
+}
+
+#pragma mark - IBActions
 
 - (IBAction)correlationSegmentChanged:(UISegmentedControl *)sender {
     
