@@ -1478,6 +1478,7 @@
                         <outlet property="discreteGraphView" destination="BRc-mg-KnS" id="JvV-AL-Db0"/>
                         <outlet property="legendLabel" destination="ebo-kJ-AjA" id="L3F-OM-uNf"/>
                         <outlet property="lineGraphView" destination="XyQ-VU-SOc" id="gsw-gs-8Nu"/>
+                        <outlet property="medicationLegendContainerView" destination="Nyv-pM-8QS" id="Lc4-mE-m7s"/>
                         <outlet property="scatterGraphView" destination="FzI-6F-HRX" id="h0j-4s-PhQ"/>
                         <outlet property="segmentedControl" destination="7aU-8k-PLj" id="0gB-Fw-Rg4"/>
                         <outlet property="subTitleLabel" destination="ldN-KI-ec0" id="mB9-h1-P68"/>

@@ -168,7 +168,7 @@
 	}
     
     NSMutableArray *averagedDataPoints = [NSMutableArray new];
-    for (NSDictionary *dataPoint in self.dataPoints) {
+    for (NSDictionary *dataPoint in [self.dataPoints copy]) {
         NSMutableDictionary *copiedDataPoint = [dataPoint mutableCopy];
         
         NSMutableArray *newRawDataPoints = [NSMutableArray new];

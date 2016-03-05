@@ -47,6 +47,9 @@
         
         self.discreteGraphView.hidden = YES;
         self.lineGraphView.hidden = YES;
+    } else {
+        self.scatterGraphView.hidden = YES;
+        self.medicationLegendContainerView.hidden = YES;
     }
     
     graphView.tintColor = self.graphItem.tintColor;
