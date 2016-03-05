@@ -140,7 +140,7 @@
     
     NSString *noMedicationTimingKey = self.activityTimingChoicesStrings.lastObject;
 
-	for (NSDictionary *dataPoint in self.dataPoints) {
+	for (NSDictionary *dataPoint in [self.dataPoints copy]) {
         NSArray *rawDataPoints = dataPoint[@"datasetRawDataPoints"];
         
         for (NSString *activityTimingChoiceString in self.activityTimingChoicesStrings) {
