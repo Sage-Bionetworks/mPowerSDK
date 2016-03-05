@@ -73,7 +73,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 @property (weak, nonatomic) IBOutlet UIButton *monthlyReportButton;
 
 @property (nonatomic, strong) NSArray *rowItemsOrder;
-@property (nonatomic, strong) NSMutableArray<APHScoring *> *correlatedScores; // Should have two!
+@property (nonatomic, strong) NSMutableArray<APHScoring *> *correlatedScores;
 @property (nonatomic, strong) NSArray<APHScoring *> *scoreArray;
 @property (nonatomic, strong) NSMutableDictionary *sparkLineGraphScoring;
 
@@ -586,7 +586,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     
                 case kAPHDashboardItemTypeTremor:
                 {
-                    APCTableViewDashboardGraphItem  *item = [APCTableViewDashboardGraphItem new];
+                    APHTableViewDashboardGraphItem  *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.tremorScoring.caption;
                     item.graphData = self.tremorScoring;
                     

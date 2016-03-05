@@ -111,16 +111,25 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
 	}
 }
 
-- (void)drawLastPointDot:(NSInteger)plotIndex {
+- (NSInteger)findLastValidPointIndex:(NSArray *)pointsArray {
 	__block NSInteger i = -1;
-	[self.dataPoints enumerateObjectsUsingBlock:^(NSNumber *dataPoint, NSUInteger idx, BOOL *stop) {
-		if (dataPoint.floatValue != NSNotFound) {
-			i = idx;
-		}
-	}];
-	
-	if (i < 0) return;
-	
+	[pointsArray enumerateObjectsWithOptions:NSEnumerationReverse
+									  usingBlock:^(NSNumber *dataPoint, NSUInteger idx, BOOL *stop) {
+										  if (dataPoint.unsignedIntegerValue != NSNotFound) {
+											  i = idx;
+											  *stop = YES;
+										  }
+									  }];
+
+	return i;
+}
+
+- (void)drawLastPointDot:(NSInteger)plotIndex {
+	NSInteger i = [self findLastValidPointIndex:[self.dataPoints copy]];
+	if (i < 0) {
+		return;
+	}
+
 	CGFloat positionOnXAxis = ((NSNumber *)self.xAxisPoints[i]).floatValue;
 	CGFloat positionOnYAxis = ((NSNumber *)self.yAxisPoints[i]).floatValue;
 
