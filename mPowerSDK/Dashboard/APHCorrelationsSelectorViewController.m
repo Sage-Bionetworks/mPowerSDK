@@ -99,6 +99,7 @@ NSInteger const kAPHCorrelationsSelectorViewButtonWidth = 100.0;
     
     self.tableView = [[UITableView alloc] initWithFrame:self.downFrame style:UITableViewStylePlain];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.tableView.sectionHeaderHeight = kAPHCorrelationsSelectorViewHeaderHeight;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.view addSubview:self.tableView];
@@ -169,7 +170,7 @@ NSInteger const kAPHCorrelationsSelectorViewButtonWidth = 100.0;
 
 - (CGFloat)tableView:(UITableView *)__unused tableView heightForHeaderInSection:(NSInteger)__unused section
 {
-    return kAPHCorrelationsSelectorViewHeaderHeight;
+    return tableView.sectionHeaderHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
