@@ -91,6 +91,10 @@
              "investigatorShortDescription": "Sage Bionetworks",
              "investigatorLongDescription": "Sage Bionetworks and its partners",
              "learnMoreHTMLContentURL": "consent_19sharing_rsch",
+             "items":[
+                      {"text" :"Yes. Share my coded study data with qualified researchers worldwide.", "value" : true},
+                      {"text" :"No. Only use my coded study data for mPower research.", "value": false},
+                      ],
          },
          {
              "identifier": "consentReview",
