@@ -14,6 +14,7 @@
 
 @property(nonatomic) NSArray *activityTimingChoicesStrings;
 @property(nonatomic) BOOL latestOnly;
+@property(nonatomic) BOOL providesExpandedScatterPlotData;
 
 - (void)changeDataPointsWithTaskChoice:(NSString *)taskChoice;
 - (void)resetChanges;

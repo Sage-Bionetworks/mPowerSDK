@@ -15,6 +15,7 @@
 @interface APCGraphViewController (Private)
 @property (strong, nonatomic) APCSpinnerViewController *spinnerController;
 - (void)reloadCharts;
+- (void)segmentControlChanged:(UISegmentedControl *)sender;
 - (void)setSubTitleText;
 @end
 
@@ -32,8 +33,10 @@
     
     APCBaseGraphView *graphView;
     if (self.graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
+        APHScoring *graphScoring = (APHScoring *)self.graphItem.graphData;
+        
         graphView = self.scatterGraphView;
-        self.scatterGraphView.dataSource = (APHScoring *)self.graphItem.graphData;
+        self.scatterGraphView.dataSource = graphScoring;
         
         self.scatterGraphView.showsVerticalReferenceLines = YES;
         self.scatterGraphView.showsHorizontalReferenceLines = NO;
@@ -116,6 +119,14 @@
         
         [weakSelf setSubTitleText];
     });
+}
+
+- (void)segmentControlChanged:(UISegmentedControl *)sender
+{
+    APHScoring *graphScoring = (APHScoring *)self.graphItem.graphData;
+    graphScoring.providesExpandedScatterPlotData = sender.selectedSegmentIndex > 1;
+    
+    [super segmentControlChanged:sender];
 }
 
 #pragma mark - IBActions

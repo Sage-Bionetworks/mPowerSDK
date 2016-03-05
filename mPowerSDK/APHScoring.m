@@ -32,6 +32,7 @@
 
 @property(nonatomic) NSMutableDictionary *medTimingDataPoints;
 @property(nonatomic) NSMutableDictionary *medTimingDataPointsCorrelatedScoring;
+@property(nonatomic) NSArray *averagedDataPoints;
 @property(nonatomic) NSArray *filteredDataPoints;
 
 @end
@@ -165,6 +166,32 @@
             [self.medTimingDataPoints[activityTimingChoiceString] addObject:filteredDataPoint];
         }
 	}
+    
+    NSMutableArray *averagedDataPoints = [NSMutableArray new];
+    for (NSDictionary *dataPoint in self.dataPoints) {
+        NSMutableDictionary *copiedDataPoint = [dataPoint mutableCopy];
+        
+        NSMutableArray *newRawDataPoints = [NSMutableArray new];
+        for (NSString *medTimingChoiceString in self.activityTimingChoicesStrings) {
+            NSArray *points = self.medTimingDataPoints[medTimingChoiceString];
+            NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"datasetDateKey == %@", dataPoint[kDatasetDateKey]];
+            NSDictionary *point = [points filteredArrayUsingPredicate:filterPredicate].firstObject;
+            
+            if (!point) {
+                continue;
+            }
+            
+            NSMutableDictionary *pointCopy = [point mutableCopy];
+            [pointCopy removeObjectForKey:kDatasetRawDataPointsKey];
+            pointCopy[kDatasetTaskResultKey] = @{ @"MedicationActivityTiming": medTimingChoiceString };
+            [newRawDataPoints addObject:pointCopy];
+        }
+        
+        copiedDataPoint[kDatasetRawDataPointsKey] = newRawDataPoints;
+        [averagedDataPoints addObject:copiedDataPoint];
+    }
+    
+    self.averagedDataPoints = [averagedDataPoints copy];
     
     if (!self.correlatedScoring) { return; }
     
@@ -347,15 +374,17 @@
 
 - (NSInteger)scatterGraph:(APHScatterGraphView *)graphView numberOfPointsInPlot:(NSInteger)plotIndex
 {
-    return self.dataPoints.count;
+    NSArray *dataPoints = self.providesExpandedScatterPlotData ? self.averagedDataPoints : self.dataPoints;
+    return dataPoints.count;
 }
 
 - (NSDictionary *)scatterGraph:(APHScatterGraphView *)graphView plot:(NSInteger)plotIndex valueForPointAtIndex:(NSInteger)pointIndex
 {
+    NSArray *dataPoints = self.providesExpandedScatterPlotData ? self.averagedDataPoints : self.dataPoints;
     NSDictionary *dataPointValue = [NSDictionary new];
     
     if (plotIndex == 0) {
-        dataPointValue = [self.dataPoints objectAtIndex:pointIndex];
+        dataPointValue = [dataPoints objectAtIndex:pointIndex];
     }
     
     return dataPointValue;
@@ -373,12 +402,13 @@
 
 - (NSString *)scatterGraph:(APHScatterGraphView *)graphView titleForXAxisAtIndex:(NSInteger)pointIndex
 {
+    NSArray *dataPoints = self.providesExpandedScatterPlotData ? self.averagedDataPoints : self.dataPoints;
     NSDate *titleDate = nil;
     NSInteger numOfTitles = [self numberOfDivisionsInXAxisForGraph:graphView];
     
-    NSInteger actualIndex = ((self.dataPoints.count - 1)/numOfTitles + 1) * pointIndex;
+    NSInteger actualIndex = ((dataPoints.count - 1)/numOfTitles + 1) * pointIndex;
     
-    titleDate = [[self.dataPoints objectAtIndex:actualIndex] valueForKey:kDatasetDateKey];
+    titleDate = [[dataPoints objectAtIndex:actualIndex] valueForKey:kDatasetDateKey];
     
     switch (self.groupBy) {
             
