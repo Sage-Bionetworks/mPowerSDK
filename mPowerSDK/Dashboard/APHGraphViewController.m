@@ -8,6 +8,16 @@
 
 #import "APHGraphViewController.h"
 #import "APHLineGraphView.h"
+#import "APHScoring.h"
+#import "APHTableViewDashboardGraphItem.h"
+#import "APHRegularShapeView.h"
+
+@interface APCGraphViewController (Private)
+@property (strong, nonatomic) APCSpinnerViewController *spinnerController;
+- (void)reloadCharts;
+- (void)segmentControlChanged:(UISegmentedControl *)sender;
+- (void)setSubTitleText;
+@end
 
 @interface APHGraphViewController ()
 
@@ -15,11 +25,47 @@
 
 @implementation APHGraphViewController
 
+#pragma mark - View lifecycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    APCBaseGraphView *graphView;
+    if (self.graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
+        graphView = self.scatterGraphView;
+        self.scatterGraphView.dataSource = (APHScoring *)self.graphItem.graphData;
+        
+        self.scatterGraphView.showsVerticalReferenceLines = YES;
+        self.scatterGraphView.showsHorizontalReferenceLines = NO;
+
+        for (APHRegularShapeView *shapeView in self.keyShapeViewsArray) {
+            shapeView.tintColor = self.graphItem.tintColor;
+        }
+        
+        self.discreteGraphView.hidden = YES;
+        self.lineGraphView.hidden = YES;
+    } else {
+        self.scatterGraphView.hidden = YES;
+        self.medicationLegendContainerView.hidden = YES;
+    }
+    
+    graphView.tintColor = self.graphItem.tintColor;
+    graphView.landscapeMode = YES;
+    
+    graphView.minimumValueImage = self.graphItem.minimumImage;
+    graphView.maximumValueImage = self.graphItem.maximumImage;
+    
     [self updateViews];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (self.graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
+        [self.scatterGraphView refreshGraph];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -50,7 +96,36 @@
     }
 }
 
-#pragma mark - Outlet Functions
+#pragma mark - APCGraphViewController Overrides
+
+- (void)reloadCharts
+{
+    if (self.graphItem.graphType != (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
+        return;
+    }
+    
+    __weak typeof(self) weakSelf = self;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [weakSelf.scatterGraphView layoutSubviews];
+        [weakSelf.scatterGraphView refreshGraph];
+        
+        [weakSelf setSubTitleText];
+    });
+    
+    [super reloadCharts];
+}
+
+- (void)segmentControlChanged:(UISegmentedControl *)sender
+{
+    APHScoring *graphScoring = (APHScoring *)self.graphItem.graphData;
+    graphScoring.providesExpandedScatterPlotData = sender.selectedSegmentIndex > 1;
+    
+    [super segmentControlChanged:sender];
+}
+
+#pragma mark - IBActions
 
 - (IBAction)correlationSegmentChanged:(UISegmentedControl *)sender {
     
