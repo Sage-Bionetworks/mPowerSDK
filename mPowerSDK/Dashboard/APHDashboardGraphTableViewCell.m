@@ -12,6 +12,20 @@ const CGFloat kMedicationLegendContainerHeight = 80.f;
 const CGFloat kSparkLineGraphContainerHeight = 172.f;
 const CGFloat kCorrelationSelectorHeight = 48.f;
 
+NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
+{
+    float v1 = ((UIView *)sp1).frame.origin.x;
+    float v2 = ((UIView *)sp2).frame.origin.x;
+    
+    if (v1 < v2) {
+        return NSOrderedAscending;
+    } else if (v1 > v2) {
+        return NSOrderedDescending;
+    } else {
+        return NSOrderedSame;
+    }
+}
+
 @interface APHDashboardGraphTableViewCell ()
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *medicationLegendContainerHeightConstraint;
@@ -91,19 +105,6 @@ const CGFloat kCorrelationSelectorHeight = 48.f;
     for (id view in sortedViews) {
         [self.correlationSegmentControl addSubview:view];
     }
-}
-
-
-NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
-{
-    float v1 = ((UIView *)sp1).frame.origin.x;
-    float v2 = ((UIView *)sp2).frame.origin.x;
-    if (v1 < v2)
-        return NSOrderedAscending;
-    else if (v1 > v2)
-        return NSOrderedDescending;
-    else
-        return NSOrderedSame;
 }
 
 #pragma mark - Accessors

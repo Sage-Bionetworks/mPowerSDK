@@ -851,8 +851,8 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 {
     APHCorrelationsSelectorViewController *correlationSelector = [[APHCorrelationsSelectorViewController alloc]initWithScoringObjects:self.scoreArray];
     [correlationSelector setTitle:@"Correlation 1"];
-    correlationSelector.isForButton1 = YES;
     correlationSelector.delegate = self;
+    correlationSelector.selectedCorrelationIndex = 0;
     correlationSelector.selectedObject = self.correlatedScores[0];
     correlationSelector.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     [self.tabBarController presentViewController:correlationSelector animated:NO completion:nil];
@@ -862,8 +862,8 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 {
     APHCorrelationsSelectorViewController *correlationSelector = [[APHCorrelationsSelectorViewController alloc]initWithScoringObjects:self.scoreArray];
     [correlationSelector setTitle:@"Correlation 2"];
-    correlationSelector.isForButton1 = NO;
     correlationSelector.delegate = self;
+    correlationSelector.selectedCorrelationIndex = 1;
     correlationSelector.selectedObject = self.correlatedScores[1];
     correlationSelector.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     [self.tabBarController presentViewController:correlationSelector animated:NO completion:nil];
@@ -878,16 +878,9 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 
 #pragma mark - APHCorrelationsSelector Delegate
 
-- (void)didChangeCorrelatedScoringDataSourceForButton1:(APHScoring*)scoring
+- (void)didChangeCorrelatedScoringDataSourceForCorrelationIndex:(int)index withScoring:(APHScoring *)scoring
 {
-    self.correlatedScores[0] = scoring;
-    [self prepareCorrelatedScoring];
-    [self prepareData];
-}
-
-- (void)didChangeCorrelatedScoringDataSourceForButton2:(APHScoring*)scoring
-{
-    self.correlatedScores[1] = scoring;
+    self.correlatedScores[index] = scoring;
     [self prepareCorrelatedScoring];
     [self prepareData];
 }
