@@ -37,6 +37,10 @@
 
 #import <APCAppCore/UIColor+APCAppearance.h>
 
+NSInteger const kAPHCorrelationsSelectorViewHeaderHeight = 44.0;
+NSInteger const kAPHCorrelationsSelectorViewCellHeight = 80.0;
+NSInteger const kAPHCorrelationsSelectorViewButtonWidth = 100.0;
+
 @interface APHCorrelationsSelectorViewController ()
 @property (strong, nonatomic) APHScoring *scoring;
 @property (strong, nonatomic) NSArray *scoringObjects;
@@ -52,11 +56,7 @@
 {
     self = [super init];
     if (self) {
-        self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
         self.scoringObjects = scoringObjects;
-        
-        [self initTableView];
-        [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
     }
     return self;
 }
@@ -64,6 +64,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
+    
+    [self initTableView];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
 }
 
 - (void)viewWillAppear:(BOOL)__unused animated
@@ -71,7 +75,7 @@
     [super viewWillAppear:animated];
     
     [self.tableView reloadData];
-    [self moveUpTableView];
+    [self moveUpTableViewWithCompletion:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -83,7 +87,9 @@
 
 - (void)dismissView
 {
-    [self moveDownTableView];
+    [self moveDownTableViewWithCompletion:^(BOOL finished) {
+        [self dismissViewControllerAnimated:NO completion:nil];
+    }];
 }
 
 - (void)initTableView
@@ -98,16 +104,21 @@
     [self.view addSubview:self.tableView];
 }
 
-- (void)moveUpTableView
+- (void)moveUpTableViewWithCompletion:(void (^ __nullable)(BOOL finished))completion
 {
     [UIView
      animateWithDuration:0.5
      animations:^{
          self.tableView.frame = self.upFrame;
+     }
+     completion:^(BOOL finished) {
+         if (completion) {
+             completion(finished);
+         }
      }];
 }
 
-- (void)moveDownTableView
+- (void)moveDownTableViewWithCompletion:(void (^ __nullable)(BOOL finished))completion
 {
     [UIView
      animateWithDuration:0.5
@@ -115,7 +126,9 @@
          self.tableView.frame = self.downFrame;
      }
      completion:^(BOOL finished) {
-         [self dismissViewControllerAnimated:NO completion:nil];
+         if (completion) {
+             completion(finished);
+         }
     }];
 }
 
@@ -138,7 +151,10 @@
     NSString *cancelString = NSLocalizedStringWithDefaultValue(@"Cancel", @"APCAppCore", APHLocaleBundle(), @"Cancel", nil);
     
     UIButton *cancel = [UIButton buttonWithType:UIButtonTypeCustom];
-    cancel.frame = CGRectMake(self.tableView.frame.size.width - 100, 0, 100, 44.0);
+    cancel.frame = CGRectMake(self.tableView.frame.size.width - kAPHCorrelationsSelectorViewButtonWidth,
+                              0,
+                              kAPHCorrelationsSelectorViewButtonWidth,
+                              kAPHCorrelationsSelectorViewHeaderHeight);
     [cancel setTitle:cancelString forState:UIControlStateNormal];
     [cancel setTitleColor:[UIColor appTertiaryRedColor] forState:UIControlStateNormal];
     [cancel addTarget:self action:@selector(dismissView) forControlEvents:UIControlEventTouchUpInside];
@@ -153,7 +169,7 @@
 
 - (CGFloat)tableView:(UITableView *)__unused tableView heightForHeaderInSection:(NSInteger)__unused section
 {
-    return 44.0;
+    return kAPHCorrelationsSelectorViewHeaderHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -176,7 +192,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80;
+    return kAPHCorrelationsSelectorViewCellHeight;
 }
 
 - (void)tableView:(UITableView *)__unused tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
