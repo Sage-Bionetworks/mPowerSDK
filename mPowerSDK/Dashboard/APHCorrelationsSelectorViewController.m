@@ -48,6 +48,7 @@ NSInteger const kAPHCorrelationsSelectorViewButtonWidth = 100.0;
 @property (strong, nonatomic) UITableView *tableView;
 @property (nonatomic) CGRect downFrame;
 @property (nonatomic) CGRect upFrame;
+
 @end
 
 @implementation APHCorrelationsSelectorViewController 
@@ -206,15 +207,11 @@ NSInteger const kAPHCorrelationsSelectorViewButtonWidth = 100.0;
     [self dismissView];
 }
 
-- (void)updateSection:(NSUInteger)section WithSelectedScoringObject:(APHScoring *)selectedObject
+- (void)updateSection:(NSInteger)section WithSelectedScoringObject:(APHScoring *)selectedObject
 {
     self.selectedObject = selectedObject;
     
-    if (self.isForButton1) {
-        [self.delegate didChangeCorrelatedScoringDataSourceForButton1:self.selectedObject];
-    } else {
-        [self.delegate didChangeCorrelatedScoringDataSourceForButton2:self.selectedObject];
-    }
+    [self.delegate didChangeCorrelatedScoringDataSourceForCorrelationIndex:self.selectedCorrelationIndex withScoring:self.selectedObject];
 }
 
 @end

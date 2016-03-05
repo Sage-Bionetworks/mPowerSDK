@@ -37,8 +37,7 @@
 
 @protocol APHCorrelationsSelectorDelegate <NSObject>
 
-- (void) didChangeCorrelatedScoringDataSourceForButton1:(APHScoring*)scoring;
-- (void) didChangeCorrelatedScoringDataSourceForButton2:(APHScoring*)scoring;
+- (void) didChangeCorrelatedScoringDataSourceForCorrelationIndex:(int)index withScoring:(APHScoring*)scoring;
 
 @end
 
@@ -47,7 +46,7 @@
 @property (weak, nonatomic) id<APHCorrelationsSelectorDelegate> delegate;
 @property (weak, nonatomic) APHScoring *selectedObject;
 
-@property (nonatomic) BOOL isForButton1;
+@property (nonatomic) int selectedCorrelationIndex;
 
 - (id)initWithScoringObjects:(NSArray *)scoringObjects;
 
