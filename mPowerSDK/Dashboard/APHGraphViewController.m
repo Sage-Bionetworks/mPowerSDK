@@ -33,10 +33,8 @@
     
     APCBaseGraphView *graphView;
     if (self.graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
-        APHScoring *graphScoring = (APHScoring *)self.graphItem.graphData;
-        
         graphView = self.scatterGraphView;
-        self.scatterGraphView.dataSource = graphScoring;
+        self.scatterGraphView.dataSource = (APHScoring *)self.graphItem.graphData;
         
         self.scatterGraphView.showsVerticalReferenceLines = YES;
         self.scatterGraphView.showsHorizontalReferenceLines = NO;
@@ -102,8 +100,6 @@
 
 - (void)reloadCharts
 {
-    [super reloadCharts];
-    
     if (self.graphItem.graphType != (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
         return;
     }
@@ -112,16 +108,13 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        if (weakSelf.spinnerController) {
-            [weakSelf.spinnerController dismissViewControllerAnimated:YES completion:nil];
-            weakSelf.spinnerController = nil;
-        }
-        
         [weakSelf.scatterGraphView layoutSubviews];
         [weakSelf.scatterGraphView refreshGraph];
         
         [weakSelf setSubTitleText];
     });
+    
+    [super reloadCharts];
 }
 
 - (void)segmentControlChanged:(UISegmentedControl *)sender
