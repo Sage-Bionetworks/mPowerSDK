@@ -13,8 +13,7 @@
 
 @protocol APHDashboardGraphTableViewCellDelegate <NSObject>
 
-- (void)dashboardTableViewCellDidTapCorrelation1:(APCDashboardTableViewCell *)cell;
-- (void)dashboardTableViewCellDidTapCorrelation2:(APCDashboardTableViewCell *)cell;
+- (void)dashboardTableViewCellDidTapCorrelationIndex:(int)index cell:(APCDashboardTableViewCell *)cell;
 - (void)dashboardTableViewCellDidChangeCorrelationSegment:(NSInteger) selectedIndex;
 
 @end

@@ -174,12 +174,12 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 
 - (IBAction)correlationButton1Pressed:(UIButton *)sender
 {
-    [self.correlationDelegate dashboardTableViewCellDidTapCorrelation1:self];
+    [self.correlationDelegate dashboardTableViewCellDidTapCorrelationIndex:0 cell:self];
 }
 
 - (IBAction)correlationButton2Pressed:(UIButton *)sender
 {
-    [self.correlationDelegate dashboardTableViewCellDidTapCorrelation2:self];
+    [self.correlationDelegate dashboardTableViewCellDidTapCorrelationIndex:1 cell:self];
 }
 
 - (IBAction)correlationSegmentChanged:(UISegmentedControl *)sender

@@ -73,9 +73,13 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 @property (weak, nonatomic) IBOutlet UIButton *monthlyReportButton;
 
 @property (nonatomic, strong) NSArray *rowItemsOrder;
-@property (nonatomic, strong) NSMutableArray<APHScoring *> *correlatedScores;
-@property (nonatomic, strong) NSArray<APHScoring *> *scoreArray;
 @property (nonatomic, strong) NSMutableDictionary *sparkLineGraphScoring;
+
+// Array of scores to correlate. Current implementation and design can only correlate two scores.
+@property (nonatomic, strong) NSMutableArray<APHScoring *> *correlatedScores;
+
+// Array of scores able to be selected to correlate.
+@property (nonatomic, strong) NSArray<APHScoring *> *scoreArray;
 
 @property (nonatomic, strong) APHScoring *correlatedScoring;
 @property (nonatomic, strong) APHScoring *tapRightScoring;
@@ -867,24 +871,13 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 
 #pragma mark - APHDashboardGraphTableViewCellDelegate
 
-- (void)dashboardTableViewCellDidTapCorrelation1:(APCDashboardTableViewCell *)cell
+- (void)dashboardTableViewCellDidTapCorrelationIndex:(int)index cell:(APCDashboardTableViewCell *)cell;
 {
     APHCorrelationsSelectorViewController *correlationSelector = [[APHCorrelationsSelectorViewController alloc]initWithScoringObjects:self.scoreArray];
-    [correlationSelector setTitle:@"Correlation 1"];
+    [correlationSelector setTitle:@"Correlation Selector"];
     correlationSelector.delegate = self;
-    correlationSelector.selectedCorrelationIndex = 0;
-    correlationSelector.selectedObject = self.correlatedScores[0];
-    correlationSelector.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    [self.tabBarController presentViewController:correlationSelector animated:NO completion:nil];
-}
-
-- (void)dashboardTableViewCellDidTapCorrelation2:(APCDashboardTableViewCell *)cell
-{
-    APHCorrelationsSelectorViewController *correlationSelector = [[APHCorrelationsSelectorViewController alloc]initWithScoringObjects:self.scoreArray];
-    [correlationSelector setTitle:@"Correlation 2"];
-    correlationSelector.delegate = self;
-    correlationSelector.selectedCorrelationIndex = 1;
-    correlationSelector.selectedObject = self.correlatedScores[1];
+    correlationSelector.selectedCorrelationIndex = index;
+    correlationSelector.selectedObject = self.correlatedScores[index];
     correlationSelector.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     [self.tabBarController presentViewController:correlationSelector animated:NO completion:nil];
 }
