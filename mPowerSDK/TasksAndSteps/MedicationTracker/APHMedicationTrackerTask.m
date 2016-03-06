@@ -255,18 +255,10 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 - (ORKStep*)createMomentInDayStepWithTitle:(NSString*)title text:(NSString*)text optional:(BOOL)optional {
     NSString *introText = text ?: NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_INTRO", nil, APHLocaleBundle(), @"We would like to understand how your performance on this activity could be affected by the timing of your medication.", @"Explanation of purpose of pre-activity medication timing survey.");
     ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier title:title text:introText];
-    
-    NSString *justBefore = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_BEFORE_CHOICE", nil, APHLocaleBundle(), @"Immediately before taking Parkinson medication", @"Choice for doing activity before taking medication.");
-    NSString *justAfter = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_AFTER_CHOICE", nil, APHLocaleBundle(), @"Just after taking Parkinson medication (at your best)", @"Choice for doing activity after taking medication.");
-    NSString *other = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_OTHER_CHOICE", nil, APHLocaleBundle(), @"Another time", @"Choice for doing activity at another time of day other than before or after taking medication.");
-    
-    NSArray *textChoices = @[[ORKTextChoice choiceWithText:justBefore value:justBefore],
-                             [ORKTextChoice choiceWithText:justAfter value:justAfter],
-                             [ORKTextChoice choiceWithText:other value:other]];
 
     ORKAnswerFormat  *format = [ORKTextChoiceAnswerFormat
                                 choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
-                                textChoices:textChoices];
+                                textChoices:[self activityMomentInDayChoices]];
     
     NSString *itemText = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_QUESTION", nil, APHLocaleBundle(), @"When are you performing this activity?", @"Question text for the moment in day question.");
     
@@ -463,6 +455,18 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     
     // Copy the arrays to static values
     return [choices copy];
+}
+
+- (NSArray<ORKTextChoice *> *)activityMomentInDayChoices {
+	NSString *justBefore = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_BEFORE_CHOICE", nil, APHLocaleBundle(), @"Immediately before taking Parkinson medication", @"Choice for doing activity before taking medication.");
+	NSString *justAfter = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_AFTER_CHOICE", nil, APHLocaleBundle(), @"Just after taking Parkinson medication (at your best)", @"Choice for doing activity after taking medication.");
+	NSString *other = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_OTHER_CHOICE", nil, APHLocaleBundle(), @"Another time", @"Choice for doing activity at another time of day other than before or after taking medication.");
+
+	NSArray *textChoices = @[[ORKTextChoice choiceWithText:justBefore value:justBefore],
+		[ORKTextChoice choiceWithText:justAfter value:justAfter],
+		[ORKTextChoice choiceWithText:other value:other]];
+
+	return textChoices;
 }
 
 - (NSArray <APHMedication*> *)selectedMedicationFromResult:(ORKTaskResult*)result {

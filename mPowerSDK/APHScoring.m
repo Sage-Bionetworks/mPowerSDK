@@ -123,6 +123,17 @@
 	return [activityTimingChoicesStrings copy];
 }
 
+- (NSArray<NSString *> *)medMomentInDayTaskChoices {
+    APHMedicationTrackerTask *task = [[APHMedicationTrackerTask alloc] init];
+	NSArray<ORKTextChoice *> *activityMomentInDayChoices = task.activityMomentInDayChoices;
+	NSMutableArray *activityMomentInDayChoicesStrings = [[NSMutableArray alloc] init];
+	for (ORKTextChoice *textChoice in activityMomentInDayChoices) {
+		[activityMomentInDayChoicesStrings addObject:textChoice.text];
+	}
+
+	return [activityMomentInDayChoicesStrings copy];
+}
+
 - (void)filterDataForMedicationTiming {
     self.medTimingDataPoints = [[NSMutableDictionary alloc] init];
     self.medTimingDataPointsCorrelatedScoring = [[NSMutableDictionary alloc] init];
