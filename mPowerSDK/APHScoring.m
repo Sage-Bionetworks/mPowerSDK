@@ -230,7 +230,7 @@
             }
             
             NSArray *filteredRawDataPoints = [rawDataPoints filteredArrayUsingPredicate:filterPredicate];
-            filteredDataPoint[@"datasetRawDataPoints"] = filteredRawDataPoints;
+            filteredDataPoint[kDatasetRawDataPointsKey] = filteredRawDataPoints;
             
             if (filteredRawDataPoints.count == 0 && ![activityTimingChoiceString isEqualToString:noMedicationTimingKey]) {
                 filteredDataPoint[kDatasetValueKey] = @(NSNotFound);
