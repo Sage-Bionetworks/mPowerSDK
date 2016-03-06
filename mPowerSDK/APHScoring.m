@@ -159,9 +159,13 @@
             
             NSPredicate *filterPredicate;
             if ([activityTimingChoiceString isEqualToString:noMedicationTimingKey]) {
-                filterPredicate = [NSPredicate predicateWithFormat:@"(datasetTaskResult == nil) || (datasetTaskResult.MedicationActivityTiming == nil)"];
+                filterPredicate = [NSPredicate predicateWithFormat:@"(%K == nil) || (%K == nil)",
+                                   @"datasetTaskResult",
+                                   @"datasetTaskResult.MedicationActivityTiming"];
             } else {
-                filterPredicate = [NSPredicate predicateWithFormat:@"(datasetTaskResult.MedicationActivityTiming == %@)", activityTimingChoiceString];
+                filterPredicate = [NSPredicate predicateWithFormat:@"(%K == %@)",
+                                   @"datasetTaskResult.MedicationActivityTiming",
+                                   activityTimingChoiceString];
             }
             
             NSArray *filteredRawDataPoints = [rawDataPoints filteredArrayUsingPredicate:filterPredicate];
@@ -185,7 +189,9 @@
         NSMutableArray *newRawDataPoints = [NSMutableArray new];
         for (NSString *medTimingChoiceString in self.activityTimingChoicesStrings) {
             NSArray *points = self.medTimingDataPoints[medTimingChoiceString];
-            NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"datasetDateKey == %@", dataPoint[kDatasetDateKey]];
+            NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"%K == %@",
+                                            @"datasetDateKey",
+                                            dataPoint[kDatasetDateKey]];
             NSDictionary *point = [points filteredArrayUsingPredicate:filterPredicate].firstObject;
             
             if (!point) {
@@ -214,9 +220,13 @@
             
             NSPredicate *filterPredicate;
             if ([activityTimingChoiceString isEqualToString:noMedicationTimingKey]) {
-                filterPredicate = [NSPredicate predicateWithFormat:@"(datasetTaskResult == nil) || (datasetTaskResult.MedicationActivityTiming == nil)"];
+                filterPredicate = [NSPredicate predicateWithFormat:@"(%K == nil) || (%K == nil)",
+                                   @"datasetTaskResult",
+                                   @"datasetTaskResult.MedicationActivityTiming"];
             } else {
-                filterPredicate = [NSPredicate predicateWithFormat:@"(datasetTaskResult.MedicationActivityTiming == %@)", activityTimingChoiceString];
+                filterPredicate = [NSPredicate predicateWithFormat:@"(%K == %@)",
+                                   @"datasetTaskResult.MedicationActivityTiming",
+                                   activityTimingChoiceString];
             }
             
             NSArray *filteredRawDataPoints = [rawDataPoints filteredArrayUsingPredicate:filterPredicate];
