@@ -134,11 +134,14 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
         }
 
         NSString *medicationActivityTimingString = nil;
+        NSString *medicationMomentInDayString = nil;
         APHMedicationTrackerDataStore *medTrackerDataStore = [APHMedicationTrackerDataStore defaultStore];
         if (medTrackerDataStore.momentInDayResult) {
             for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {
                 if ([orkStepResult.identifier isEqualToString:@"medicationActivityTiming"]) {
                     medicationActivityTimingString = ((ORKChoiceQuestionResult *)orkStepResult.firstResult).choiceAnswers.firstObject ?: @"";
+                } else if ([orkStepResult.identifier isEqualToString:@"momentInDay"]) {
+                    medicationMomentInDayString = ((ORKChoiceQuestionResult *)orkStepResult.firstResult).choiceAnswers.firstObject ?: @"";
                 }
             }
         }
@@ -150,7 +153,8 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
                                    kScoreForwardGainRecordsKey    : @(forwardScores),
                                    kScorePostureRecordsKey        : @(postureScores),
                                    kNumberOfStepsTotalOnReturnKey : walkingResults == nil ? @0 : [walkingResults objectForKey:kNumberOfStepsTotalOnReturn],
-                                   APHMedicationActivityTimingKey : medicationActivityTimingString
+                                   APHMedicationActivityTimingKey : medicationActivityTimingString,
+                                   APHMedicationMomentInDayKey    : medicationMomentInDayString
                                   };
         
         NSError  *error = nil;

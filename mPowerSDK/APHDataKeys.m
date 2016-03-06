@@ -49,3 +49,4 @@ NSString *const APHRightScoreSummaryOfRecordsKey                = @"ScoreSummary
 NSString *const APHLeftSummaryNumberOfRecordsKey                = @"Left_SummaryNumberOfRecords";
 NSString *const APHLeftScoreSummaryOfRecordsKey                 = @"Left_ScoreSummaryOfRecords";
 NSString *const APHMedicationActivityTimingKey                  = @"MedicationActivityTiming";
+NSString *const APHMedicationMomentInDayKey                     = @"MedicationMomentInDay";

@@ -49,3 +49,4 @@ extern NSString *const APHRightScoreSummaryOfRecordsKey;
 extern NSString *const APHLeftSummaryNumberOfRecordsKey;
 extern NSString *const APHLeftScoreSummaryOfRecordsKey;
 extern NSString *const APHMedicationActivityTimingKey;
+extern NSString *const APHMedicationMomentInDayKey;
