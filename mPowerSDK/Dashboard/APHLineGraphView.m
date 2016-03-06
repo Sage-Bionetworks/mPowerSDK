@@ -115,7 +115,7 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
 	__block NSInteger i = -1;
 	[pointsArray enumerateObjectsWithOptions:NSEnumerationReverse
 									  usingBlock:^(NSNumber *dataPoint, NSUInteger idx, BOOL *stop) {
-										  if (dataPoint.unsignedIntegerValue != NSNotFound) {
+										  if (dataPoint.integerValue != NSNotFound) {
 											  i = idx;
 											  *stop = YES;
 										  }
