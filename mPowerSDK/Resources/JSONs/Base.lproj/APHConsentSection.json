@@ -117,6 +117,7 @@
          "sectionType" : "overview",
          "sectionTitle" : "Welcome",
          "sectionSummary" : "This overview explains the research study. After you learn about the study, you can choose if you would like to participate.",
+         "sectionLearnMoreButtonTitle" : "Learn more",
          "sectionHtmlContent" : "consent_1welcome"
      },
      {
@@ -146,6 +147,7 @@
          "sectionType" : "dataGathering",
          "sectionTitle": "View Your Data Trends",
          "sectionSummary" : "You can view your data at any time. When you look at your data you may notice patterns. Seeing health patterns can generate a wide range of emotions.",
+         "sectionLearnMoreButtonTitle" : "Learn more",
          "sectionHtmlContent" : "consent_5dataprocessing",
          "sectionAnimationUrl":"02_SensorData_to_DataGathering"
      },
@@ -153,24 +155,28 @@
          "sectionType" : "privacy",
          "sectionTitle": "Your Privacy",
          "sectionSummary": "We will protect your privacy to the best of our ability. Your data will be encrypted on your phone. We will replace your name with a random code and store your coded study data on a secure cloud server.  But we cannot promise total privacy.",
+         "sectionLearnMoreButtonTitle" : "Learn more",
          "sectionHtmlContent" : "consent_6protectingdata"
      },
      {
          "sectionType" : "dataUse",
          "sectionTitle": "Data Use",
          "sectionSummary": "Your coded study data will be used for research. It will be combined with data from other volunteers. It will be transferred to an analysis platform in the United States.",
+         "sectionLearnMoreButtonTitle" : "Learn more",
          "sectionHtmlContent" : "consent_7datause"
      },
      {
          "sectionType" : "timeCommitment",
          "sectionTitle" : "Time Commitment",
         "sectionSummary": "This study will take about 20 minutes per day. Monthly reviews may take an additional 5 minutes once a month.\n\nThe time you spend on the app may count against your mobile data plan. You can set up the app to use Wi-Fi connections instead.",
+         "sectionLearnMoreButtonTitle" : "Learn more",
          "sectionHtmlContent" : "consent_8time"
      },
      {
          "sectionType" : "studySurvey",
          "sectionTitle" : "Study Surveys",
          "sectionSummary": "Surveys are an important part of this research study. We will ask you to complete weekly and monthly surveys about your health.",
+         "sectionLearnMoreButtonTitle" : "Learn more",
          "sectionHtmlContent" : "consent_9study_survey"
      },
      {
@@ -191,7 +197,6 @@
          "sectionType" : "custom",
          "sectionTitle": "NOT Medical Care",
          "sectionSummary": "mPower is not used for medical care. It is a research study. The mPower app is not a diagnosis tool. We do not give medical advice or treatment recommendations.",
-         "sectionLearnMoreButtonTitle" : "Learn more about issues to consider",
          "sectionHtmlContent" : "consent_12medical_care",
          "sectionImage": "consent_medicalCare"
      },
@@ -199,7 +204,6 @@
          "sectionType" : "custom",
          "sectionTitle": "Follow Up",
          "sectionSummary": "We might want to reach out to you.\n\nYou can opt out of these follow up notifications at any time.",
-         "sectionLearnMoreButtonTitle" : "Learn more about follow up",
          "sectionHtmlContent" : "consent_13follow_up",
          "sectionImage": "consent_followUp"
      },
