@@ -564,16 +564,16 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3vK-Sn-o8D" userLabel="Medication Legend Container" customClass="APHMedTimingLegendView">
-                                            <rect key="frame" x="4" y="328" width="371" height="84"/>
+                                            <rect key="frame" x="4" y="328" width="371" height="80"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y0K-al-odl">
-                                                    <rect key="frame" x="10" y="2" width="347" height="80"/>
+                                                    <rect key="frame" x="10" y="2" width="347" height="76"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0wq-1H-xHW" userLabel="Before Medication Container">
-                                                            <rect key="frame" x="174" y="8" width="173" height="32"/>
+                                                            <rect key="frame" x="174" y="8" width="173" height="30"/>
                                                             <subviews>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B0I-35-1rC" customClass="APHCircleView">
-                                                                    <rect key="frame" x="8" y="9" width="14" height="14"/>
+                                                                    <rect key="frame" x="8" y="8" width="14" height="14"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="14" id="jAx-AH-Yyd"/>
@@ -581,8 +581,8 @@
                                                                     </constraints>
                                                                 </view>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Before medication" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="UQq-5g-XFb">
-                                                                    <rect key="frame" x="30" y="0.0" width="143" height="32"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                    <rect key="frame" x="30" y="0.0" width="143" height="30"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -604,10 +604,10 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9yd-ED-vKx" userLabel="After Medication Container">
-                                                            <rect key="frame" x="0.0" y="8" width="173" height="32"/>
+                                                            <rect key="frame" x="0.0" y="8" width="173" height="30"/>
                                                             <subviews>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zJx-iS-KBe">
-                                                                    <rect key="frame" x="2" y="9" width="30" height="14"/>
+                                                                    <rect key="frame" x="2" y="8" width="30" height="14"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ub3-M3-mFg" customClass="APHCircleView">
                                                                             <rect key="frame" x="0.0" y="0.0" width="14" height="14"/>
@@ -638,8 +638,8 @@
                                                                     </constraints>
                                                                 </view>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="After medication" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="qm5-xf-0NK">
-                                                                    <rect key="frame" x="40" y="0.0" width="133" height="32"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                    <rect key="frame" x="40" y="0.0" width="133" height="30"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -655,10 +655,10 @@
                                                             </constraints>
                                                         </view>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A0q-fA-Sec" userLabel="Not Sure Container">
-                                                            <rect key="frame" x="0.0" y="40" width="173" height="32"/>
+                                                            <rect key="frame" x="0.0" y="38" width="173" height="30"/>
                                                             <subviews>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XqH-XZ-Kn8" customClass="APHCircleView">
-                                                                    <rect key="frame" x="10" y="9" width="14" height="14"/>
+                                                                    <rect key="frame" x="10" y="8" width="14" height="14"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="14" id="4w8-cK-P6Z"/>
@@ -666,8 +666,8 @@
                                                                     </constraints>
                                                                 </view>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not sure" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="6Ar-xc-F42">
-                                                                    <rect key="frame" x="32" y="0.0" width="141" height="32"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                    <rect key="frame" x="32" y="0.0" width="141" height="30"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -717,7 +717,7 @@
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstItem="Y0K-al-odl" firstAttribute="leading" secondItem="3vK-Sn-o8D" secondAttribute="leading" constant="10" id="0oX-eW-llv"/>
-                                                <constraint firstAttribute="height" constant="84" id="Mpt-Pk-C9C"/>
+                                                <constraint firstAttribute="height" constant="80" id="Mpt-Pk-C9C"/>
                                                 <constraint firstItem="Y0K-al-odl" firstAttribute="top" secondItem="3vK-Sn-o8D" secondAttribute="top" constant="2" id="dLZ-f0-lgV"/>
                                                 <constraint firstAttribute="trailing" secondItem="Y0K-al-odl" secondAttribute="trailing" constant="14" id="r3u-Gj-ayq"/>
                                                 <constraint firstAttribute="bottom" secondItem="Y0K-al-odl" secondAttribute="bottom" constant="2" id="xOg-CX-e9g"/>
