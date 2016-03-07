@@ -189,7 +189,7 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
         ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[instructionIdx];
         [instructionStep setTitle:localizedTaskName];
         [instructionStep setText:NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Take a deep breath and say “Aaaaah” into the microphone for as long as you can. Keep a steady volume so the audio bars remain blue.", @"Instructions for performing the voice activity.")];
-        [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_NEXT_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Tap Next to begin the test.", @"Detail insctruction for how to begin a task.")];
+        [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_NEXT_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Tap Get Started to begin the test.", @"Detail insctruction for how to begin a task.")];
     }
     
     // Inject a step to test audio levels
