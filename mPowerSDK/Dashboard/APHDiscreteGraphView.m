@@ -50,7 +50,11 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
 - (UIColor *)secondaryLineColor
 {
     if (!_secondaryLineColor) {
-        _secondaryLineColor = self.secondaryTintColor;
+        if (self.primaryLineColor) {
+            _secondaryLineColor = self.primaryLineColor;
+        } else {
+            _secondaryLineColor = self.secondaryTintColor;
+        }
     }
     
     return _secondaryLineColor;
@@ -208,8 +212,15 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
                     break;
                     
                 // Not sure
-                default:
+                case 2:
                     point.tintColor = [UIColor colorWithWhite:77.f / 255.f alpha:1.f];
+                    break;
+                    
+                default:
+                    point.tintColor = [UIColor colorWithRed:167.f / 255.f
+                                                      green:169.f / 255.f
+                                                       blue:172.f / 255.f
+                                                      alpha:1.f];
                     break;
             }
             
