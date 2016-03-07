@@ -38,10 +38,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *correlationControlTitle;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *correlationSegmentControl;
 
-@property (weak, nonatomic) NSString *button1Title;
-@property (weak, nonatomic) NSString *button2Title;
-@property (weak, nonatomic) UIColor *correlationButton1TitleColor;
-@property (weak, nonatomic) UIColor *correlationButton2TitleColor;
+@property (nonatomic) NSString *button1Title;
+@property (nonatomic) NSString *button2Title;
+@property (nonatomic) UIColor *correlationButton1TitleColor;
+@property (nonatomic) UIColor *correlationButton2TitleColor;
+@property (nonatomic) UIColor *secondaryTintColor;
 
 @property (nonatomic) BOOL hideTintBar;
 @property (nonatomic) BOOL showCorrelationSelectorView;

@@ -7,6 +7,7 @@
 //
 
 #import "APHDashboardGraphTableViewCell.h"
+#import "APHDiscreteGraphView.h"
 #import "APHMedTimingLegendView.h"
 
 const CGFloat kSparkLineGraphContainerHeight = 172.f;
@@ -165,6 +166,14 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
     _showMedicationLegendCorrelation = showMedicationLegendCorrelation;
     self.medicationLegendContainerView.showCorrelationLegend = showMedicationLegendCorrelation;
     [self setNeedsLayout];
+}
+
+- (void)setSecondaryTintColor:(UIColor *)secondaryTintColor
+{
+    _secondaryTintColor = secondaryTintColor;
+    
+    self.medicationLegendContainerView.secondaryTintColor = secondaryTintColor;
+    ((APHDiscreteGraphView *)self.discreteGraphView).secondaryTintColor = secondaryTintColor;
 }
 
 - (void)setTintColor:(UIColor *)tintColor

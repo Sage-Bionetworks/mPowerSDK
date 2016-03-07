@@ -1005,7 +1005,31 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
             discreteGraphView.shouldHighlightXaxisLastTitle = YES;
 
             if (graphItem.showCorrelationSelectorView) {
-                discreteGraphView.tintColor = graphItem.tintColor;
+                NSArray *rowItems = [[self.items.firstObject rows] valueForKey:NSStringFromSelector(@selector(item))];
+                APHScoring *primaryCorrelatedScoring = self.correlatedScores[0];
+                APHScoring *secondaryCorrelatedScoring = self.correlatedScores[1];
+                APHTableViewDashboardGraphItem *primaryCorrelatedItem, *secondaryCorrelatedItem;
+                
+                for (id item in rowItems) {
+                    if (![item isKindOfClass:[APHTableViewDashboardGraphItem class]]) {
+                        continue;
+                    }
+                    
+                    if ([[item graphData].caption isEqualToString:primaryCorrelatedScoring.caption]) {
+                        primaryCorrelatedItem = item;
+                    } else if ([[item graphData].caption isEqualToString:secondaryCorrelatedScoring.caption]) {
+                        secondaryCorrelatedItem = item;
+                    }
+                    
+                    if (primaryCorrelatedItem && secondaryCorrelatedItem) {
+                        break;
+                    }
+                }
+                
+                graphCell.tintColor = primaryCorrelatedItem.tintColor;
+                graphCell.secondaryTintColor = secondaryCorrelatedItem.tintColor;
+                graphCell.correlationButton1TitleColor = primaryCorrelatedItem.tintColor;
+                graphCell.correlationButton2TitleColor = secondaryCorrelatedItem.tintColor;
             }
         }
         
