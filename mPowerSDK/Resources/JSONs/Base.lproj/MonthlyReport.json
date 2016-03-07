@@ -38,8 +38,8 @@
          "sectionType" : "custom",
          "sectionTitle": "NOT Medical Care",
          "sectionSummary": "mPower is not used for medical care. It is a research study. The mPower app is not a diagnosis tool. We do not give medical advice or treatment recommendations.",
+         "sectionImage": "consent_medicalCare",
          "sectionHtmlContent" : "consent_12medical_care",
-         "sectionImage": "stethoscope"
      },
  ]
 }
