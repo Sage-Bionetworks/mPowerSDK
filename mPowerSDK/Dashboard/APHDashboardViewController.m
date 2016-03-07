@@ -54,6 +54,7 @@
 #import "APHWebviewViewController.h"
 @import BridgeAppSDK;
 
+NSInteger const kNumberOfDaysToDisplayInDiscreteGraph = 6;
 NSInteger const kNumberOfDaysToDisplayInSparkLineGraph = 30;
 NSInteger const kPaddingMagicNumber = 80; // For the cell height to make the dashboard look pretty.
 
@@ -250,31 +251,31 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 - (void)prepareScoringObjects
 {
     self.tapRightScoring = [[APHScoring alloc] initWithTask:APHTappingActivitySurveyIdentifier
-                                               numberOfDays:-kNumberOfDaysToDisplay
+                                               numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph
                                                    valueKey:APHRightSummaryNumberOfRecordsKey
                                                  latestOnly:NO];
     self.tapRightScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TAPPING_RIGHT_CAPTION", nil, APHLocaleBundle(), @"Tapping - Right", @"Dashboard caption for results of right hand tapping activity.");
 
     self.tapLeftScoring = [[APHScoring alloc] initWithTask:APHTappingActivitySurveyIdentifier
-                                              numberOfDays:-kNumberOfDaysToDisplay
+                                              numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph
                                                   valueKey:APHLeftSummaryNumberOfRecordsKey
                                                 latestOnly:NO];
     self.tapLeftScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TAPPING_LEFT_CAPTION", nil, APHLocaleBundle(), @"Tapping - Left", @"Dashboard caption for results of left hand tapping activity.");
     
     self.gaitScoring = [[APHScoring alloc] initWithTask:APHWalkingActivitySurveyIdentifier
-                                           numberOfDays:-kNumberOfDaysToDisplay
+                                           numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph
                                                valueKey:kGaitScoreKey
                                              latestOnly:NO];
     self.gaitScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_WALKING_CAPTION", nil, APHLocaleBundle(), @"Gait", @"Dashboard caption for results of walking activity.");
 
     self.memoryScoring = [[APHScoring alloc] initWithTask:APHMemoryActivitySurveyIdentifier
-                                             numberOfDays:-kNumberOfDaysToDisplay
+                                             numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph
                                                  valueKey:kSpatialMemoryScoreSummaryKey
                                                latestOnly:NO];
     self.memoryScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_MEMORY_CAPTION", nil, APHLocaleBundle(), @"Memory", @"Dashboard caption for results of memory activity.");
 
     self.phonationScoring = [[APHScoring alloc] initWithTask:APHVoiceActivitySurveyIdentifier
-                                                numberOfDays:-kNumberOfDaysToDisplay
+                                                numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph
                                                     valueKey:APHPhonationScoreSummaryOfRecordsKey
                                                   latestOnly:NO];
     self.phonationScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_VOICE_CAPTION", nil, APHLocaleBundle(), @"Voice", @"Dashboard caption for results of voice activity.");
@@ -282,11 +283,11 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
     HKQuantityType *hkQuantity = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
     self.stepScoring = [[APHScoring alloc] initWithHealthKitQuantityType:hkQuantity
                                                                     unit:[HKUnit countUnit]
-                                                            numberOfDays:-kNumberOfDaysToDisplay];
+                                                            numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph];
     self.stepScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_STEPS_CAPTION", nil, APHLocaleBundle(), @"Steps", @"Dashboard caption for results of steps score.");
     
     self.tremorScoring = [[APCScoring alloc] initWithTask:APHTremorActivitySurveyIdentifier
-                                             numberOfDays:-kNumberOfDaysToDisplay
+                                             numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph
                                                  valueKey:kTremorScoreKey];
     self.tremorScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TREMOR_CAPTION", nil, APHLocaleBundle(), @"Tremor", @"Dashboard caption for results of tremor score.");
     
