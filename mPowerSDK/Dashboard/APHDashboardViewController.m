@@ -331,7 +331,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 - (APHScoring *)scoringForValueKey:(NSString *)valueKey
 {
     return [[APHScoring alloc] initWithTask:APHDailySurveyIdentifier
-                               numberOfDays:-kNumberOfDaysToDisplay
+                               numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph
                                    valueKey:valueKey
                                  latestOnly:NO];
 }
@@ -423,11 +423,10 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
                     item.graphData = self.correlatedScoring;
-                    item.graphType = kAPCDashboardGraphTypeLine;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.showCorrelationSelectorView = YES;
-                    item.showCorrelationSegmentControl = YES;
                     item.hideTintBar = YES;
                     item.tintColor = [UIColor appSecondaryColor2];
                     
@@ -451,7 +450,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.caption = tapScoring.caption;
                     item.taskId = APHTappingActivitySurveyIdentifier;
                     item.graphData = tapScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = kAPHDashboardGraphTypeDiscrete;
                     
                     double avgValue = [[tapScoring averageDataPoint] doubleValue];
                     
@@ -463,8 +462,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
-					item.showMedicationLegend = YES;
-                    item.showSparkLineGraph = YES;
                 
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TAPPING_INFO", nil, APHLocaleBundle(), @"This plot shows your finger tapping speed each day as measured by the Tapping Interval Activity. The length and position of each vertical bar represents the range in the number of taps you made in 20 seconds for a given day. Any differences in length or position over time reflect variations and trends in your tapping speed, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Tapping in Parkinson");
                     
@@ -481,7 +478,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.caption = self.gaitScoring.caption;
                     item.taskId = APHWalkingActivitySurveyIdentifier;
                     item.graphData = self.gaitScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = kAPHDashboardGraphTypeDiscrete;
                     
                     double avgValue = [[self.gaitScoring averageDataPoint] doubleValue];
                     
@@ -493,8 +490,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
-                    item.showMedicationLegend = YES;
-                    item.showSparkLineGraph = YES;
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_WALKING_INFO", nil, APHLocaleBundle(), @"This plot combines several accelerometer-based measures for the Walking Activity. The length and position of each vertical bar represents the range of measures for a given day. Any differences in length or position over time reflect variations and trends in your Walking measure, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Gait in Parkinson");
                     
@@ -510,7 +505,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.caption = self.memoryScoring.caption;
                     item.taskId = APHMemoryActivitySurveyIdentifier;
                     item.graphData = self.memoryScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = kAPHDashboardGraphTypeDiscrete;
                     
                     double avgValue = [[self.memoryScoring averageDataPoint] doubleValue];
                     
@@ -522,8 +517,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
-                    item.showMedicationLegend = YES;
-                    item.showSparkLineGraph = YES;
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MEMORY_INFO", nil, APHLocaleBundle(), @"This plot shows the score you received each day for the Memory Game. The length and position of each vertical bar represents the range of scores for a given day. Any differences in length or position over time reflect variations and trends in your score, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Memory in Parkinson");
                     
@@ -539,7 +532,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.caption = self.phonationScoring.caption;
                     item.taskId = APHVoiceActivitySurveyIdentifier;
                     item.graphData = self.phonationScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = kAPHDashboardGraphTypeDiscrete;
                     
                     double avgValue = [[self.phonationScoring averageDataPoint] doubleValue];
                     
@@ -551,8 +544,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
-                    item.showMedicationLegend = YES;
-                    item.showSparkLineGraph = YES;
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_VOICE_INFO", nil, APHLocaleBundle(), @"This plot combines several microphone-based measures as a single score for the Voice Activity. The length and position of each vertical bar represents the range of measures for a given day. Any differences in length or position over time reflect variations and trends in your Voice measure, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Voice in Parkinson");
                     
@@ -605,8 +596,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.reuseIdentifier = kAPCDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:APHTremorActivitySurveyIdentifier];
-                    item.showMedicationLegend = YES;
-                    item.showSparkLineGraph = YES;
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TREMOR_INFO", nil, APHLocaleBundle(), @"This plot shows the score you received each day for the Tremor Test.", @"Dashboard tooltip item info text for Tremor Test in Parkinson");
                     
