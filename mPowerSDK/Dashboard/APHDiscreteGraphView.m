@@ -7,6 +7,7 @@
 //
 
 #import "APHDiscreteGraphView.h"
+#import "APHAxisView.h"
 #import "APHMedicationTrackerTask.h"
 #import "APHCircleView.h"
 
@@ -257,11 +258,15 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     
     self.axisColor = [UIColor appTertiaryGrayColor];
     
-    self.xAxisView = [[APCAxisView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.plotsView.frame), CGRectGetWidth(self.plotsView.frame), kXAxisHeight)];
-    self.xAxisView.landscapeMode = self.landscapeMode;
-    self.xAxisView.tintColor = self.axisColor;
-    [self.xAxisView setupLabels:self.xAxisTitles forAxisType:kAPCGraphAxisTypeX];
-    self.xAxisView.leftOffset = kAPCGraphLeftPadding;
+    APHAxisView *xAxisView = [[APHAxisView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.plotsView.frame), CGRectGetWidth(self.plotsView.frame), kXAxisHeight)];
+    xAxisView.landscapeMode = self.landscapeMode;
+    xAxisView.tintColor = self.axisColor;
+    xAxisView.lastTitleHighlightColor = self.tintColor;
+    xAxisView.shouldHighlightLastLabel = self.shouldHighlightXaxisLastTitle;
+    [xAxisView setupLabels:self.xAxisTitles forAxisType:kAPCGraphAxisTypeX];
+    xAxisView.leftOffset = kAPCGraphLeftPadding;
+    
+    self.xAxisView = xAxisView;
     [self insertSubview:self.xAxisView belowSubview:self.plotsView];
     
     UIBezierPath *xAxispath = [UIBezierPath bezierPath];

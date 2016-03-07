@@ -997,6 +997,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                                                                   blue:237.f / 255.f
                                                                  alpha:1.f];
             discreteGraphView.showsHorizontalReferenceLines = NO;
+            discreteGraphView.shouldHighlightXaxisLastTitle = YES;
         }
         
         for (UIView *tintView in graphCell.tintViews) {

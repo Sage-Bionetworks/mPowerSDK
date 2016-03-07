@@ -17,6 +17,8 @@
 		43FEA4E21C8954280005B38F /* APHGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FEA4E01C8954280005B38F /* APHGraphViewController.m */; };
 		6B1438091C8CCC3B0034486F /* APHCircleView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B1438071C8CCC3B0034486F /* APHCircleView.h */; };
 		6B14380A1C8CCC3B0034486F /* APHCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1438081C8CCC3B0034486F /* APHCircleView.m */; };
+		6B14381F1C8D14FD0034486F /* APHAxisView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B14381D1C8D14FD0034486F /* APHAxisView.h */; };
+		6B1438201C8D14FD0034486F /* APHAxisView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B14381E1C8D14FD0034486F /* APHAxisView.m */; };
 		6B85B2871C88344B00FF59CF /* APHSparkGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B85B2851C88344B00FF59CF /* APHSparkGraphView.h */; };
 		6B85B2881C88344B00FF59CF /* APHSparkGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B85B2861C88344B00FF59CF /* APHSparkGraphView.m */; };
 		6BE0CD951C86293700B74276 /* APHScatterGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE0CD931C86293700B74276 /* APHScatterGraphView.h */; };
@@ -191,6 +193,8 @@
 		43FEA4E01C8954280005B38F /* APHGraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHGraphViewController.m; sourceTree = "<group>"; };
 		6B1438071C8CCC3B0034486F /* APHCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHCircleView.h; sourceTree = "<group>"; };
 		6B1438081C8CCC3B0034486F /* APHCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHCircleView.m; sourceTree = "<group>"; };
+		6B14381D1C8D14FD0034486F /* APHAxisView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHAxisView.h; sourceTree = "<group>"; };
+		6B14381E1C8D14FD0034486F /* APHAxisView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHAxisView.m; sourceTree = "<group>"; };
 		6B85B2851C88344B00FF59CF /* APHSparkGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHSparkGraphView.h; sourceTree = "<group>"; };
 		6B85B2861C88344B00FF59CF /* APHSparkGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHSparkGraphView.m; sourceTree = "<group>"; };
 		6BE0CD931C86293700B74276 /* APHScatterGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHScatterGraphView.h; sourceTree = "<group>"; };
@@ -763,6 +767,8 @@
 			isa = PBXGroup;
 			children = (
 				FFFA24C01C237E1500727DA8 /* APHDashboard.storyboard */,
+				6B14381D1C8D14FD0034486F /* APHAxisView.h */,
+				6B14381E1C8D14FD0034486F /* APHAxisView.m */,
 				6B1438071C8CCC3B0034486F /* APHCircleView.h */,
 				6B1438081C8CCC3B0034486F /* APHCircleView.m */,
 				43FEA4B51C8794960005B38F /* APHCorrelationsSelectorViewController.h */,
@@ -800,6 +806,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B14381F1C8D14FD0034486F /* APHAxisView.h in Headers */,
 				FB4E467D1C7E675500CADC1F /* APHOnboardingManager.h in Headers */,
 				FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */,
 				6BED4D771C8550A600A4269D /* APHDashboardGraphTableViewCell.h in Headers */,
@@ -995,6 +1002,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B14380A1C8CCC3B0034486F /* APHCircleView.m in Sources */,
+				6B1438201C8D14FD0034486F /* APHAxisView.m in Sources */,
 				80DC1BD91C6A8F2600235C2E /* APHCustomSurveyIntroViewController.m in Sources */,
 				6B41081C1C73E2BF00A2FB7B /* APHTremorTaskViewController.m in Sources */,
 				FF0B4ACC1C29FCB800224EF7 /* APHWalkingTaskViewController.m in Sources */,
