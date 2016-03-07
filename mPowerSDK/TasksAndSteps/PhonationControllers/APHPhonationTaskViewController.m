@@ -34,11 +34,14 @@
 #import "APHPhonationTaskViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <APCAppCore/APCAppCore.h>
+#import <ResearchKit/ORKAudioStep.h>
+#import <ResearchKit/ORKAudioStepViewController.h>
 #import "APHAppDelegate.h"
 #import "APHDataKeys.h"
 #import "APHScoreCalculator.h"
 #import "APHLocalization.h"
 #import "APHActivityManager.h"
+#import "APHMedicationTrackerDataStore.h"
 
     //
     //        Step Identifiers
@@ -106,6 +109,18 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
     return YES;
 }
 
+- (ORKStepViewController *)taskViewController:(ORKTaskViewController *)taskViewController
+						viewControllerForStep:(ORKStep *)step {
+	if ([step isKindOfClass:[ORKAudioStep class]]) {
+		ORKAudioStepViewController *stepViewController = [[ORKAudioStepViewController alloc] initWithStep:step];
+		//remove "too loud" red indicator; requires ResearchKit commit 42aa4408dc04b6f856cccf33fc3fb4484ac728c4
+		stepViewController.alertThreshold = 1.f;
+		return stepViewController;
+	}
+
+	return nil;
+}
+
 - (void)taskViewController:(ORKTaskViewController *) __unused taskViewController didChangeResult:(ORKTaskResult *)result
 {
     if ([self.currentStepViewController.step.identifier isEqualToString:kCountdownStepIdentifier]) {
@@ -160,8 +175,21 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
         
         double scoreSummary = [[APHScoreCalculator sharedCalculator] scoreFromPhonationTest: fileResult.fileURL];
         scoreSummary = isnan(scoreSummary) ? 0 : scoreSummary;
+
+        NSString *medicationActivityTimingString = nil;
+        APHMedicationTrackerDataStore *medTrackerDataStore = [APHMedicationTrackerDataStore defaultStore];
+        if (medTrackerDataStore.momentInDayResult) {
+            for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {
+                if ([orkStepResult.identifier isEqualToString:@"medicationActivityTiming"]) {
+                    medicationActivityTimingString = ((ORKChoiceQuestionResult *)orkStepResult.firstResult).choiceAnswers.firstObject ?: @"";
+                }
+            }
+        }
         
-        NSDictionary  *summary = @{APHPhonationScoreSummaryOfRecordsKey : @(scoreSummary)};
+        NSDictionary  *summary = @{
+            APHPhonationScoreSummaryOfRecordsKey : @(scoreSummary),
+            APHMedicationActivityTimingKey : medicationActivityTimingString
+        };
         
         NSError  *error = nil;
         NSData  *data = [NSJSONSerialization dataWithJSONObject:summary options:0 error:&error];
@@ -239,6 +267,11 @@ Float32 const kVolumeClamp = 60.0;
 {
     // Setup reader
     AVURLAsset * urlAsset = [AVURLAsset URLAssetWithURL:fileURL options:nil];
+    if (urlAsset.tracks.count == 0) {
+        NSLog(@"No tracks found for urlAsset: %@", fileURL);
+        return NO;
+    }
+
     NSError * error = nil;
     AVAssetReader * reader = [[AVAssetReader alloc] initWithAsset:urlAsset error:&error];
     AVAssetTrack * track = [urlAsset.tracks objectAtIndex:0];

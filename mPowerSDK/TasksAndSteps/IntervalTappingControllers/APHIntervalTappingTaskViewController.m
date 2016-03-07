@@ -37,6 +37,7 @@
 #import "APHDataKeys.h"
 #import "APHLocalization.h"
 #import "APHActivityManager.h"
+#import "APHMedicationTrackerDataStore.h"
 
     //
     //        Step Identifiers
@@ -81,7 +82,9 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
         __block NSMutableDictionary *summary = [@{ APHRightSummaryNumberOfRecordsKey: @(0),
                                                    APHLeftSummaryNumberOfRecordsKey:  @(0),
                                                    APHRightScoreSummaryOfRecordsKey:  @(0),
-                                                   APHLeftScoreSummaryOfRecordsKey:   @(0)} mutableCopy];
+                                                   APHLeftScoreSummaryOfRecordsKey:   @(0),
+                                                   APHMedicationActivityTimingKey: @""
+                                                } mutableCopy];
         
         // Use a block to morph the keys if a tapping result is found
         void (^addResult)(ORKTappingIntervalResult*) = ^(ORKTappingIntervalResult  * _Nonnull tapsterResults) {
@@ -108,7 +111,15 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
             for (id  object  in  stepResult.results) {
                 if ([object isKindOfClass:[ORKTappingIntervalResult class]] == YES) {
                     addResult(object);
-                    break;  // if result is found, break
+                }
+            }
+        }
+        
+        APHMedicationTrackerDataStore *medTrackerDataStore = [APHMedicationTrackerDataStore defaultStore];
+        if (medTrackerDataStore.momentInDayResult) {
+            for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {
+                if ([orkStepResult.identifier isEqualToString:@"medicationActivityTiming"]) {
+                    summary[APHMedicationActivityTimingKey] = ((ORKChoiceQuestionResult *)orkStepResult.firstResult).choiceAnswers.firstObject ?: @"";
                 }
             }
         }

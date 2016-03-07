@@ -218,6 +218,8 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
                                            kBridgeEnvironmentKey                : @(self.environment),
                                            kShareMessageKey                     : shareMessage
                                            }];
+    
+    [APCUser setShouldPerformTestUserEmailCheckOnSignup:YES];
 
     self.initializationOptions = dictionary;
 }
@@ -299,7 +301,7 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 - (void)showNeedsEmailVerification
 {
     [self showStudyOverviewAnimated:NO];
-    UIViewController *taskVC = [self.parkinsonOnboardingManager instantiateOnboardingTaskViewController];
+    UIViewController *taskVC = [self.parkinsonOnboardingManager instantiateOnboardingTaskViewController:YES];
     [self.window.rootViewController presentViewController:taskVC animated:NO completion:nil];
 }
 
@@ -308,18 +310,30 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
     [self showStudyOverviewAnimated:YES];
 }
 
+- (ORKTaskViewController *)consentViewController {
+    return [self.parkinsonOnboardingManager instantiateConsentViewController];
+}
+
 - (void)showStudyOverviewAnimated:(BOOL)animated {
-    APCStudyOverviewViewController *studyController = [[UIStoryboard storyboardWithName:@"APCOnboarding" bundle:[NSBundle appleCoreBundle]] instantiateViewControllerWithIdentifier:@"StudyOverviewVC"];
+    UIViewController *studyController = [[UIStoryboard storyboardWithName:@"APHOnboarding" bundle:[self storyboardBundle]] instantiateViewControllerWithIdentifier:@"APHStudyOverviewVC"];
     if (animated) {
         [self setUpRootViewController:studyController];
     }
     else {
-        self.window.rootViewController = studyController;
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:studyController];
+        navController.navigationBar.translucent = NO;
+        self.window.rootViewController = navController;
     }
 }
 
 - (BOOL)didHandleSignupFromViewController:(UIViewController *)viewController {
-    UIViewController *taskVC = [self.parkinsonOnboardingManager instantiateOnboardingTaskViewController];
+    UIViewController *taskVC = [self.parkinsonOnboardingManager instantiateOnboardingTaskViewController:YES];
+    [viewController presentViewController:taskVC animated:YES completion:nil];
+    return YES;
+}
+
+- (BOOL)didHandleSignInFromViewController:(UIViewController *)viewController {
+    UIViewController *taskVC = [self.parkinsonOnboardingManager instantiateOnboardingTaskViewController:NO];
     [viewController presentViewController:taskVC animated:YES completion:nil];
     return YES;
 }
@@ -783,18 +797,6 @@ static NSDate *determineConsentDate(id object)
               ];
 }
 
-/*********************************************************************************/
-#pragma mark - Consent
-/*********************************************************************************/
-
-- (ORKTaskViewController *)consentViewController
-{
-    APCConsentTask*         task = [[APCConsentTask alloc] initWithIdentifier:@"Consent"
-                                                           propertiesFileName:kConsentPropertiesFileName];
-    ORKTaskViewController*  consentVC = [[ORKTaskViewController alloc] initWithTask:task
-                                                                        taskRunUUID:[NSUUID UUID]];
-    return consentVC;
-}
 
 /*********************************************************************************/
 #pragma mark - Tab Bar Stuff

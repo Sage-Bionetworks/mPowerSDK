@@ -48,7 +48,7 @@
 @property  (nonatomic, readonly) NSDictionary * _Nonnull appearanceInfo;
 @property  (nonatomic, strong)  APHProfileExtender * _Nullable profileExtender;
 
-- (NSBundle*)storyboardBundle;
+- (NSBundle * _Nonnull)storyboardBundle;
 
 @end
 

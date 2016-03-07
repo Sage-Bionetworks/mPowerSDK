@@ -35,6 +35,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "APHLocalization.h"
 #import "APHMedicationTrackerTask.h"
+@import ResearchKit;
 
 //
 //    keys for the extra step ('Pre-Survey') that;'s injected
@@ -85,8 +86,15 @@ static  NSString * const kWalkingOutboundStepIdentifier       = @"walking.outbou
 static  NSString * const kWalkingReturnStepIdentifier         = @"walking.return";
 static  NSString * const kWalkingRestStepIdentifier           = @"walking.rest";
 static  NSString       *kWalkingActivityTitle                 = @"Walking Activity";
-static  NSUInteger      kNumberOfStepsPerLeg                  = 20;
+static  NSUInteger      kNumberOfStepsPerLeg                  = 100;  // set to way more than 30 seconds worth
 static  NSTimeInterval  kStandStillDuration                   = 30.0;
+static  NSTimeInterval  kWalkDuration                         = 30.0; // we'll set the step duration back to this
+
+//
+// constants for setting up the tremor activity
+//
+static NSString *const kTremorAssessmentTitleIdentifier     = @"Tremor Activity";
+static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
 
 
 @interface APHActivityManager ()
@@ -123,9 +131,17 @@ static  NSTimeInterval  kStandStillDuration                   = 30.0;
     else if ([surveyId isEqualToString:APHWalkingActivitySurveyIdentifier]) {
         task = [self createCustomWalkingTask];
     }
+    else if ([surveyId isEqualToString:APHTremorActivitySurveyIdentifier]) {
+        task = [self createCustomTremorTask];
+    }
     
     // Replace the language in the last step
-    [task.steps.lastObject setTitle:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Thank You!", @"Main text shown to participant upon completion of an activity.")];
+    if ([surveyId isEqualToString:APHMemoryActivitySurveyIdentifier]) {
+        [task.steps.lastObject setTitle:NSLocalizedStringWithDefaultValue(@"APH_MEMORY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Good Job!", @"Main text shown to participant upon completion of memory activity.")];
+    }
+    else {
+        [task.steps.lastObject setTitle:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Thank You!", @"Main text shown to participant upon completion of an activity.")];
+    }
     [task.steps.lastObject setText:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_DETAIL", nil, APHLocaleBundle(), @"The results of this activity can be viewed on the dashboard", @"Detail text shown to participant upon completion of an activity.")];
     
     // Create a medication tracker task with this as a subtask
@@ -190,7 +206,7 @@ static  NSTimeInterval  kStandStillDuration                   = 30.0;
 
 - (ORKOrderedTask *)createCustomMemoryTask
 {
-    return [ORKOrderedTask spatialSpanMemoryTaskWithIdentifier:kMemorySpanTitleIdentifier
+    ORKOrderedTask *orkTask = [ORKOrderedTask spatialSpanMemoryTaskWithIdentifier:kMemorySpanTitleIdentifier
                                         intendedUseDescription:nil
                                                    initialSpan:kInitialSpan
                                                    minimumSpan:kMinimumSpan
@@ -202,6 +218,8 @@ static  NSTimeInterval  kStandStillDuration                   = 30.0;
                                         customTargetPluralName:nil
                                                requireReversal:kRequiresReversal
                                                        options:ORKPredefinedTaskOptionNone];
+
+    return orkTask;
 }
 
 - (ORKOrderedTask *)createCustomWalkingTask
@@ -219,14 +237,31 @@ static  NSTimeInterval  kStandStillDuration                   = 30.0;
     [instructionStep setText:NSLocalizedStringWithDefaultValue(@"APH_WALKING_DESCRIPTION", nil, APHLocaleBundle(), @"This activity measures your gait (walk) and balance, which can be affected by Parkinson disease.", @"Description of purpose of walking activity.")];
     [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_WALKING_CAUTION", nil, APHLocaleBundle(), @"Please do not continue if you cannot safely walk unassisted.", @"Warning regarding performing walking activity.")];
     
-    NSString  *titleFormat = NSLocalizedStringWithDefaultValue(@"APH_WALKING_STAND_STILL_TEXT_INSTRUCTION", nil, APHLocaleBundle(), @"Turn around and stand still for %@ seconds", @"Written instructions for the standing-still step of the walking activity, to be filled in with the number of seconds to stand still.");
-    NSString  *titleString = [NSString stringWithFormat:titleFormat, APHLocalizedStringFromNumber(@(kStandStillDuration))];
-    NSString  *spokenInstructionFormat = NSLocalizedStringWithDefaultValue(@"APH_WALKING_STAND_STILL_SPOKEN_INSTRUCTION", nil, APHLocaleBundle(), @"Turn around and stand still for %@ seconds", @"Spoken instructions for the standing-still step of the walking activity, to be filled in with the number of seconds to stand still.");
-    NSString  *spokenInstructionString = [NSString stringWithFormat:spokenInstructionFormat, APHLocalizedStringFromNumber(@(kStandStillDuration))];
+    ORKInstructionStep *instructionStep2 = (ORKInstructionStep *)orkTask.steps[1];
+    [instructionStep2 setText:NSLocalizedStringWithDefaultValue(@"APH_WALKING_DESCRIPTION_2", nil, APHLocaleBundle(), @"\u2022 Please wear a comfortable pair of walking shoes and find a flat, smooth surface for walking.\n\n\u2022 Try to walk continuously by turning at the ends of your path, as if you are walking around a cone.\n\n\u2022 Importantly, walk at your normal pace. You do not need to walk faster than usual.", @"Detailed instructions for performing walking activity.")];
+    [instructionStep2 setDetailText:NSLocalizedStringWithDefaultValue(@"APH_WALKING_DESCRIPTION_2_DETAIL", nil, APHLocaleBundle(), @"Put your phone in a pocket or bag and follow the audio instructions.", @"Instructions for how to proceed to active step of walking activity.")];
     
-    ORKActiveStep *activeStep = (ORKActiveStep *)orkTask.steps[5];
-    [activeStep setTitle:titleString];
-    [activeStep setSpokenInstruction:spokenInstructionString];
+    NSString  *titleFormatWalk = NSLocalizedStringWithDefaultValue(@"APH_WALKING_WALK_TEXT_INSTRUCTION", nil, APHLocaleBundle(), @"Walk back and forth for %@ seconds.", @"Written instructions for the walking step of the walking activity, to be filled in with the number of seconds to walk.");
+    NSString  *titleStringWalk = [NSString stringWithFormat:titleFormatWalk, APHLocalizedStringFromNumber(@(kStandStillDuration))];
+    NSString  *spokenInstructionFormatWalk = NSLocalizedStringWithDefaultValue(@"APH_WALKING_WALK_SPOKEN_INSTRUCTION", nil, APHLocaleBundle(), @"Walk back and forth for %@ seconds.", @"Spoken instructions for the walking step of the walking activity, to be filled in with the number of seconds to walk.");
+    NSString  *spokenInstructionStringWalk = [NSString stringWithFormat:spokenInstructionFormatWalk, APHLocalizedStringFromNumber(@(kStandStillDuration))];
+    
+    ORKWalkingTaskStep *walkStep = (ORKWalkingTaskStep *)orkTask.steps[3];
+    [walkStep setTitle:titleStringWalk];
+    [walkStep setSpokenInstruction:spokenInstructionStringWalk];
+    // we want to ignore steps and just go for 30 seconds, but can't disable step counting without disabling the
+    // pedometer, so we've set way more steps than 30 seconds' worth, and here we'll to set the stepDuration
+    // fallback value manually to 30 seconds.
+    walkStep.stepDuration = kWalkDuration;
+    
+    NSString  *titleFormatStand = NSLocalizedStringWithDefaultValue(@"APH_WALKING_STAND_STILL_TEXT_INSTRUCTION", nil, APHLocaleBundle(), @"Turn around 360 degrees, then stand still, with your feet about shoulder-width apart. Rest your arms at your side and try to avoid moving for %@ seconds.", @"Written instructions for the standing-still step of the walking activity, to be filled in with the number of seconds to stand still.");
+    NSString  *titleStringStand = [NSString stringWithFormat:titleFormatStand, APHLocalizedStringFromNumber(@(kStandStillDuration))];
+    NSString  *spokenInstructionFormatStand = NSLocalizedStringWithDefaultValue(@"APH_WALKING_STAND_STILL_SPOKEN_INSTRUCTION", nil, APHLocaleBundle(), @"Turn around 360 degrees, then stand still, with your feet about shoulder-width apart. Rest your arms at your side and try to avoid moving for %@ seconds.", @"Spoken instructions for the standing-still step of the walking activity, to be filled in with the number of seconds to stand still.");
+    NSString  *spokenInstructionStringStand = [NSString stringWithFormat:spokenInstructionFormatStand, APHLocalizedStringFromNumber(@(kStandStillDuration))];
+    
+    ORKActiveStep *standStep = (ORKActiveStep *)orkTask.steps[5];
+    [standStep setTitle:titleStringStand];
+    [standStep setSpokenInstruction:spokenInstructionStringStand];
     
     //
     //    remove the return walking step
@@ -248,6 +283,18 @@ static  NSTimeInterval  kStandStillDuration                   = 30.0;
     orkTask = [[ORKOrderedTask alloc] initWithIdentifier:kWalkingActivityTitle steps:copyOfTaskSteps];
     
     return  orkTask;
+}
+
+- (ORKOrderedTask *)createCustomTremorTask
+{
+    ORKTremorActiveTaskOption excludeTasks =
+        ORKTremorActiveTaskOptionExcludeHandAtShoulderHeightElbowBent | ORKTremorActiveTaskOptionExcludeQueenWave;
+    
+    return [ORKOrderedTask tremorTestTaskWithIdentifier:kTremorAssessmentTitleIdentifier
+                                 intendedUseDescription:nil
+                                     activeStepDuration:kTremorAssessmentStepDuration
+                                      activeTaskOptions:excludeTasks
+                                                options:ORKPredefinedTaskOptionNone];
 }
 
 @end

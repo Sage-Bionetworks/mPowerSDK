@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43FEA4A41C86DEC80005B38F /* APHLineGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 43FEA4A21C86DEC80005B38F /* APHLineGraphView.h */; };
+		43FEA4A51C86DEC80005B38F /* APHLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FEA4A31C86DEC80005B38F /* APHLineGraphView.m */; };
+		43FEA4A81C86E33C0005B38F /* APHDiscreteGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 43FEA4A61C86E33C0005B38F /* APHDiscreteGraphView.h */; };
+		43FEA4A91C86E33C0005B38F /* APHDiscreteGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FEA4A71C86E33C0005B38F /* APHDiscreteGraphView.m */; };
+		6BE0CD951C86293700B74276 /* APHScatterGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE0CD931C86293700B74276 /* APHScatterGraphView.h */; };
+		6BE0CD961C86293700B74276 /* APHScatterGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE0CD941C86293700B74276 /* APHScatterGraphView.m */; };
+		6BED4D771C8550A600A4269D /* APHDashboardGraphTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BED4D751C8550A600A4269D /* APHDashboardGraphTableViewCell.h */; };
+		6BED4D781C8550A600A4269D /* APHDashboardGraphTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BED4D761C8550A600A4269D /* APHDashboardGraphTableViewCell.m */; };
+		6BED4D831C8595EC00A4269D /* APHTableViewDashboardGraphItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BED4D811C8595EC00A4269D /* APHTableViewDashboardGraphItem.h */; };
+		6BED4D841C8595EC00A4269D /* APHTableViewDashboardGraphItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BED4D821C8595EC00A4269D /* APHTableViewDashboardGraphItem.m */; };
+		6BED4D8F1C85C1B400A4269D /* APHScoring.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BED4D8D1C85C1B400A4269D /* APHScoring.h */; };
+		6BED4D901C85C1B400A4269D /* APHScoring.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BED4D8E1C85C1B400A4269D /* APHScoring.m */; };
 		803237891C6BCF1A00208365 /* APHQuestionViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 803237861C6BCF1A00208365 /* APHQuestionViewController.h */; };
 		8032378A1C6BCF1A00208365 /* APHQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 803237871C6BCF1A00208365 /* APHQuestionViewController.m */; };
 		8032378B1C6BCF1A00208365 /* APHQuestionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 803237881C6BCF1A00208365 /* APHQuestionViewController.xib */; };
@@ -30,6 +42,12 @@
 		80DC1BDE1C6A8F2600235C2E /* APHCustomSurveyTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 80DC1BD01C6A8F2500235C2E /* APHCustomSurveyTableViewCell.h */; };
 		80DC1BDF1C6A8F2600235C2E /* APHCustomSurveyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC1BD11C6A8F2500235C2E /* APHCustomSurveyTableViewCell.m */; };
 		80DC1BE01C6A8F2600235C2E /* APHCustomSurveyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 80DC1BD21C6A8F2500235C2E /* APHCustomSurveyTableViewCell.xib */; };
+		A6B29FA21C863E49005CEF3F /* APHRegularShapeView.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B29FA01C863E49005CEF3F /* APHRegularShapeView.h */; };
+		A6B29FA31C863E49005CEF3F /* APHRegularShapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B29FA11C863E49005CEF3F /* APHRegularShapeView.m */; };
+		A690D92E1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = A690D92C1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.h */; };
+		A690D92F1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A690D92D1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.m */; };
+		A690D9361C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = A690D9341C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.h */; };
+		A690D9371C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A690D9351C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.m */; };
 		FB4E46711C7E671C00CADC1F /* EligibilityRequirements.json in Resources */ = {isa = PBXBuildFile; fileRef = FB4E466F1C7E671C00CADC1F /* EligibilityRequirements.json */; };
 		FB4E46771C7E673E00CADC1F /* APHInstructionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FB4E46731C7E673E00CADC1F /* APHInstructionStepViewController.h */; };
 		FB4E46781C7E673E00CADC1F /* APHInstructionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4E46741C7E673E00CADC1F /* APHInstructionStepViewController.m */; };
@@ -63,6 +81,13 @@
 		A6B689671C640BC900DCB8A7 /* APHActivitiesTintedTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B689651C640BC900DCB8A7 /* APHActivitiesTintedTableViewCell.h */; };
 		A6B689681C640BC900DCB8A7 /* APHActivitiesTintedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B689661C640BC900DCB8A7 /* APHActivitiesTintedTableViewCell.m */; };
 		A6B6896E1C641FC300DCB8A7 /* APHActivitiesSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6B6896D1C641FC300DCB8A7 /* APHActivitiesSectionHeaderView.xib */; };
+		FBAE3D161C863A68003CEC4A /* APHWebviewViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FBAE3D141C863A68003CEC4A /* APHWebviewViewController.h */; };
+		FBAE3D171C863A68003CEC4A /* APHWebviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBAE3D151C863A68003CEC4A /* APHWebviewViewController.m */; };
+		FBAE3D1A1C863A92003CEC4A /* MonthlyReport.json in Resources */ = {isa = PBXBuildFile; fileRef = FBAE3D181C863A92003CEC4A /* MonthlyReport.json */; };
+		FBAE3D201C863AB3003CEC4A /* consent_report_1data.html in Resources */ = {isa = PBXBuildFile; fileRef = FBAE3D221C863AB3003CEC4A /* consent_report_1data.html */; };
+		FBAE3D231C863AB7003CEC4A /* consent_report_2mood.html in Resources */ = {isa = PBXBuildFile; fileRef = FBAE3D251C863AB7003CEC4A /* consent_report_2mood.html */; };
+		6B41081B1C73E2BF00A2FB7B /* APHTremorTaskViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B4108191C73E2BF00A2FB7B /* APHTremorTaskViewController.h */; };
+		6B41081C1C73E2BF00A2FB7B /* APHTremorTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B41081A1C73E2BF00A2FB7B /* APHTremorTaskViewController.m */; };
 		FF0B4AC01C29FCB800224EF7 /* APHParkinsonActivityViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4AAE1C29FCB800224EF7 /* APHParkinsonActivityViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF0B4AC11C29FCB800224EF7 /* APHParkinsonActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4AAF1C29FCB800224EF7 /* APHParkinsonActivityViewController.m */; };
 		FF0B4AC21C29FCB800224EF7 /* APHScoreCalculator.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4AB01C29FCB800224EF7 /* APHScoreCalculator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -157,6 +182,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		43FEA4A21C86DEC80005B38F /* APHLineGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHLineGraphView.h; sourceTree = "<group>"; };
+		43FEA4A31C86DEC80005B38F /* APHLineGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHLineGraphView.m; sourceTree = "<group>"; };
+		43FEA4A61C86E33C0005B38F /* APHDiscreteGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDiscreteGraphView.h; sourceTree = "<group>"; };
+		43FEA4A71C86E33C0005B38F /* APHDiscreteGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHDiscreteGraphView.m; sourceTree = "<group>"; };
+		6BE0CD931C86293700B74276 /* APHScatterGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHScatterGraphView.h; sourceTree = "<group>"; };
+		6BE0CD941C86293700B74276 /* APHScatterGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHScatterGraphView.m; sourceTree = "<group>"; };
+		6BED4D751C8550A600A4269D /* APHDashboardGraphTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDashboardGraphTableViewCell.h; sourceTree = "<group>"; };
+		6BED4D761C8550A600A4269D /* APHDashboardGraphTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHDashboardGraphTableViewCell.m; sourceTree = "<group>"; };
+		6BED4D811C8595EC00A4269D /* APHTableViewDashboardGraphItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHTableViewDashboardGraphItem.h; sourceTree = "<group>"; };
+		6BED4D821C8595EC00A4269D /* APHTableViewDashboardGraphItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHTableViewDashboardGraphItem.m; sourceTree = "<group>"; };
+		6BED4D8D1C85C1B400A4269D /* APHScoring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHScoring.h; sourceTree = "<group>"; };
+		6BED4D8E1C85C1B400A4269D /* APHScoring.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHScoring.m; sourceTree = "<group>"; };
 		803237861C6BCF1A00208365 /* APHQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHQuestionViewController.h; sourceTree = "<group>"; };
 		803237871C6BCF1A00208365 /* APHQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHQuestionViewController.m; sourceTree = "<group>"; };
 		803237881C6BCF1A00208365 /* APHQuestionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = APHQuestionViewController.xib; sourceTree = "<group>"; };
@@ -180,6 +217,12 @@
 		80DC1BD01C6A8F2500235C2E /* APHCustomSurveyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHCustomSurveyTableViewCell.h; sourceTree = "<group>"; };
 		80DC1BD11C6A8F2500235C2E /* APHCustomSurveyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHCustomSurveyTableViewCell.m; sourceTree = "<group>"; };
 		80DC1BD21C6A8F2500235C2E /* APHCustomSurveyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = APHCustomSurveyTableViewCell.xib; sourceTree = "<group>"; };
+		A6B29FA01C863E49005CEF3F /* APHRegularShapeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHRegularShapeView.h; sourceTree = "<group>"; };
+		A6B29FA11C863E49005CEF3F /* APHRegularShapeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHRegularShapeView.m; sourceTree = "<group>"; };
+		A690D92C1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHStudyLandingCollectionViewCell.h; sourceTree = "<group>"; };
+		A690D92D1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHStudyLandingCollectionViewCell.m; sourceTree = "<group>"; };
+		A690D9341C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHStudyVideoCollectionViewCell.h; sourceTree = "<group>"; };
+		A690D9351C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHStudyVideoCollectionViewCell.m; sourceTree = "<group>"; };
 		FB4E46701C7E671C00CADC1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/EligibilityRequirements.json; sourceTree = "<group>"; };
 		FB4E46731C7E673E00CADC1F /* APHInstructionStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHInstructionStepViewController.h; sourceTree = "<group>"; };
 		FB4E46741C7E673E00CADC1F /* APHInstructionStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHInstructionStepViewController.m; sourceTree = "<group>"; };
@@ -214,6 +257,13 @@
 		A6B689661C640BC900DCB8A7 /* APHActivitiesTintedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHActivitiesTintedTableViewCell.m; sourceTree = "<group>"; };
 		A6B6896D1C641FC300DCB8A7 /* APHActivitiesSectionHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = APHActivitiesSectionHeaderView.xib; sourceTree = "<group>"; };
 		A6B689791C6453FC00DCB8A7 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = MyPlayground.playground; path = ../../../../Desktop/MyPlayground.playground; sourceTree = "<group>"; };
+		FBAE3D141C863A68003CEC4A /* APHWebviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHWebviewViewController.h; sourceTree = "<group>"; };
+		FBAE3D151C863A68003CEC4A /* APHWebviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHWebviewViewController.m; sourceTree = "<group>"; };
+		FBAE3D191C863A92003CEC4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/MonthlyReport.json; sourceTree = "<group>"; };
+		FBAE3D211C863AB3003CEC4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/consent_report_1data.html; sourceTree = "<group>"; };
+		FBAE3D241C863AB7003CEC4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/consent_report_2mood.html; sourceTree = "<group>"; };
+		6B4108191C73E2BF00A2FB7B /* APHTremorTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHTremorTaskViewController.h; sourceTree = "<group>"; };
+		6B41081A1C73E2BF00A2FB7B /* APHTremorTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHTremorTaskViewController.m; sourceTree = "<group>"; };
 		FF0B4AAE1C29FCB800224EF7 /* APHParkinsonActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHParkinsonActivityViewController.h; sourceTree = "<group>"; };
 		FF0B4AAF1C29FCB800224EF7 /* APHParkinsonActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHParkinsonActivityViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FF0B4AB01C29FCB800224EF7 /* APHScoreCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHScoreCalculator.h; sourceTree = "<group>"; };
@@ -389,21 +439,10 @@
 			path = "Customizable Survey";
 			sourceTree = "<group>";
 		};
-		FB4E46721C7E672900CADC1F /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				FFFA24A31C2377B200727DA8 /* APHOnboarding.storyboard */,
-				FFFA24981C23773900727DA8 /* APHInclusionCriteriaViewController.h */,
-				FFFA24991C23773900727DA8 /* APHInclusionCriteriaViewController.m */,
-				FB4E46731C7E673E00CADC1F /* APHInstructionStepViewController.h */,
-				FB4E46741C7E673E00CADC1F /* APHInstructionStepViewController.m */,
-			);
-			name = Views;
-			sourceTree = "<group>";
-		};
 		FB4E46E01C7EC9F100CADC1F /* HTML */ = {
 			isa = PBXGroup;
 			children = (
+				FBAE3D1B1C863A9D003CEC4A /* Monthly Report */,
 				FB4E46E11C7EC9FA00CADC1F /* Consent */,
 			);
 			path = HTML;
@@ -450,6 +489,24 @@
 			path = Activities;
 			sourceTree = "<group>";
 		};
+		FBAE3D1B1C863A9D003CEC4A /* Monthly Report */ = {
+			isa = PBXGroup;
+			children = (
+				FBAE3D221C863AB3003CEC4A /* consent_report_1data.html */,
+				FBAE3D251C863AB7003CEC4A /* consent_report_2mood.html */,
+			);
+			name = "Monthly Report";
+			sourceTree = "<group>";
+		};
+		6B4108181C73E21D00A2FB7B /* TremorControllers */ = {
+			isa = PBXGroup;
+			children = (
+				6B4108191C73E2BF00A2FB7B /* APHTremorTaskViewController.h */,
+				6B41081A1C73E2BF00A2FB7B /* APHTremorTaskViewController.m */,
+			);
+			path = TremorControllers;
+			sourceTree = "<group>";
+		};
 		FF0B4AAD1C29FCB800224EF7 /* TasksAndSteps */ = {
 			isa = PBXGroup;
 			children = (
@@ -466,6 +523,7 @@
 				FF0B4AB31C29FCB800224EF7 /* IntervalTappingControllers */,
 				FF0B4AB71C29FCB800224EF7 /* PhonationControllers */,
 				FF0B4ABA1C29FCB800224EF7 /* SpatialSpanMemoryControllers */,
+				6B4108181C73E21D00A2FB7B /* TremorControllers */,
 				FF0B4ABD1C29FCB800224EF7 /* WalkingControllers */,
 			);
 			path = TasksAndSteps;
@@ -544,6 +602,7 @@
 		FF2D347E1C3DBD540033838A /* JSONs */ = {
 			isa = PBXGroup;
 			children = (
+				FBAE3D181C863A92003CEC4A /* MonthlyReport.json */,
 				FB4E466F1C7E671C00CADC1F /* EligibilityRequirements.json */,
 				FF95C03C1C49A7E90081672E /* MedicationTracking.json */,
 				FFB8922A1C46DE6200CD0081 /* DataGroupsMapping.json */,
@@ -654,6 +713,8 @@
 				FFFA248B1C236AE700727DA8 /* APHDataKeys.h */,
 				A6B689501C63E09A00DCB8A7 /* Activities */,
 				FFFA248C1C236AE700727DA8 /* APHDataKeys.m */,
+				6BED4D8D1C85C1B400A4269D /* APHScoring.h */,
+				6BED4D8E1C85C1B400A4269D /* APHScoring.m */,
 				FFFA24701C23650900727DA8 /* Startup */,
 				FFFA24971C23773900727DA8 /* Onboarding */,
 				FFFA24BB1C237E1500727DA8 /* Dashboard */,
@@ -704,9 +765,17 @@
 		FFFA24971C23773900727DA8 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				FB4E46721C7E672900CADC1F /* Views */,
 				FB4E467B1C7E675500CADC1F /* APHOnboardingManager.h */,
 				FB4E467C1C7E675500CADC1F /* APHOnboardingManager.m */,
+				FFFA24A31C2377B200727DA8 /* APHOnboarding.storyboard */,
+				FFFA24981C23773900727DA8 /* APHInclusionCriteriaViewController.h */,
+				FFFA24991C23773900727DA8 /* APHInclusionCriteriaViewController.m */,
+				FB4E46731C7E673E00CADC1F /* APHInstructionStepViewController.h */,
+				FB4E46741C7E673E00CADC1F /* APHInstructionStepViewController.m */,
+				A690D92C1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.h */,
+				A690D92D1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.m */,
+				A690D9341C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.h */,
+				A690D9351C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.m */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -719,6 +788,20 @@
 				FFFA24BD1C237E1500727DA8 /* APHDashboardEditViewController.m */,
 				FFFA24BE1C237E1500727DA8 /* APHDashboardViewController.h */,
 				FFFA24BF1C237E1500727DA8 /* APHDashboardViewController.m */,
+				6BED4D751C8550A600A4269D /* APHDashboardGraphTableViewCell.h */,
+				6BED4D761C8550A600A4269D /* APHDashboardGraphTableViewCell.m */,
+				43FEA4A61C86E33C0005B38F /* APHDiscreteGraphView.h */,
+				43FEA4A71C86E33C0005B38F /* APHDiscreteGraphView.m */,
+				43FEA4A21C86DEC80005B38F /* APHLineGraphView.h */,
+				43FEA4A31C86DEC80005B38F /* APHLineGraphView.m */,
+				6BE0CD931C86293700B74276 /* APHScatterGraphView.h */,
+				6BE0CD941C86293700B74276 /* APHScatterGraphView.m */,
+				6BED4D811C8595EC00A4269D /* APHTableViewDashboardGraphItem.h */,
+				6BED4D821C8595EC00A4269D /* APHTableViewDashboardGraphItem.m */,
+				A6B29FA01C863E49005CEF3F /* APHRegularShapeView.h */,
+				A6B29FA11C863E49005CEF3F /* APHRegularShapeView.m */,
+				FBAE3D141C863A68003CEC4A /* APHWebviewViewController.h */,
+				FBAE3D151C863A68003CEC4A /* APHWebviewViewController.m */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -733,16 +816,22 @@
 				FB4E467D1C7E675500CADC1F /* APHOnboardingManager.h in Headers */,
 				A6B689671C640BC900DCB8A7 /* APHActivitiesTintedTableViewCell.h in Headers */,
 				FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */,
+				6BED4D771C8550A600A4269D /* APHDashboardGraphTableViewCell.h in Headers */,
 				FF0B4AC01C29FCB800224EF7 /* APHParkinsonActivityViewController.h in Headers */,
 				FF0B4AC91C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.h in Headers */,
 				FFFA24911C236E9A00727DA8 /* APHProfileExtender.h in Headers */,
 				FF2D344E1C3207060033838A /* APHActivityManager.h in Headers */,
+				43FEA4A81C86E33C0005B38F /* APHDiscreteGraphView.h in Headers */,
 				803237891C6BCF1A00208365 /* APHQuestionViewController.h in Headers */,
 				A6B689551C63E14400DCB8A7 /* APHActivitiesViewController.h in Headers */,
 				FFFA24C71C237E1500727DA8 /* APHDashboardViewController.h in Headers */,
+				6B41081B1C73E2BF00A2FB7B /* APHTremorTaskViewController.h in Headers */,
 				FF2D34421C31B7DC0033838A /* APHLocalization.h in Headers */,
+				6BED4D831C8595EC00A4269D /* APHTableViewDashboardGraphItem.h in Headers */,
 				FFFA24C51C237E1500727DA8 /* APHDashboardEditViewController.h in Headers */,
+				6BE0CD951C86293700B74276 /* APHScatterGraphView.h in Headers */,
 				8032378E1C6BCFF700208365 /* APHCustomTextView.h in Headers */,
+				6BED4D8F1C85C1B400A4269D /* APHScoring.h in Headers */,
 				80DC1BD31C6A8F2500235C2E /* APHMoodSurveyTaskViewController.h in Headers */,
 				FF2D8BD81C497D28004EC642 /* APHMedicationTrackerTask.h in Headers */,
 				803237921C6BD0DB00208365 /* APHMoodLogDictionaryKeys.h in Headers */,
@@ -762,11 +851,16 @@
 				FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */,
 				80DC1BDB1C6A8F2600235C2E /* APHCustomSurveyQuestionViewController.h in Headers */,
 				FFFA249F1C23773900727DA8 /* APHInclusionCriteriaViewController.h in Headers */,
+				FBAE3D161C863A68003CEC4A /* APHWebviewViewController.h in Headers */,
+				A690D9361C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.h in Headers */,
 				FFFA248D1C236AE700727DA8 /* APHDataKeys.h in Headers */,
 				FB4E46771C7E673E00CADC1F /* APHInstructionStepViewController.h in Headers */,
 				FF0B4AC21C29FCB800224EF7 /* APHScoreCalculator.h in Headers */,
+				A6B29FA21C863E49005CEF3F /* APHRegularShapeView.h in Headers */,
 				80DC1BC01C6A8EE800235C2E /* APHDynamicMoodSurveyTask.h in Headers */,
+				43FEA4A41C86DEC80005B38F /* APHLineGraphView.h in Headers */,
 				FFFA24851C23664500727DA8 /* APHAppDelegate+APHMigration.h in Headers */,
+				A690D92E1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -864,6 +958,7 @@
 				FF2D34961C3DBD540033838A /* APHTasksAndSchedules_NoM7.json in Resources */,
 				FB4E47A71C7ED57100CADC1F /* consent_18researchers.html in Resources */,
 				80DC1BDA1C6A8F2600235C2E /* APHCustomSurveyIntroViewController.xib in Resources */,
+				FBAE3D231C863AB7003CEC4A /* consent_report_2mood.html in Resources */,
 				FFFA24A51C2377B200727DA8 /* APHOnboarding.storyboard in Resources */,
 				8032378B1C6BCF1A00208365 /* APHQuestionViewController.xib in Resources */,
 				FB4E47981C7ED55C00CADC1F /* consent_13follow_up.html in Resources */,
@@ -877,6 +972,8 @@
 				FF2D34981C3DBD540033838A /* LocationInfo.json in Resources */,
 				FB4E46711C7E671C00CADC1F /* EligibilityRequirements.json in Resources */,
 				80DC1BD71C6A8F2500235C2E /* APHMoodSurveyIntroStepViewController.xib in Resources */,
+				FBAE3D201C863AB3003CEC4A /* consent_report_1data.html in Resources */,
+				FBAE3D1A1C863A92003CEC4A /* MonthlyReport.json in Resources */,
 				FB4E477A1C7ED52E00CADC1F /* consent_3activities.html in Resources */,
 				FB4E47A41C7ED56E00CADC1F /* consent_17data_sharing.html in Resources */,
 				FF2D34B21C3DBF100033838A /* FilenameTranslation.json in Resources */,
@@ -915,11 +1012,13 @@
 			files = (
 				80DC1BD91C6A8F2600235C2E /* APHCustomSurveyIntroViewController.m in Sources */,
 				A6B689641C63F13200DCB8A7 /* APHActivitiesSectionHeaderView.m in Sources */,
+				6B41081C1C73E2BF00A2FB7B /* APHTremorTaskViewController.m in Sources */,
 				FF0B4ACC1C29FCB800224EF7 /* APHWalkingTaskViewController.m in Sources */,
 				80DC1BD61C6A8F2500235C2E /* APHMoodSurveyIntroStepViewController.m in Sources */,
 				FFFA24C61C237E1500727DA8 /* APHDashboardEditViewController.m in Sources */,
 				FF95C0441C4EB4A90081672E /* APHMedication.m in Sources */,
 				FF5842C21C517D3100C85C2E /* APHMedicationTrackerDataStore.m in Sources */,
+				FBAE3D171C863A68003CEC4A /* APHWebviewViewController.m in Sources */,
 				80DC1BDF1C6A8F2600235C2E /* APHCustomSurveyTableViewCell.m in Sources */,
 				80DC1BD41C6A8F2500235C2E /* APHMoodSurveyTaskViewController.m in Sources */,
 				FFF270A51C5BF483007059D2 /* NSNull+APHExtensions.m in Sources */,
@@ -928,15 +1027,24 @@
 				FF0B4ACA1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m in Sources */,
 				FF2D34431C31B7DC0033838A /* APHLocalization.m in Sources */,
 				A6B689561C63E14400DCB8A7 /* APHActivitiesViewController.m in Sources */,
+				43FEA4A51C86DEC80005B38F /* APHLineGraphView.m in Sources */,
 				FF0B4AC11C29FCB800224EF7 /* APHParkinsonActivityViewController.m in Sources */,
 				8032378A1C6BCF1A00208365 /* APHQuestionViewController.m in Sources */,
 				FF0B4AC81C29FCB800224EF7 /* APHPhonationTaskViewController.m in Sources */,
 				FF2D8BDD1C497D4D004EC642 /* APHMedicationTrackerViewController.m in Sources */,
+				43FEA4A91C86E33C0005B38F /* APHDiscreteGraphView.m in Sources */,
+				6BED4D901C85C1B400A4269D /* APHScoring.m in Sources */,
 				80DC1BC11C6A8EE800235C2E /* APHDynamicMoodSurveyTask.m in Sources */,
+				6BE0CD961C86293700B74276 /* APHScatterGraphView.m in Sources */,
 				FF346CEE1C5BE762006D9AC9 /* NSArray+APHExtensions.m in Sources */,
+				A690D9371C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.m in Sources */,
 				FFFA24921C236E9A00727DA8 /* APHProfileExtender.m in Sources */,
 				803237931C6BD0DB00208365 /* APHMoodLogDictionaryKeys.m in Sources */,
+				A6B29FA31C863E49005CEF3F /* APHRegularShapeView.m in Sources */,
 				8032378F1C6BCFF700208365 /* APHCustomTextView.m in Sources */,
+				6BED4D781C8550A600A4269D /* APHDashboardGraphTableViewCell.m in Sources */,
+				6BED4D841C8595EC00A4269D /* APHTableViewDashboardGraphItem.m in Sources */,
+				A690D92F1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.m in Sources */,
 				FF0B4AC61C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m in Sources */,
 				FFFA24C81C237E1500727DA8 /* APHDashboardViewController.m in Sources */,
 				FF2D8BD91C497D28004EC642 /* APHMedicationTrackerTask.m in Sources */,
@@ -1141,6 +1249,30 @@
 				FB4E47AB1C7ED57600CADC1F /* Base */,
 			);
 			name = consent_19sharing_rsch.html;
+			sourceTree = "<group>";
+		};
+		FBAE3D181C863A92003CEC4A /* MonthlyReport.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FBAE3D191C863A92003CEC4A /* Base */,
+			);
+			name = MonthlyReport.json;
+			sourceTree = "<group>";
+		};
+		FBAE3D221C863AB3003CEC4A /* consent_report_1data.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FBAE3D211C863AB3003CEC4A /* Base */,
+			);
+			name = consent_report_1data.html;
+			sourceTree = "<group>";
+		};
+		FBAE3D251C863AB7003CEC4A /* consent_report_2mood.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FBAE3D241C863AB7003CEC4A /* Base */,
+			);
+			name = consent_report_2mood.html;
 			sourceTree = "<group>";
 		};
 		FF2D34811C3DBD540033838A /* APHConsentSection.json */ = {
