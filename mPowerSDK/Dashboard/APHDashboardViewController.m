@@ -990,6 +990,15 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
             graphCell.subTitleLabel.hidden = NO;
         }
         
+        if (graphItem.graphType == kAPCDashboardGraphTypeDiscrete && [graphCell.discreteGraphView isKindOfClass:[APHDiscreteGraphView class]]) {
+            APHDiscreteGraphView *discreteGraphView = (APHDiscreteGraphView *)graphCell.discreteGraphView;
+            discreteGraphView.primaryLineColor = [UIColor colorWithRed:236.f / 255.f
+                                                                 green:237.f / 255.f
+                                                                  blue:237.f / 255.f
+                                                                 alpha:1.f];
+            discreteGraphView.showsHorizontalReferenceLines = NO;
+        }
+        
         for (UIView *tintView in graphCell.tintViews) {
             tintView.tintColor = graphItem.tintColor;
         }

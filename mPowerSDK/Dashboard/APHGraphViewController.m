@@ -50,6 +50,15 @@
         self.medicationLegendContainerView.hidden = YES;
     }
     
+    if (self.graphItem.graphType == kAPCDashboardGraphTypeDiscrete) {
+        APHDiscreteGraphView *discreteGraph = (APHDiscreteGraphView *)self.discreteGraphView;
+        discreteGraph.showsHorizontalReferenceLines = NO;
+        discreteGraph.primaryLineColor = [UIColor colorWithRed:236.f / 255.f
+                                                         green:237.f / 255.f
+                                                          blue:237.f / 255.f
+                                                         alpha:1.f];
+    }
+    
     graphView.tintColor = self.graphItem.tintColor;
     graphView.landscapeMode = YES;
     
