@@ -373,7 +373,7 @@
     if (pointIndex == 0) {
         return [self graph:graphView titleForXAxisAtIndex:pointIndex];
     } else if (pointIndex == self.dataPoints.count - 1) {
-        return NSLocalizedStringWithDefaultValue(@"Today", nil, APHLocaleBundle(), @"Today", @"Today");
+        return NSLocalizedStringWithDefaultValue(@"Today", nil, APHLocaleBundle(), @"Today", @"'Today' xAxis title for graph view");
     }
     
     return @"";
