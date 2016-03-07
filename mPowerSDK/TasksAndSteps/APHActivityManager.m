@@ -142,7 +142,7 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
     else {
         [task.steps.lastObject setTitle:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Thank You!", @"Main text shown to participant upon completion of an activity.")];
     }
-    [task.steps.lastObject setText:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_DETAIL", nil, APHLocaleBundle(), @"The results of this activity can be viewed on the dashboard", @"Detail text shown to participant upon completion of an activity.")];
+    [task.steps.lastObject setText:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_DETAIL", nil, APHLocaleBundle(), @"The results of this activity can be viewed on the dashboard.", @"Detail text shown to participant upon completion of an activity.")];
     
     // Create a medication tracker task with this as a subtask
     return [[APHMedicationTrackerTask alloc] initWithDictionaryRepresentation:nil subTask:task];
