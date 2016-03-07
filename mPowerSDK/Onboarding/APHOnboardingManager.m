@@ -384,12 +384,8 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     return YES;
 }
 
-- (NSString*) textForForgotPasscode
-{
-    return NSLocalizedStringWithDefaultValue(@"Forgot Passcode?", @"APCAppCore", APCBundle(), @"Forgot Passcode?", @"Action for when user forgets their passcode");
-}
-
 - (void) forgotPasscodeTapped:(__unused UIButton *)forgotPasscodeButton
+             onViewController:(__unused UIViewController*)viewController;
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:APCUserForgotPasscodeNotification
                                                         object:nil];
