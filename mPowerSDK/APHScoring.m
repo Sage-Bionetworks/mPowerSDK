@@ -269,6 +269,22 @@
     [self updatePeriodForDays:self.numberOfDays groupBy:self.groupBy];
 }
 
+
+#pragma mark - APHDiscreteGraphViewDataSource
+
+- (NSDictionary *)discreteGraph:(APHDiscreteGraphView *)graphView plot:(NSInteger)plotIndex dictionaryValueForPointAtIndex:(NSInteger)pointIndex
+{
+    NSDictionary *dictionaryValue = [NSDictionary new];
+    
+    if (plotIndex == 0) {
+        dictionaryValue = [self.dataPoints objectAtIndex:pointIndex];
+    }else{
+        dictionaryValue = [self.correlatedScoring.dataPoints objectAtIndex:pointIndex];
+    }
+    
+    return dictionaryValue;
+}
+
 #pragma mark - APHSparkGraphViewDataSource
 
 - (NSInteger)sparkGraph:(APHSparkGraphView *) __unused graphView numberOfPointsInPlot:(NSInteger)plotIndex
