@@ -12,6 +12,7 @@
 
 static CGFloat const kAPCGraphLeftPadding = 10.f;
 static CGFloat const kAxisMarkingRulerLength = 8.0f;
+static CGFloat const kSnappingClosenessFactor = 0.3f;
 
 @interface APCDiscreteGraphView (Private)
 @property (nonatomic, strong) APCAxisView *xAxisView;
@@ -366,6 +367,75 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
     }
     
     [self.yAxisPoints addObjectsFromArray:[self normalizeCanvasPoints:self.dataPoints forRect:self.plotsView.frame.size]];
+}
+
+- (CGFloat)valueForCanvasXPosition:(CGFloat)xPosition
+{
+    BOOL snapped = [self.xAxisPoints containsObject:@(xPosition)];
+    
+    CGFloat value = NSNotFound;
+    
+    NSUInteger positionIndex = 0;
+    
+    if (snapped) {
+        for (positionIndex = 0; positionIndex<self.xAxisPoints.count-1; positionIndex++) {
+            CGFloat xAxisPointVal = [self.xAxisPoints[positionIndex] floatValue];
+            if (xAxisPointVal == xPosition) {
+                break;
+            }
+        }
+        
+        NSDictionary *dataPoint = self.dataPoints[positionIndex];
+        value = ((APCRangePoint *)dataPoint[kDatasetRangeValueKey]).maximumValue;
+    }
+    
+    return value;
+}
+
+//Scrubber Y position
+- (CGFloat)canvasYPointForXPosition:(CGFloat)xPosition
+{
+    BOOL snapped = [self.xAxisPoints containsObject:@(xPosition)];
+    
+    CGFloat canvasYPosition = 0;
+    
+    NSUInteger positionIndex = 0;
+    
+    if (snapped) {
+        for (positionIndex = 0; positionIndex<self.xAxisPoints.count-1; positionIndex++) {
+            CGFloat xAxisPointVal = [self.xAxisPoints[positionIndex] floatValue];
+            if (xAxisPointVal == xPosition) {
+                break;
+            }
+        }
+        
+        NSDictionary *yAxisPoint = self.yAxisPoints[positionIndex];
+        canvasYPosition = ((APCRangePoint *)yAxisPoint[kDatasetRangeValueKey]).maximumValue;
+    }
+    
+    return canvasYPosition;
+}
+
+- (CGFloat)snappedXPosition:(CGFloat)xPosition
+{
+    CGFloat widthBetweenPoints = CGRectGetWidth(self.plotsView.frame)/self.xAxisPoints.count;
+    
+    NSUInteger positionIndex;
+    for (positionIndex = 0; positionIndex<self.xAxisPoints.count; positionIndex++) {
+        
+        NSDictionary *dataPoint = self.dataPoints[positionIndex];
+        CGFloat dataPointVal = ((APCRangePoint *)dataPoint[kDatasetRangeValueKey]).maximumValue;
+        
+        if (dataPointVal != NSNotFound) {
+            CGFloat num = [self.xAxisPoints[positionIndex] floatValue];
+            
+            if (fabs(num - xPosition) < (widthBetweenPoints * kSnappingClosenessFactor)) {
+                xPosition = num;
+            }
+        }    
+    }
+    
+    return xPosition;
 }
 
 @end
