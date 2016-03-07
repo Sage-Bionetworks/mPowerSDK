@@ -109,19 +109,17 @@
 
 - (void)reloadCharts
 {
-    if (self.graphItem.graphType != (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
-        return;
+    if (self.graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
+        __weak typeof(self) weakSelf = self;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [weakSelf.scatterGraphView layoutSubviews];
+            [weakSelf.scatterGraphView refreshGraph];
+            
+            [weakSelf setSubTitleText];
+        });
     }
-    
-    __weak typeof(self) weakSelf = self;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        [weakSelf.scatterGraphView layoutSubviews];
-        [weakSelf.scatterGraphView refreshGraph];
-        
-        [weakSelf setSubTitleText];
-    });
     
     [super reloadCharts];
 }
