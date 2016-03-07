@@ -116,8 +116,9 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     for (NSUInteger i=0; i<self.yAxisPoints.count; i++) {
         
         NSDictionary *dataPoint = self.dataPoints[i];
+        NSArray *rawDataPoints = dataPoint[kDatasetRawDataPointsKey];
         
-        if (dataPoint.count > 0 && ![[dataPoint valueForKey:kDatasetRangeValueKey] isRangeZero]) {
+        if (dataPoint.count > 0 && (![[dataPoint valueForKey:kDatasetRangeValueKey] isRangeZero] || rawDataPoints.count > 0)) {
             
             UIBezierPath *plotLinePath = [UIBezierPath bezierPath];
             
