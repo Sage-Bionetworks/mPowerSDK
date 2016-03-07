@@ -269,6 +269,40 @@
     [self updatePeriodForDays:self.numberOfDays groupBy:self.groupBy];
 }
 
+- (void)indexDataSeries:(NSMutableArray *)series
+{
+    /*
+    NSDictionary *basePointObject;
+    NSNumber *basePointValue = @0;
+    
+    //find the earliest base point value
+    for (int i = (int)series.count -1; i >= 0; i--) {
+        basePointObject = series[i];
+        NSNumber *checkBasePointValue = [basePointObject valueForKey:kDatasetValueKey];
+        if (![checkBasePointValue  isEqual: @(NSNotFound)]) {
+            basePointValue = checkBasePointValue;
+        }
+    }
+    
+    //loop over all elements calculating the point index
+    NSNumber *index;
+    for (NSUInteger i = 0; i < series.count; i++) {
+        
+        NSNumber *dataPoint = [(NSDictionary *)[series objectAtIndex:i] valueForKey:kDatasetValueKey];
+        float ind = dataPoint.floatValue / basePointValue.floatValue * 100;
+        index = [NSNumber numberWithFloat:ind];
+        
+        if (![dataPoint isEqual: @(NSNotFound)]) {
+            NSMutableDictionary *dictionary = [[series objectAtIndex:i] mutableCopy];
+            [dictionary setValue:index forKey:kDatasetValueKey];
+            APCRangePoint *point = [[APCRangePoint alloc]initWithMinimumValue:ind maximumValue:ind];
+            [dictionary setValue:point forKey:kDatasetRangeValueKey];
+            [series replaceObjectAtIndex:i withObject:dictionary];
+        }
+    }
+     */
+}
+
 
 #pragma mark - APHDiscreteGraphViewDataSource
 

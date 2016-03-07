@@ -20,6 +20,7 @@ typedef NS_ENUM(NSUInteger, APHDashboardGraphType) {
 @property (nonatomic) BOOL showCorrelationSelectorView;
 @property (nonatomic) BOOL showCorrelationSegmentControl;
 @property (nonatomic) BOOL showMedicationLegend;
+@property (nonatomic) BOOL showMedicationLegendCorrelation;
 @property (nonatomic) BOOL showSparkLineGraph;
 
 @end

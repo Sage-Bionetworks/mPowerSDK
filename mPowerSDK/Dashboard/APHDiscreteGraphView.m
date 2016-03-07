@@ -373,6 +373,25 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     return count;
 }
 
+- (CGFloat)offsetForPlotIndex:(NSInteger)plotIndex
+{
+    CGFloat pointWidth = self.isLandscapeMode ? 14.0 : 12.0;
+    
+    NSInteger numberOfPlots = [self numberOfPlots];
+    
+    CGFloat offset = 0;
+    
+    if (numberOfPlots%2 == 0) {
+        //Even
+        offset = (plotIndex - numberOfPlots/2 + 0.5) * pointWidth;
+    } else {
+        //Odd
+        offset = (plotIndex - numberOfPlots/2) * pointWidth;
+    }
+    
+    return offset;
+}
+
 - (void)prepareDataForPlotIndex:(NSInteger)plotIndex
 {
     [self.dataPoints removeAllObjects];
@@ -387,7 +406,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
                 [self.dataPoints addObject:value];
             }
             
-            if (value.count > 0){
+            if (![value[kDatasetRangeValueKey] isEmpty]){
                 self.hasDataPoint = YES;
             }
         }

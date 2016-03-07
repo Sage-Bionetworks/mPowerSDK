@@ -7,8 +7,8 @@
 //
 
 #import "APHDashboardGraphTableViewCell.h"
+#import "APHMedTimingLegendView.h"
 
-const CGFloat kMedicationLegendContainerHeight = 80.f;
 const CGFloat kSparkLineGraphContainerHeight = 172.f;
 const CGFloat kCorrelationSelectorHeight = 48.f;
 
@@ -29,11 +29,9 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 @interface APHDashboardGraphTableViewCell ()
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *medicationLegendContainerHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sparkLineGraphContainerHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *correlationSelectorHeight;
 
-@property (weak, nonatomic) IBOutlet UIView *medicationLegendContainerView;
-@property (weak, nonatomic) IBOutlet UIView *sparkLineGraphContainerView;
+@property (weak, nonatomic) IBOutlet APHMedTimingLegendView *medicationLegendContainerView;
 
 @end
 
@@ -41,7 +39,7 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 
 + (CGFloat)medicationLegendContainerHeight
 {
-    return kMedicationLegendContainerHeight;
+    return [APHMedTimingLegendView defaultHeight];
 }
 
 + (CGFloat)sparkLineGraphContainerHeight
@@ -162,12 +160,18 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
     [self setNeedsLayout];
 }
 
-- (void)setShowSparkLineGraph:(BOOL)showSparkLineGraph
+- (void)setShowMedicationLegendCorrelation:(BOOL)showMedicationLegendCorrelation
 {
-    _showSparkLineGraph = showSparkLineGraph;
-    self.sparkLineGraphContainerHeightConstraint.constant = showSparkLineGraph ? [[self class] sparkLineGraphContainerHeight] : 0.f;
-    self.sparkLineGraphContainerView.hidden = !showSparkLineGraph;
+    _showMedicationLegendCorrelation = showMedicationLegendCorrelation;
+    self.medicationLegendContainerView.showCorrelationLegend = showMedicationLegendCorrelation;
     [self setNeedsLayout];
+}
+
+- (void)setTintColor:(UIColor *)tintColor
+{
+    [super setTintColor:tintColor];
+    
+    self.medicationLegendContainerView.tintColor = tintColor;
 }
 
 #pragma mark - IBActions

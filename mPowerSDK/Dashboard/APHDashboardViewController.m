@@ -434,6 +434,9 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.info = [NSString stringWithFormat:infoFormat, self.correlatedScoring.series1Name, self.self.correlatedScoring.series2Name];
                     item.detailText = @"";
                     item.legend = [APHTableViewDashboardGraphItem legendForSeries1:self.correlatedScoring.series1Name series2:self.correlatedScoring.series2Name];
+                    item.showMedicationLegend = YES;
+                    item.showMedicationLegendCorrelation = YES;
+                    
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
                     row.itemType = rowType;
@@ -451,10 +454,11 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.taskId = APHTappingActivitySurveyIdentifier;
                     item.graphData = tapScoring;
                     item.graphType = kAPHDashboardGraphTypeDiscrete;
+                    item.hidesDetailText = YES;
                     
                     double avgValue = [[tapScoring averageDataPoint] doubleValue];
                     
-                    if (avgValue > 0) {
+                    if (!item.hidesDetailText && avgValue > 0) {
                         item.detailText = [NSString stringWithFormat:detailMinMaxFormat,
                                            APHLocalizedStringFromNumber([tapScoring minimumDataPoint]), APHLocalizedStringFromNumber([tapScoring maximumDataPoint])];
                     }
@@ -464,6 +468,8 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                 
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TAPPING_INFO", nil, APHLocaleBundle(), @"This plot shows your finger tapping speed each day as measured by the Tapping Interval Activity. The length and position of each vertical bar represents the range in the number of taps you made in 20 seconds for a given day. Any differences in length or position over time reflect variations and trends in your tapping speed, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Tapping in Parkinson");
+                    
+                    item.showMedicationLegend = YES;
                     
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
@@ -827,7 +833,10 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         self.presentAnimator.initialFrame = initialFrame;
         
         APHGraphViewController *graphViewController = [[UIStoryboard storyboardWithName:@"APHDashboard" bundle:[NSBundle bundleForClass:[self class]]] instantiateViewControllerWithIdentifier:@"APHLineGraphViewController"];
-
+        graphViewController.shouldHideAverageLabel = YES;
+        graphViewController.shouldHideCorrelationSegmentControl = YES;
+        graphViewController.tintColor = graphItem.tintColor;
+        
 		if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
 			((APHScoring *)graphItem.graphData).latestOnly = NO;
 
@@ -847,10 +856,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
             
             graphViewController.selectedCorrelationTimeTab = self.selectedCorrelationTimeTab;
             graphViewController.isForCorrelation = YES;
-            graphViewController.shouldHideAverageLabel = YES;
-            graphViewController.shouldHideCorrelationSegmentControl = YES;
-        } else {
-            graphViewController.shouldHideCorrelationSegmentControl = YES;
         }
         
         graphViewController.graphItem = graphItem;
@@ -910,7 +915,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         
         [graphCell.legendButton setAttributedTitle:graphItem.legend forState:UIControlStateNormal];
         graphCell.showMedicationLegend = graphItem.showMedicationLegend;
-        graphCell.showSparkLineGraph = graphItem.showSparkLineGraph;
+        graphCell.showMedicationLegendCorrelation = graphItem.showMedicationLegendCorrelation;
         graphCell.showCorrelationSelectorView = graphItem.showCorrelationSelectorView;
         graphCell.showCorrelationSegmentControl = graphItem.showCorrelationSegmentControl;
         graphCell.hideTintBar = graphItem.hideTintBar;
@@ -932,7 +937,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         sparkLineGraphView.secondaryTintColor = [UIColor appTertiaryGrayColor];
         sparkLineGraphView.axisColor = [UIColor appTertiaryGrayColor];
         sparkLineGraphView.axisTitleFont = [UIFont appRegularFontWithSize:14.0f];
-        sparkLineGraphView.hidesYAxis = YES;
         sparkLineGraphView.hidesDataPoints = YES;
         sparkLineGraphView.shouldDrawShapePointKey = YES;
         sparkLineGraphView.shouldHighlightXaxisLastTitle = NO;
@@ -996,9 +1000,13 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                                                                  green:237.f / 255.f
                                                                   blue:237.f / 255.f
                                                                  alpha:1.f];
-            discreteGraphView.hidesYAxis = YES;
+
             discreteGraphView.showsHorizontalReferenceLines = NO;
             discreteGraphView.shouldHighlightXaxisLastTitle = YES;
+
+            if (graphItem.showCorrelationSelectorView) {
+                discreteGraphView.tintColor = graphItem.tintColor;
+            }
         }
         
         for (UIView *tintView in graphCell.tintViews) {

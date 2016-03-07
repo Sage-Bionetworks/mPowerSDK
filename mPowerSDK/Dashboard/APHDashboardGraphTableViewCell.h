@@ -47,7 +47,7 @@
 @property (nonatomic) BOOL showCorrelationSelectorView;
 @property (nonatomic) BOOL showCorrelationSegmentControl;
 @property (nonatomic) BOOL showMedicationLegend;
-@property (nonatomic) BOOL showSparkLineGraph;
+@property (nonatomic) BOOL showMedicationLegendCorrelation;
 
 @property (weak, nonatomic) id <APHDashboardGraphTableViewCellDelegate> correlationDelegate;
 

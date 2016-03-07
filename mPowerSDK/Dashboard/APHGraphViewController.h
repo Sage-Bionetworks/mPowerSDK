@@ -8,6 +8,7 @@
 
 #import <APCAppCore/APCAppCore.h>
 #import "APHScatterGraphView.h"
+#import "APHMedTimingLegendView.h"
 
 @interface APHGraphViewController : APCGraphViewController
 
@@ -15,12 +16,13 @@
 
 @property (weak, nonatomic) IBOutlet APHScatterGraphView *scatterGraphView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *correlationSegmentControl;
-@property (weak, nonatomic) IBOutlet UIView *medicationLegendContainerView;
+@property (weak, nonatomic) IBOutlet APHMedTimingLegendView *medicationLegendContainerView;
 
-@property (nonatomic) NSInteger selectedCorrelationTimeTab;
+@property (nonatomic) UIColor *tintColor;
 
 @property (nonatomic) BOOL isForCorrelation;
 @property (nonatomic) BOOL shouldHideCorrelationSegmentControl;
 @property (nonatomic) BOOL shouldHideAverageLabel;
+@property (nonatomic) NSInteger selectedCorrelationTimeTab;
 
 @end

@@ -25,11 +25,24 @@
 
 @implementation APHGraphViewController
 
+#pragma mark - Accessors
+
+- (void)setTintColor:(UIColor *)tintColor
+{
+    _tintColor = tintColor;
+    
+    self.medicationLegendContainerView.tintColor = tintColor;
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.medicationLegendContainerView.hidden = NO;
+    self.medicationLegendContainerView.showExpandedView = YES;
+    self.medicationLegendContainerView.tintColor = self.tintColor;
     
     APCBaseGraphView *graphView;
     if (self.graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
@@ -47,7 +60,6 @@
         self.lineGraphView.hidden = YES;
     } else {
         self.scatterGraphView.hidden = YES;
-        self.medicationLegendContainerView.hidden = YES;
     }
     
     if (self.graphItem.graphType == kAPCDashboardGraphTypeDiscrete) {

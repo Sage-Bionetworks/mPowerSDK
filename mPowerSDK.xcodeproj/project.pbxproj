@@ -19,6 +19,8 @@
 		6B14380A1C8CCC3B0034486F /* APHCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1438081C8CCC3B0034486F /* APHCircleView.m */; };
 		6B14381F1C8D14FD0034486F /* APHAxisView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B14381D1C8D14FD0034486F /* APHAxisView.h */; };
 		6B1438201C8D14FD0034486F /* APHAxisView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B14381E1C8D14FD0034486F /* APHAxisView.m */; };
+		6B1438231C8D1CE20034486F /* APHMedTimingLegendView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B1438211C8D1CE20034486F /* APHMedTimingLegendView.h */; };
+		6B1438241C8D1CE20034486F /* APHMedTimingLegendView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1438221C8D1CE20034486F /* APHMedTimingLegendView.m */; };
 		6B85B2871C88344B00FF59CF /* APHSparkGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B85B2851C88344B00FF59CF /* APHSparkGraphView.h */; };
 		6B85B2881C88344B00FF59CF /* APHSparkGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B85B2861C88344B00FF59CF /* APHSparkGraphView.m */; };
 		6BE0CD951C86293700B74276 /* APHScatterGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE0CD931C86293700B74276 /* APHScatterGraphView.h */; };
@@ -195,6 +197,8 @@
 		6B1438081C8CCC3B0034486F /* APHCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHCircleView.m; sourceTree = "<group>"; };
 		6B14381D1C8D14FD0034486F /* APHAxisView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHAxisView.h; sourceTree = "<group>"; };
 		6B14381E1C8D14FD0034486F /* APHAxisView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHAxisView.m; sourceTree = "<group>"; };
+		6B1438211C8D1CE20034486F /* APHMedTimingLegendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHMedTimingLegendView.h; sourceTree = "<group>"; };
+		6B1438221C8D1CE20034486F /* APHMedTimingLegendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedTimingLegendView.m; sourceTree = "<group>"; };
 		6B85B2851C88344B00FF59CF /* APHSparkGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHSparkGraphView.h; sourceTree = "<group>"; };
 		6B85B2861C88344B00FF59CF /* APHSparkGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHSparkGraphView.m; sourceTree = "<group>"; };
 		6BE0CD931C86293700B74276 /* APHScatterGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHScatterGraphView.h; sourceTree = "<group>"; };
@@ -785,6 +789,8 @@
 				43FEA4E01C8954280005B38F /* APHGraphViewController.m */,
 				43FEA4A21C86DEC80005B38F /* APHLineGraphView.h */,
 				43FEA4A31C86DEC80005B38F /* APHLineGraphView.m */,
+				6B1438211C8D1CE20034486F /* APHMedTimingLegendView.h */,
+				6B1438221C8D1CE20034486F /* APHMedTimingLegendView.m */,
 				6BE0CD931C86293700B74276 /* APHScatterGraphView.h */,
 				6BE0CD941C86293700B74276 /* APHScatterGraphView.m */,
 				6B85B2851C88344B00FF59CF /* APHSparkGraphView.h */,
@@ -814,6 +820,7 @@
 				FF0B4AC91C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.h in Headers */,
 				FFFA24911C236E9A00727DA8 /* APHProfileExtender.h in Headers */,
 				FF2D344E1C3207060033838A /* APHActivityManager.h in Headers */,
+				6B1438231C8D1CE20034486F /* APHMedTimingLegendView.h in Headers */,
 				43FEA4A81C86E33C0005B38F /* APHDiscreteGraphView.h in Headers */,
 				803237891C6BCF1A00208365 /* APHQuestionViewController.h in Headers */,
 				FFFA24C71C237E1500727DA8 /* APHDashboardViewController.h in Headers */,
@@ -1003,6 +1010,7 @@
 			files = (
 				6B14380A1C8CCC3B0034486F /* APHCircleView.m in Sources */,
 				6B1438201C8D14FD0034486F /* APHAxisView.m in Sources */,
+				6B1438241C8D1CE20034486F /* APHMedTimingLegendView.m in Sources */,
 				80DC1BD91C6A8F2600235C2E /* APHCustomSurveyIntroViewController.m in Sources */,
 				6B41081C1C73E2BF00A2FB7B /* APHTremorTaskViewController.m in Sources */,
 				FF0B4ACC1C29FCB800224EF7 /* APHWalkingTaskViewController.m in Sources */,
