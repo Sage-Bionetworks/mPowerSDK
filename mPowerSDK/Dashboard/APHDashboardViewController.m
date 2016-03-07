@@ -996,6 +996,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                                                                  green:237.f / 255.f
                                                                   blue:237.f / 255.f
                                                                  alpha:1.f];
+            discreteGraphView.hidesYAxis = YES;
             discreteGraphView.showsHorizontalReferenceLines = NO;
             discreteGraphView.shouldHighlightXaxisLastTitle = YES;
         }

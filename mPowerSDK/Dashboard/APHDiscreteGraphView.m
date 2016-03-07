@@ -29,6 +29,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
 @property (nonatomic, readwrite) CGFloat minimumValue;
 @property (nonatomic, readwrite) CGFloat maximumValue;
 @property (nonatomic) NSInteger numberOfXAxisTitles;
+- (void)drawYAxis;
 - (CGFloat)offsetForPlotIndex:(NSInteger)plotIndex;
 - (void)setDefaults;
 @end
@@ -290,6 +291,15 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
         rulerLayer.path = rulerPath.CGPath;
         [self.xAxisView.layer addSublayer:rulerLayer];
     }
+}
+
+- (void)drawYAxis
+{
+    if (self.hidesYAxis) {
+        return;
+    }
+    
+    [super drawYAxis];
 }
 
 - (NSArray *)normalizeCanvasPoints:(NSArray *) __unused dataPoints forRect:(CGSize)canvasSize
