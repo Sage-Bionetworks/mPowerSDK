@@ -31,8 +31,11 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *medicationLegendContainerHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *correlationSelectorHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tintViewWidthConstraint;
 
 @property (weak, nonatomic) IBOutlet APHMedTimingLegendView *medicationLegendContainerView;
+
+@property (nonatomic) CGFloat defaultTintViewWidth;
 
 @end
 
@@ -136,6 +139,15 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 {
     _hideTintBar = hideTintBar;
     self.tintView.hidden = hideTintBar;
+    
+    if (hideTintBar) {
+        self.defaultTintViewWidth = self.tintViewWidthConstraint.constant;
+        self.tintViewWidthConstraint.constant = 0.f;
+    } else {
+        self.tintViewWidthConstraint.constant = self.defaultTintViewWidth;
+    }
+    
+    [self setNeedsLayout];
 }
 
 - (void)setShowCorrelationSelectorView:(BOOL)showCorrelationSelectorView

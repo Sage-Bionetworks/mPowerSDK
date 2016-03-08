@@ -741,6 +741,7 @@
                                         <constraint firstItem="3vK-Sn-o8D" firstAttribute="top" secondItem="Mnx-13-eWt" secondAttribute="bottom" id="0te-Ww-9fS"/>
                                         <constraint firstItem="7Bk-FK-8bK" firstAttribute="leading" secondItem="9Of-sT-n9y" secondAttribute="trailing" constant="-96" id="12a-6G-e9b"/>
                                         <constraint firstItem="QPF-4n-Mbj" firstAttribute="bottom" secondItem="7Bk-FK-8bK" secondAttribute="bottom" id="1bV-lK-EOv"/>
+                                        <constraint firstItem="Mnx-13-eWt" firstAttribute="leading" secondItem="d2X-wq-8wN" secondAttribute="trailing" id="4GK-wZ-qbq"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="3PS-Ja-Yr4" secondAttribute="trailing" constant="2" id="5lA-wS-Xpa"/>
                                         <constraint firstItem="7Bk-FK-8bK" firstAttribute="leading" secondItem="9Of-sT-n9y" secondAttribute="leading" constant="-70" id="5ne-RH-q1N"/>
                                         <constraint firstItem="W0R-8m-HvR" firstAttribute="leading" secondItem="H4m-mE-6nc" secondAttribute="leading" id="5sa-yh-4Mr"/>
@@ -785,9 +786,9 @@
                                         <constraint firstItem="7ri-Tf-gM4" firstAttribute="leading" secondItem="H4m-mE-6nc" secondAttribute="leading" constant="16" id="wD9-QS-YQS"/>
                                         <constraint firstItem="QPF-4n-Mbj" firstAttribute="trailing" secondItem="7Bk-FK-8bK" secondAttribute="trailing" id="xHy-za-yQO"/>
                                         <constraint firstItem="ETi-5O-atC" firstAttribute="top" secondItem="H4m-mE-6nc" secondAttribute="topMargin" id="xIp-Pa-Jnp"/>
+                                        <constraint firstItem="3QR-Ph-tiT" firstAttribute="leading" secondItem="d2X-wq-8wN" secondAttribute="trailing" id="xM5-qv-s1C"/>
                                         <constraint firstItem="QPF-4n-Mbj" firstAttribute="top" secondItem="7Bk-FK-8bK" secondAttribute="top" id="y4Y-Yj-1ei"/>
                                         <constraint firstItem="Mnx-13-eWt" firstAttribute="top" secondItem="H4m-mE-6nc" secondAttribute="topMargin" constant="55" id="ycH-uj-saU"/>
-                                        <constraint firstItem="Mnx-13-eWt" firstAttribute="leading" secondItem="H4m-mE-6nc" secondAttribute="leading" constant="4" id="zhl-5s-3Vg"/>
                                         <constraint firstAttribute="trailing" secondItem="W0R-8m-HvR" secondAttribute="trailing" id="zmS-cz-gs7"/>
                                     </constraints>
                                     <variation key="default">
@@ -829,6 +830,7 @@
                                     <outlet property="scatterGraphView" destination="3QR-Ph-tiT" id="q8c-Hi-CO5"/>
                                     <outlet property="subTitleLabel" destination="7Bk-FK-8bK" id="PPc-At-C0A"/>
                                     <outlet property="tintView" destination="d2X-wq-8wN" id="mmW-rP-i8q"/>
+                                    <outlet property="tintViewWidthConstraint" destination="FvJ-Tf-xjN" id="ApU-ga-7U5"/>
                                     <outlet property="titleLabel" destination="7ri-Tf-gM4" id="YQ9-Ii-orD"/>
                                     <outlet property="titleLabelWidthConstraint" destination="Lav-W0-eR2" id="0d6-QR-Y5R"/>
                                 </connections>
