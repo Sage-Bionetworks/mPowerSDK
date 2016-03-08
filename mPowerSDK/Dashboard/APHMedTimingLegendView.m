@@ -32,7 +32,7 @@
 
 + (CGFloat)defaultHeight;
 {
-    return 80.f;
+    return 70.f;
 }
 
 - (void)awakeFromNib

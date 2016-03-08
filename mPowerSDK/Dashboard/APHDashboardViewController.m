@@ -56,7 +56,7 @@
 
 NSInteger const kNumberOfDaysToDisplayInDiscreteGraph = 6;
 NSInteger const kNumberOfDaysToDisplayInSparkLineGraph = 30;
-NSInteger const kPaddingMagicNumber = 40; // For the cell height to make the dashboard look pretty.
+NSInteger const kPaddingMagicNumber = 56; // For the cell height to make the dashboard look pretty.
 
 static NSString * const kAPCBasicTableViewCellIdentifier          = @"APCBasicTableViewCell";
 static NSString * const kAPCRightDetailTableViewCellIdentifier    = @"APCRightDetailTableViewCell";
