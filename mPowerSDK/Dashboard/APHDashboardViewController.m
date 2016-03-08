@@ -438,8 +438,20 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                                                                            series2:self.correlatedScoring.series2Name
                                                                    colorForSeries1:[self itemForScoring:self.correlatedScores[0]].tintColor
                                                                    colorForSeries2:[self itemForScoring:self.correlatedScores[1]].tintColor];
-                    item.showMedicationLegend = YES;
-                    item.showMedicationLegendCorrelation = YES;
+                    
+                    BOOL firstScoreIsSteps = [[self.correlatedScores[0] caption] isEqualToString:self.stepScoring.caption];
+                    BOOL secondScoreIsSteps = [[self.correlatedScores[1] caption] isEqualToString:self.stepScoring.caption];
+                    
+                    if (firstScoreIsSteps && secondScoreIsSteps) {
+                        item.showMedicationLegend = NO;
+                        item.showMedicationLegendCorrelation = NO;
+                    } else if (firstScoreIsSteps || secondScoreIsSteps) {
+                        item.showMedicationLegend = YES;
+                        item.showMedicationLegendCorrelation = NO;
+                    } else {
+                        item.showMedicationLegend = YES;
+                        item.showMedicationLegendCorrelation = YES;
+                    }
                     
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
@@ -1038,6 +1050,10 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                 graphCell.secondaryTintColor = secondaryCorrelatedItem.tintColor;
                 graphCell.correlationButton1TitleColor = primaryCorrelatedItem.tintColor;
                 graphCell.correlationButton2TitleColor = secondaryCorrelatedItem.tintColor;
+                
+                if ([primaryCorrelatedItem.caption isEqualToString:self.stepScoring.caption]) {
+                    graphCell.medicationLegendContainerView.tintColor = secondaryCorrelatedItem.tintColor;
+                }
             } else {
                 graphCell.showCorrelationSegmentControl = NO;
             }

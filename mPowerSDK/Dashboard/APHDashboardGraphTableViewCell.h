@@ -8,6 +8,7 @@
 
 #import <APCAppCore/APCAppCore.h>
 
+@class APHMedTimingLegendView;
 @class APHScatterGraphView;
 @class APHSparkGraphView;
 
@@ -25,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet APHScatterGraphView *scatterGraphView;
 @property (weak, nonatomic) IBOutlet APHSparkGraphView *sparkLineGraphView;
 
+@property (weak, nonatomic) IBOutlet APHMedTimingLegendView *medicationLegendContainerView;
 @property (weak, nonatomic) IBOutlet UIView *correlationSelectorView;
 @property (weak, nonatomic) IBOutlet UIButton *correlationButton1;
 @property (weak, nonatomic) IBOutlet UIButton *correlationButton2;

@@ -35,8 +35,6 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *correlationSelectorVerticalSpace;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tintViewWidthConstraint;
 
-@property (weak, nonatomic) IBOutlet APHMedTimingLegendView *medicationLegendContainerView;
-
 @end
 
 @implementation APHDashboardGraphTableViewCell
