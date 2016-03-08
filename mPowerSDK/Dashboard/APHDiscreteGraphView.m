@@ -24,6 +24,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
 @property (nonatomic, strong) NSMutableArray *pathLines;
 @property (nonatomic, strong) NSMutableArray *xAxisPoints;
 @property (nonatomic, strong) NSMutableArray *xAxisTitles;
+@property (nonatomic, strong) UILabel *emptyLabel;
 @property (nonatomic, strong) NSMutableArray<NSDictionary *> *yAxisPoints;
 @property (nonatomic, strong) UIView *plotsView;
 @property (nonatomic) BOOL hasDataPoint;
@@ -72,6 +73,14 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     }
     
     return _secondaryLineColor;
+}
+
+
+#pragma mark - View Lifecycle
+
+- (void)layoutSubviews {
+	[super layoutSubviews];
+	self.emptyLabel.hidden = self.numberOfPlots > 1;
 }
 
 
