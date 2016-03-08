@@ -98,7 +98,7 @@ static NSString * const kItemKey                    = @"item";
             }
         }
 
-        NSString *medicationActivityTimingString = nil;
+        NSString *medicationActivityTimingString = @"";
         APHMedicationTrackerDataStore *medTrackerDataStore = [APHMedicationTrackerDataStore defaultStore];
         if (medTrackerDataStore.momentInDayResult) {
             for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {
