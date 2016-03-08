@@ -35,8 +35,6 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 
 @property (weak, nonatomic) IBOutlet APHMedTimingLegendView *medicationLegendContainerView;
 
-@property (nonatomic) CGFloat defaultTintViewWidth;
-
 @end
 
 @implementation APHDashboardGraphTableViewCell
@@ -139,14 +137,7 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 {
     _hideTintBar = hideTintBar;
     self.tintView.hidden = hideTintBar;
-    
-    if (hideTintBar) {
-        self.defaultTintViewWidth = self.tintViewWidthConstraint.constant;
-        self.tintViewWidthConstraint.constant = 0.f;
-    } else {
-        self.tintViewWidthConstraint.constant = self.defaultTintViewWidth;
-    }
-    
+    self.tintViewWidthConstraint.constant = hideTintBar ? 0.f : 4.f;
     [self setNeedsLayout];
 }
 
