@@ -554,6 +554,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
 #pragma mark - Calculations
 
 - (void)calculateXAxisPoints {
+    [self.xAxisPoints removeAllObjects];
 	if (self.numberOfPlots > 1) {
 		for (int i=0 ; i<[self numberOfXAxisTitles]; i++) {
 			CGFloat positionOnXAxis = (((CGRectGetWidth(self.plotsView.frame) - CGRectGetWidth(self.secondaryYAxisView.bounds)) /
