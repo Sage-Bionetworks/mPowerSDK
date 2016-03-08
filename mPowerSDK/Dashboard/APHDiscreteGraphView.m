@@ -211,7 +211,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
                 
                 // After meds
                 case 1:
-                    point.tintColor = self.tintColor;
+                    point.tintColor = (plotIndex == 0) ? self.tintColor : self.secondaryTintColor;
                     break;
                     
                 // Not sure
