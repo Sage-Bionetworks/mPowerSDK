@@ -141,9 +141,10 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     for (NSUInteger i=0; i<self.yAxisPoints.count; i++) {
         
         NSDictionary *dataPoint = self.dataPoints[i];
+        CGFloat dataPointValue = [dataPoint[kDatasetValueKey] floatValue];
         NSArray *rawDataPoints = dataPoint[kDatasetRawDataPointsKey];
         
-        if (dataPoint.count > 0 && (![[dataPoint valueForKey:kDatasetRangeValueKey] isRangeZero] || rawDataPoints.count > 0)) {
+        if (dataPointValue != NSNotFound && (![[dataPoint valueForKey:kDatasetRangeValueKey] isRangeZero] || rawDataPoints.count > 0)) {
             
             UIBezierPath *plotLinePath = [UIBezierPath bezierPath];
             
@@ -461,11 +462,11 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
 
 		if (dataPointValue == 0){
 			normalizedPointValue = canvasSize.height;
-		} else if (dataPointValue != NSNotFound && self.minimumValue == self.maximumValue) {
+		} else if (dataPointValue != NSNotFound && minimumValue == maximumValue) {
 			normalizedPointValue = canvasSize.height/2;
 		} else {
-			CGFloat range = self.maximumValue - self.minimumValue;
-			CGFloat normalizedValue = (dataPointValue - self.minimumValue)/range * canvasSize.height;
+			CGFloat range = maximumValue - minimumValue;
+			CGFloat normalizedValue = (dataPointValue - minimumValue)/range * canvasSize.height;
 			normalizedPointValue = canvasSize.height - normalizedValue;
 		}
 
@@ -474,6 +475,10 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
         // Normalize range
         APCRangePoint *rangePoint = dataPoint[kDatasetRangeValueKey];
         APCRangePoint *normalizedRangePoint = [APCRangePoint new];
+        
+        if (!rangePoint && dataPointValue != NSNotFound) {
+            rangePoint = [[APCRangePoint alloc] initWithMinimumValue:dataPointValue maximumValue:dataPointValue];
+        }
 
 		if (rangePoint.isEmpty){
             normalizedRangePoint.minimumValue = normalizedRangePoint.maximumValue = canvasSize.height;
