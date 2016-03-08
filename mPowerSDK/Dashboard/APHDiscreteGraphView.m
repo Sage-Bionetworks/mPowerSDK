@@ -440,28 +440,49 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
 	}
 }
 
-- (NSArray *)normalizeCanvasPoints:(NSArray *) __unused dataPoints forRect:(CGSize)canvasSize
+- (NSArray *)normalizeCanvasPoints:(NSArray *) __unused dataPoints forRect:(CGSize)canvasSize plotIndex:(NSInteger)plotIndex
 {
     [self calculateMinAndMaxPoints];
     
     NSMutableArray *normalizedDataPointValues = [NSMutableArray new];
-    
+
+	CGFloat minimumValue = (self.numberOfPlots > 1 && plotIndex == 0) ? self.secondaryMinimumValue : self.minimumValue;
+	CGFloat maximumValue = (self.numberOfPlots > 1 && plotIndex == 0) ? self.secondaryMaximumValue : self.maximumValue;
+
+	NSLog(@"plot %@ : min %@ : max %@ : self %p", @(plotIndex), @(minimumValue), @(maximumValue), self);
+	
     for (NSUInteger i=0; i<self.dataPoints.count; i++) {
         NSDictionary *dataPoint = self.dataPoints[i];
         NSMutableDictionary *normalizedDataPoint = dataPoint.mutableCopy;
+
+		// Normalize value
+		CGFloat dataPointValue = [[dataPoint valueForKey:kDatasetValueKey] floatValue];
+		CGFloat normalizedPointValue;
+
+		if (dataPointValue == 0){
+			normalizedPointValue = canvasSize.height;
+		} else if (dataPointValue != NSNotFound && self.minimumValue == self.maximumValue) {
+			normalizedPointValue = canvasSize.height/2;
+		} else {
+			CGFloat range = self.maximumValue - self.minimumValue;
+			CGFloat normalizedValue = (dataPointValue - self.minimumValue)/range * canvasSize.height;
+			normalizedPointValue = canvasSize.height - normalizedValue;
+		}
+
+		normalizedDataPoint[kDatasetValueKey] = @(normalizedPointValue);
         
         // Normalize range
         APCRangePoint *rangePoint = dataPoint[kDatasetRangeValueKey];
         APCRangePoint *normalizedRangePoint = [APCRangePoint new];
-        
-        if (rangePoint.isEmpty){
+
+		if (rangePoint.isEmpty){
             normalizedRangePoint.minimumValue = normalizedRangePoint.maximumValue = canvasSize.height;
-        } else if (self.minimumValue == self.maximumValue) {
+        } else if (minimumValue == maximumValue) {
             normalizedRangePoint.minimumValue = normalizedRangePoint.maximumValue = canvasSize.height/2;
         } else {
-            CGFloat range = self.maximumValue - self.minimumValue;
-            CGFloat normalizedMinValue = (rangePoint.minimumValue - self.minimumValue)/range * canvasSize.height;
-            CGFloat normalizedMaxValue = (rangePoint.maximumValue - self.minimumValue)/range * canvasSize.height;
+            CGFloat range = maximumValue - minimumValue;
+            CGFloat normalizedMinValue = (rangePoint.minimumValue - minimumValue)/range * canvasSize.height;
+            CGFloat normalizedMaxValue = (rangePoint.maximumValue - minimumValue)/range * canvasSize.height;
             
             normalizedRangePoint.minimumValue = canvasSize.height - normalizedMinValue;
             normalizedRangePoint.maximumValue = canvasSize.height - normalizedMaxValue;
@@ -478,11 +499,11 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
             
             if (pointValue == 0){
                 normalizedPointValue = canvasSize.height;
-            } else if (self.minimumValue == self.maximumValue) {
+            } else if (minimumValue == maximumValue) {
                 normalizedPointValue = canvasSize.height/2;
             } else {
-                CGFloat range = self.maximumValue - self.minimumValue;
-                CGFloat normalizedValue = (pointValue - self.minimumValue)/range * canvasSize.height;
+                CGFloat range = maximumValue - minimumValue;
+                CGFloat normalizedValue = (pointValue - minimumValue)/range * canvasSize.height;
                 normalizedPointValue = canvasSize.height - normalizedValue;
             }
             
@@ -565,7 +586,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
         }
     }
     
-    [self.yAxisPoints addObjectsFromArray:[self normalizeCanvasPoints:self.dataPoints forRect:self.plotsView.frame.size]];
+    [self.yAxisPoints addObjectsFromArray:[self normalizeCanvasPoints:self.dataPoints forRect:self.plotsView.frame.size plotIndex:plotIndex]];
 }
 
 - (CGFloat)valueForCanvasXPosition:(CGFloat)xPosition
