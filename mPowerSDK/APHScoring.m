@@ -152,33 +152,34 @@
     self.medTimingDataPoints = [[NSMutableDictionary alloc] init];
     self.medTimingDataPointsCorrelatedScoring = [[NSMutableDictionary alloc] init];
     
-	APHMedicationTrackerTask *task = [[APHMedicationTrackerTask alloc] init];
-	NSArray<ORKTextChoice *> *activityTimingChoices = task.activityTimingChoices;
+	self.activityTimingChoicesStrings = [self medMomentInDayTaskChoices];
     
     if (!self.filteredDataPoints) {
         self.filteredDataPoints = [NSArray arrayWithArray:self.dataPoints.copy];
     }
 
-	for (ORKTextChoice *textChoice in activityTimingChoices) {
-		self.medTimingDataPoints[textChoice.text] = [[NSMutableArray alloc] init];
+	for (NSString *activityTimingChoice in self.activityTimingChoicesStrings) {
+		self.medTimingDataPoints[activityTimingChoice] = [[NSMutableArray alloc] init];
 	}
     
     NSString *noMedicationTimingKey = self.activityTimingChoicesStrings.lastObject;
 
 	for (NSDictionary *dataPoint in [self.dataPoints copy]) {
-        NSArray *rawDataPoints = dataPoint[@"datasetRawDataPoints"];
+        NSArray *rawDataPoints = dataPoint[kDatasetRawDataPointsKey];
         
         for (NSString *activityTimingChoiceString in self.activityTimingChoicesStrings) {
             NSMutableDictionary *filteredDataPoint = [dataPoint mutableCopy];
             
             NSPredicate *filterPredicate;
             if ([activityTimingChoiceString isEqualToString:noMedicationTimingKey]) {
-                filterPredicate = [NSPredicate predicateWithFormat:@"(%K == nil) || (%K == nil)",
+                filterPredicate = [NSPredicate predicateWithFormat:@"(%K == nil) || (%K == nil) || (%K == %@)",
                                    @"datasetTaskResult",
-                                   @"datasetTaskResult.MedicationActivityTiming"];
+                                   @"datasetTaskResult.MedicationMomentInDay",
+                                   @"datasetTaskResult.MedicationMomentInDay",
+                                   noMedicationTimingKey];
             } else {
                 filterPredicate = [NSPredicate predicateWithFormat:@"(%K == %@)",
-                                   @"datasetTaskResult.MedicationActivityTiming",
+                                   @"datasetTaskResult.MedicationMomentInDay",
                                    activityTimingChoiceString];
             }
             
