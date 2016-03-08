@@ -454,7 +454,9 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     addInterval(0, 30);
     addInterval(30, 60);
     addInterval(1 * 60, 2 * 60);
-    addInterval(2 * 60, 0);
+    addInterval(2 * 60, 4 * 60);
+    addInterval(4 * 60, 8 * 60);
+    addInterval(8 * 60, 0);
     
     // Add the "not sure" choice to both the choices array and the map
     [choices addObject:[ORKTextChoice choiceWithText:
