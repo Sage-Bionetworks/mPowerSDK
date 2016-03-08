@@ -277,8 +277,8 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
     [[UITabBar appearance] setBarTintColor: [UIColor whiteColor]];
     // Select tint of tab icon
     [[UITabBar appearance] setTintColor: [UIColor appPrimaryColor]];
-    // Color of un-selected tab icon is red:142.0f/255.0f green:142.0f/255.0f blue:149.0f/255.0f
-    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:142.0f/255.0f green:142.0f/255.0f blue:149.0f/255.0f alpha:1.0f], NSForegroundColorAttributeName, nil]
+    // Color of un-selected tab icon
+    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor appTertiaryGrayColor], NSForegroundColorAttributeName, nil]
                                              forState:UIControlStateNormal];
     // Seleected text appearence
     [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor appPrimaryColor], NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
