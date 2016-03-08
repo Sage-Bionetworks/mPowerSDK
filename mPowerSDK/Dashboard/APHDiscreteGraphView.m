@@ -450,8 +450,6 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
 
 	CGFloat minimumValue = (self.numberOfPlots > 1 && plotIndex == 0) ? self.secondaryMinimumValue : self.minimumValue;
 	CGFloat maximumValue = (self.numberOfPlots > 1 && plotIndex == 0) ? self.secondaryMaximumValue : self.maximumValue;
-
-	NSLog(@"plot %@ : min %@ : max %@ : self %p", @(plotIndex), @(minimumValue), @(maximumValue), self);
 	
     for (NSUInteger i=0; i<self.dataPoints.count; i++) {
         NSDictionary *dataPoint = self.dataPoints[i];
