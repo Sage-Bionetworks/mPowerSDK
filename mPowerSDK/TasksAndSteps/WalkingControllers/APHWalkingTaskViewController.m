@@ -91,7 +91,6 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
     APHWalkingTaskViewController  *weakSelf = self;
     
     self.createResultSummaryBlock = ^(NSManagedObjectContext * context) {
-        BOOL  found = NO;
         NSURL  *urlGaitForward = nil;
         NSURL  *urlPosture     = nil;
         for (ORKStepResult  *stepResult  in  taskResults.results) {
@@ -105,8 +104,6 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
                         } else if ([rawFilename hasPrefix: @"accelerometer_walking.rest"]) {
                             urlPosture = fileResult.fileURL;
                         }
-                        found = YES;
-                        fileResult = object;
                     }
                 }
             }
@@ -133,7 +130,7 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
             }
         }
 
-        NSString *medicationActivityTimingString = nil;
+        NSString *medicationActivityTimingString = @"";
         APHMedicationTrackerDataStore *medTrackerDataStore = [APHMedicationTrackerDataStore defaultStore];
         if (medTrackerDataStore.momentInDayResult) {
             for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {

@@ -13,7 +13,7 @@
                           
                           {
                           "title":"How This Study Works",
-                          "details":"howstudyworks",
+                          "details":"howstudyworks_intro",
                           "icon_image":"rulerpencil_icon",
                           "tint_color" : "purple"
                           },

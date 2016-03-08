@@ -36,23 +36,14 @@
 #import "APHActivityManager.h"
 #import "APHMedicationTrackerDataStore.h"
 
-    //
-    //        Step Identifiers
-    //
-static  NSString *const kInstructionStepIdentifier    = @"instruction1";
-static  NSString       *kConclusionStepIdentifier     = @"conclusion";
 
-        NSString *const kSpatialMemoryScoreSummaryKey = @"spatialMemoryScoreSummaryKey";
+NSString *const kSpatialMemoryScoreSummaryKey = @"spatialMemoryScoreSummaryKey";
 
 static NSString * const kIdentifierKey              = @"identifier";
 static NSString * const kStartDateKey               = @"startDate";
 static NSString * const kEndDateKey                 = @"endDate";
 static NSString * const kUserInfoKey                = @"userInfo";
 static NSString * const kItemKey                    = @"item";
-
-
-
-
 
 
 @interface APHSpatialSpanMemoryGameViewController ()
@@ -71,24 +62,6 @@ static NSString * const kItemKey                    = @"item";
 }
 
 #pragma  mark  -  Task View Controller Delegate Methods
-
-- (void)taskViewController:(ORKTaskViewController *) __unused taskViewController stepViewControllerWillAppear:(ORKStepViewController *)stepViewController
-{
-    
-    if ([stepViewController.step.identifier isEqualToString:kConclusionStepIdentifier]) {
-        [[UIView appearance] setTintColor:[UIColor appTertiaryColor1]];
-    }
-    [stepViewController.step setTitle:@"Good Job!"];
-  
-    if ([stepViewController.step.identifier isEqualToString:kInstructionStepIdentifier]) {
-        UILabel *label = ((UILabel *)((UIView *)((UIView *)((UIView *) ((UIScrollView *)stepViewController.view.subviews[0]).subviews[0]).subviews[0]).subviews[0]).subviews[2]);
-        label.text = NSLocalizedStringWithDefaultValue(@"APH_MEMORY_STEP_INSTRUCTION", nil, APHLocaleBundle(),
-                                                       @"Some of the flowers will light up one at a time. "
-                                                       @"Tap those flowers in the same order they lit up.\n\n"
-                                                       @"To begin, tap Next, then watch closely.",
-                                                       @"Instruction text for memory activity in Parkinson");
-    }
-}
 
 - (void) taskViewController: (ORKTaskViewController *) taskViewController didFinishWithReason: (ORKTaskViewControllerFinishReason)reason error: (NSError *) error
 {
@@ -125,7 +98,7 @@ static NSString * const kItemKey                    = @"item";
             }
         }
 
-        NSString *medicationActivityTimingString = nil;
+        NSString *medicationActivityTimingString = @"";
         APHMedicationTrackerDataStore *medTrackerDataStore = [APHMedicationTrackerDataStore defaultStore];
         if (medTrackerDataStore.momentInDayResult) {
             for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {

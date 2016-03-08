@@ -63,6 +63,8 @@ static NSInteger const kMaximumNumberOfCharacters = 90;
 }
 
 - (void)viewWillAppear:(BOOL) __unused animated {
+    [super viewWillAppear:animated];
+    
     APCAppDelegate * delegate = (APCAppDelegate*)[UIApplication sharedApplication].delegate;
     
     NSString *customQuestion = delegate.dataSubstrate.currentUser.customSurveyQuestion;
@@ -123,6 +125,7 @@ static NSInteger const kMaximumNumberOfCharacters = 90;
 }
 
 - (void) viewWillDisappear:(BOOL) __unused animated {
+    [super viewWillDisappear:animated];
     [self.textView resignFirstResponder];
 }
 

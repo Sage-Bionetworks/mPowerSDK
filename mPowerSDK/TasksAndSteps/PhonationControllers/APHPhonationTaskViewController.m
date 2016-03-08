@@ -176,7 +176,7 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
         double scoreSummary = [[APHScoreCalculator sharedCalculator] scoreFromPhonationTest: fileResult.fileURL];
         scoreSummary = isnan(scoreSummary) ? 0 : scoreSummary;
 
-        NSString *medicationActivityTimingString = nil;
+        NSString *medicationActivityTimingString = @"";
         APHMedicationTrackerDataStore *medTrackerDataStore = [APHMedicationTrackerDataStore defaultStore];
         if (medTrackerDataStore.momentInDayResult) {
             for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {

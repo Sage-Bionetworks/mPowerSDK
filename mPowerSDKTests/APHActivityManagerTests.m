@@ -66,7 +66,7 @@
     // Check that the final step uses the expected language
     ORKStep *finalStep = task.steps.lastObject;
     XCTAssertEqualObjects(finalStep.title, @"Thank You!");
-    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard");
+    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard.");
 }
 
 - (void)testCreateOrderedTask_Voice_English
@@ -82,7 +82,7 @@
     // Check that the final step uses the expected language
     ORKStep *finalStep = task.steps.lastObject;
     XCTAssertEqualObjects(finalStep.title, @"Thank You!");
-    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard");
+    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard.");
 }
 
 - (void)testCreateOrderedTask_Memory_English
@@ -97,8 +97,8 @@
     
     // Check that the final step uses the expected language
     ORKStep *finalStep = task.steps.lastObject;
-    XCTAssertEqualObjects(finalStep.title, @"Thank You!");
-    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard");
+    XCTAssertEqualObjects(finalStep.title, @"Good Job!");
+    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard.");
 }
 
 - (void)testCreateOrderedTask_Walking_English
@@ -118,7 +118,7 @@
     // Check that the final step uses the expected language
     ORKStep *finalStep = task.steps.lastObject;
     XCTAssertEqualObjects(finalStep.title, @"Thank You!");
-    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard");
+    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard.");
 }
 
 - (void)testCreateOrderedTask_Tremor_English
@@ -131,14 +131,14 @@
     XCTAssertNotNil(task);
     XCTAssertNotNil([task stepWithIdentifier:@"tremor.handInLap"]);
     XCTAssertNotNil([task stepWithIdentifier:@"tremor.handAtShoulderLength"]);
-    XCTAssertNotNil([task stepWithIdentifier:@"tremor.handAtShoulderLengthWithElbowBent"]);
+    //XCTAssertNotNil([task stepWithIdentifier:@"tremor.handAtShoulderLengthWithElbowBent"]);
     XCTAssertNotNil([task stepWithIdentifier:@"tremor.handToNose"]);
-    XCTAssertNotNil([task stepWithIdentifier:@"tremor.handQueenWave"]);
+    //XCTAssertNotNil([task stepWithIdentifier:@"tremor.handQueenWave"]);
     
     // Check that the final step uses the expected language
     ORKStep *finalStep = task.steps.lastObject;
     XCTAssertEqualObjects(finalStep.title, @"Thank You!");
-    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard");
+    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard.");
 }
 
 @end
