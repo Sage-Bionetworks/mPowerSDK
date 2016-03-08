@@ -486,6 +486,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.taskId = APHWalkingActivitySurveyIdentifier;
                     item.graphData = self.gaitScoring;
                     item.graphType = kAPHDashboardGraphTypeDiscrete;
+                    item.hidesDetailText = YES;
                     
                     double avgValue = [[self.gaitScoring averageDataPoint] doubleValue];
                     
@@ -500,6 +501,8 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_WALKING_INFO", nil, APHLocaleBundle(), @"This plot combines several accelerometer-based measures for the Walking Activity. The length and position of each vertical bar represents the range of measures for a given day. Any differences in length or position over time reflect variations and trends in your Walking measure, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Gait in Parkinson");
                     
+                    item.showMedicationLegend = YES;
+                    
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
                     row.itemType = rowType;
@@ -513,6 +516,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.taskId = APHMemoryActivitySurveyIdentifier;
                     item.graphData = self.memoryScoring;
                     item.graphType = kAPHDashboardGraphTypeDiscrete;
+                    item.hidesDetailText = YES;
                     
                     double avgValue = [[self.memoryScoring averageDataPoint] doubleValue];
                     
@@ -527,6 +531,8 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MEMORY_INFO", nil, APHLocaleBundle(), @"This plot shows the score you received each day for the Memory Game. The length and position of each vertical bar represents the range of scores for a given day. Any differences in length or position over time reflect variations and trends in your score, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Memory in Parkinson");
                     
+                    item.showMedicationLegend = YES;
+                    
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
                     row.itemType = rowType;
@@ -540,6 +546,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.taskId = APHVoiceActivitySurveyIdentifier;
                     item.graphData = self.phonationScoring;
                     item.graphType = kAPHDashboardGraphTypeDiscrete;
+                    item.hidesDetailText = YES;
                     
                     double avgValue = [[self.phonationScoring averageDataPoint] doubleValue];
                     
@@ -553,6 +560,8 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_VOICE_INFO", nil, APHLocaleBundle(), @"This plot combines several microphone-based measures as a single score for the Voice Activity. The length and position of each vertical bar represents the range of measures for a given day. Any differences in length or position over time reflect variations and trends in your Voice measure, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Voice in Parkinson");
+                    
+                    item.showMedicationLegend = YES;
                     
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
@@ -592,6 +601,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     APHTableViewDashboardGraphItem  *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.tremorScoring.caption;
                     item.graphData = self.tremorScoring;
+                    item.hidesDetailText = YES;
                     
                     double avgValue = [[self.tremorScoring averageDataPoint] doubleValue];
                     
@@ -605,6 +615,8 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.tintColor = [UIColor colorForTaskId:APHTremorActivitySurveyIdentifier];
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TREMOR_INFO", nil, APHLocaleBundle(), @"This plot shows the score you received each day for the Tremor Test.", @"Dashboard tooltip item info text for Tremor Test in Parkinson");
+                    
+                    item.showMedicationLegend = YES;
                     
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
