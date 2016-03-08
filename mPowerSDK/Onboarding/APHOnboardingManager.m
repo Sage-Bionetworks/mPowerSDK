@@ -391,6 +391,11 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
                                                         object:nil];
 }
 
+- (UIColor*) tintColorForForgotPasscode
+{
+    return [UIColor appPrimaryColor];
+}
+
 #pragma mark - handle user consent
 
 - (ORKConsentSignatureResult *)findConsentSignatureResult:(ORKTaskResult*)taskResult {
