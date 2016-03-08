@@ -872,7 +872,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
             APHTableViewDashboardGraphItem *primaryCorrelatedItem = [self itemForScoring:self.correlatedScores[0]];
             APHTableViewDashboardGraphItem *secondaryCorrelatedItem = [self itemForScoring:self.correlatedScores[1]];
             
-            graphViewController.graphItem.legend =
+            graphItem.legend =
                 [APHTableViewDashboardGraphItem legendForSeries1:self.correlatedScoring.series1Name
                                                          series2:self.correlatedScoring.series2Name
                                                  colorForSeries1:primaryCorrelatedItem.tintColor
