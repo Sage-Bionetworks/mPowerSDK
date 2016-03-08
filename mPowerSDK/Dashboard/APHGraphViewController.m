@@ -43,6 +43,9 @@
     self.medicationLegendContainerView.hidden = NO;
     self.medicationLegendContainerView.showExpandedView = YES;
     self.medicationLegendContainerView.tintColor = self.tintColor;
+    self.medicationLegendContainerView.showCorrelationLegend = self.isForCorrelation;
+    self.medicationLegendContainerView.tintColor = self.tintColor;
+    self.medicationLegendContainerView.secondaryTintColor = self.secondaryTintColor;
     
     APCBaseGraphView *graphView;
     if (self.graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {

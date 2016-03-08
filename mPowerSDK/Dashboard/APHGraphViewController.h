@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet APHMedTimingLegendView *medicationLegendContainerView;
 
 @property (nonatomic) UIColor *tintColor;
+@property (nonatomic) UIColor *secondaryTintColor;
 
 @property (nonatomic) BOOL isForCorrelation;
 @property (nonatomic) BOOL shouldHideCorrelationSegmentControl;

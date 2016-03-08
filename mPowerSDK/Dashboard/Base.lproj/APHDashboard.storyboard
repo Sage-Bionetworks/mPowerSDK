@@ -1075,7 +1075,7 @@
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dC1-Cr-fqo" userLabel="After Medication Container">
                                         <rect key="frame" x="189" y="3" width="122" height="34"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m0m-Gx-B3k">
+                                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m0m-Gx-B3k">
                                                 <rect key="frame" x="0.0" y="9" width="34" height="16"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y7P-ab-lue" customClass="APHCircleView">
@@ -1095,7 +1095,7 @@
                                                         </constraints>
                                                     </view>
                                                 </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstItem="GkZ-7d-FCI" firstAttribute="top" secondItem="m0m-Gx-B3k" secondAttribute="top" id="73W-ng-pRO"/>
                                                     <constraint firstItem="y7P-ab-lue" firstAttribute="top" secondItem="m0m-Gx-B3k" secondAttribute="top" id="ANm-QO-8jv"/>
@@ -1136,8 +1136,13 @@
                                     <constraint firstItem="gLK-sk-xdY" firstAttribute="centerY" secondItem="Nyv-pM-8QS" secondAttribute="centerY" id="qsM-GH-P0w"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="afterMedicationCircleView" destination="y7P-ab-lue" id="DX7-Ub-OPG"/>
+                                    <outlet property="afterMedicationLabel" destination="fjf-6S-dLI" id="kHl-yW-kL7"/>
                                     <outlet property="beforeMedicationCircleView" destination="fJp-WW-p3y" id="WNc-O6-dRI"/>
                                     <outlet property="beforeMedicationLabel" destination="lDV-jE-BAv" id="IVc-M7-u1V"/>
+                                    <outlet property="correlatedAfterMedicationCircleView" destination="GkZ-7d-FCI" id="Qxc-u8-OuH"/>
+                                    <outlet property="correlatedAfterMedicationCircleViewLeadingSpaceConstraint" destination="s1F-XK-Upu" id="uT7-Dw-fSy"/>
+                                    <outlet property="correlatedAfterMedicationCircleViewWidthConstraint" destination="AsL-1c-OPO" id="QYt-nx-00f"/>
                                     <outlet property="notSureCircleView" destination="zOh-8w-pIo" id="hcn-03-Ru7"/>
                                     <outlet property="notSureLabel" destination="ZC8-QS-fyh" id="gf2-vx-b1f"/>
                                 </connections>

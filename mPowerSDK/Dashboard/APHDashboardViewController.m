@@ -827,7 +827,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
         
         APHTableViewDashboardGraphItem *graphItem = (APHTableViewDashboardGraphItem *)[self itemForIndexPath:indexPath];
-        APHDashboardGraphTableViewCell *graphCell = (APHDashboardGraphTableViewCell *)cell;
         
         CGRect initialFrame = [cell convertRect:cell.bounds toView:self.view.window];
         self.presentAnimator.initialFrame = initialFrame;
@@ -850,10 +849,14 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 			graphViewController.discreteGraphView.hidden = NO;
 		}
 
-        if (graphCell.showCorrelationSelectorView
-                && (APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeLine) {
+        if (graphItem.showCorrelationSelectorView) {
             [((APHScoring *)graphItem.graphData) resetChanges];
             
+            APHTableViewDashboardGraphItem *primaryCorrelatedItem = [self itemForScoring:self.correlatedScores[0]];
+            APHTableViewDashboardGraphItem *secondaryCorrelatedItem = [self itemForScoring:self.correlatedScores[1]];
+            
+            graphViewController.tintColor = primaryCorrelatedItem.tintColor;
+            graphViewController.secondaryTintColor = secondaryCorrelatedItem.tintColor;
             graphViewController.selectedCorrelationTimeTab = self.selectedCorrelationTimeTab;
             graphViewController.isForCorrelation = YES;
         }
@@ -1005,26 +1008,8 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
             discreteGraphView.shouldHighlightXaxisLastTitle = YES;
 
             if (graphItem.showCorrelationSelectorView) {
-                NSArray *rowItems = [[self.items.firstObject rows] valueForKey:NSStringFromSelector(@selector(item))];
-                APHScoring *primaryCorrelatedScoring = self.correlatedScores[0];
-                APHScoring *secondaryCorrelatedScoring = self.correlatedScores[1];
-                APHTableViewDashboardGraphItem *primaryCorrelatedItem, *secondaryCorrelatedItem;
-                
-                for (id item in rowItems) {
-                    if (![item isKindOfClass:[APHTableViewDashboardGraphItem class]]) {
-                        continue;
-                    }
-                    
-                    if ([[item graphData].caption isEqualToString:primaryCorrelatedScoring.caption]) {
-                        primaryCorrelatedItem = item;
-                    } else if ([[item graphData].caption isEqualToString:secondaryCorrelatedScoring.caption]) {
-                        secondaryCorrelatedItem = item;
-                    }
-                    
-                    if (primaryCorrelatedItem && secondaryCorrelatedItem) {
-                        break;
-                    }
-                }
+                APHTableViewDashboardGraphItem *primaryCorrelatedItem = [self itemForScoring:self.correlatedScores[0]];
+                APHTableViewDashboardGraphItem *secondaryCorrelatedItem = [self itemForScoring:self.correlatedScores[1]];
                 
                 graphCell.tintColor = primaryCorrelatedItem.tintColor;
                 graphCell.secondaryTintColor = secondaryCorrelatedItem.tintColor;
@@ -1041,6 +1026,23 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 	((APCDashboardTableViewCell *)cell).titleLabel.textColor = [UIColor blackColor];
     
     return cell;
+}
+
+- (APHTableViewDashboardGraphItem * _Nullable)itemForScoring:(APHScoring *)scoring
+{
+    NSArray *rowItems = [[self.items.firstObject rows] valueForKey:NSStringFromSelector(@selector(item))];
+    
+    for (id item in rowItems.reverseObjectEnumerator) {
+        if (![item isKindOfClass:[APHTableViewDashboardGraphItem class]]) {
+            continue;
+        }
+        
+        if ([[item graphData].caption isEqualToString:scoring.caption]) {
+            return item;
+        }
+    }
+    
+    return nil;
 }
 
 
