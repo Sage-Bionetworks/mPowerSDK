@@ -263,10 +263,12 @@
 {
 	[self updatePeriodForDays:self.numberOfDays groupBy:self.groupBy];
     
-    self.dataPoints = self.medTimingDataPoints[taskChoice];
-    
-    if (self.correlatedScoring) {
-        self.correlatedScoring.dataPoints = self.medTimingDataPointsCorrelatedScoring[taskChoice] ?: self.correlatedScoring.dataPoints;
+    if (taskChoice) {
+        self.dataPoints = self.medTimingDataPoints[taskChoice];
+        
+        if (self.correlatedScoring) {
+            self.correlatedScoring.dataPoints = self.medTimingDataPointsCorrelatedScoring[taskChoice] ?: self.correlatedScoring.dataPoints;
+        }
     }
     
     [self correlateWithScoringObject:self.correlatedScoring];
