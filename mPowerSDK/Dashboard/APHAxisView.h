@@ -10,6 +10,7 @@
 
 @interface APHAxisView : APCAxisView
 
+@property (nonatomic) BOOL *hasSecondaryYAxis;
 @property (nonatomic) UIColor *lastTitleHighlightColor;
 
 @end

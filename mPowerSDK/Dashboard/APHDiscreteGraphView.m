@@ -12,11 +12,13 @@
 #import "APHCircleView.h"
 
 static CGFloat const kAPCGraphLeftPadding = 10.f;
+static CGFloat const kYAxisPaddingFactor = 0.15f;
 static CGFloat const kAxisMarkingRulerLength = 8.0f;
 static CGFloat const kSnappingClosenessFactor = 0.3f;
 
 @interface APCDiscreteGraphView (Private)
 @property (nonatomic, strong) APCAxisView *xAxisView;
+@property (nonatomic, strong) UIView *yAxisView;
 @property (nonatomic, strong) NSMutableArray<NSDictionary *> *dataPoints;
 @property (nonatomic, strong) NSMutableArray *dots;
 @property (nonatomic, strong) NSMutableArray *pathLines;
@@ -29,9 +31,18 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
 @property (nonatomic, readwrite) CGFloat minimumValue;
 @property (nonatomic, readwrite) CGFloat maximumValue;
 @property (nonatomic) NSInteger numberOfXAxisTitles;
+- (void)calculateXAxisPoints;
 - (void)drawYAxis;
 - (CGFloat)offsetForPlotIndex:(NSInteger)plotIndex;
 - (void)setDefaults;
+@end
+
+@interface APHDiscreteGraphView()
+
+@property (nonatomic, strong) UIView *secondaryYAxisView;
+@property (nonatomic, readwrite) CGFloat secondaryMinimumValue;
+@property (nonatomic, readwrite) CGFloat secondaryMaximumValue;
+
 @end
 
 @implementation APHDiscreteGraphView
@@ -67,46 +78,58 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
 
 - (void)calculateMinAndMaxPoints
 {
-    [self setDefaults];
-    
-    //Min
-    if ([self.datasource respondsToSelector:@selector(minimumValueForDiscreteGraph:)]) {
-        self.minimumValue = [self.datasource minimumValueForDiscreteGraph:self];
-    } else {
-        
-        if (self.dataPoints.count) {
-            NSDictionary *firstDataPoint = self.dataPoints[0];
-            APCRangePoint *rangePoint = [firstDataPoint valueForKey:kDatasetRangeValueKey];
-            self.minimumValue = rangePoint.minimumValue;
-            
-            for (NSUInteger i=1; i<self.dataPoints.count; i++) {
-                NSDictionary *dataPoint = self.dataPoints[i];
-                CGFloat num = ((APCRangePoint *)[dataPoint valueForKey:kDatasetRangeValueKey]).minimumValue;
-                if ((self.minimumValue == NSNotFound) || (num < self.minimumValue)) {
-                    self.minimumValue = num;
-                }
-            }
-        }
-    }
-    
-    //Max
-    if ([self.datasource respondsToSelector:@selector(maximumValueForDiscreteGraph:)]) {
-        self.maximumValue = [self.datasource maximumValueForDiscreteGraph:self];
-    } else {
-        if (self.dataPoints.count) {
-            NSDictionary *firstDataPoint = self.dataPoints[0];
-            APCRangePoint *rangePoint = [firstDataPoint valueForKey:kDatasetRangeValueKey];
-            self.maximumValue = rangePoint.maximumValue;
-            
-            for (NSUInteger i=1; i<self.dataPoints.count; i++) {
-                NSDictionary *dataPoint = self.dataPoints[i];
-                CGFloat num = ((APCRangePoint *)[dataPoint valueForKey:kDatasetRangeValueKey]).maximumValue;
-                if (((num != NSNotFound) && (num > self.maximumValue)) || (self.maximumValue == NSNotFound)) {
-                    self.maximumValue = num;
-                }
-            }
-        }
-    }
+	[self setDefaults];
+	
+	if (self.numberOfPlots > 1) {
+		if ([self.datasource respondsToSelector:@selector(minimumValuesForDiscreteGraph:)]) {
+			self.minimumValue = [[self.datasource minimumValuesForDiscreteGraph:self][1] floatValue];
+			self.secondaryMinimumValue = [[self.datasource minimumValuesForDiscreteGraph:self][0] floatValue];
+		}
+
+		if ([self.datasource respondsToSelector:@selector(maximumValuesForDiscreteGraph:)]) {
+			self.maximumValue = [[self.datasource maximumValuesForDiscreteGraph:self][1] floatValue];
+			self.secondaryMaximumValue = [[self.datasource maximumValuesForDiscreteGraph:self][0] floatValue];
+		}
+	} else {
+		//Min
+		if ([self.datasource respondsToSelector:@selector(minimumValueForDiscreteGraph:)]) {
+			self.minimumValue = [self.datasource minimumValueForDiscreteGraph:self];
+		} else {
+
+			if (self.dataPoints.count) {
+				NSDictionary *firstDataPoint = self.dataPoints[0];
+				APCRangePoint *rangePoint = [firstDataPoint valueForKey:kDatasetRangeValueKey];
+				self.minimumValue = rangePoint.minimumValue;
+
+				for (NSUInteger i=1; i<self.dataPoints.count; i++) {
+					NSDictionary *dataPoint = self.dataPoints[i];
+					CGFloat num = ((APCRangePoint *)[dataPoint valueForKey:kDatasetRangeValueKey]).minimumValue;
+					if ((self.minimumValue == NSNotFound) || (num < self.minimumValue)) {
+						self.minimumValue = num;
+					}
+				}
+			}
+		}
+
+		//Max
+		if ([self.datasource respondsToSelector:@selector(maximumValueForDiscreteGraph:)]) {
+			self.maximumValue = [self.datasource maximumValueForDiscreteGraph:self];
+		} else {
+			if (self.dataPoints.count) {
+				NSDictionary *firstDataPoint = self.dataPoints[0];
+				APCRangePoint *rangePoint = [firstDataPoint valueForKey:kDatasetRangeValueKey];
+				self.maximumValue = rangePoint.maximumValue;
+
+				for (NSUInteger i=1; i<self.dataPoints.count; i++) {
+					NSDictionary *dataPoint = self.dataPoints[i];
+					CGFloat num = ((APCRangePoint *)[dataPoint valueForKey:kDatasetRangeValueKey]).maximumValue;
+					if (((num != NSNotFound) && (num > self.maximumValue)) || (self.maximumValue == NSNotFound)) {
+						self.maximumValue = num;
+					}
+				}
+			}
+		}
+	}
 }
 
 - (void)drawLinesForPlotIndex:(NSInteger)plotIndex
@@ -260,6 +283,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     self.axisColor = [UIColor appTertiaryGrayColor];
     
     APHAxisView *xAxisView = [[APHAxisView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.plotsView.frame), CGRectGetWidth(self.plotsView.frame), kXAxisHeight)];
+    xAxisView.hasSecondaryYAxis = (BOOL *) (self.numberOfValidValues > 1);
     xAxisView.landscapeMode = self.landscapeMode;
     xAxisView.tintColor = self.axisColor;
     xAxisView.lastTitleHighlightColor = self.tintColor;
@@ -280,7 +304,13 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     [self.xAxisView.layer addSublayer:xAxisLineLayer];
     
     for (NSUInteger i=0; i<self.xAxisTitles.count; i++) {
-        CGFloat positionOnXAxis = kAPCGraphLeftPadding + ((CGRectGetWidth(self.plotsView.frame) / (self.numberOfXAxisTitles - 1)) * i);
+        CGFloat positionOnXAxis;
+        if (self.numberOfPlots > 1) {
+            positionOnXAxis = kAPCGraphLeftPadding + (((CGRectGetWidth(self.plotsView.frame) - CGRectGetWidth(self.secondaryYAxisView.bounds))/ 
+                (self.numberOfXAxisTitles - 1)) * i) + CGRectGetWidth(self.secondaryYAxisView.bounds);
+        } else {
+            positionOnXAxis = kAPCGraphLeftPadding + ((CGRectGetWidth(self.plotsView.frame) / (self.numberOfXAxisTitles - 1)) * i);
+        }
         
         UIBezierPath *rulerPath = [UIBezierPath bezierPath];
         [rulerPath moveToPoint:CGPointMake(positionOnXAxis, - kAxisMarkingRulerLength)];
@@ -293,13 +323,121 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     }
 }
 
-- (void)drawYAxis
-{
-    if (self.hidesYAxis) {
-        return;
-    }
-    
-    [super drawYAxis];
+- (void)drawYAxis {
+	if (self.hidesYAxis) {
+		return;
+	} else if (self.secondaryYAxisView) {
+		[self.secondaryYAxisView removeFromSuperview];
+		self.secondaryYAxisView = nil;
+	}
+
+	if (self.numberOfPlots > 1) {
+		[self prepareDataForPlotIndex:0];
+
+		if (self.yAxisView) {
+			[self.yAxisView removeFromSuperview];
+			self.yAxisView = nil;
+		}
+
+		CGFloat axisViewXPosition = CGRectGetWidth(self.frame) * (1 - kYAxisPaddingFactor);
+		CGFloat axisViewWidth = CGRectGetWidth(self.frame)*kYAxisPaddingFactor;
+
+		self.yAxisView = [[UIView alloc] initWithFrame:CGRectMake(axisViewXPosition, kAPCGraphTopPadding, axisViewWidth, CGRectGetHeight(self.plotsView.frame))];
+		[self addSubview:self.yAxisView];
+
+
+		CGFloat rulerXPosition = CGRectGetWidth(self.yAxisView.bounds) - kAxisMarkingRulerLength + 2;
+
+		NSArray *yAxisLabelFactors;
+
+		if (self.minimumValue == self.maximumValue) {
+			yAxisLabelFactors = @[@0.5f];
+		} else {
+			yAxisLabelFactors = @[@0.2f,@1.0f];
+		}
+
+		for (NSUInteger i =0; i<yAxisLabelFactors.count; i++) {
+
+			CGFloat factor = [yAxisLabelFactors[i] floatValue];
+			CGFloat positionOnYAxis = CGRectGetHeight(self.plotsView.frame) * (1 - factor);
+
+			UIBezierPath *rulerPath = [UIBezierPath bezierPath];
+			[rulerPath moveToPoint:CGPointMake(rulerXPosition, positionOnYAxis)];
+			[rulerPath addLineToPoint:CGPointMake(CGRectGetMaxX(self.yAxisView.bounds), positionOnYAxis)];
+
+			CAShapeLayer *rulerLayer = [CAShapeLayer layer];
+			rulerLayer.strokeColor = (self.secondaryTintColor ?: self.axisTitleColor).CGColor;
+			rulerLayer.path = rulerPath.CGPath;
+			[self.yAxisView.layer addSublayer:rulerLayer];
+
+			CGFloat labelHeight = 20;
+			CGFloat labelYPosition = positionOnYAxis - labelHeight/2;
+
+			CGFloat yValue = self.minimumValue + (self.maximumValue - self.minimumValue)*factor;
+
+			UILabel *axisTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, labelYPosition, CGRectGetWidth(self.yAxisView.frame) - kAxisMarkingRulerLength, labelHeight)];
+
+			if (yValue != 0) {
+				axisTitleLabel.text = [NSString stringWithFormat:@"%0.0f", yValue];
+			}
+			axisTitleLabel.backgroundColor = [UIColor clearColor];
+			axisTitleLabel.textColor = self.secondaryTintColor ?: self.axisTitleColor;
+			axisTitleLabel.textAlignment = NSTextAlignmentRight;
+			axisTitleLabel.font = self.isLandscapeMode ? [UIFont fontWithName:self.axisTitleFont.familyName size:16.0f] : self.axisTitleFont;
+			axisTitleLabel.minimumScaleFactor = 0.8;
+			[self.yAxisView addSubview:axisTitleLabel];
+		}
+
+		[self prepareDataForPlotIndex:1];
+
+		axisViewXPosition = 0.f;
+		axisViewWidth = CGRectGetWidth(self.frame) * kYAxisPaddingFactor;
+
+		self.secondaryYAxisView = [[UIView alloc] initWithFrame:CGRectMake(axisViewXPosition, kAPCGraphTopPadding, axisViewWidth, CGRectGetHeight(self.plotsView.frame))];
+		[self addSubview:self.secondaryYAxisView];
+
+		if (self.secondaryMinimumValue == self.secondaryMaximumValue) {
+			yAxisLabelFactors = @[@0.5f];
+		} else {
+			yAxisLabelFactors = @[@0.2f, @1.0f];
+		}
+
+		for (NSUInteger i = 0; i < yAxisLabelFactors.count; i++) {
+
+			CGFloat labelHeight = 20;
+			CGFloat factor = [yAxisLabelFactors[i] floatValue];
+			CGFloat labelYPosition = CGRectGetHeight(self.plotsView.frame) * (1 - factor) - labelHeight / 2;
+			CGFloat yValue = self.secondaryMinimumValue + (self.secondaryMaximumValue - self.secondaryMinimumValue) * factor;
+
+			UILabel *axisTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kAxisMarkingRulerLength, labelYPosition, CGRectGetWidth(self.secondaryYAxisView.frame), labelHeight)];
+
+			if (yValue != 0) {
+				axisTitleLabel.text = [NSString stringWithFormat:@"%0.0f", yValue];
+			}
+
+			axisTitleLabel.backgroundColor = [UIColor clearColor];
+			axisTitleLabel.textColor = self.tintColor ?: self.axisTitleColor;
+			axisTitleLabel.textAlignment = NSTextAlignmentLeft;
+			axisTitleLabel.font = self.isLandscapeMode ? [UIFont fontWithName:self.axisTitleFont.familyName
+																		 size:16.0f] : self.axisTitleFont;
+			axisTitleLabel.minimumScaleFactor = 0.8;
+			[self.secondaryYAxisView addSubview:axisTitleLabel];
+
+			UIBezierPath *rulerPath = [UIBezierPath bezierPath];
+			CGFloat rulerYPosition = labelYPosition + labelHeight / 2;
+			[rulerPath moveToPoint:CGPointMake(0, rulerYPosition)];
+			[rulerPath addLineToPoint:CGPointMake(kAxisMarkingRulerLength, rulerYPosition)];
+
+			CAShapeLayer *rulerLayer = [CAShapeLayer layer];
+			rulerLayer.strokeColor = (self.tintColor ?: self.axisTitleColor).CGColor;
+			rulerLayer.path = rulerPath.CGPath;
+			[self.secondaryYAxisView.layer addSublayer:rulerLayer];
+
+			[self drawXAxis];
+		}
+	} else {
+		[super drawYAxis];
+	}
 }
 
 - (NSArray *)normalizeCanvasPoints:(NSArray *) __unused dataPoints forRect:(CGSize)canvasSize
@@ -390,6 +528,21 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     }
     
     return offset;
+}
+
+#pragma mark - Calculations
+
+- (void)calculateXAxisPoints {
+	if (self.numberOfPlots > 1) {
+		for (int i=0 ; i<[self numberOfXAxisTitles]; i++) {
+			CGFloat positionOnXAxis = (((CGRectGetWidth(self.plotsView.frame) - CGRectGetWidth(self.secondaryYAxisView.bounds)) /
+				(self.numberOfXAxisTitles - 1)) * i) + CGRectGetWidth(self.secondaryYAxisView.bounds);
+			positionOnXAxis = round(positionOnXAxis);
+			[self.xAxisPoints addObject:@(positionOnXAxis)];
+		}
+	} else {
+		[super calculateXAxisPoints];
+	}
 }
 
 - (void)prepareDataForPlotIndex:(NSInteger)plotIndex

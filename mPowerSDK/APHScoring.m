@@ -20,6 +20,8 @@
 @property (nonatomic) NSUInteger current;
 - (NSDictionary *)generateDataPointForDate:(NSDate *)pointDate withValue:(NSNumber *)pointValue noDataValue:(BOOL)noDataValue;
 - (NSDictionary *)groupByKeyPath:(NSString *)key dataset:(NSArray *)dataset;
+- (NSNumber *)minimumDataPointInSeries:(NSArray *)series;
+- (NSNumber *)maximumDataPointInSeries:(NSArray *)series;
 - (NSInteger)numberOfDivisionsInXAxisForDiscreteGraph:(APCDiscreteGraphView *) graphView;
 - (NSInteger)numberOfDivisionsInXAxisForLineGraph:(APCLineGraphView *) graphView;
 - (NSInteger)numberOfDivisionsInXAxis;
@@ -275,6 +277,21 @@
 }
 
 
+- (NSArray<NSNumber *> *)minimumCorrelatedDataPoints {
+	NSNumber *minDataPoint = [self minimumDataPointInSeries:self.dataPoints];
+	NSNumber *minCorrelatedDataPoint = [self minimumDataPointInSeries:self.correlatedScoring.dataPoints];
+
+	return @[minDataPoint, minCorrelatedDataPoint];
+}
+
+
+- (NSArray<NSNumber *> *)maximumCorrelatedDataPoints {
+	NSNumber *maxDataPoint = [self maximumDataPointInSeries:self.dataPoints];
+	NSNumber *maxCorrelatedDataPoint = [self maximumDataPointInSeries:self.correlatedScoring.dataPoints];
+
+	return @[maxDataPoint, maxCorrelatedDataPoint];
+}
+
 #pragma mark - APHDiscreteGraphViewDataSource
 
 - (NSDictionary *)discreteGraph:(APHDiscreteGraphView *)graphView plot:(NSInteger)plotIndex dictionaryValueForPointAtIndex:(NSInteger)pointIndex
@@ -288,6 +305,27 @@
     }
     
     return dictionaryValue;
+}
+
+- (NSArray<NSNumber *> *)minimumValuesForDiscreteGraph:(APCDiscreteGraphView *)graphView {
+	CGFloat factor = 0.2;
+	
+	NSArray<NSNumber *> *minimumCorrelatedDataPoints = [self minimumCorrelatedDataPoints];
+	NSArray<NSNumber *> *maximumCorrelatedDataPoints = [self maximumCorrelatedDataPoints];
+	NSMutableArray<NSNumber *> *minimumValues = [[NSMutableArray alloc] init];
+
+	for (int i = 0; i < minimumCorrelatedDataPoints.count; i++) {
+		CGFloat minFloat = [minimumCorrelatedDataPoints[i] floatValue];
+		CGFloat maxFloat = [maximumCorrelatedDataPoints[i] floatValue];
+		CGFloat minValue = (minFloat - factor * maxFloat) / (1-factor);
+		[minimumValues addObject:@(minValue)];
+	}
+	
+	return [minimumValues copy];
+}
+
+- (NSArray<NSNumber *> *)maximumValuesForDiscreteGraph:(APCDiscreteGraphView *)graphView {
+	return [self maximumCorrelatedDataPoints];
 }
 
 #pragma mark - APHSparkGraphViewDataSource

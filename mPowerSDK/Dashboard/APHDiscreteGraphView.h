@@ -13,6 +13,8 @@
 @protocol APHDiscreteGraphViewDataSource <APCDiscreteGraphViewDataSource>
 @optional
 - (NSDictionary *)discreteGraph:(APHDiscreteGraphView *)graphView plot:(NSInteger)plotIndex dictionaryValueForPointAtIndex:(NSInteger)pointIndex;
+- (NSArray<NSNumber *> *)maximumValuesForDiscreteGraph:(APCDiscreteGraphView *)graphView;
+- (NSArray<NSNumber *> *)minimumValuesForDiscreteGraph:(APCDiscreteGraphView *)graphView;
 @end
 
 @interface APHDiscreteGraphView : APCDiscreteGraphView
