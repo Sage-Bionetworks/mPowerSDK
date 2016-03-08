@@ -34,6 +34,7 @@
 #import "APHOnboardingManager.h"
 #import "APHLocalization.h"
 #import "APHAppDelegate.h"
+#import "APHWebViewStepViewController.h"
 #import <ResearchKit/ResearchKit.h>
 @import BridgeAppSDK;
 
@@ -328,29 +329,26 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     }
 }
 
-// TODO: syoung 03/03/2016 Figure out why ORKConsentLearnMoreViewController isn't being found and/or replace
-// with a different webviewcontroller
-//
-//- (BOOL)taskViewController:(ORKTaskViewController *)taskViewController hasLearnMoreForStep:(ORKStep *)step {
-//    return [self usesLearnMoreViewControllerForStep:step];
-//}
-//
-//- (void)taskViewController:(ORKTaskViewController *)taskViewController learnMoreForStep:(ORKStepViewController *)stepViewController {
-//    ORKStep *step = stepViewController.step;
-//    if (![self usesLearnMoreViewControllerForStep:step]) {
-//        return;
-//    }
-//    NSString *htmlContent = ((SBADirectNavigationStep*)step).learnMoreHTMLContent;
-//    ORKConsentLearnMoreViewController *vc = [[ORKConsentLearnMoreViewController alloc] initWithHTMLContent:htmlContent];
-//    UINavigationController *navVc = [[UINavigationController alloc] initWithRootViewController:vc];
-//    navVc.modalPresentationStyle = UIModalPresentationFormSheet;
-//    [stepViewController presentViewController:navVc animated:YES completion:nil];
-//}
-//
-//- (BOOL)usesLearnMoreViewControllerForStep:(ORKStep *)step  {
-//    return [step isKindOfClass:[SBADirectNavigationStep class]] &&
-//    (((SBADirectNavigationStep*)step).learnMoreHTMLContent != nil);
-//}
+- (BOOL)taskViewController:(ORKTaskViewController *)taskViewController hasLearnMoreForStep:(ORKStep *)step {
+    return [self usesLearnMoreViewControllerForStep:step];
+}
+
+- (void)taskViewController:(ORKTaskViewController *)taskViewController learnMoreForStep:(ORKStepViewController *)stepViewController {
+    ORKStep *step = stepViewController.step;
+    if (![self usesLearnMoreViewControllerForStep:step]) {
+        return;
+    }
+    NSString *htmlContent = ((SBADirectNavigationStep *)step).learnMoreHTMLContent;
+    APHWebViewStepViewController *vc = [APHWebViewStepViewController instantiateWithHTMLContent:htmlContent];
+    UINavigationController *navVc = [[UINavigationController alloc] initWithRootViewController:vc];
+    navVc.modalPresentationStyle = UIModalPresentationFormSheet;
+    [stepViewController presentViewController:navVc animated:YES completion:nil];
+}
+
+- (BOOL)usesLearnMoreViewControllerForStep:(ORKStep *)step  {
+    return [step isKindOfClass:[SBADirectNavigationStep class]] &&
+    (((SBADirectNavigationStep*)step).learnMoreHTMLContent != nil);
+}
 
 #pragma mark - passcode handling
 
