@@ -35,6 +35,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
 - (void)drawYAxis;
 - (CGFloat)offsetForPlotIndex:(NSInteger)plotIndex;
 - (void)setDefaults;
+- (void)animateLayersSequentially;
 @end
 
 @interface APHDiscreteGraphView()
@@ -662,6 +663,26 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     }
     
     return xPosition;
+}
+
+- (void)animateLayersSequentially {
+	if (self.numberOfPlots > 1) {
+		CGFloat delay = 0.04;
+
+		for (NSUInteger i = 0; i < self.dots.count; i++) {
+			CAShapeLayer *layer = [self.dots[i] shapeLayer];
+			[self animateLayer:layer withAnimationType:kAPCGraphAnimationTypeFade toValue:1.0 startDelay:delay];
+			delay += 0.04;
+		}
+
+		for (NSUInteger i = 0; i < self.pathLines.count; i++) {
+			CAShapeLayer *layer = self.pathLines[i];
+			[self animateLayer:layer withAnimationType:kAPCGraphAnimationTypeGrow toValue:1.0 startDelay:delay];
+			delay += kAPCGrowAnimationDuration / 2;
+		}
+	} else {
+		[super animateLayersSequentially];
+	}
 }
 
 @end
