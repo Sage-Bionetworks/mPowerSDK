@@ -490,7 +490,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     
                     double avgValue = [[self.gaitScoring averageDataPoint] doubleValue];
                     
-                    if (avgValue > 0) {
+                    if (!item.hidesDetailText && avgValue > 0) {
                         item.detailText = [NSString stringWithFormat:detailMinMaxFormat,
                                            APHLocalizedStringFromNumber([self.gaitScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.gaitScoring maximumDataPoint])];
                     }
@@ -520,7 +520,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     
                     double avgValue = [[self.memoryScoring averageDataPoint] doubleValue];
                     
-                    if (avgValue > 0) {
+                    if (!item.hidesDetailText && avgValue > 0) {
                         item.detailText = [NSString stringWithFormat:detailMinMaxFormat,
                                            APHLocalizedStringFromNumber([self.memoryScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.memoryScoring maximumDataPoint])];
                     }
@@ -550,7 +550,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     
                     double avgValue = [[self.phonationScoring averageDataPoint] doubleValue];
                     
-                    if (avgValue > 0) {
+                    if (!item.hidesDetailText && avgValue > 0) {
                         item.detailText = [NSString stringWithFormat:detailMinMaxFormat,
                                            APHLocalizedStringFromNumber([self.phonationScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.phonationScoring maximumDataPoint])];
                     }
@@ -605,7 +605,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     
                     double avgValue = [[self.tremorScoring averageDataPoint] doubleValue];
                     
-                    if (avgValue > 0) {
+                    if (!item.hidesDetailText && avgValue > 0) {
                         item.detailText = [NSString stringWithFormat:detailAvgFormat,
                                            APHLocalizedStringFromNumber([self.tremorScoring averageDataPoint])];
                     }
