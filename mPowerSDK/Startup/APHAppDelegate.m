@@ -811,7 +811,12 @@ static NSDate *determineConsentDate(id object)
     APCScene *scene = [[scenes filteredArrayUsingPredicate:predicate] firstObject];
     scene.storyboardName = @"APHDashboard";
     scene.bundle = [self storyboardBundle];
-    
+
+	predicate = [NSPredicate predicateWithFormat:@"%K = %@", NSStringFromSelector(@selector(identifier)), kActivitiesStoryBoardKey];
+	APCScene *activitiesScene = [[scenes filteredArrayUsingPredicate:predicate] firstObject];
+	activitiesScene.storyboardName = @"APHActivities";
+	activitiesScene.bundle = [self storyboardBundle];
+
     return scenes;
 }
 

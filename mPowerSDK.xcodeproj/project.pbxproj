@@ -72,6 +72,15 @@
 		FB4E47A41C7ED56E00CADC1F /* consent_17data_sharing.html in Resources */ = {isa = PBXBuildFile; fileRef = FB4E47A61C7ED56E00CADC1F /* consent_17data_sharing.html */; };
 		FB4E47A71C7ED57100CADC1F /* consent_18researchers.html in Resources */ = {isa = PBXBuildFile; fileRef = FB4E47A91C7ED57100CADC1F /* consent_18researchers.html */; };
 		FB4E47AA1C7ED57600CADC1F /* consent_19sharing_rsch.html in Resources */ = {isa = PBXBuildFile; fileRef = FB4E47AC1C7ED57600CADC1F /* consent_19sharing_rsch.html */; };
+		A6B689521C63E0D800DCB8A7 /* APHActivities.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A6B689511C63E0D800DCB8A7 /* APHActivities.storyboard */; };
+		A6B689551C63E14400DCB8A7 /* APHActivitiesViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B689531C63E14400DCB8A7 /* APHActivitiesViewController.h */; };
+		A6B689561C63E14400DCB8A7 /* APHActivitiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B689541C63E14400DCB8A7 /* APHActivitiesViewController.m */; };
+		A6B689581C63EB7700DCB8A7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6B689571C63EB7700DCB8A7 /* Images.xcassets */; };
+		A6B689631C63F13200DCB8A7 /* APHActivitiesSectionHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B689611C63F13200DCB8A7 /* APHActivitiesSectionHeaderView.h */; };
+		A6B689641C63F13200DCB8A7 /* APHActivitiesSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B689621C63F13200DCB8A7 /* APHActivitiesSectionHeaderView.m */; };
+		A6B689671C640BC900DCB8A7 /* APHActivitiesTintedTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B689651C640BC900DCB8A7 /* APHActivitiesTintedTableViewCell.h */; };
+		A6B689681C640BC900DCB8A7 /* APHActivitiesTintedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B689661C640BC900DCB8A7 /* APHActivitiesTintedTableViewCell.m */; };
+		A6B6896E1C641FC300DCB8A7 /* APHActivitiesSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6B6896D1C641FC300DCB8A7 /* APHActivitiesSectionHeaderView.xib */; };
 		FBAE3D161C863A68003CEC4A /* APHWebviewViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FBAE3D141C863A68003CEC4A /* APHWebviewViewController.h */; };
 		FBAE3D171C863A68003CEC4A /* APHWebviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBAE3D151C863A68003CEC4A /* APHWebviewViewController.m */; };
 		FBAE3D1A1C863A92003CEC4A /* MonthlyReport.json in Resources */ = {isa = PBXBuildFile; fileRef = FBAE3D181C863A92003CEC4A /* MonthlyReport.json */; };
@@ -238,6 +247,16 @@
 		FB4E47A51C7ED56E00CADC1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/consent_17data_sharing.html; sourceTree = "<group>"; };
 		FB4E47A81C7ED57100CADC1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/consent_18researchers.html; sourceTree = "<group>"; };
 		FB4E47AB1C7ED57600CADC1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/consent_19sharing_rsch.html; sourceTree = "<group>"; };
+		A6B689511C63E0D800DCB8A7 /* APHActivities.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = APHActivities.storyboard; sourceTree = "<group>"; };
+		A6B689531C63E14400DCB8A7 /* APHActivitiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHActivitiesViewController.h; sourceTree = "<group>"; };
+		A6B689541C63E14400DCB8A7 /* APHActivitiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHActivitiesViewController.m; sourceTree = "<group>"; };
+		A6B689571C63EB7700DCB8A7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		A6B689611C63F13200DCB8A7 /* APHActivitiesSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHActivitiesSectionHeaderView.h; sourceTree = "<group>"; };
+		A6B689621C63F13200DCB8A7 /* APHActivitiesSectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHActivitiesSectionHeaderView.m; sourceTree = "<group>"; };
+		A6B689651C640BC900DCB8A7 /* APHActivitiesTintedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHActivitiesTintedTableViewCell.h; sourceTree = "<group>"; };
+		A6B689661C640BC900DCB8A7 /* APHActivitiesTintedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHActivitiesTintedTableViewCell.m; sourceTree = "<group>"; };
+		A6B6896D1C641FC300DCB8A7 /* APHActivitiesSectionHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = APHActivitiesSectionHeaderView.xib; sourceTree = "<group>"; };
+		A6B689791C6453FC00DCB8A7 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = MyPlayground.playground; path = ../../../../Desktop/MyPlayground.playground; sourceTree = "<group>"; };
 		FBAE3D141C863A68003CEC4A /* APHWebviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHWebviewViewController.h; sourceTree = "<group>"; };
 		FBAE3D151C863A68003CEC4A /* APHWebviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHWebviewViewController.m; sourceTree = "<group>"; };
 		FBAE3D191C863A92003CEC4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/MonthlyReport.json; sourceTree = "<group>"; };
@@ -455,6 +474,21 @@
 			name = Consent;
 			sourceTree = "<group>";
 		};
+		A6B689501C63E09A00DCB8A7 /* Activities */ = {
+			isa = PBXGroup;
+			children = (
+				A6B689511C63E0D800DCB8A7 /* APHActivities.storyboard */,
+				A6B689531C63E14400DCB8A7 /* APHActivitiesViewController.h */,
+				A6B689541C63E14400DCB8A7 /* APHActivitiesViewController.m */,
+				A6B689611C63F13200DCB8A7 /* APHActivitiesSectionHeaderView.h */,
+				A6B689621C63F13200DCB8A7 /* APHActivitiesSectionHeaderView.m */,
+				A6B6896D1C641FC300DCB8A7 /* APHActivitiesSectionHeaderView.xib */,
+				A6B689651C640BC900DCB8A7 /* APHActivitiesTintedTableViewCell.h */,
+				A6B689661C640BC900DCB8A7 /* APHActivitiesTintedTableViewCell.m */,
+			);
+			path = Activities;
+			sourceTree = "<group>";
+		};
 		FBAE3D1B1C863A9D003CEC4A /* Monthly Report */ = {
 			isa = PBXGroup;
 			children = (
@@ -560,6 +594,7 @@
 			children = (
 				FB4E46E01C7EC9F100CADC1F /* HTML */,
 				FF2D347E1C3DBD540033838A /* JSONs */,
+				A6B689571C63EB7700DCB8A7 /* Images.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -653,6 +688,7 @@
 		FFFA24211C2351D600727DA8 = {
 			isa = PBXGroup;
 			children = (
+				A6B689791C6453FC00DCB8A7 /* MyPlayground.playground */,
 				FFFA242D1C2351D600727DA8 /* mPowerSDK */,
 				FFFA24391C2351D600727DA8 /* mPowerSDKTests */,
 				FF2D342A1C2A06110033838A /* Frameworks */,
@@ -675,6 +711,7 @@
 				FFFA242E1C2351D600727DA8 /* mPowerSDK.h */,
 				FFFA24301C2351D600727DA8 /* Info.plist */,
 				FFFA248B1C236AE700727DA8 /* APHDataKeys.h */,
+				A6B689501C63E09A00DCB8A7 /* Activities */,
 				FFFA248C1C236AE700727DA8 /* APHDataKeys.m */,
 				6BED4D8D1C85C1B400A4269D /* APHScoring.h */,
 				6BED4D8E1C85C1B400A4269D /* APHScoring.m */,
@@ -777,6 +814,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB4E467D1C7E675500CADC1F /* APHOnboardingManager.h in Headers */,
+				A6B689671C640BC900DCB8A7 /* APHActivitiesTintedTableViewCell.h in Headers */,
 				FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */,
 				6BED4D771C8550A600A4269D /* APHDashboardGraphTableViewCell.h in Headers */,
 				FF0B4AC01C29FCB800224EF7 /* APHParkinsonActivityViewController.h in Headers */,
@@ -785,6 +823,7 @@
 				FF2D344E1C3207060033838A /* APHActivityManager.h in Headers */,
 				43FEA4A81C86E33C0005B38F /* APHDiscreteGraphView.h in Headers */,
 				803237891C6BCF1A00208365 /* APHQuestionViewController.h in Headers */,
+				A6B689551C63E14400DCB8A7 /* APHActivitiesViewController.h in Headers */,
 				FFFA24C71C237E1500727DA8 /* APHDashboardViewController.h in Headers */,
 				6B41081B1C73E2BF00A2FB7B /* APHTremorTaskViewController.h in Headers */,
 				FF2D34421C31B7DC0033838A /* APHLocalization.h in Headers */,
@@ -808,6 +847,7 @@
 				FFF270A41C5BF483007059D2 /* NSNull+APHExtensions.h in Headers */,
 				FF95C0431C4EB4A90081672E /* APHMedication.h in Headers */,
 				FF0B4AC71C29FCB800224EF7 /* APHPhonationTaskViewController.h in Headers */,
+				A6B689631C63F13200DCB8A7 /* APHActivitiesSectionHeaderView.h in Headers */,
 				FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */,
 				80DC1BDB1C6A8F2600235C2E /* APHCustomSurveyQuestionViewController.h in Headers */,
 				FFFA249F1C23773900727DA8 /* APHInclusionCriteriaViewController.h in Headers */,
@@ -869,6 +909,7 @@
 		FFFA24221C2351D600727DA8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Sage Bionetworks";
 				TargetAttributes = {
@@ -911,7 +952,9 @@
 				FB4E47831C7ED53C00CADC1F /* consent_6protectingdata.html in Resources */,
 				FB4E47921C7ED55300CADC1F /* consent_11potential_risk.html in Resources */,
 				FB4E47AA1C7ED57600CADC1F /* consent_19sharing_rsch.html in Resources */,
+				A6B6896E1C641FC300DCB8A7 /* APHActivitiesSectionHeaderView.xib in Resources */,
 				FF2D349B1C3DBD540033838A /* WithdrawStudy.json in Resources */,
+				A6B689521C63E0D800DCB8A7 /* APHActivities.storyboard in Resources */,
 				FF2D34961C3DBD540033838A /* APHTasksAndSchedules_NoM7.json in Resources */,
 				FB4E47A71C7ED57100CADC1F /* consent_18researchers.html in Resources */,
 				80DC1BDA1C6A8F2600235C2E /* APHCustomSurveyIntroViewController.xib in Resources */,
@@ -920,6 +963,7 @@
 				8032378B1C6BCF1A00208365 /* APHQuestionViewController.xib in Resources */,
 				FB4E47981C7ED55C00CADC1F /* consent_13follow_up.html in Resources */,
 				FB4E47891C7ED54400CADC1F /* consent_8time.html in Resources */,
+				A6B689581C63EB7700DCB8A7 /* Images.xcassets in Resources */,
 				FF2D349A1C3DBD540033838A /* TermsAndConditions.json in Resources */,
 				FB4E477D1C7ED53400CADC1F /* consent_4sensordata.html in Resources */,
 				FF2D34941C3DBD540033838A /* APHConsentSection.json in Resources */,
@@ -967,6 +1011,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				80DC1BD91C6A8F2600235C2E /* APHCustomSurveyIntroViewController.m in Sources */,
+				A6B689641C63F13200DCB8A7 /* APHActivitiesSectionHeaderView.m in Sources */,
 				6B41081C1C73E2BF00A2FB7B /* APHTremorTaskViewController.m in Sources */,
 				FF0B4ACC1C29FCB800224EF7 /* APHWalkingTaskViewController.m in Sources */,
 				80DC1BD61C6A8F2500235C2E /* APHMoodSurveyIntroStepViewController.m in Sources */,
@@ -981,6 +1026,7 @@
 				80DC1BDC1C6A8F2600235C2E /* APHCustomSurveyQuestionViewController.m in Sources */,
 				FF0B4ACA1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m in Sources */,
 				FF2D34431C31B7DC0033838A /* APHLocalization.m in Sources */,
+				A6B689561C63E14400DCB8A7 /* APHActivitiesViewController.m in Sources */,
 				43FEA4A51C86DEC80005B38F /* APHLineGraphView.m in Sources */,
 				FF0B4AC11C29FCB800224EF7 /* APHParkinsonActivityViewController.m in Sources */,
 				8032378A1C6BCF1A00208365 /* APHQuestionViewController.m in Sources */,
@@ -1010,6 +1056,7 @@
 				FFF270A91C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.m in Sources */,
 				FB4E467E1C7E675500CADC1F /* APHOnboardingManager.m in Sources */,
 				FB4E46781C7E673E00CADC1F /* APHInstructionStepViewController.m in Sources */,
+				A6B689681C640BC900DCB8A7 /* APHActivitiesTintedTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1424,6 +1471,7 @@
 		FFFA24401C2351D600727DA8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1437,12 +1485,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.sagebase.mPowerSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		FFFA24411C2351D600727DA8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
