@@ -346,8 +346,8 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
     self.correlatedScoring.series1Name = self.correlatedScores[0].caption;
     self.correlatedScoring.series2Name = self.correlatedScores[1].caption;
     
-    NSString *taskChoice = [self.correlatedScoring.activityTimingChoicesStrings objectAtIndex:self.selectedCorrelationTimeTab];
-    [self.correlatedScoring changeDataPointsWithTaskChoice:taskChoice];
+//    NSString *taskChoice = [self.correlatedScoring.activityTimingChoicesStrings objectAtIndex:self.selectedCorrelationTimeTab];
+//    [self.correlatedScoring changeDataPointsWithTaskChoice:taskChoice];
     
     // Commented out because it overwrites
 //    self.correlatedScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
