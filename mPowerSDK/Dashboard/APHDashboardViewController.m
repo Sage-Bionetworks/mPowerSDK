@@ -285,6 +285,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                                                                     unit:[HKUnit countUnit]
                                                             numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph];
     self.stepScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_STEPS_CAPTION", nil, APHLocaleBundle(), @"Steps", @"Dashboard caption for results of steps score.");
+    self.stepScoring.shouldDiscardIncongruentCorrelationElements = YES;
     
     self.tremorScoring = [[APCScoring alloc] initWithTask:APHTremorActivitySurveyIdentifier
                                              numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph

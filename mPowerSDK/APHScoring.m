@@ -28,6 +28,7 @@
 - (NSInteger)numberOfPlotsInGraph;
 - (NSInteger)numberOfPointsInPlot:(NSInteger)plotIndex;
 - (NSString *)graph:(APCBaseGraphView *) graphView titleForXAxisAtIndex:(NSInteger)pointIndex;
+- (void)discardIncongruentArrayElements;
 @end
 
 @interface APHScoring ()
@@ -42,6 +43,17 @@
 @implementation APHScoring
 
 #pragma mark - APCScoring Overrides
+
+- (void)correlateDataSources{
+    //move dataPoints into correlateDataPoints
+    if (self.shouldDiscardIncongruentCorrelationElements) {
+        [self discardIncongruentArrayElements];
+    }
+    
+    //index the arrays
+    [self indexDataSeries:self.dataPoints];
+    [self indexDataSeries:self.correlatedScoring.dataPoints];
+}
 
 - (NSDictionary *)summarizeDataset:(NSDictionary *)dataset period:(APHTimelineGroups)period
 {
