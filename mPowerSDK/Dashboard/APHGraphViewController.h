@@ -24,6 +24,7 @@
 @property (nonatomic) BOOL isForCorrelation;
 @property (nonatomic) BOOL shouldHideCorrelationSegmentControl;
 @property (nonatomic) BOOL shouldHideAverageLabel;
+@property (nonatomic) BOOL shouldHideMedicationLegend;
 @property (nonatomic) NSInteger selectedCorrelationTimeTab;
 
 @end

@@ -12,6 +12,7 @@
 
 const CGFloat kSparkLineGraphContainerHeight = 172.f;
 const CGFloat kCorrelationSelectorHeight = 48.f;
+const CGFloat kCorrelationSelectorVerticalSpace = 20.f;
 
 NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 {
@@ -31,6 +32,7 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *medicationLegendContainerHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *correlationSelectorHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *correlationSelectorVerticalSpace;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tintViewWidthConstraint;
 
 @property (weak, nonatomic) IBOutlet APHMedTimingLegendView *medicationLegendContainerView;
@@ -52,6 +54,11 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 + (CGFloat)correlationSelectorHeight
 {
     return kCorrelationSelectorHeight;
+}
+
++ (CGFloat)correlationSelectorVerticalSpace
+{
+    return kCorrelationSelectorVerticalSpace;
 }
 
 - (void)awakeFromNib
@@ -152,6 +159,7 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 {
     _showCorrelationSegmentControl = showCorrelationSegmentControl;
     self.correlationSelectorHeight.constant = showCorrelationSegmentControl ? [[self class] correlationSelectorHeight] : 0.f;
+    self.correlationSelectorVerticalSpace.constant = showCorrelationSegmentControl ? [[self class] correlationSelectorVerticalSpace] : 0.f;
     self.correlationSegmentControlView.hidden = !showCorrelationSegmentControl;
     [self setNeedsLayout];
 }

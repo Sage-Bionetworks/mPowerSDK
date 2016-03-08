@@ -56,7 +56,7 @@
 
 NSInteger const kNumberOfDaysToDisplayInDiscreteGraph = 6;
 NSInteger const kNumberOfDaysToDisplayInSparkLineGraph = 30;
-NSInteger const kPaddingMagicNumber = 60; // For the cell height to make the dashboard look pretty.
+NSInteger const kPaddingMagicNumber = 40; // For the cell height to make the dashboard look pretty.
 
 static NSString * const kAPCBasicTableViewCellIdentifier          = @"APCBasicTableViewCell";
 static NSString * const kAPCRightDetailTableViewCellIdentifier    = @"APCRightDetailTableViewCell";
@@ -835,6 +835,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         APHGraphViewController *graphViewController = [[UIStoryboard storyboardWithName:@"APHDashboard" bundle:[NSBundle bundleForClass:[self class]]] instantiateViewControllerWithIdentifier:@"APHLineGraphViewController"];
         graphViewController.shouldHideAverageLabel = YES;
         graphViewController.shouldHideCorrelationSegmentControl = YES;
+        graphViewController.shouldHideMedicationLegend = !graphItem.showMedicationLegend;
         graphViewController.tintColor = graphItem.tintColor;
         
 		if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
@@ -1016,6 +1017,8 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                 graphCell.secondaryTintColor = secondaryCorrelatedItem.tintColor;
                 graphCell.correlationButton1TitleColor = primaryCorrelatedItem.tintColor;
                 graphCell.correlationButton2TitleColor = secondaryCorrelatedItem.tintColor;
+            } else {
+                graphCell.showCorrelationSegmentControl = NO;
             }
         }
         

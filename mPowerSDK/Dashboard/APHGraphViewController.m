@@ -40,7 +40,7 @@
 {
     [super viewDidLoad];
     
-    self.medicationLegendContainerView.hidden = NO;
+    self.medicationLegendContainerView.hidden = self.shouldHideMedicationLegend;
     self.medicationLegendContainerView.showExpandedView = YES;
     self.medicationLegendContainerView.tintColor = self.tintColor;
     self.medicationLegendContainerView.showCorrelationLegend = self.isForCorrelation;
