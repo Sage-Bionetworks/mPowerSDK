@@ -72,6 +72,9 @@
                                                          green:237.f / 255.f
                                                           blue:237.f / 255.f
                                                          alpha:1.f];
+
+		discreteGraph.tintColor = self.tintColor;
+		discreteGraph.secondaryTintColor = self.secondaryTintColor;
     }
     
     graphView.tintColor = self.graphItem.tintColor;
@@ -89,6 +92,13 @@
     
     if (self.graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
         [self.scatterGraphView refreshGraph];
+    }
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    if (self.discreteGraphView.numberOfPlots > 1) {
+        self.titleLabelWidthConstraint.constant = 0;
     }
 }
 

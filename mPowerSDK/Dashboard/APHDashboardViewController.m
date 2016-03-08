@@ -434,7 +434,10 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     NSString *infoFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_CORRELATION_INFO", nil, APHLocaleBundle(), @"This chart plots the index of your %@ against the index of your %@. For more comparisons, click the series name.", @"Format of caption for correlation plot comparing indices of two series, to be filled in with the names of the series being compared.");
                     item.info = [NSString stringWithFormat:infoFormat, self.correlatedScoring.series1Name, self.self.correlatedScoring.series2Name];
                     item.detailText = @"";
-                    item.legend = [APHTableViewDashboardGraphItem legendForSeries1:self.correlatedScoring.series1Name series2:self.correlatedScoring.series2Name];
+                    item.legend = [APHTableViewDashboardGraphItem legendForSeries1:self.correlatedScoring.series1Name
+                                                                           series2:self.correlatedScoring.series2Name
+                                                                   colorForSeries1:[self itemForScoring:self.correlatedScores[0]].tintColor
+                                                                   colorForSeries2:[self itemForScoring:self.correlatedScores[1]].tintColor];
                     item.showMedicationLegend = YES;
                     item.showMedicationLegendCorrelation = YES;
                     
@@ -868,6 +871,12 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
             
             APHTableViewDashboardGraphItem *primaryCorrelatedItem = [self itemForScoring:self.correlatedScores[0]];
             APHTableViewDashboardGraphItem *secondaryCorrelatedItem = [self itemForScoring:self.correlatedScores[1]];
+            
+            graphViewController.graphItem.legend =
+                [APHTableViewDashboardGraphItem legendForSeries1:self.correlatedScoring.series1Name
+                                                         series2:self.correlatedScoring.series2Name
+                                                 colorForSeries1:primaryCorrelatedItem.tintColor
+                                                 colorForSeries2:secondaryCorrelatedItem.tintColor];
             
             graphViewController.tintColor = primaryCorrelatedItem.tintColor;
             graphViewController.secondaryTintColor = secondaryCorrelatedItem.tintColor;

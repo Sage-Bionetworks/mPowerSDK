@@ -13,6 +13,8 @@
 
 +(NSAttributedString *)legendForSeries1:(NSString *)series1
                                 series2:(NSString *)series2
+						colorForSeries1:(UIColor *)color1
+						colorForSeries2:(UIColor *)color2
 {
     NSAssert(series1 != nil, @"Pass a valid series 1 name");
     
@@ -22,7 +24,7 @@
     UIColor *darkGray = [UIColor darkGrayColor];
     
     NSAttributedString *indexOf = [[NSAttributedString alloc]initWithString:NSLocalizedStringWithDefaultValue(@"Index of", @"APCAppCore", APCBundle(), @"Index of", nil) attributes:@{NSFontAttributeName : font, NSForegroundColorAttributeName : darkGray }];
-    NSAttributedString *s1 = [[NSMutableAttributedString alloc]initWithString:series1 attributes:@{NSFontAttributeName : font, NSForegroundColorAttributeName : red}];
+    NSAttributedString *s1 = [[NSMutableAttributedString alloc]initWithString:series1 attributes:@{NSFontAttributeName : font, NSForegroundColorAttributeName : color1 ?: red }];
     NSAttributedString *space = [[NSAttributedString alloc]initWithString:@" "];
     NSAttributedString *versus = [[NSAttributedString alloc]initWithString:NSLocalizedStringWithDefaultValue(@"vs", @"APCAppCore", APCBundle(), @"vs", nil) attributes:@{NSFontAttributeName : font, NSForegroundColorAttributeName : darkGray }];
     
@@ -34,7 +36,7 @@
     [legend appendAttributedString:space];
     
     if (series2) {
-        NSAttributedString *s2 = [[NSMutableAttributedString alloc]initWithString:series2 attributes:@{NSFontAttributeName : font, NSForegroundColorAttributeName : yellow}];
+        NSAttributedString *s2 = [[NSMutableAttributedString alloc]initWithString:series2 attributes:@{NSFontAttributeName : font, NSForegroundColorAttributeName : color2 ?: yellow}];
         
         [legend appendAttributedString:s2];
     }

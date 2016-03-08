@@ -23,4 +23,9 @@ typedef NS_ENUM(NSUInteger, APHDashboardGraphType) {
 @property (nonatomic) BOOL showMedicationLegendCorrelation;
 @property (nonatomic) BOOL showSparkLineGraph;
 
++(NSAttributedString *)legendForSeries1:(NSString *)series1
+								series2:(NSString *)series2
+						colorForSeries1:(UIColor *)color1
+						colorForSeries2:(UIColor *)color2;
+
 @end
