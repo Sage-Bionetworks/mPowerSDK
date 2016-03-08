@@ -36,6 +36,7 @@
 @property(nonatomic) NSMutableDictionary *medTimingDataPoints;
 @property(nonatomic) NSMutableDictionary *medTimingDataPointsCorrelatedScoring;
 @property(nonatomic) NSArray *averagedDataPoints;
+@property(nonatomic) NSArray *correlatedAverageDataPoints;
 @property(nonatomic) NSArray *filteredDataPoints;
 
 @end
@@ -163,8 +164,9 @@
 	}
     
     NSString *noMedicationTimingKey = self.activityTimingChoicesStrings.lastObject;
-
-	for (NSDictionary *dataPoint in [self.dataPoints copy]) {
+    
+    NSArray *dataPoints = [self.dataPoints copy];
+	for (NSDictionary *dataPoint in dataPoints) {
         NSArray *rawDataPoints = dataPoint[kDatasetRawDataPointsKey];
         
         for (NSString *activityTimingChoiceString in self.activityTimingChoicesStrings) {
@@ -189,8 +191,9 @@
             if (filteredRawDataPoints.count == 0 && ![activityTimingChoiceString isEqualToString:noMedicationTimingKey]) {
                 filteredDataPoint[kDatasetValueKey] = @(NSNotFound);
             } else if (filteredRawDataPoints.count > 0) {
-                NSNumber *averageRawDataPointValue = [[filteredRawDataPoints valueForKey:kDatasetValueKey] valueForKeyPath:@"@avg.intValue"];
-                filteredDataPoint[kDatasetValueKey] = averageRawDataPointValue;
+                NSArray *filteredRawDataPointValues = [filteredRawDataPoints valueForKey:kDatasetValueKey];
+                NSNumber *averageValue = [filteredRawDataPointValues valueForKeyPath:@"@avg.intValue"];
+                filteredDataPoint[kDatasetValueKey] = averageValue;
             }
             
             [self.medTimingDataPoints[activityTimingChoiceString] addObject:filteredDataPoint];
@@ -198,7 +201,8 @@
 	}
     
     NSMutableArray *averagedDataPoints = [NSMutableArray new];
-    for (NSDictionary *dataPoint in [self.dataPoints copy]) {
+    for (NSDictionary *dataPoint in dataPoints) {
+        CGFloat dataPointValue = [dataPoint[kDatasetValueKey] floatValue];
         NSMutableDictionary *copiedDataPoint = [dataPoint mutableCopy];
         
         NSMutableArray *newRawDataPoints = [NSMutableArray new];
@@ -215,11 +219,26 @@
             
             NSMutableDictionary *pointCopy = [point mutableCopy];
             [pointCopy removeObjectForKey:kDatasetRawDataPointsKey];
-            pointCopy[kDatasetTaskResultKey] = @{ @"MedicationActivityTiming": medTimingChoiceString };
+            pointCopy[kDatasetTaskResultKey] = @{ @"MedicationMomentInDay": medTimingChoiceString };
             [newRawDataPoints addObject:pointCopy];
         }
         
         copiedDataPoint[kDatasetRawDataPointsKey] = newRawDataPoints;
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K != %@", kDatasetValueKey, @(NSNotFound)];
+        NSArray *filteredRawDataPoints = [newRawDataPoints filteredArrayUsingPredicate:predicate];
+        
+        if (filteredRawDataPoints.count > 0) {
+            NSArray *filteredRawDataPointValues = [filteredRawDataPoints valueForKey:kDatasetValueKey];
+            NSNumber *minValue = [filteredRawDataPointValues valueForKeyPath:@"@min.intValue"];
+            NSNumber *maxValue = [filteredRawDataPointValues valueForKeyPath:@"@max.intValue"];
+            APCRangePoint *newRangePoint = [[APCRangePoint alloc] initWithMinimumValue:minValue.floatValue maximumValue:maxValue.floatValue];
+            copiedDataPoint[kDatasetRangeValueKey] = newRangePoint;
+        } else if (dataPointValue != NSNotFound) {
+            APCRangePoint *newRangePoint = [[APCRangePoint alloc] initWithMinimumValue:dataPointValue maximumValue:dataPointValue];
+            copiedDataPoint[kDatasetRangeValueKey] = newRangePoint;
+        }
+        
         [averagedDataPoints addObject:copiedDataPoint];
     }
     
@@ -227,7 +246,8 @@
     
     if (!self.correlatedScoring) { return; }
     
-    for (NSDictionary *dataPoint in self.correlatedScoring.dataPoints) {
+    NSArray *correlatedDataPoints = [self.correlatedScoring.dataPoints copy];
+    for (NSDictionary *dataPoint in correlatedDataPoints) {
         NSArray *rawDataPoints = dataPoint[@"datasetRawDataPoints"];
         
         for (NSString *activityTimingChoiceString in self.activityTimingChoicesStrings) {
@@ -235,12 +255,14 @@
             
             NSPredicate *filterPredicate;
             if ([activityTimingChoiceString isEqualToString:noMedicationTimingKey]) {
-                filterPredicate = [NSPredicate predicateWithFormat:@"(%K == nil) || (%K == nil)",
+                filterPredicate = [NSPredicate predicateWithFormat:@"(%K == nil) || (%K == nil) || (%K == %@)",
                                    @"datasetTaskResult",
-                                   @"datasetTaskResult.MedicationActivityTiming"];
+                                   @"datasetTaskResult.MedicationMomentInDay",
+                                   @"datasetTaskResult.MedicationMomentInDay",
+                                   noMedicationTimingKey];
             } else {
                 filterPredicate = [NSPredicate predicateWithFormat:@"(%K == %@)",
-                                   @"datasetTaskResult.MedicationActivityTiming",
+                                   @"datasetTaskResult.MedicationMomentInDay",
                                    activityTimingChoiceString];
             }
             
@@ -257,6 +279,49 @@
             [self.medTimingDataPointsCorrelatedScoring[activityTimingChoiceString] addObject:filteredDataPoint];
         }
     }
+    
+    NSMutableArray *correlatedAverageDataPoints = [NSMutableArray new];
+    for (NSDictionary *dataPoint in correlatedDataPoints) {
+        CGFloat dataPointValue = [dataPoint[kDatasetValueKey] floatValue];
+        NSMutableDictionary *copiedDataPoint = [dataPoint mutableCopy];
+        
+        NSMutableArray *newRawDataPoints = [NSMutableArray new];
+        for (NSString *medTimingChoiceString in self.activityTimingChoicesStrings) {
+            NSArray *points = self.medTimingDataPointsCorrelatedScoring[medTimingChoiceString];
+            NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"%K == %@",
+                                            @"datasetDateKey",
+                                            dataPoint[kDatasetDateKey]];
+            NSDictionary *point = [points filteredArrayUsingPredicate:filterPredicate].firstObject;
+            
+            if (!point) {
+                continue;
+            }
+            
+            NSMutableDictionary *pointCopy = [point mutableCopy];
+            [pointCopy removeObjectForKey:kDatasetRawDataPointsKey];
+            pointCopy[kDatasetTaskResultKey] = @{ @"MedicationMomentInDay": medTimingChoiceString };
+            [newRawDataPoints addObject:pointCopy];
+        }
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K != %@", kDatasetValueKey, @(NSNotFound)];
+        NSArray *filteredRawDataPoints = [newRawDataPoints filteredArrayUsingPredicate:predicate];
+        
+        if (filteredRawDataPoints.count > 0) {
+            NSArray *filteredRawDataPointValues = [filteredRawDataPoints valueForKey:kDatasetValueKey];
+            NSNumber *minValue = [filteredRawDataPointValues valueForKeyPath:@"@min.intValue"];
+            NSNumber *maxValue = [filteredRawDataPointValues valueForKeyPath:@"@max.intValue"];
+            APCRangePoint *newRangePoint = [[APCRangePoint alloc] initWithMinimumValue:minValue.floatValue maximumValue:maxValue.floatValue];
+            copiedDataPoint[kDatasetRangeValueKey] = newRangePoint;
+        } else if (dataPointValue != NSNotFound) {
+            APCRangePoint *newRangePoint = [[APCRangePoint alloc] initWithMinimumValue:dataPointValue maximumValue:dataPointValue];
+            copiedDataPoint[kDatasetRangeValueKey] = newRangePoint;
+        }
+        
+        copiedDataPoint[kDatasetRawDataPointsKey] = newRawDataPoints;
+        [correlatedAverageDataPoints addObject:copiedDataPoint];
+    }
+    
+    self.correlatedAverageDataPoints = [correlatedAverageDataPoints copy];
 }
 
 - (void)changeDataPointsWithTaskChoice:(NSString *)taskChoice
@@ -311,15 +376,17 @@
 
 - (NSDictionary *)discreteGraph:(APHDiscreteGraphView *)graphView plot:(NSInteger)plotIndex dictionaryValueForPointAtIndex:(NSInteger)pointIndex
 {
-    NSDictionary *dictionaryValue = [NSDictionary new];
+    NSArray *dataPoints;
     
     if (plotIndex == 0) {
-        dictionaryValue = [self.dataPoints objectAtIndex:pointIndex];
-    }else{
-        dictionaryValue = [self.correlatedScoring.dataPoints objectAtIndex:pointIndex];
+        dataPoints = self.providesAveragedPointData ? self.averagedDataPoints : self.dataPoints;
+    } else {
+        dataPoints = self.providesAveragedPointData ? self.correlatedAverageDataPoints : self.correlatedScoring.dataPoints;
     }
     
-    return dictionaryValue;
+    NSDictionary *dataPoint = [dataPoints objectAtIndex:pointIndex];
+    
+    return dataPoint;
 }
 
 - (NSArray<NSNumber *> *)minimumValuesForDiscreteGraph:(APCDiscreteGraphView *)graphView {
@@ -341,6 +408,19 @@
 
 - (NSArray<NSNumber *> *)maximumValuesForDiscreteGraph:(APCDiscreteGraphView *)graphView {
 	return [self maximumCorrelatedDataPoints];
+}
+
+- (NSInteger)discreteGraph:(APCDiscreteGraphView *)graphView numberOfPointsInPlot:(NSInteger)plotIndex
+{
+    NSArray *dataPoints;
+    
+    if (plotIndex == 0) {
+        dataPoints = self.providesAveragedPointData ? self.averagedDataPoints : self.dataPoints;
+    } else {
+        dataPoints = self.providesAveragedPointData ? self.correlatedAverageDataPoints : self.correlatedScoring.dataPoints;
+    }
+    
+    return dataPoints.count;
 }
 
 #pragma mark - APHSparkGraphViewDataSource
@@ -469,13 +549,13 @@
 
 - (NSInteger)scatterGraph:(APHScatterGraphView *)graphView numberOfPointsInPlot:(NSInteger)plotIndex
 {
-    NSArray *dataPoints = self.providesExpandedScatterPlotData ? self.averagedDataPoints : self.dataPoints;
+    NSArray *dataPoints = self.providesAveragedPointData ? self.averagedDataPoints : self.dataPoints;
     return dataPoints.count;
 }
 
 - (NSDictionary *)scatterGraph:(APHScatterGraphView *)graphView plot:(NSInteger)plotIndex valueForPointAtIndex:(NSInteger)pointIndex
 {
-    NSArray *dataPoints = self.providesExpandedScatterPlotData ? self.averagedDataPoints : self.dataPoints;
+    NSArray *dataPoints = self.providesAveragedPointData ? self.averagedDataPoints : self.dataPoints;
     NSDictionary *dataPointValue = [NSDictionary new];
     
     if (plotIndex == 0) {
@@ -497,7 +577,7 @@
 
 - (NSString *)scatterGraph:(APHScatterGraphView *)graphView titleForXAxisAtIndex:(NSInteger)pointIndex
 {
-    NSArray *dataPoints = self.providesExpandedScatterPlotData ? self.averagedDataPoints : self.dataPoints;
+    NSArray *dataPoints = self.providesAveragedPointData ? self.averagedDataPoints : self.dataPoints;
     NSDate *titleDate = nil;
     NSInteger numOfTitles = [self numberOfDivisionsInXAxisForGraph:graphView];
     

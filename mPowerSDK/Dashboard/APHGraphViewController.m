@@ -152,7 +152,7 @@
 - (void)segmentControlChanged:(UISegmentedControl *)sender
 {
     APHScoring *graphScoring = (APHScoring *)self.graphItem.graphData;
-    graphScoring.providesExpandedScatterPlotData = sender.selectedSegmentIndex > 1;
+    graphScoring.providesAveragedPointData = sender.selectedSegmentIndex > 1;
     
     [super segmentControlChanged:sender];
 }

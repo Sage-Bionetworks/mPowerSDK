@@ -1017,15 +1017,15 @@
                                         <rect key="frame" x="448" y="3" width="104" height="34"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zOh-8w-pIo" customClass="APHCircleView">
-                                                <rect key="frame" x="8" y="9" width="16" height="16"/>
+                                                <rect key="frame" x="8" y="10" width="15" height="14"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="16" id="Gzo-jK-oTz"/>
-                                                    <constraint firstAttribute="width" constant="16" id="ube-0z-SxM"/>
+                                                    <constraint firstAttribute="height" constant="14" id="Gzo-jK-oTz"/>
+                                                    <constraint firstAttribute="width" constant="15" id="ube-0z-SxM"/>
                                                 </constraints>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Another time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZC8-QS-fyh">
-                                                <rect key="frame" x="32" y="0.0" width="72" height="34"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Another time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="ZC8-QS-fyh">
+                                                <rect key="frame" x="31" y="0.0" width="73" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -1047,15 +1047,15 @@
                                         <rect key="frame" x="319" y="3" width="121" height="34"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fJp-WW-p3y" customClass="APHCircleView">
-                                                <rect key="frame" x="8" y="9" width="16" height="16"/>
+                                                <rect key="frame" x="8" y="10" width="14" height="14"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="16" id="cbH-cd-gZ2"/>
-                                                    <constraint firstAttribute="height" constant="16" id="wVU-3o-ic8"/>
+                                                    <constraint firstAttribute="width" constant="14" id="cbH-cd-gZ2"/>
+                                                    <constraint firstAttribute="height" constant="14" id="wVU-3o-ic8"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Before med" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lDV-jE-BAv">
-                                                <rect key="frame" x="32" y="0.0" width="89" height="34"/>
+                                                <rect key="frame" x="30" y="0.0" width="91" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -1076,23 +1076,23 @@
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dC1-Cr-fqo" userLabel="After Medication Container">
                                         <rect key="frame" x="189" y="3" width="122" height="34"/>
                                         <subviews>
-                                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m0m-Gx-B3k">
-                                                <rect key="frame" x="0.0" y="9" width="34" height="16"/>
+                                            <view opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m0m-Gx-B3k">
+                                                <rect key="frame" x="0.0" y="9" width="32" height="16"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y7P-ab-lue" customClass="APHCircleView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="14" height="14"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="16" id="lc7-ee-4N0"/>
-                                                            <constraint firstAttribute="height" constant="16" id="sGF-sh-CSc"/>
+                                                            <constraint firstAttribute="width" constant="14" id="lc7-ee-4N0"/>
+                                                            <constraint firstAttribute="height" constant="14" id="sGF-sh-CSc"/>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GkZ-7d-FCI" customClass="APHCircleView">
-                                                        <rect key="frame" x="18" y="0.0" width="16" height="16"/>
+                                                        <rect key="frame" x="16" y="0.0" width="14" height="14"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="16" id="AsL-1c-OPO"/>
-                                                            <constraint firstAttribute="height" constant="16" id="X0V-6i-GZw"/>
+                                                            <constraint firstAttribute="width" constant="14" id="AsL-1c-OPO"/>
+                                                            <constraint firstAttribute="height" constant="14" id="X0V-6i-GZw"/>
                                                         </constraints>
                                                     </view>
                                                 </subviews>
