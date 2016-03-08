@@ -64,7 +64,7 @@
     
     if (self.showCorrelationLegend) {
         self.correlatedAfterMedicationCircleViewLeadingSpaceConstraint.constant = 2.f;
-        self.correlatedAfterMedicationCircleViewWidthConstraint.constant = 16.f;
+        self.correlatedAfterMedicationCircleViewWidthConstraint.constant = 14.f;
     } else {
         self.correlatedAfterMedicationCircleViewLeadingSpaceConstraint.constant = 0.f;
         self.correlatedAfterMedicationCircleViewWidthConstraint.constant = 0.f;
