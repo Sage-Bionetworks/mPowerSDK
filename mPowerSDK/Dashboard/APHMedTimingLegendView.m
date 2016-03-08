@@ -55,7 +55,7 @@
         self.beforeMedicationLabel.text = NSLocalizedStringWithDefaultValue(@"APH_BEFORE_MEDICATION", nil, APHLocaleBundle(), @"Before medication", @"");
     }
     
-    self.notSureLabel.text = NSLocalizedStringWithDefaultValue(@"APH_NOT_SURE", nil, APHLocaleBundle(), @"Not sure", @"");
+    self.notSureLabel.text = NSLocalizedStringWithDefaultValue(@"APH_ANOTHER_TIME", nil, APHLocaleBundle(), @"Another time", @"");
 }
 
 - (void)updateConstraints
