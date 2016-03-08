@@ -218,8 +218,16 @@ static  NSString *const kSecondInstructionStepIdentifier    = @"instruction1";
     
     // if there is a med results then archive that separately
     if (medicationTrackerTaskResult) {
+        
+        // Create an archive for the medication survey
         self.medicationTrackerArchive = [[APCDataArchive alloc] initWithReference:APHMedicationTrackerTaskIdentifier schemaRevision:@(APHMedicationTrackerSchemaRevision)];
         [self appendArchive:self.medicationTrackerArchive withTaskResult:medicationTrackerTaskResult];
+        
+        // Look for a scheduled task and update that task if need be
+        [[APCScheduler defaultScheduler] startAndFinishNextScheduledTaskWithID:APHMedicationTrackerSurveyIdentifier
+                                                                     startDate:self.result.startDate
+                                                                       endDate:self.result.endDate];
+
     }
 }
 
