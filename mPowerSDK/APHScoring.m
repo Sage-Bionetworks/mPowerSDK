@@ -244,7 +244,7 @@
     
     self.averagedDataPoints = [averagedDataPoints copy];
     
-    if (!self.correlatedScoring) {
+    if (self.correlatedScoring) {
         [self filterDataForCorrelatedScoring];
     }
 }
