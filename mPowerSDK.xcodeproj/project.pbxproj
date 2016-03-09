@@ -56,8 +56,6 @@
 		A690D92F1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A690D92D1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.m */; };
 		A690D9361C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = A690D9341C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.h */; };
 		A690D9371C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A690D9351C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.m */; };
-		A6B29FA21C863E49005CEF3F /* APHRegularShapeView.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B29FA01C863E49005CEF3F /* APHRegularShapeView.h */; };
-		A6B29FA31C863E49005CEF3F /* APHRegularShapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B29FA11C863E49005CEF3F /* APHRegularShapeView.m */; };
 		FB4E46711C7E671C00CADC1F /* EligibilityRequirements.json in Resources */ = {isa = PBXBuildFile; fileRef = FB4E466F1C7E671C00CADC1F /* EligibilityRequirements.json */; };
 		FB4E46771C7E673E00CADC1F /* APHInstructionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FB4E46731C7E673E00CADC1F /* APHInstructionStepViewController.h */; };
 		FB4E46781C7E673E00CADC1F /* APHInstructionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4E46741C7E673E00CADC1F /* APHInstructionStepViewController.m */; };
@@ -230,8 +228,6 @@
 		A690D92D1C7CE72500DF6B74 /* APHStudyLandingCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHStudyLandingCollectionViewCell.m; sourceTree = "<group>"; };
 		A690D9341C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHStudyVideoCollectionViewCell.h; sourceTree = "<group>"; };
 		A690D9351C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHStudyVideoCollectionViewCell.m; sourceTree = "<group>"; };
-		A6B29FA01C863E49005CEF3F /* APHRegularShapeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHRegularShapeView.h; sourceTree = "<group>"; };
-		A6B29FA11C863E49005CEF3F /* APHRegularShapeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHRegularShapeView.m; sourceTree = "<group>"; };
 		FB4E46701C7E671C00CADC1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Base; path = Base.lproj/EligibilityRequirements.json; sourceTree = "<group>"; };
 		FB4E46731C7E673E00CADC1F /* APHInstructionStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHInstructionStepViewController.h; sourceTree = "<group>"; };
 		FB4E46741C7E673E00CADC1F /* APHInstructionStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHInstructionStepViewController.m; sourceTree = "<group>"; };
@@ -785,8 +781,6 @@
 				6B1438221C8D1CE20034486F /* APHMedTimingLegendView.m */,
 				6BED4D811C8595EC00A4269D /* APHTableViewDashboardGraphItem.h */,
 				6BED4D821C8595EC00A4269D /* APHTableViewDashboardGraphItem.m */,
-				A6B29FA01C863E49005CEF3F /* APHRegularShapeView.h */,
-				A6B29FA11C863E49005CEF3F /* APHRegularShapeView.m */,
 				FBAE3D141C863A68003CEC4A /* APHWebViewStepViewController.h */,
 				FBAE3D151C863A68003CEC4A /* APHWebViewStepViewController.m */,
 			);
@@ -844,7 +838,6 @@
 				FFFA248D1C236AE700727DA8 /* APHDataKeys.h in Headers */,
 				FB4E46771C7E673E00CADC1F /* APHInstructionStepViewController.h in Headers */,
 				FF0B4AC21C29FCB800224EF7 /* APHScoreCalculator.h in Headers */,
-				A6B29FA21C863E49005CEF3F /* APHRegularShapeView.h in Headers */,
 				80DC1BC01C6A8EE800235C2E /* APHDynamicMoodSurveyTask.h in Headers */,
 				43FEA4A41C86DEC80005B38F /* APHLineGraphView.h in Headers */,
 				FFFA24851C23664500727DA8 /* APHAppDelegate+APHMigration.h in Headers */,
@@ -1024,7 +1017,6 @@
 				A690D9371C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.m in Sources */,
 				FFFA24921C236E9A00727DA8 /* APHProfileExtender.m in Sources */,
 				803237931C6BD0DB00208365 /* APHMoodLogDictionaryKeys.m in Sources */,
-				A6B29FA31C863E49005CEF3F /* APHRegularShapeView.m in Sources */,
 				8032378F1C6BCFF700208365 /* APHCustomTextView.m in Sources */,
 				43FEA4E21C8954280005B38F /* APHGraphViewController.m in Sources */,
 				6BED4D781C8550A600A4269D /* APHDashboardGraphTableViewCell.m in Sources */,

@@ -10,7 +10,6 @@
 #import "APHLineGraphView.h"
 #import "APHScoring.h"
 #import "APHTableViewDashboardGraphItem.h"
-#import "APHRegularShapeView.h"
 
 @interface APCGraphViewController (Private)
 @property (strong, nonatomic) APCSpinnerViewController *spinnerController;

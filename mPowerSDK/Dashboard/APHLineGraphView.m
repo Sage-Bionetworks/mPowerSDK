@@ -7,7 +7,6 @@
 //
 
 #import "APHLineGraphView.h"
-#import "APHRegularShapeView.h"
 
 static CGFloat const kAPCGraphLeftPadding = 10.f;
 static CGFloat const kAxisMarkingRulerLength = 8.0f;
