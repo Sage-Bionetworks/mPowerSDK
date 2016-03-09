@@ -272,7 +272,7 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 - (void)taskViewController:(ORKTaskViewController *)taskViewController
        didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(nullable NSError *)error {
 
-    if (reason == ORKTaskViewControllerFinishReasonCompleted) {
+    if ((reason == ORKTaskViewControllerFinishReasonCompleted) && self.user.isUserConsented) {
         // finish onboarding
         self.user.signedIn = YES;
         self.user.signedUp = YES;
@@ -283,6 +283,8 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
         [APCKeychainStore resetKeyChain];
         self.user.signedIn = NO;
         self.user.signedUp = NO;
+        self.user.consented = NO;
+        self.user.userConsented = NO;
     }
     [taskViewController dismissViewControllerAnimated:YES completion:nil];
 }
