@@ -15,7 +15,6 @@
 @property (nonatomic) BOOL showCorrelationSegmentControl;
 @property (nonatomic) BOOL showMedicationLegend;
 @property (nonatomic) BOOL showMedicationLegendCorrelation;
-@property (nonatomic) BOOL showSparkLineGraph;
 
 +(NSAttributedString *)legendForSeries1:(NSString *)series1
 								series2:(NSString *)series2

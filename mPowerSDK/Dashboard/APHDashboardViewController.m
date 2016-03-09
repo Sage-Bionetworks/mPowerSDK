@@ -42,7 +42,6 @@
 #import "APHSpatialSpanMemoryGameViewController.h"
 #import "APHTableViewDashboardGraphItem.h"
 #import "APHScoring.h"
-#import "APHSparkGraphView.h"
 #import "APHTremorTaskViewController.h"
 #import "APHWalkingTaskViewController.h"
 #import "APHAppDelegate.h"
@@ -54,7 +53,6 @@
 @import BridgeAppSDK;
 
 NSInteger const kNumberOfDaysToDisplayInDiscreteGraph = 6;
-NSInteger const kNumberOfDaysToDisplayInSparkLineGraph = 30;
 NSInteger const kPaddingMagicNumber = 56; // For the cell height to make the dashboard look pretty.
 
 static NSString * const kAPCBasicTableViewCellIdentifier          = @"APCBasicTableViewCell";
@@ -73,7 +71,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 @property (weak, nonatomic) IBOutlet UIButton *monthlyReportButton;
 
 @property (nonatomic, strong) NSArray *rowItemsOrder;
-@property (nonatomic, strong) NSMutableDictionary *sparkLineGraphScoring;
 
 // Array of scores to correlate. Current implementation and design can only correlate two scores.
 @property (nonatomic, strong) NSMutableArray<APHScoring *> *correlatedScores;
@@ -325,7 +322,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         self.correlatedScores = [NSMutableArray arrayWithArray:@[self.tapRightScoring, self.tapLeftScoring]];
     }
     [self prepareCorrelatedScoring];
-    [self prepareSparkLineScoring];
 }
 
 - (APHScoring *)scoringForValueKey:(NSString *)valueKey
@@ -351,37 +347,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
     
     // Commented out because it overwrites
 //    self.correlatedScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
-}
-
-- (void)prepareSparkLineScoring
-{
-    NSArray *scoringObjects = @[ self.tapRightScoring,
-                                 self.tapLeftScoring,
-                                 self.gaitScoring,
-                                 self.stepScoring,
-                                 self.memoryScoring,
-                                 self.phonationScoring,
-                                 self.moodScoring,
-                                 self.energyScoring,
-                                 self.exerciseScoring,
-                                 self.sleepScoring,
-                                 self.cognitiveScoring,
-                                 self.customScoring ];
-    
-    self.sparkLineGraphScoring = [[NSMutableDictionary alloc] initWithCapacity:scoringObjects.count];
-    
-    for (APHScoring *scoring in scoringObjects) {
-        NSValue *key = [NSValue valueWithPointer:(const void *)scoring];
-        APHScoring *value = [scoring copy];
-        [value updatePeriodForDays:-kNumberOfDaysToDisplayInSparkLineGraph groupBy:APHTimelineGroupDay];
-        self.sparkLineGraphScoring[key] = value;
-    }
-}
-
-- (nullable APHScoring *)sparkLineScoringForScoring:(APCScoring *)scoring
-{
-    NSValue *key = [NSValue valueWithPointer:(const void *)scoring];
-    return self.sparkLineGraphScoring[key];
 }
 
 - (void)prepareData
@@ -950,25 +915,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         graphCell.correlationButton2TitleColor = [UIColor appTertiaryYellowColor];
         graphCell.correlationDelegate = self;
         
-        APHSparkGraphView *sparkLineGraphView = graphCell.sparkLineGraphView;
-        sparkLineGraphView.datasource = [self sparkLineScoringForScoring:graphItem.graphData];
-        
-        sparkLineGraphView.delegate = self;
-        sparkLineGraphView.tintColor = graphItem.tintColor;
-        sparkLineGraphView.secondaryTintColor = [UIColor appTertiaryGrayColor];
-        sparkLineGraphView.axisColor = [UIColor appTertiaryGrayColor];
-        sparkLineGraphView.axisTitleFont = [UIFont appRegularFontWithSize:14.0f];
-        sparkLineGraphView.hidesDataPoints = YES;
-        sparkLineGraphView.shouldDrawShapePointKey = YES;
-        sparkLineGraphView.shouldHighlightXaxisLastTitle = NO;
-        sparkLineGraphView.maximumValueImage = graphItem.maximumImage;
-        sparkLineGraphView.minimumValueImage = graphItem.minimumImage;
-        [sparkLineGraphView layoutSubviews];
-        
-        if (sparkLineGraphView != nil) {
-            [self.lineCharts addObject:sparkLineGraphView];
-        }
-        
         if (graphCell.showCorrelationSelectorView && graphItem.graphType == kAPCDashboardGraphTypeLine) {
             ((APHLineGraphView *)graphCell.lineGraphView).shouldDrawLastPoint = YES;
             ((APHLineGraphView *)graphCell.lineGraphView).colorForFirstCorrelationLine = graphCell.correlationButton1TitleColor;
@@ -1004,10 +950,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
             } else {
                 graphCell.showCorrelationSegmentControl = NO;
             }
-        }
-        
-        for (UIView *tintView in graphCell.tintViews) {
-            tintView.tintColor = graphItem.tintColor;
         }
     }
 
@@ -1048,10 +990,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
             rowHeight += [APHDashboardGraphTableViewCell medicationLegendContainerHeight];
         }
         
-        if (graphItem.showSparkLineGraph) {
-            rowHeight += [APHDashboardGraphTableViewCell sparkLineGraphContainerHeight];
-        }
-        
         if (graphItem.showCorrelationSegmentControl) {
             rowHeight += [APHDashboardGraphTableViewCell correlationSelectorHeight];
         }
@@ -1062,23 +1000,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
     }
     
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
-}
-
-- (void)tableView:(UITableView *)__unused tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    APCTableViewItem *dashboardItem = [self itemForIndexPath:indexPath];
-    
-    if ([dashboardItem isKindOfClass:[APHTableViewDashboardGraphItem class]]){
-        APCTableViewDashboardGraphItem *graphItem = (APCTableViewDashboardGraphItem *)dashboardItem;
-        APHDashboardGraphTableViewCell *graphCell = (APHDashboardGraphTableViewCell *)cell;
-        
-        APHSparkGraphView *sparkLineGraphView = graphCell.sparkLineGraphView;
-        [sparkLineGraphView setNeedsLayout];
-        [sparkLineGraphView layoutIfNeeded];
-        [sparkLineGraphView refreshGraph];
-    }
-    
-    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
 }
 
 #pragma mark - ORKTaskViewControllerDelegate

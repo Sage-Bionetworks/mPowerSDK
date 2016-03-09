@@ -10,7 +10,6 @@
 #import "APHDiscreteGraphView.h"
 #import "APHMedTimingLegendView.h"
 
-const CGFloat kSparkLineGraphContainerHeight = 172.f;
 const CGFloat kCorrelationSelectorHeight = 48.f;
 const CGFloat kCorrelationSelectorVerticalSpace = 20.f;
 
@@ -42,11 +41,6 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 + (CGFloat)medicationLegendContainerHeight
 {
     return [APHMedTimingLegendView defaultHeight];
-}
-
-+ (CGFloat)sparkLineGraphContainerHeight
-{
-    return kSparkLineGraphContainerHeight;
 }
 
 + (CGFloat)correlationSelectorHeight

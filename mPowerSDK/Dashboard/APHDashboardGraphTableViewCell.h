@@ -9,7 +9,6 @@
 #import <APCAppCore/APCAppCore.h>
 
 @class APHMedTimingLegendView;
-@class APHSparkGraphView;
 
 @protocol APHDashboardGraphTableViewCellDelegate <NSObject>
 
@@ -20,9 +19,6 @@
 
 
 @interface APHDashboardGraphTableViewCell : APCDashboardGraphTableViewCell
-
-@property (strong, nonatomic) IBOutletCollection(UIView) NSArray *tintViews;
-@property (weak, nonatomic) IBOutlet APHSparkGraphView *sparkLineGraphView;
 
 @property (weak, nonatomic) IBOutlet APHMedTimingLegendView *medicationLegendContainerView;
 @property (weak, nonatomic) IBOutlet UIView *correlationSelectorView;
@@ -53,7 +49,6 @@
 @property (weak, nonatomic) id <APHDashboardGraphTableViewCellDelegate> correlationDelegate;
 
 + (CGFloat)medicationLegendContainerHeight;
-+ (CGFloat)sparkLineGraphContainerHeight;
 + (CGFloat)correlationSelectorHeight;
 
 @end
