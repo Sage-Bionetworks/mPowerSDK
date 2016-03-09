@@ -111,8 +111,8 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
 	}
 }
 
-- (NSInteger)findLastValidPointIndex:(NSArray *)pointsArray {
-	__block NSInteger i = -1;
+- (NSUInteger)findLastValidPointIndex:(NSArray *)pointsArray {
+	__block NSUInteger i = NSNotFound;
 	[pointsArray enumerateObjectsWithOptions:NSEnumerationReverse
 									  usingBlock:^(NSNumber *dataPoint, NSUInteger idx, BOOL *stop) {
 										  if (dataPoint.integerValue != NSNotFound) {
@@ -124,7 +124,7 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
 	return i;
 }
 
-- (void)drawLastPointDot:(NSInteger)plotIndex {
+- (void)drawLastPointDot:(NSUInteger)plotIndex {
 	NSInteger i = [self findLastValidPointIndex:[self.dataPoints copy]];
 	if (i < 0) {
 		return;
@@ -156,7 +156,7 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
     
     NSMutableArray *pointsArray = [NSMutableArray new];
     
-    NSUInteger smallestArrayCount = self.yAxisPoints.count < self.xAxisPoints.count ?: self.xAxisPoints.count;
+    NSUInteger smallestArrayCount = self.yAxisPoints.count < self.xAxisPoints.count ? self.yAxisPoints.count : self.xAxisPoints.count;
     
     for (NSUInteger i=0; i< smallestArrayCount; i++) {
         CGPoint point = CGPointMake([self.xAxisPoints[i] doubleValue], [self.yAxisPoints[i] doubleValue]);
