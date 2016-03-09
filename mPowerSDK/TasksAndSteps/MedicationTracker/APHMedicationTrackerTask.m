@@ -58,6 +58,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 @property (nonatomic) NSMutableArray <ORKStep *> *steps;
 @property (nonatomic, readonly, copy) NSDictionary *mappingDictionary;
 @property (nonatomic) BOOL medicationChanged;
+@property (nonatomic) NSArray *medChoiceValues;
 
 @end
 
@@ -257,12 +258,17 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier title:title text:introText];
     
     NSString *justBefore = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_BEFORE_CHOICE", nil, APHLocaleBundle(), @"Immediately before taking Parkinson medication", @"Choice for doing activity before taking medication.");
-    NSString *justAfter = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_AFTER_CHOICE", nil, APHLocaleBundle(), @"Just after taking Parkinson medication (at your best)", @"Choice for doing activity after taking medication.");
-    NSString *other = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_OTHER_CHOICE", nil, APHLocaleBundle(), @"Another time", @"Choice for doing activity at another time of day other than before or after taking medication.");
+    NSString *justBeforeValue = @"Immediately before taking Parkinson medication";
     
-    NSArray *textChoices = @[[ORKTextChoice choiceWithText:justBefore value:justBefore],
-                             [ORKTextChoice choiceWithText:justAfter value:justAfter],
-                             [ORKTextChoice choiceWithText:other value:other]];
+    NSString *justAfter = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_AFTER_CHOICE", nil, APHLocaleBundle(), @"Just after taking Parkinson medication (at your best)", @"Choice for doing activity after taking medication.");
+    NSString *justAfterValue = @"Just after taking Parkinson medication (at your best)";
+    
+    NSString *other = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_OTHER_CHOICE", nil, APHLocaleBundle(), @"Another time", @"Choice for doing activity at another time of day other than before or after taking medication.");
+    NSString *otherValue = @"Another time";
+    
+    NSArray *textChoices = @[[ORKTextChoice choiceWithText:justBefore value:justBeforeValue],
+                             [ORKTextChoice choiceWithText:justAfter value:justAfterValue],
+                             [ORKTextChoice choiceWithText:other value:otherValue]];
 
     ORKAnswerFormat  *format = [ORKTextChoiceAnswerFormat
                                 choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
@@ -275,6 +281,8 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
                                                     answerFormat:format];
     step.formItems = @[item];
     step.optional = optional;
+    
+    self.medChoiceValues = @[justBeforeValue, justAfterValue];
     
     return step;
 }
@@ -290,9 +298,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     ORKInstructionStep *step = [ORKInstructionStep completionStep];
     // Replace the language in the last step
     step.title = title ?: [APHLocalization localizedStringWithKey:@"APH_ACTIVITY_CONCLUSION_TEXT"];
-    if (text) {
-        step.text = text;
-    }
+    step.text = text ?: @"";
     return step;
 }
 
@@ -409,6 +415,37 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     [formStep setFormItems:@[item]];
     
     return YES;
+}
+
+/**
+ * Index of a given medication timing choice (used in graphing)
+ */
+- (NSUInteger)indexForMedicationActivityTimingChoice:(id <NSCopying, NSCoding, NSObject> _Nullable)choiceValue {
+    if ([choiceValue isKindOfClass:[NSNumber class]]) {
+        return [(NSNumber*)choiceValue unsignedIntegerValue];
+    }
+    return NSNotFound;
+}
+
+/**
+ * Timing choice to include in the result sumamary for the givin task result
+ */
+- (id <NSCopying, NSCoding, NSObject> )timingChoiceFromTaskResult:(ORKTaskResult *)result {
+    
+    ORKStepResult *stepResult = (ORKStepResult *)[result resultForIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
+    if (stepResult == nil) {
+        // if the step result isn't found then look in the cache
+        stepResult = [[[self.dataStore momentInDayResult] filteredArrayWithIdentifiers:@[APHMedicationTrackerMomentInDayStepIdentifier]] firstObject];
+    }
+    
+    if ([stepResult isKindOfClass:[ORKStepResult class]]) {
+        ORKChoiceQuestionResult *selectionResult = (ORKChoiceQuestionResult *)[stepResult.results firstObject];
+        if ([selectionResult isKindOfClass:[ORKChoiceQuestionResult class]]) {
+            id value = [selectionResult.choiceAnswers firstObject];
+            return @([self.medChoiceValues indexOfObject:value]);
+        }
+    }
+    return @(NSNotFound);
 }
 
 - (NSArray <ORKTextChoice *> *) activityTimingChoices

@@ -41,7 +41,7 @@
 #import "APHScoreCalculator.h"
 #import "APHLocalization.h"
 #import "APHActivityManager.h"
-#import "APHMedicationTrackerDataStore.h"
+#import "APHMedicationTrackerTask.h"
 
     //
     //        Step Identifiers
@@ -154,6 +154,8 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
 - (NSString *)createResultSummary
 {
     ORKTaskResult  *taskResults = self.result;
+    id timingChoice = [self.medicationTrackerTask timingChoiceFromTaskResult:taskResults] ?: @(NSNotFound);
+
     self.createResultSummaryBlock = ^(NSManagedObjectContext * context) {
         
         ORKFileResult  *fileResult = nil;
@@ -175,20 +177,10 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
         
         double scoreSummary = [[APHScoreCalculator sharedCalculator] scoreFromPhonationTest: fileResult.fileURL];
         scoreSummary = isnan(scoreSummary) ? 0 : scoreSummary;
-
-        NSString *medicationActivityTimingString = @"";
-        APHMedicationTrackerDataStore *medTrackerDataStore = [APHMedicationTrackerDataStore defaultStore];
-        if (medTrackerDataStore.momentInDayResult) {
-            for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {
-                if ([orkStepResult.identifier isEqualToString:@"medicationActivityTiming"]) {
-                    medicationActivityTimingString = ((ORKChoiceQuestionResult *)orkStepResult.firstResult).choiceAnswers.firstObject ?: @"";
-                }
-            }
-        }
         
         NSDictionary  *summary = @{
             APHPhonationScoreSummaryOfRecordsKey : @(scoreSummary),
-            APHMedicationActivityTimingKey : medicationActivityTimingString
+            APHMedicationActivityTimingKey : timingChoice
         };
         
         NSError  *error = nil;

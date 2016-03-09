@@ -34,7 +34,7 @@
 #import "APHSpatialSpanMemoryGameViewController.h"
 #import "APHLocalization.h"
 #import "APHActivityManager.h"
-#import "APHMedicationTrackerDataStore.h"
+#import "APHMedicationTrackerTask.h"
 
 
 NSString *const kSpatialMemoryScoreSummaryKey = @"spatialMemoryScoreSummaryKey";
@@ -80,6 +80,8 @@ static NSString * const kItemKey                    = @"item";
 - (NSString *)createResultSummary
 {
     ORKTaskResult  *taskResults = self.result;
+    id timingChoice = [self.medicationTrackerTask timingChoiceFromTaskResult:taskResults] ?: @(NSNotFound);
+    
     self.createResultSummaryBlock = ^(NSManagedObjectContext * context) {
         ORKSpatialSpanMemoryResult  *memoryResults = nil;
         BOOL  found = NO;
@@ -97,21 +99,11 @@ static NSString * const kItemKey                    = @"item";
                 }
             }
         }
-
-        NSString *medicationActivityTimingString = @"";
-        APHMedicationTrackerDataStore *medTrackerDataStore = [APHMedicationTrackerDataStore defaultStore];
-        if (medTrackerDataStore.momentInDayResult) {
-            for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {
-                if ([orkStepResult.identifier isEqualToString:@"medicationActivityTiming"]) {
-                    medicationActivityTimingString = ((ORKChoiceQuestionResult *)orkStepResult.firstResult).choiceAnswers.firstObject ?: @"";
-                }
-            }
-        }
         
         // Create the summary dictionary
         NSDictionary *summary = @{
             kSpatialMemoryScoreSummaryKey : @(memoryResults.score),
-            APHMedicationActivityTimingKey : medicationActivityTimingString
+            APHMedicationActivityTimingKey : timingChoice
         };
         
         NSError  *error = nil;

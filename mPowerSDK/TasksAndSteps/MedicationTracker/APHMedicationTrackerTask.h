@@ -34,7 +34,7 @@
 #import <Foundation/Foundation.h>
 #import <ResearchKit/ResearchKit.h>
 
-@class APHMedication, APCDataGroupsManager, APHMedicationTrackerDataStore;
+@class APHMedication, APCDataGroupsManager, APHMedicationTrackerDataStore, APHTextChoice;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -75,14 +75,19 @@ extern NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier;
                                          subTask:(id <ORKTask> _Nullable)subTask;
 
 /**
- * Exposes the text choices
- */
-- (NSArray <ORKTextChoice *> *) activityTimingChoices;
-
-/**
  * Map the selected medication and frequency against the list of all possible answers
  */
 - (NSArray <APHMedication*> *)selectedMedicationFromResult:(ORKTaskResult*)result;
+
+/**
+ * Index of a given medication timing choice (used in graphing)
+ */
+- (NSUInteger)indexForMedicationActivityTimingChoice:(id <NSCopying, NSCoding, NSObject> _Nullable)choiceValue;
+
+/**
+ * Timing choice to include in the result sumamary for the given task result
+ */
+- (id <NSCopying, NSCoding, NSObject> )timingChoiceFromTaskResult:(ORKTaskResult *)result;
 
 // @protected
 - (ORKStep*)createStepFromMappingDictionary:(NSDictionary*)stepDictionary;
