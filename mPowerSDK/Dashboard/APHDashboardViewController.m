@@ -323,7 +323,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
     self.customScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_CUSTOM_CAPTION", nil, APHLocaleBundle(), @"Custom Question", @"Dashboard caption for daily user-defined custom question report");
 
     if (!self.correlatedScores) {
-        self.correlatedScores = [NSMutableArray arrayWithArray:@[self.scoreArray[0], self.scoreArray[1]]];
+        self.correlatedScores = [NSMutableArray arrayWithArray:@[self.tapRightScoring, self.tapLeftScoring]];
     }
     [self prepareCorrelatedScoring];
     [self prepareSparkLineScoring];
@@ -340,12 +340,12 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 - (void)prepareCorrelatedScoring
 {
     self.correlatedScoring = nil;
-    self.correlatedScoring = self.correlatedScores[0].copy;
-    [self.correlatedScoring correlateWithScoringObject:self.correlatedScores[1].copy];
+    self.correlatedScoring = self.correlatedScores.firstObject.copy;
+    [self.correlatedScoring correlateWithScoringObject:self.correlatedScores.lastObject.copy];
     
     //default series
-    self.correlatedScoring.series1Name = self.correlatedScores[0].caption;
-    self.correlatedScoring.series2Name = self.correlatedScores[1].caption;
+    self.correlatedScoring.series1Name = self.correlatedScores.firstObject.caption;
+    self.correlatedScoring.series2Name = self.correlatedScores.lastObject.caption;
     
 //    NSString *taskChoice = [self.correlatedScoring.activityTimingChoicesStrings objectAtIndex:self.selectedCorrelationTimeTab];
     [self.correlatedScoring changeDataPointsWithTaskChoice:nil];
@@ -1021,9 +1021,10 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
             
             graphCell.tintColor = graphItem.tintColor;
             graphCell.delegate = self;
-            
-            [scatterGraphView layoutSubviews];
-            
+
+            [scatterGraphView setNeedsLayout];
+            [scatterGraphView layoutIfNeeded];
+
             if (scatterGraphView != nil) {
                 [self.lineCharts addObject:scatterGraphView];
             }

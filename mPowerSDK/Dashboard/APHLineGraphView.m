@@ -125,7 +125,7 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
 }
 
 - (void)drawLastPointDot:(NSUInteger)plotIndex {
-	NSInteger i = [self findLastValidPointIndex:[self.dataPoints copy]];
+	NSUInteger i = [self findLastValidPointIndex:[self.dataPoints copy]];
 	if (i != NSNotFound) {
         CGFloat positionOnXAxis = ((NSNumber *)self.xAxisPoints[i]).floatValue;
         CGFloat positionOnYAxis = ((NSNumber *)self.yAxisPoints[i]).floatValue;

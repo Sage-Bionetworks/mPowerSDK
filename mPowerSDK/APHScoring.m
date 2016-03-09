@@ -645,5 +645,24 @@
     return copy;
 }
 
+- (BOOL)isEqual:(id)anObject {
+	if (anObject == self) {
+		return YES;
+	}
+
+	if (!anObject || ![[anObject class] isEqual:[self class]]) {
+		return NO;
+	}
+
+	return [super isEqual:anObject] &&
+		(self.activityTimingChoicesStrings == ((APHScoring *) anObject).activityTimingChoicesStrings ||
+			[self.activityTimingChoicesStrings isEqualToArray:((APHScoring *) anObject).activityTimingChoicesStrings]) &&
+		(self.medTimingDataPoints == ((APHScoring *) anObject).medTimingDataPoints ||
+			[self.medTimingDataPoints isEqualToDictionary:((APHScoring *) anObject).medTimingDataPoints]) &&
+		(self.medTimingDataPointsCorrelatedScoring == ((APHScoring *) anObject).medTimingDataPointsCorrelatedScoring ||
+			[self.medTimingDataPointsCorrelatedScoring isEqualToDictionary:((APHScoring *) anObject).medTimingDataPointsCorrelatedScoring]) &&
+		(self.filteredDataPoints == ((APHScoring *) anObject).filteredDataPoints ||
+			[self.filteredDataPoints isEqualToArray:((APHScoring *) anObject).filteredDataPoints]);
+}
 
 @end
