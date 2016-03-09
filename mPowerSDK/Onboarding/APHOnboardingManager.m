@@ -367,7 +367,8 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 
 - (UIViewController *)instantiatePasscodeViewControllerWithDelegate:(id)delegate {
     if ([self hasORKPasscode]) {
-        return [ORKPasscodeViewController passcodeAuthenticationViewControllerWithText:nil delegate:delegate];
+        return [ORKPasscodeViewController passcodeAuthenticationViewControllerWithText:nil
+                                                                              delegate:delegate];
     }
     else {
         return [super instantiatePasscodeViewControllerWithDelegate:delegate];
@@ -395,6 +396,45 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (BOOL) hasForgotPasscode
+{
+    return YES;
+}
+
+- (void) forgotPasscodeTapped:(__unused UIButton *)forgotPasscodeButton
+             onViewController:(__unused UIViewController*)viewController;
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:APCUserForgotPasscodeNotification
+                                                        object:nil];
+}
+
+- (UIColor*) tintColorForForgotPasscode
+{
+    return [UIColor appPrimaryColor];
+}
+
+#pragma mark - handle user consent
+
+- (ORKConsentSignatureResult *)findConsentSignatureResult:(ORKTaskResult*)taskResult {
+    for (ORKStepResult *stepResult in taskResult.results) {
+        for (ORKResult *result in stepResult.results) {
+            if ([result isKindOfClass:[ORKConsentSignatureResult class]]) {
+                return (ORKConsentSignatureResult*)result;
+            }
+        }
+    }
+    return nil;
+}
+
+- (ORKConsentSharingStep *)findConsentSharingStep:(ORKTaskViewController *)taskViewController {
+    NSArray *steps = ((ORKOrderedTask*)taskViewController.task).steps;
+    for (ORKStep *step in steps) {
+        if ([step isKindOfClass:[ORKConsentSharingStep class]]) {
+            return (ORKConsentSharingStep*)step;
+        }
+    }
+    return nil;
+}
 
 @end
 
