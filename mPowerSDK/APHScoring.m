@@ -244,7 +244,13 @@
     
     self.averagedDataPoints = [averagedDataPoints copy];
     
-    if (!self.correlatedScoring) { return; }
+    if (!self.correlatedScoring) {
+        [self filterDataForCorrelatedScoring];
+    }
+}
+
+- (void)filterDataForCorrelatedScoring {
+    NSString *noMedicationTimingKey = self.activityTimingChoicesStrings.lastObject;
     
     NSArray *correlatedDataPoints = [self.correlatedScoring.dataPoints copy];
     for (NSDictionary *dataPoint in correlatedDataPoints) {
