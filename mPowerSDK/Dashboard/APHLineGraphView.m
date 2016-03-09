@@ -126,25 +126,23 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
 
 - (void)drawLastPointDot:(NSUInteger)plotIndex {
 	NSInteger i = [self findLastValidPointIndex:[self.dataPoints copy]];
-	if (i == NSNotFound) {
-		return;
+	if (i != NSNotFound) {
+        CGFloat positionOnXAxis = ((NSNumber *)self.xAxisPoints[i]).floatValue;
+        CGFloat positionOnYAxis = ((NSNumber *)self.yAxisPoints[i]).floatValue;
+        
+        CGFloat pointSize = 6.0f;
+        APCCircleView *point = [[APCCircleView alloc] initWithFrame:CGRectMake(0, 0, pointSize, pointSize)];
+        point.tintColor = (plotIndex == 0) ? self.colorForFirstCorrelationLine : self.colorForSecondCorrelationLine;
+        point.shapeLayer.fillColor = point.tintColor.CGColor;
+        point.center = CGPointMake(positionOnXAxis, positionOnYAxis);
+        [self.plotsView.layer addSublayer:point.layer];
+        
+        if (self.shouldAnimate) {
+            point.alpha = 0;
+        }
+        
+        [self.dots addObject:point];
 	}
-
-	CGFloat positionOnXAxis = ((NSNumber *)self.xAxisPoints[i]).floatValue;
-	CGFloat positionOnYAxis = ((NSNumber *)self.yAxisPoints[i]).floatValue;
-
-	CGFloat pointSize = 6.0f;
-	APCCircleView *point = [[APCCircleView alloc] initWithFrame:CGRectMake(0, 0, pointSize, pointSize)];
-	point.tintColor = (plotIndex == 0) ? self.colorForFirstCorrelationLine : self.colorForSecondCorrelationLine;
-	point.shapeLayer.fillColor = point.tintColor.CGColor;
-	point.center = CGPointMake(positionOnXAxis, positionOnYAxis);
-	[self.plotsView.layer addSublayer:point.layer];
-
-	if (self.shouldAnimate) {
-		point.alpha = 0;
-	}
-
-	[self.dots addObject:point];
 }
 
 - (void)drawLinesForPlotIndex:(NSInteger)plotIndex
