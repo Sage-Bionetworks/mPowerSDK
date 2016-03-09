@@ -7,14 +7,12 @@
 //
 
 #import <APCAppCore/APCAppCore.h>
-#import "APHScatterGraphView.h"
 #import "APHMedTimingLegendView.h"
 
 @interface APHGraphViewController : APCGraphViewController
 
 @property (nonatomic) IBOutletCollection(UIView) NSArray *keyShapeViewsArray;
 
-@property (weak, nonatomic) IBOutlet APHScatterGraphView *scatterGraphView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *correlationSegmentControl;
 @property (weak, nonatomic) IBOutlet APHMedTimingLegendView *medicationLegendContainerView;
 

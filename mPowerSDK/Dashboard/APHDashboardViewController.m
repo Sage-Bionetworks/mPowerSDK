@@ -40,7 +40,6 @@
 #import "APHMedicationTrackerTask.h"
 #import "APHMedicationTrackerViewController.h"
 #import "APHSpatialSpanMemoryGameViewController.h"
-#import "APHScatterGraphView.h"
 #import "APHTableViewDashboardGraphItem.h"
 #import "APHScoring.h"
 #import "APHSparkGraphView.h"
@@ -469,7 +468,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.caption = tapScoring.caption;
                     item.taskId = APHTappingActivitySurveyIdentifier;
                     item.graphData = tapScoring;
-                    item.graphType = kAPHDashboardGraphTypeDiscrete;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
                     item.hidesDetailText = YES;
                     
                     double avgValue = [[tapScoring averageDataPoint] doubleValue];
@@ -500,7 +499,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.caption = self.gaitScoring.caption;
                     item.taskId = APHWalkingActivitySurveyIdentifier;
                     item.graphData = self.gaitScoring;
-                    item.graphType = kAPHDashboardGraphTypeDiscrete;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
                     item.hidesDetailText = YES;
                     
                     double avgValue = [[self.gaitScoring averageDataPoint] doubleValue];
@@ -530,7 +529,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.caption = self.memoryScoring.caption;
                     item.taskId = APHMemoryActivitySurveyIdentifier;
                     item.graphData = self.memoryScoring;
-                    item.graphType = kAPHDashboardGraphTypeDiscrete;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
                     item.hidesDetailText = YES;
                     
                     double avgValue = [[self.memoryScoring averageDataPoint] doubleValue];
@@ -560,7 +559,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.caption = self.phonationScoring.caption;
                     item.taskId = APHVoiceActivitySurveyIdentifier;
                     item.graphData = self.phonationScoring;
-                    item.graphType = kAPHDashboardGraphTypeDiscrete;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
                     item.hidesDetailText = YES;
                     
                     double avgValue = [[self.phonationScoring averageDataPoint] doubleValue];
@@ -864,19 +863,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         graphViewController.shouldHideCorrelationSegmentControl = YES;
         graphViewController.shouldHideMedicationLegend = !graphItem.showMedicationLegend;
         graphViewController.tintColor = graphItem.tintColor;
-        
-		if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
-			((APHScoring *)graphItem.graphData).latestOnly = NO;
-
-			graphViewController.scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
-			graphViewController.scatterGraphView.hidden = NO;
-			graphViewController.lineGraphView.hidden = YES;
-			graphViewController.discreteGraphView.hidden = YES;
-		} else {
-			graphViewController.scatterGraphView.hidden = YES;
-			graphViewController.lineGraphView.hidden = NO;
-			graphViewController.discreteGraphView.hidden = NO;
-		}
 
         if (graphItem.showCorrelationSelectorView) {
             [((APHScoring *)graphItem.graphData) resetChanges];
@@ -964,9 +950,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         graphCell.correlationButton2TitleColor = [UIColor appTertiaryYellowColor];
         graphCell.correlationDelegate = self;
         
-        APHScatterGraphView *scatterGraphView = graphCell.scatterGraphView;
-        scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
-        
         APHSparkGraphView *sparkLineGraphView = graphCell.sparkLineGraphView;
         sparkLineGraphView.datasource = [self sparkLineScoringForScoring:graphItem.graphData];
         
@@ -986,7 +969,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
             [self.lineCharts addObject:sparkLineGraphView];
         }
         
-        if (graphCell.showCorrelationSelectorView && (APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeLine) {
+        if (graphCell.showCorrelationSelectorView && graphItem.graphType == kAPCDashboardGraphTypeLine) {
             ((APHLineGraphView *)graphCell.lineGraphView).shouldDrawLastPoint = YES;
             ((APHLineGraphView *)graphCell.lineGraphView).colorForFirstCorrelationLine = graphCell.correlationButton1TitleColor;
             ((APHLineGraphView *)graphCell.lineGraphView).colorForSecondCorrelationLine = graphCell.correlationButton2TitleColor;
@@ -994,43 +977,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         } else {
             ((APHLineGraphView *)graphCell.lineGraphView).shouldDrawLastPoint = NO;
             graphCell.lineGraphView.hidesDataPoints = NO;
-        }
-        
-        if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
-            graphCell.discreteGraphView.hidden = YES;
-            graphCell.lineGraphView.hidden = YES;
-            graphCell.scatterGraphView.hidden = NO;
-            graphCell.subTitleLabel.hidden = YES;
-            
-            [graphCell.legendButton setUserInteractionEnabled:graphItem.legend ? YES : NO];
-            
-            scatterGraphView.delegate = self;
-            scatterGraphView.tintColor = graphItem.tintColor;
-            scatterGraphView.axisColor = [UIColor appTertiaryGrayColor];
-            scatterGraphView.showsVerticalReferenceLines = YES;
-            scatterGraphView.panGestureRecognizer.delegate = self;
-            scatterGraphView.axisTitleFont = [UIFont appRegularFontWithSize:14.0f];
-            scatterGraphView.showsHorizontalReferenceLines = NO;
-            
-            scatterGraphView.maximumValueImage = graphItem.maximumImage;
-            scatterGraphView.minimumValueImage = graphItem.minimumImage;
-            
-            graphCell.averageImageView.image = graphItem.averageImage;
-            graphCell.title = graphItem.caption;
-            graphCell.subTitleLabel.text = graphItem.detailText;
-            
-            graphCell.tintColor = graphItem.tintColor;
-            graphCell.delegate = self;
-
-            [scatterGraphView setNeedsLayout];
-            [scatterGraphView layoutIfNeeded];
-
-            if (scatterGraphView != nil) {
-                [self.lineCharts addObject:scatterGraphView];
-            }
-        } else {
-            graphCell.scatterGraphView.hidden = YES;
-            graphCell.subTitleLabel.hidden = NO;
         }
         
         if (graphItem.graphType == kAPCDashboardGraphTypeDiscrete && [graphCell.discreteGraphView isKindOfClass:[APHDiscreteGraphView class]]) {
@@ -1130,20 +1076,9 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         [sparkLineGraphView setNeedsLayout];
         [sparkLineGraphView layoutIfNeeded];
         [sparkLineGraphView refreshGraph];
-        
-        APCBaseGraphView *graphView;
-        if (graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
-            graphView = (APHScatterGraphView *)graphCell.scatterGraphView;
-            
-            [graphView setNeedsLayout];
-            [graphView layoutIfNeeded];
-            [graphView refreshGraph];
-        } else {
-            [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
-        }
-    } else {
-        [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
     }
+    
+    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
 }
 
 #pragma mark - ORKTaskViewControllerDelegate

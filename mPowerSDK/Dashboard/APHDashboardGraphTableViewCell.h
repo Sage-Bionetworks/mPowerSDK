@@ -9,7 +9,6 @@
 #import <APCAppCore/APCAppCore.h>
 
 @class APHMedTimingLegendView;
-@class APHScatterGraphView;
 @class APHSparkGraphView;
 
 @protocol APHDashboardGraphTableViewCellDelegate <NSObject>
@@ -23,7 +22,6 @@
 @interface APHDashboardGraphTableViewCell : APCDashboardGraphTableViewCell
 
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *tintViews;
-@property (weak, nonatomic) IBOutlet APHScatterGraphView *scatterGraphView;
 @property (weak, nonatomic) IBOutlet APHSparkGraphView *sparkLineGraphView;
 
 @property (weak, nonatomic) IBOutlet APHMedTimingLegendView *medicationLegendContainerView;

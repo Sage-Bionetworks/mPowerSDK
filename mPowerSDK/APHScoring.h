@@ -8,10 +8,9 @@
 
 #import <APCAppCore/APCAppCore.h>
 #import "APHDiscreteGraphView.h"
-#import "APHScatterGraphView.h"
 #import "APHSparkGraphView.h"
 
-@interface APHScoring : APCScoring <APHDiscreteGraphViewDataSource, APHScatterGraphViewDataSource, APHSparkGraphViewDataSource>
+@interface APHScoring : APCScoring <APHDiscreteGraphViewDataSource, APHSparkGraphViewDataSource>
 
 @property(nonatomic) NSArray *activityTimingChoicesStrings;
 @property(nonatomic) BOOL latestOnly;

@@ -8,12 +8,6 @@
 
 #import <APCAppCore/APCAppCore.h>
 
-typedef NS_ENUM(NSUInteger, APHDashboardGraphType) {
-    kAPHDashboardGraphTypeLine = kAPCDashboardGraphTypeLine,
-    kAPHDashboardGraphTypeDiscrete = kAPCDashboardGraphTypeDiscrete,
-    kAPHDashboardGraphTypeScatter,
-};
-
 @interface APHTableViewDashboardGraphItem : APCTableViewDashboardGraphItem
 
 @property (nonatomic) BOOL hideTintBar;

@@ -48,24 +48,6 @@
     self.medicationLegendContainerView.tintColor = self.tintColor;
     self.medicationLegendContainerView.secondaryTintColor = self.secondaryTintColor;
     
-    APCBaseGraphView *graphView;
-    if (self.graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
-        graphView = self.scatterGraphView;
-        self.scatterGraphView.dataSource = (APHScoring *)self.graphItem.graphData;
-        
-        self.scatterGraphView.showsVerticalReferenceLines = YES;
-        self.scatterGraphView.showsHorizontalReferenceLines = NO;
-
-        for (APHRegularShapeView *shapeView in self.keyShapeViewsArray) {
-            shapeView.tintColor = self.graphItem.tintColor;
-        }
-        
-        self.discreteGraphView.hidden = YES;
-        self.lineGraphView.hidden = YES;
-    } else {
-        self.scatterGraphView.hidden = YES;
-    }
-    
     if (self.graphItem.graphType == kAPCDashboardGraphTypeDiscrete) {
         APHDiscreteGraphView *discreteGraph = (APHDiscreteGraphView *)self.discreteGraphView;
         discreteGraph.showsHorizontalReferenceLines = NO;
@@ -78,22 +60,7 @@
 		discreteGraph.secondaryTintColor = self.secondaryTintColor;
     }
     
-    graphView.tintColor = self.graphItem.tintColor;
-    graphView.landscapeMode = YES;
-    
-    graphView.minimumValueImage = self.graphItem.minimumImage;
-    graphView.maximumValueImage = self.graphItem.maximumImage;
-    
     [self updateViews];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    if (self.graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
-        [self.scatterGraphView refreshGraph];
-    }
 }
 
 - (void)viewWillLayoutSubviews {
@@ -133,23 +100,6 @@
 }
 
 #pragma mark - APCGraphViewController Overrides
-
-- (void)reloadCharts
-{
-    if (self.graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
-        __weak typeof(self) weakSelf = self;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [weakSelf.scatterGraphView layoutSubviews];
-            [weakSelf.scatterGraphView refreshGraph];
-            
-            [weakSelf setSubTitleText];
-        });
-    }
-    
-    [super reloadCharts];
-}
 
 - (void)segmentControlChanged:(UISegmentedControl *)sender
 {

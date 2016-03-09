@@ -25,8 +25,6 @@
 		6B1438241C8D1CE20034486F /* APHMedTimingLegendView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1438221C8D1CE20034486F /* APHMedTimingLegendView.m */; };
 		6B85B2871C88344B00FF59CF /* APHSparkGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B85B2851C88344B00FF59CF /* APHSparkGraphView.h */; };
 		6B85B2881C88344B00FF59CF /* APHSparkGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B85B2861C88344B00FF59CF /* APHSparkGraphView.m */; };
-		6BE0CD951C86293700B74276 /* APHScatterGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE0CD931C86293700B74276 /* APHScatterGraphView.h */; };
-		6BE0CD961C86293700B74276 /* APHScatterGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE0CD941C86293700B74276 /* APHScatterGraphView.m */; };
 		6BED4D771C8550A600A4269D /* APHDashboardGraphTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BED4D751C8550A600A4269D /* APHDashboardGraphTableViewCell.h */; };
 		6BED4D781C8550A600A4269D /* APHDashboardGraphTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BED4D761C8550A600A4269D /* APHDashboardGraphTableViewCell.m */; };
 		6BED4D831C8595EC00A4269D /* APHTableViewDashboardGraphItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BED4D811C8595EC00A4269D /* APHTableViewDashboardGraphItem.h */; };
@@ -203,8 +201,6 @@
 		6B1438221C8D1CE20034486F /* APHMedTimingLegendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedTimingLegendView.m; sourceTree = "<group>"; };
 		6B85B2851C88344B00FF59CF /* APHSparkGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHSparkGraphView.h; sourceTree = "<group>"; };
 		6B85B2861C88344B00FF59CF /* APHSparkGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHSparkGraphView.m; sourceTree = "<group>"; };
-		6BE0CD931C86293700B74276 /* APHScatterGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHScatterGraphView.h; sourceTree = "<group>"; };
-		6BE0CD941C86293700B74276 /* APHScatterGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHScatterGraphView.m; sourceTree = "<group>"; };
 		6BED4D751C8550A600A4269D /* APHDashboardGraphTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDashboardGraphTableViewCell.h; sourceTree = "<group>"; };
 		6BED4D761C8550A600A4269D /* APHDashboardGraphTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHDashboardGraphTableViewCell.m; sourceTree = "<group>"; };
 		6BED4D811C8595EC00A4269D /* APHTableViewDashboardGraphItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHTableViewDashboardGraphItem.h; sourceTree = "<group>"; };
@@ -791,8 +787,6 @@
 				43FEA4A31C86DEC80005B38F /* APHLineGraphView.m */,
 				6B1438211C8D1CE20034486F /* APHMedTimingLegendView.h */,
 				6B1438221C8D1CE20034486F /* APHMedTimingLegendView.m */,
-				6BE0CD931C86293700B74276 /* APHScatterGraphView.h */,
-				6BE0CD941C86293700B74276 /* APHScatterGraphView.m */,
 				6B85B2851C88344B00FF59CF /* APHSparkGraphView.h */,
 				6B85B2861C88344B00FF59CF /* APHSparkGraphView.m */,
 				6BED4D811C8595EC00A4269D /* APHTableViewDashboardGraphItem.h */,
@@ -828,7 +822,6 @@
 				FF2D34421C31B7DC0033838A /* APHLocalization.h in Headers */,
 				6BED4D831C8595EC00A4269D /* APHTableViewDashboardGraphItem.h in Headers */,
 				FFFA24C51C237E1500727DA8 /* APHDashboardEditViewController.h in Headers */,
-				6BE0CD951C86293700B74276 /* APHScatterGraphView.h in Headers */,
 				8032378E1C6BCFF700208365 /* APHCustomTextView.h in Headers */,
 				6BED4D8F1C85C1B400A4269D /* APHScoring.h in Headers */,
 				80DC1BD31C6A8F2500235C2E /* APHMoodSurveyTaskViewController.h in Headers */,
@@ -1034,7 +1027,6 @@
 				43FEA4A91C86E33C0005B38F /* APHDiscreteGraphView.m in Sources */,
 				6BED4D901C85C1B400A4269D /* APHScoring.m in Sources */,
 				80DC1BC11C6A8EE800235C2E /* APHDynamicMoodSurveyTask.m in Sources */,
-				6BE0CD961C86293700B74276 /* APHScatterGraphView.m in Sources */,
 				FF346CEE1C5BE762006D9AC9 /* NSArray+APHExtensions.m in Sources */,
 				A690D9371C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.m in Sources */,
 				6B85B2881C88344B00FF59CF /* APHSparkGraphView.m in Sources */,
