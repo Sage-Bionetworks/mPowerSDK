@@ -101,6 +101,7 @@ NSInteger const kAPHCorrelationsSelectorViewButtonWidth = 100.0;
     self.tableView = [[UITableView alloc] initWithFrame:self.downFrame style:UITableViewStylePlain];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.sectionHeaderHeight = kAPHCorrelationsSelectorViewHeaderHeight;
+    self.tableView.rowHeight = kAPHCorrelationsSelectorViewCellHeight;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.view addSubview:self.tableView];
@@ -169,11 +170,6 @@ NSInteger const kAPHCorrelationsSelectorViewButtonWidth = 100.0;
     return headerView;
 }
 
-- (CGFloat)tableView:(UITableView *)__unused tableView heightForHeaderInSection:(NSInteger)__unused section
-{
-    return tableView.sectionHeaderHeight;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
@@ -190,11 +186,6 @@ NSInteger const kAPHCorrelationsSelectorViewButtonWidth = 100.0;
     }
     
     return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return kAPHCorrelationsSelectorViewCellHeight;
 }
 
 - (void)tableView:(UITableView *)__unused tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
