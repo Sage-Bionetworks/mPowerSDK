@@ -14,6 +14,7 @@
 
 @property (nonatomic) BOOL showCorrelationLegend;
 @property (nonatomic) BOOL showExpandedView;
+@property (nonatomic) CGFloat circleViewDiameter;
 @property (nonatomic) UIColor *secondaryTintColor;
 
 @end

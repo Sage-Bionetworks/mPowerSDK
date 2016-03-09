@@ -20,7 +20,7 @@
 @end
 
 @interface APHGraphViewController ()
-
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *legendLabelLeadingSpaceConstraint;
 @end
 
 @implementation APHGraphViewController
@@ -42,6 +42,7 @@
     
     self.medicationLegendContainerView.hidden = self.shouldHideMedicationLegend;
     self.medicationLegendContainerView.showExpandedView = YES;
+    self.medicationLegendContainerView.circleViewDiameter = 12.f;
     self.medicationLegendContainerView.tintColor = self.tintColor;
     self.medicationLegendContainerView.showCorrelationLegend = self.isForCorrelation;
     self.medicationLegendContainerView.tintColor = self.tintColor;
@@ -98,7 +99,8 @@
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     if (self.discreteGraphView.numberOfPlots > 1) {
-        self.titleLabelWidthConstraint.constant = 0;
+        self.titleLabelWidthConstraint.constant = 0.f;
+        self.legendLabelLeadingSpaceConstraint.constant = 0.f;
     }
 }
 

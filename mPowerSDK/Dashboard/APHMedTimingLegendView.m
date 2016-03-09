@@ -12,6 +12,8 @@
 
 @interface APHMedTimingLegendView ()
 
+@property (nonatomic) IBOutletCollection(NSLayoutConstraint) NSArray *circleViewDimensionConstraints;
+
 @property (nonatomic) IBOutlet UILabel *afterMedicationLabel;
 @property (nonatomic) IBOutlet UILabel *beforeMedicationLabel;
 @property (nonatomic) IBOutlet UILabel *notSureLabel;
@@ -62,9 +64,13 @@
 {
     [super updateConstraints];
     
+    for (NSLayoutConstraint *circleViewDimensionConstraint in self.circleViewDimensionConstraints) {
+        circleViewDimensionConstraint.constant = self.circleViewDiameter;
+    }
+    
     if (self.showCorrelationLegend) {
         self.correlatedAfterMedicationCircleViewLeadingSpaceConstraint.constant = 2.f;
-        self.correlatedAfterMedicationCircleViewWidthConstraint.constant = 14.f;
+        self.correlatedAfterMedicationCircleViewWidthConstraint.constant = self.circleViewDiameter;
     } else {
         self.correlatedAfterMedicationCircleViewLeadingSpaceConstraint.constant = 0.f;
         self.correlatedAfterMedicationCircleViewWidthConstraint.constant = 0.f;
@@ -72,6 +78,13 @@
 }
 
 #pragma mark - Accessors
+
+- (void)setCircleViewDiameter:(CGFloat)circleViewDiameter
+{
+    _circleViewDiameter = circleViewDiameter;
+    
+    [self setNeedsUpdateConstraints];
+}
 
 - (void)setShowCorrelationLegend:(BOOL)showCorrelationLegend
 {

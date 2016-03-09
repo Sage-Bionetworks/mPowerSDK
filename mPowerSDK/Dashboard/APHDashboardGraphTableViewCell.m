@@ -63,6 +63,8 @@ NSInteger static compareViewsByOrigin(id sp1, id sp2, void *context)
 {
     [super awakeFromNib];
     
+    self.medicationLegendContainerView.circleViewDiameter = 14.f;
+    
     [self giveImageViewDownCarrotImage:self.button1DownCarrot];
     [self giveImageViewDownCarrotImage:self.button2DownCarrot];
     
