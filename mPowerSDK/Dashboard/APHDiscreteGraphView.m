@@ -294,7 +294,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     self.axisColor = [UIColor appTertiaryGrayColor];
     
     APHAxisView *xAxisView = [[APHAxisView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.plotsView.frame), CGRectGetWidth(self.plotsView.frame), kXAxisHeight)];
-    xAxisView.hasSecondaryYAxis = (BOOL *) (self.numberOfPlots > 1);
+    xAxisView.hasSecondaryYAxis = self.numberOfPlots > 1;
 	xAxisView.secondaryYAxisHorizontalOffset = xAxisView.hasSecondaryYAxis ? self.secondaryYAxisView.bounds.size.width : 0;
     xAxisView.landscapeMode = self.landscapeMode;
     xAxisView.tintColor = self.axisColor;
