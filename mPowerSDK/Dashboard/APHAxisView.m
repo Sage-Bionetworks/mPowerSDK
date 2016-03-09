@@ -10,21 +10,20 @@
 
 @interface APCAxisView (Private)
 
-@property (nonatomic) APCGraphAxisType axisType;
-@property (nonatomic, strong) NSMutableArray *titleLabels;
+@property(nonatomic) APCGraphAxisType axisType;
+@property(nonatomic, strong) NSMutableArray *titleLabels;
 
 @end
 
 @implementation APHAxisView
 
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    
-    if (self.shouldHighlightLastLabel) {
-        UILabel *lastTitleLabel = self.titleLabels.lastObject;
-        lastTitleLabel.backgroundColor = self.lastTitleHighlightColor;
-    }
+- (void)layoutSubviews {
+	[super layoutSubviews];
+
+	if (self.shouldHighlightLastLabel) {
+		UILabel *lastTitleLabel = self.titleLabels.lastObject;
+		lastTitleLabel.backgroundColor = self.lastTitleHighlightColor;
+	}
 
 	if (self.hasSecondaryYAxis) {
 		CGFloat segmentWidth = (CGFloat) CGRectGetWidth(self.bounds) / (self.titleLabels.count);
@@ -32,7 +31,8 @@
 		CGFloat labelHeight = (self.axisType == kAPCGraphAxisTypeX) ? CGRectGetHeight(self.bounds) * 0.77 : 20;
 
 		for (NSUInteger i = 0; i < self.titleLabels.count; i++) {
-			CGFloat positionX = (self.axisType == kAPCGraphAxisTypeX) ? (self.leftOffset + (i + 1) * segmentWidth) : 0;
+			CGFloat positionX = self.leftOffset + (((CGRectGetWidth(self.bounds) - self.secondaryYAxisHorizontalOffset) /
+				(self.self.titleLabels.count - 1) * i) + self.secondaryYAxisHorizontalOffset);
 
 			if (i == 0) {
 				//Shift the first label to acoomodate the month text.
@@ -50,11 +50,7 @@
 				labelWidth += self.landscapeMode ? 14 : 8; //padding
 			}
 
-			if (i == 0) {
-				label.frame = CGRectMake(positionX, (CGRectGetHeight(self.bounds) - labelHeight) / 2, labelWidth, labelHeight);
-			} else {
-				label.frame = CGRectMake(positionX - labelWidth / 2, (CGRectGetHeight(self.bounds) - labelHeight) / 2, labelWidth, labelHeight);
-			}
+			label.frame = CGRectMake(positionX - labelWidth / 2, (CGRectGetHeight(self.bounds) - labelHeight) / 2, labelWidth, labelHeight);
 
 			if (i == self.titleLabels.count - 1 && self.shouldHighlightLastLabel) {
 				//Last label
