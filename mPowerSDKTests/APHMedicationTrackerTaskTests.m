@@ -236,23 +236,21 @@
     XCTAssertEqualObjects(item.text, @"When was the last time you took your Levodopa?");
     XCTAssertTrue([item.answerFormat isKindOfClass:[ORKTextChoiceAnswerFormat class]]);
     
+    NSArray <NSString *> *expected = @[@"0-30 minutes ago",
+                                      @"30-60 minutes ago",
+                                      @"1-2 hours ago",
+                                      @"2-4 hours ago",
+                                      @"4-8 hours ago",
+                                      @"More than 8 hours ago",
+                                      @"Not sure"];
+    
     NSArray <ORKTextChoice *> *choices = ((ORKTextChoiceAnswerFormat*)item.answerFormat).textChoices;
-    XCTAssertEqual(choices.count, 5);
+    XCTAssertEqual(choices.count, expected.count);
     
-    XCTAssertEqualObjects(choices[0].text, @"0-30 minutes ago");
-    XCTAssertEqualObjects(choices[0].value, @"0-30 minutes ago");
-    
-    XCTAssertEqualObjects(choices[1].text, @"30-60 minutes ago");
-    XCTAssertEqualObjects(choices[1].value, @"30-60 minutes ago");
-    
-    XCTAssertEqualObjects(choices[2].text, @"1-2 hours ago");
-    XCTAssertEqualObjects(choices[2].value, @"1-2 hours ago");
-    
-    XCTAssertEqualObjects(choices[3].text, @"More than 2 hours ago");
-    XCTAssertEqualObjects(choices[3].value, @"More than 2 hours ago");
-    
-    XCTAssertEqualObjects(choices[4].text, @"Not sure");
-    XCTAssertEqualObjects(choices[4].value, @"Not sure");
+    for (int ii=0; ii < expected.count && ii < choices.count; ii++) {
+        XCTAssertEqualObjects(choices[ii].text, expected[ii]);
+        XCTAssertEqualObjects(choices[ii].value, expected[ii]);
+    }
 }
 
 - (void)testCreateMomentInDayStep_NameOnly_English
