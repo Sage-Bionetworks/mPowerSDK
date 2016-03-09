@@ -13,6 +13,7 @@
 
 static CGFloat const kAPCGraphLeftPadding = 10.f;
 static CGFloat const kYAxisPaddingFactor = 0.15f;
+static CGFloat const kYAxisLandscapePaddingFactor = 0.08f;
 static CGFloat const kAxisMarkingRulerLength = 8.0f;
 static CGFloat const kSnappingClosenessFactor = 0.3f;
 
@@ -81,6 +82,10 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
 - (void)layoutSubviews {
 	[super layoutSubviews];
 	self.emptyLabel.hidden = self.numberOfPlots > 1;
+
+	CGFloat yAxisPaddingFactor = self.isLandscapeMode ? kYAxisLandscapePaddingFactor : kYAxisPaddingFactor;
+	CGFloat yAxisPadding = CGRectGetWidth(self.frame)*yAxisPaddingFactor;
+	self.plotsView.frame = CGRectMake(kAPCGraphLeftPadding, kAPCGraphTopPadding, CGRectGetWidth(self.frame) - yAxisPadding - kAPCGraphLeftPadding, CGRectGetHeight(self.frame) - kXAxisHeight - kAPCGraphTopPadding);
 }
 
 
@@ -351,8 +356,9 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
 			self.yAxisView = nil;
 		}
 
-		CGFloat axisViewXPosition = CGRectGetWidth(self.frame) * (1 - kYAxisPaddingFactor);
-		CGFloat axisViewWidth = CGRectGetWidth(self.frame)*kYAxisPaddingFactor;
+		CGFloat yAxisPaddingFactor = self.isLandscapeMode ? kYAxisLandscapePaddingFactor : kYAxisPaddingFactor;
+		CGFloat axisViewXPosition = CGRectGetWidth(self.frame) * (1 - yAxisPaddingFactor);
+		CGFloat axisViewWidth = CGRectGetWidth(self.frame)*yAxisPaddingFactor;
 
 		self.yAxisView = [[UIView alloc] initWithFrame:CGRectMake(axisViewXPosition, kAPCGraphTopPadding, axisViewWidth, CGRectGetHeight(self.plotsView.frame))];
 		[self addSubview:self.yAxisView];
@@ -403,7 +409,7 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
 		[self prepareDataForPlotIndex:1];
 
 		axisViewXPosition = 0.f;
-		axisViewWidth = CGRectGetWidth(self.frame) * kYAxisPaddingFactor;
+		axisViewWidth = CGRectGetWidth(self.frame) * yAxisPaddingFactor;
 
 		self.secondaryYAxisView = [[UIView alloc] initWithFrame:CGRectMake(axisViewXPosition, kAPCGraphTopPadding, axisViewWidth, CGRectGetHeight(self.plotsView.frame))];
 		[self addSubview:self.secondaryYAxisView];
