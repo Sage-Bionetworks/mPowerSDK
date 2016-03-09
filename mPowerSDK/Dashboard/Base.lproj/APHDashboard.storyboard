@@ -867,10 +867,10 @@
             </objects>
             <point key="canvasLocation" x="673.5" y="185"/>
         </scene>
-        <!--Webview View Controller-->
+        <!--Web View Step View Controller-->
         <scene sceneID="JUZ-TO-xmv">
             <objects>
-                <viewController storyboardIdentifier="APHWebviewViewController" id="IA7-mb-AFM" customClass="APHWebviewViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="APHWebViewStepViewController" id="IA7-mb-AFM" customClass="APHWebViewStepViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gqK-c0-p6s"/>
                         <viewControllerLayoutGuide type="bottom" id="7fb-7N-drA"/>
@@ -881,7 +881,7 @@
                         <subviews>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="70f-yJ-BSX">
                                 <rect key="frame" x="0.0" y="20" width="600" height="536"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="delegate" destination="IA7-mb-AFM" id="vrl-N0-VvA"/>
                                 </connections>
@@ -898,6 +898,9 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="hDC-Jh-Otv"/>
                                 </items>
                             </toolbar>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="gXQ-ry-BYr">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -907,11 +910,14 @@
                             <constraint firstItem="70f-yJ-BSX" firstAttribute="leading" secondItem="P7p-Vv-NKv" secondAttribute="leading" id="Xrr-KW-hca"/>
                             <constraint firstItem="fez-RX-ewd" firstAttribute="top" secondItem="70f-yJ-BSX" secondAttribute="bottom" id="cWw-A5-JLq"/>
                             <constraint firstItem="70f-yJ-BSX" firstAttribute="top" secondItem="gqK-c0-p6s" secondAttribute="bottom" id="gd6-cs-s9C"/>
+                            <constraint firstItem="gXQ-ry-BYr" firstAttribute="centerX" secondItem="P7p-Vv-NKv" secondAttribute="centerX" id="hQM-cV-kej"/>
+                            <constraint firstItem="gXQ-ry-BYr" firstAttribute="centerY" secondItem="P7p-Vv-NKv" secondAttribute="centerY" id="m47-RI-br1"/>
                             <constraint firstItem="fez-RX-ewd" firstAttribute="leading" secondItem="P7p-Vv-NKv" secondAttribute="leading" id="rTT-4t-gy0"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="0zm-Of-CJt"/>
                     <connections>
+                        <outlet property="loadingView" destination="gXQ-ry-BYr" id="vpc-Jj-7DR"/>
                         <outlet property="shareButton" destination="6gX-Vp-eqY" id="St4-XL-pWz"/>
                         <outlet property="toolbar" destination="fez-RX-ewd" id="RXb-dE-cCr"/>
                         <outlet property="toolbarBottomConstraint" destination="FLJ-mR-LTO" id="Tg7-Ol-gX2"/>

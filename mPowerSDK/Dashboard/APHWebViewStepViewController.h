@@ -1,5 +1,5 @@
 //
-//  APHWebviewViewController.h
+//  APHWebViewStepViewController.h
 //  mPowerSDK
 //
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved.
@@ -33,10 +33,18 @@
 
 #import <ResearchKit/ResearchKit.h>
 
-@interface APHWebviewViewController : ORKStepViewController
+NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic) NSString * _Nonnull displayURLString;
-@property (nonatomic) NSString * _Nullable pdfURLSuffix;
-@property (nonatomic) NSString * _Nullable javascriptCall;
+@interface APHWebViewStepViewController : ORKStepViewController
+
+@property (nonatomic) BOOL shouldShowShareOptions;
+
++ (instancetype)instantiateWithHTMLContent:(NSString *)htmlContent;
+
++ (instancetype)instantiateWithURLString:(NSString *)urlString
+                            pdfURLSuffix:(NSString * _Nullable)pdfURLSuffix
+                          javascriptCall:(NSString * _Nullable)javascriptCall;
 
 @end
+
+NS_ASSUME_NONNULL_END

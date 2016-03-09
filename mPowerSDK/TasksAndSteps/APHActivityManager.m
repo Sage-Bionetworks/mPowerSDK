@@ -136,8 +136,13 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
     }
     
     // Replace the language in the last step
-    [task.steps.lastObject setTitle:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Thank You!", @"Main text shown to participant upon completion of an activity.")];
-    [task.steps.lastObject setText:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_DETAIL", nil, APHLocaleBundle(), @"The results of this activity can be viewed on the dashboard", @"Detail text shown to participant upon completion of an activity.")];
+    if ([surveyId isEqualToString:APHMemoryActivitySurveyIdentifier]) {
+        [task.steps.lastObject setTitle:NSLocalizedStringWithDefaultValue(@"APH_MEMORY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Good Job!", @"Main text shown to participant upon completion of memory activity.")];
+    }
+    else {
+        [task.steps.lastObject setTitle:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Thank You!", @"Main text shown to participant upon completion of an activity.")];
+    }
+    [task.steps.lastObject setText:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_DETAIL", nil, APHLocaleBundle(), @"The results of this activity can be viewed on the dashboard.", @"Detail text shown to participant upon completion of an activity.")];
     
     // Create a medication tracker task with this as a subtask
     return [[APHMedicationTrackerTask alloc] initWithDictionaryRepresentation:nil subTask:task];
@@ -184,7 +189,7 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
         ORKInstructionStep *instructionStep = (ORKInstructionStep *)orkTask.steps[instructionIdx];
         [instructionStep setTitle:localizedTaskName];
         [instructionStep setText:NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Take a deep breath and say “Aaaaah” into the microphone for as long as you can. Keep a steady volume so the audio bars remain blue.", @"Instructions for performing the voice activity.")];
-        [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_NEXT_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Tap Next to begin the test.", @"Detail insctruction for how to begin a task.")];
+        [instructionStep setDetailText:NSLocalizedStringWithDefaultValue(@"APH_NEXT_STEP_INSTRUCTION", nil, APHLocaleBundle(), @"Tap Get Started to begin the test.", @"Detail insctruction for how to begin a task.")];
     }
     
     // Inject a step to test audio levels
@@ -201,7 +206,7 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
 
 - (ORKOrderedTask *)createCustomMemoryTask
 {
-    return [ORKOrderedTask spatialSpanMemoryTaskWithIdentifier:kMemorySpanTitleIdentifier
+    ORKOrderedTask *orkTask = [ORKOrderedTask spatialSpanMemoryTaskWithIdentifier:kMemorySpanTitleIdentifier
                                         intendedUseDescription:nil
                                                    initialSpan:kInitialSpan
                                                    minimumSpan:kMinimumSpan
@@ -213,6 +218,8 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
                                         customTargetPluralName:nil
                                                requireReversal:kRequiresReversal
                                                        options:ORKPredefinedTaskOptionNone];
+
+    return orkTask;
 }
 
 - (ORKOrderedTask *)createCustomWalkingTask

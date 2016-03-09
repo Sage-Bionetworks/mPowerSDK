@@ -1,5 +1,5 @@
 //
-//  APHWebviewViewController.m
+//  APHWebViewStepViewController.m
 //  mPowerSDK
 //
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved.
@@ -31,15 +31,21 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "APHWebviewViewController.h"
+#import "APHWebViewStepViewController.h"
 @import BridgeAppSDK;
 
-@interface APHWebviewViewController () <UIWebViewDelegate>
+@interface APHWebViewStepViewController () <UIWebViewDelegate>
+
+@property (nonatomic) NSString * htmlContent;
+@property (nonatomic) NSString * displayURLString;
+@property (nonatomic) NSString * pdfURLSuffix;
+@property (nonatomic) NSString * javascriptCall;
 
 @property (weak, nonatomic) IBOutlet UIWebView *webview;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButton;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *toolbarBottomConstraint;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingView;
 
 @property (nonatomic) UIWebView *pdfWebView;
 @property (nonatomic) NSURL *pdfURL;
@@ -48,7 +54,40 @@
 
 @end
 
-@implementation APHWebviewViewController
+@implementation APHWebViewStepViewController
+
++ (instancetype)instantiateFromStoryboard {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"APHDashboard" bundle:[NSBundle bundleForClass:[self class]]];
+    APHWebViewStepViewController *vc = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([self class])];
+    
+    // Setup navigation
+    vc.cancelButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                                          target:vc action:@selector(doneTapped:)];
+    vc.backButtonItem = nil;
+    vc.navigationItem.rightBarButtonItem = vc.cancelButtonItem;
+    
+    // Setup with a default step (step is not used but will throw assert if nil)
+    vc.step = [[ORKStep alloc] initWithIdentifier:NSStringFromClass([self class])];
+
+    return vc;
+}
+
++ (instancetype)instantiateWithHTMLContent:(NSString *)htmlContent {
+    APHWebViewStepViewController *vc = [self instantiateFromStoryboard];
+    vc.htmlContent = htmlContent;
+    return vc;
+}
+
++ (instancetype)instantiateWithURLString:(NSString *)urlString
+                            pdfURLSuffix:(NSString * _Nullable)pdfURLSuffix
+                          javascriptCall:(NSString * _Nullable)javascriptCall {
+    APHWebViewStepViewController *vc = [self instantiateFromStoryboard];
+    vc.displayURLString = urlString;
+    vc.pdfURLSuffix = pdfURLSuffix;
+    vc.javascriptCall = javascriptCall;
+    vc.shouldShowShareOptions = YES;
+    return vc;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -57,13 +96,21 @@
     self.shareButton.enabled = false;
 
     // load the viewable webview
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:self.displayURLString]];
-    [self.webview loadRequest:request];
+    if (self.displayURLString != nil) {
+        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:self.displayURLString]];
+        [self.webview loadRequest:request];
+    }
+    else {
+        [self.webview loadHTMLString:self.htmlContent baseURL:[NSURL URLWithString:@"http://content"]];
+    }
+    
+    if (!self.shouldShowShareOptions) {
+        self.toolbarBottomConstraint.constant = -1 * self.toolbar.bounds.size.height;
+    }
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-
+- (IBAction)doneTapped:(id __unused)sender {
+    
     // stop loading and disconnect
     [self.webview stopLoading];
     self.webview.delegate = nil;
@@ -72,17 +119,17 @@
     
     // cancel save PDF
     self.cancelled = YES;
-}
-
-- (void)dealloc {
+    
     // Delete the temp file
-    if (_pdfURL) {
+    if (self.pdfURL != nil) {
         NSError *error;
-        [[NSFileManager defaultManager] removeItemAtURL:_pdfURL error:&error];
+        [[NSFileManager defaultManager] removeItemAtURL:self.pdfURL error:&error];
         if (error) {
             NSLog(@"Error deleting temp file: %@", error);
         }
     }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UIWebViewDelegate
@@ -104,13 +151,18 @@
         return;
     }
     
+    // Hide the loading view
+    [self.loadingView stopAnimating];
+    
     // If there is a javascript call used to actually load the view then call that
-    if (self.javascriptCall) {
+    if (self.javascriptCall != nil) {
         [webView stringByEvaluatingJavaScriptFromString:self.javascriptCall];
     }
     
-    // TODO: remove this line once callback is implemented syoung 03/01/2016
-    [self webViewDidFinishLoadingData:webView delay:5.0];
+    // TODO: edit this line once callback is implemented syoung 03/01/2016
+    if (self.shouldShowShareOptions) {
+        [self webViewDidFinishLoadingData:webView delay:5.0];
+    }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {

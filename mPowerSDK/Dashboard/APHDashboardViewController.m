@@ -51,7 +51,7 @@
 #import "APHGraphViewController.h"
 #import "APHLineGraphView.h"
 #import "APHMedicationTrackerDataStore.h"
-#import "APHWebviewViewController.h"
+#import "APHWebViewStepViewController.h"
 @import BridgeAppSDK;
 
 NSInteger const kNumberOfDaysToDisplayInDiscreteGraph = 6;
@@ -139,12 +139,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
     
     [self prepareScoringObjects];
     [self prepareData];
-    
-    // Hide the monthly reports button if this is a control group or the user does not take a tracked medication
-    APCDataGroupsManager *dataGroupsManager = [[APHAppDelegate sharedAppDelegate] dataGroupsManagerForUser:nil];
-    if (dataGroupsManager.isStudyControlGroup || [[APHMedicationTrackerDataStore defaultStore] hasNoTrackedMedication]) {
-        self.monthlyReportButton.hidden = YES;
-    }
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -155,6 +150,11 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
     
     [self prepareScoringObjects];
     [self prepareData];
+    
+    
+    // Hide the monthly reports button if this is a control group or the user does not take a tracked medication
+    APCDataGroupsManager *dataGroupsManager = [[APHAppDelegate sharedAppDelegate] dataGroupsManagerForUser:nil];
+    self.monthlyReportButton.hidden = (dataGroupsManager.isStudyControlGroup || [[APHMedicationTrackerDataStore defaultStore] hasNoTrackedMedication]);
 }
 
 - (void)updateVisibleRowsInTableView:(NSNotification *) __unused notification
@@ -1163,16 +1163,17 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 - (nullable ORKStepViewController *)taskViewController:(ORKTaskViewController *)taskViewController viewControllerForStep:(ORKStep *)step {
     if ([[taskViewController.task identifier] isEqualToString:kAPHMonthlyReportTaskIdentifier] &&
         [step.identifier isEqualToString:kAPHMonthlyReportHTMLStepIdentifier]) {
-        APHWebviewViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"APHWebviewViewController"];
-        vc.step = step;
+        
         // TODO: syoung 03/01/2016 Remove hardcoding and clean up architecture
-        vc.displayURLString = @"http://parkinsonmpower.org/report/index.html";
-        vc.pdfURLSuffix = @"#pdf";
+        NSString *displayURLString = @"http://parkinsonmpower.org/report/index.html";
+        NSString *pdfURLSuffix = @"#pdf";
         BOOL isStaging = ([[APHAppDelegate sharedAppDelegate] environment] == SBBEnvironmentStaging);
         NSString *sessionToken = isStaging ? @"aaa" : [[[[APHAppDelegate sharedAppDelegate] dataSubstrate] currentUser] sessionToken];
-        vc.javascriptCall = [NSString stringWithFormat:@"window.display(\"%@\")", sessionToken];
-        vc.cancelButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissPresentedViewController)];
-        vc.backButtonItem = nil;
+        NSString *javascriptCall = [NSString stringWithFormat:@"window.display(\"%@\")", sessionToken];
+        
+        APHWebViewStepViewController *vc = [APHWebViewStepViewController instantiateWithURLString:displayURLString pdfURLSuffix:pdfURLSuffix javascriptCall:javascriptCall];
+        vc.step = step;
+
         return vc;
     }
     return nil;

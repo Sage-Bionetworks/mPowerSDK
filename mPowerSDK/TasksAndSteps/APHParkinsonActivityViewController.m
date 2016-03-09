@@ -45,6 +45,8 @@
 
 const NSInteger APHMedicationTrackerSchemaRevision = 8;
 
+static  NSString *const kSecondInstructionStepIdentifier    = @"instruction1";
+
     //
     //    Common Super-Class for all four Parkinson Task View Controllers
     //
@@ -123,6 +125,14 @@ const NSInteger APHMedicationTrackerSchemaRevision = 8;
     [[UIView appearance] setTintColor:[self tintColorForStep:step]];
     self.preferStatusBarShouldBeHidden = [self preferStatusBarShouldBeHiddenForStep:step];
     [[UIApplication sharedApplication] setStatusBarHidden: self.preferStatusBarShouldBeHidden];
+    
+    // Modify the second instruction step continue button to override the logic that is introduced by the
+    // Diagnosis and Medication survey.
+    if ([stepViewController.step.identifier isEqualToString:kSecondInstructionStepIdentifier]) {
+        stepViewController.continueButtonTitle = NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_GET_STARTED", nil, APHLocaleBundle(),
+                                                                                   @"Get Started",
+                                                                                   @"Text to get started with the activity.");
+    }
 }
 
 - (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(nullable NSError *)error {
@@ -208,8 +218,16 @@ const NSInteger APHMedicationTrackerSchemaRevision = 8;
     
     // if there is a med results then archive that separately
     if (medicationTrackerTaskResult) {
+        
+        // Create an archive for the medication survey
         self.medicationTrackerArchive = [[APCDataArchive alloc] initWithReference:APHMedicationTrackerTaskIdentifier schemaRevision:@(APHMedicationTrackerSchemaRevision)];
         [self appendArchive:self.medicationTrackerArchive withTaskResult:medicationTrackerTaskResult];
+        
+        // Look for a scheduled task and update that task if need be
+        [[APCScheduler defaultScheduler] startAndFinishNextScheduledTaskWithID:APHMedicationTrackerSurveyIdentifier
+                                                                     startDate:self.result.startDate
+                                                                       endDate:self.result.endDate];
+
     }
 }
 

@@ -34,6 +34,7 @@
 #import "APHOnboardingManager.h"
 #import "APHLocalization.h"
 #import "APHAppDelegate.h"
+#import "APHWebViewStepViewController.h"
 #import <ResearchKit/ResearchKit.h>
 @import BridgeAppSDK;
 
@@ -65,13 +66,28 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 @implementation APHOnboardingManager
 
 - (ORKTaskViewController *)instantiateConsentViewController {
+    
+    // syoung 2/22/2016 TODO: cleanup the steps management to remove the need to
+    // instantiate the APCOnboarding (and inherit from APCOnboardingManager.
+    if (!self.onboarding) {
+        [self instantiateOnboardingForType:kAPCOnboardingTaskTypeSignIn];
+    }
+    
     SBANavigableOrderedTask *task = [[SBANavigableOrderedTask alloc] initWithIdentifier:APHConsentTaskIdentifier
-                                                                                  steps:[self consentSteps]];
-    ORKTaskViewController *vc = [[ORKTaskViewController alloc] initWithTask:task taskRunUUID:nil];
+                                                                                  steps:[self consentSteps:YES]];
+    ORKTaskViewController *vc = [[ORKTaskViewController alloc] initWithTask:task restorationData:nil delegate:self];
     return vc;
 }
 
 - (ORKTaskViewController *)instantiateOnboardingTaskViewController:(BOOL)signUp {
+    
+    // syoung 2/22/2016 TODO: cleanup the steps management to remove the need to
+    // instantiate the APCOnboarding (and inherit from APCOnboardingManager.
+    if (!self.onboarding) {
+        APCOnboardingTaskType taskType = signUp ? kAPCOnboardingTaskTypeSignUp : kAPCOnboardingTaskTypeSignIn;
+        [self instantiateOnboardingForType:taskType];
+    }
+    
     NSString *taskIdentifier;
     if (self.user.isSignedUp && self.user.isSignedIn && !self.user.isConsented) {
         // This is a reconsent flow
@@ -93,11 +109,6 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 
 - (NSMutableArray <ORKStep *> *)buildSteps:(BOOL)signUp {
     
-    // syoung 2/22/2016 TODO: cleanup the steps management to remove the need to
-    // instantiate the APCOnboarding (and inherit from APCOnboardingManager.
-    APCOnboardingTaskType taskType = signUp ? kAPCOnboardingTaskTypeSignUp : kAPCOnboardingTaskTypeSignIn;
-    [self instantiateOnboardingForType:taskType];
-    
     // Build the steps
     NSMutableArray *steps = [NSMutableArray new];
     
@@ -113,7 +124,7 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
         }
         if (!self.user.isUserConsented) {
             // Need to add the consent flow if the user is not consented
-            [steps addObjectsFromArray:[self consentSteps]];
+            [steps addObjectsFromArray:[self consentSteps: self.user.isSignedUp]];
         }
         if (!self.user.isSignedUp) {
             // Next is registration for the user who is *not* signed up
@@ -154,13 +165,15 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     return factory.steps;
 }
 
-- (NSArray <ORKStep *> *)consentSteps {
+- (NSArray <ORKStep *> *)consentSteps:(BOOL)isReconsent {
+    
     SBAConsentDocumentFactory *factory = [[SBAConsentDocumentFactory alloc] initWithJsonNamed:@"APHConsentSection"];
     NSArray <ORKStep *> *steps = factory.steps;
-    if (!self.user.isSignedUp && [steps.firstObject.identifier isEqualToString:APHReconsentIntroductionStepIdentifier]) {
+    if (!isReconsent && [steps.firstObject.identifier isEqualToString:APHReconsentIntroductionStepIdentifier]) {
         // Strip out the reconsent introduction if not applicable
         steps = [steps subarrayWithRange:NSMakeRange(1, steps.count - 1)];
     }
+    
     return steps;
 }
 
@@ -284,7 +297,12 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     self.onboarding.currentStep = stepViewController.step;
     
     if ([stepViewController.step.identifier isEqualToString:APHConsentCompletionStepIdentifier]) {
-        [self checkForConsentWithTaskViewController:taskViewController];
+        if (![self checkForConsentWithTaskViewController:taskViewController]) {
+            [self userDeclinedConsent];
+            [self taskViewController:taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+            return;
+        }
+        // Do not allow user to go back from this step
         stepViewController.backButtonItem = nil;
     }
     
@@ -311,29 +329,26 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     }
 }
 
-// TODO: syoung 03/03/2016 Figure out why ORKConsentLearnMoreViewController isn't being found and/or replace
-// with a different webviewcontroller
-//
-//- (BOOL)taskViewController:(ORKTaskViewController *)taskViewController hasLearnMoreForStep:(ORKStep *)step {
-//    return [self usesLearnMoreViewControllerForStep:step];
-//}
-//
-//- (void)taskViewController:(ORKTaskViewController *)taskViewController learnMoreForStep:(ORKStepViewController *)stepViewController {
-//    ORKStep *step = stepViewController.step;
-//    if (![self usesLearnMoreViewControllerForStep:step]) {
-//        return;
-//    }
-//    NSString *htmlContent = ((SBADirectNavigationStep*)step).learnMoreHTMLContent;
-//    ORKConsentLearnMoreViewController *vc = [[ORKConsentLearnMoreViewController alloc] initWithHTMLContent:htmlContent];
-//    UINavigationController *navVc = [[UINavigationController alloc] initWithRootViewController:vc];
-//    navVc.modalPresentationStyle = UIModalPresentationFormSheet;
-//    [stepViewController presentViewController:navVc animated:YES completion:nil];
-//}
-//
-//- (BOOL)usesLearnMoreViewControllerForStep:(ORKStep *)step  {
-//    return [step isKindOfClass:[SBADirectNavigationStep class]] &&
-//    (((SBADirectNavigationStep*)step).learnMoreHTMLContent != nil);
-//}
+- (BOOL)taskViewController:(ORKTaskViewController *)taskViewController hasLearnMoreForStep:(ORKStep *)step {
+    return [self usesLearnMoreViewControllerForStep:step];
+}
+
+- (void)taskViewController:(ORKTaskViewController *)taskViewController learnMoreForStep:(ORKStepViewController *)stepViewController {
+    ORKStep *step = stepViewController.step;
+    if (![self usesLearnMoreViewControllerForStep:step]) {
+        return;
+    }
+    NSString *htmlContent = ((SBADirectNavigationStep *)step).learnMoreHTMLContent;
+    APHWebViewStepViewController *vc = [APHWebViewStepViewController instantiateWithHTMLContent:htmlContent];
+    UINavigationController *navVc = [[UINavigationController alloc] initWithRootViewController:vc];
+    navVc.modalPresentationStyle = UIModalPresentationFormSheet;
+    [stepViewController presentViewController:navVc animated:YES completion:nil];
+}
+
+- (BOOL)usesLearnMoreViewControllerForStep:(ORKStep *)step  {
+    return [step isKindOfClass:[SBADirectNavigationStep class]] &&
+    (((SBADirectNavigationStep*)step).learnMoreHTMLContent != nil);
+}
 
 #pragma mark - passcode handling
 
@@ -378,74 +393,6 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - handle user consent
-
-- (ORKConsentSignatureResult *)findConsentSignatureResult:(ORKTaskResult*)taskResult {
-    for (ORKStepResult *stepResult in taskResult.results) {
-        for (ORKResult *result in stepResult.results) {
-            if ([result isKindOfClass:[ORKConsentSignatureResult class]]) {
-                return (ORKConsentSignatureResult*)result;
-            }
-        }
-    }
-    return nil;
-}
-
-- (ORKConsentSharingStep *)findConsentSharingStep:(ORKTaskViewController *)taskViewController {
-    NSArray *steps = ((ORKOrderedTask*)taskViewController.task).steps;
-    for (ORKStep *step in steps) {
-        if ([step isKindOfClass:[ORKConsentSharingStep class]]) {
-            return (ORKConsentSharingStep*)step;
-        }
-    }
-    return nil;
-}
-
-- (void)checkForConsentWithTaskViewController:(ORKTaskViewController *)taskViewController {
-    
-    // search for the consent signature
-    ORKConsentSignatureResult *consentResult = [self findConsentSignatureResult:taskViewController.result];
-        
-    //  if no signature (no consent result) then assume the user failed the quiz
-    if (consentResult != nil && consentResult.signature.requiresName && (consentResult.signature.givenName && consentResult.signature.familyName)) {
-        
-        // extract the user's sharing choice
-        ORKConsentSharingStep *sharingStep = [self findConsentSharingStep:taskViewController];
-        APCUserConsentSharingScope sharingScope = APCUserConsentSharingScopeNone;
-        
-        for (ORKStepResult* result in taskViewController.result.results) {
-            if ([result.identifier isEqualToString:sharingStep.identifier]) {
-                for (ORKChoiceQuestionResult *choice in result.results) {
-                    if ([choice isKindOfClass:[ORKChoiceQuestionResult class]]) {
-                        NSNumber *answer = [choice.choiceAnswers firstObject];
-                        if ([answer isKindOfClass:[NSNumber class]]) {
-                            if (0 == answer.integerValue) {
-                                sharingScope = APCUserConsentSharingScopeStudy;
-                            }
-                            else if (1 == answer.integerValue) {
-                                sharingScope = APCUserConsentSharingScopeAll;
-                            }
-                            else {
-                                APCLogDebug(@"Unknown sharing choice answer: %@", answer);
-                            }
-                        }
-                        else {
-                            APCLogDebug(@"Unknown sharing choice answer(s): %@", choice.choiceAnswers);
-                        }
-                    }
-                }
-                break;
-            }
-        }
-        
-        // signal the onboarding manager that we're done here
-        [self userDidConsentWithResult:consentResult sharingScope:sharingScope];
-        
-    } else {
-        [self userDeclinedConsent];
-        [taskViewController dismissViewControllerAnimated:YES completion:nil];
-    }
-}
 
 @end
 

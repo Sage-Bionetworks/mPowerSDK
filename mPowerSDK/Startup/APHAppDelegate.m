@@ -104,7 +104,7 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 
 - (NSDictionary * _Nonnull)appearanceInfo {
     return @{
-             kPrimaryAppColorKey : [UIColor colorWithRed:255 / 255.0f green:0.0 blue:56 / 255.0f alpha:1.000],
+             kPrimaryAppColorKey : [UIColor purpleColor],
              APHTappingActivitySurveyIdentifier : [UIColor appTertiaryPurpleColor],
              APHMemoryActivitySurveyIdentifier : [UIColor appTertiaryRedColor],
              APHVoiceActivitySurveyIdentifier : [UIColor appTertiaryBlueColor],
@@ -266,10 +266,22 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
     [APCAppearanceInfo setAppearanceDictionary:self.appearanceInfo];
     [[UINavigationBar appearance] setTintColor:[UIColor appPrimaryColor]];
     [[UINavigationBar appearance] setTitleTextAttributes: @{
-                                                            NSForegroundColorAttributeName : [UIColor appSecondaryColor2],
+                                                            NSForegroundColorAttributeName : [UIColor appPrimaryColor],
                                                             NSFontAttributeName : [UIFont appNavBarTitleFont]
                                                             }];
     [[UIView appearance] setTintColor:[UIColor appPrimaryColor]];
+    
+    // TAB BAR APPEARANCE VALUES
+    
+    // Background of tab bar cell
+    [[UITabBar appearance] setBarTintColor: [UIColor whiteColor]];
+    // Select tint of tab icon
+    [[UITabBar appearance] setTintColor: [UIColor appPrimaryColor]];
+    // Color of un-selected tab icon
+    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor appTertiaryGrayColor], NSForegroundColorAttributeName, nil]
+                                             forState:UIControlStateNormal];
+    // Seleected text appearence
+    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor appPrimaryColor], NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
 }
 
 - (id <APCProfileViewControllerDelegate>)profileExtenderDelegate

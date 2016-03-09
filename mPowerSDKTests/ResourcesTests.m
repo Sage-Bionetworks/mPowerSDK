@@ -105,13 +105,14 @@
     NSArray <ORKStep *> *steps = [[[SBASurveyFactory alloc] initWithDictionary:json] steps];
     XCTAssertNotNil(steps);
     
-    NSArray *expectedIdentifiers = @[@"consentVisual",
-                                    @"consentQuiz",
-                                    @"consentFailedQuiz",
-                                    @"consentPassedQuiz",
-                                    @"consentSharingOptions",
-                                    @"consentReview",
-                                    @"consentCompletion"];
+    NSArray *expectedIdentifiers = @[@"reconsentIntroduction",
+                                     @"consentVisual",
+                                     @"consentQuiz",
+                                     @"consentFailedQuiz",
+                                     @"consentPassedQuiz",
+                                     @"consentSharingOptions",
+                                     @"consentReview",
+                                     @"consentCompletion"];
     XCTAssertEqual(steps.count, expectedIdentifiers.count);
     for (NSInteger ii=0; ii < steps.count && ii < expectedIdentifiers.count; ii++) {
         XCTAssertEqualObjects(steps[ii].identifier, expectedIdentifiers[ii]);
@@ -119,13 +120,16 @@
     
     if (steps.count < expectedIdentifiers.count) { return; }
     
-    ORKStep *comprehensionStep = [[(id)[(id)steps[1] subtask] steps] firstObject];
-    XCTAssertEqualObjects(comprehensionStep.title, @"Comprehension");
+
     
-    ORKStep *subtaskStep = steps[1];
+    ORKStep *subtaskStep = steps[2];
     XCTAssertTrue([subtaskStep isKindOfClass:[SBASurveySubtaskStep class]]);
     if ([subtaskStep isKindOfClass:[SBASurveySubtaskStep class]]) {
         NSArray <ORKStep *> *substeps = [(ORKOrderedTask*)[(SBASurveySubtaskStep*)subtaskStep subtask] steps];
+        
+        ORKStep *comprehensionStep = [substeps firstObject];
+        XCTAssertEqualObjects(comprehensionStep.title, @"Comprehension");
+        
         for (ORKStep *step in substeps) {
             XCTAssertNotEqual(step.title.length + step.text.length, 0, @"%@", step);
             if ([step isKindOfClass:[ORKFormStep class]]) {
@@ -146,11 +150,11 @@
     }
     
     // Check that the navigation step returns to the start
-    ORKStep *failedStep = steps[2];
+    ORKStep *failedStep = steps[3];
     XCTAssertTrue([failedStep isKindOfClass:[SBADirectNavigationStep class]]);
-    if (![failedStep isKindOfClass:[SBADirectNavigationStep class]]) {
+    if ([failedStep isKindOfClass:[SBADirectNavigationStep class]]) {
         NSString *nextIdentifier = [(SBADirectNavigationStep*)failedStep nextStepIdentifier];
-        XCTAssertEqualObjects(nextIdentifier, expectedIdentifiers.firstObject);
+        XCTAssertEqualObjects(nextIdentifier, @"consentVisual");
     }
     
 }
