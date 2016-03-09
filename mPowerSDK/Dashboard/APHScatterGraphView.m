@@ -553,12 +553,13 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
             
             APHRegularShapeView *point;
             BOOL pointColorGray = NO;
+            
             NSUInteger medChoiceIndex = [medTrackerTask indexForMedicationActivityTimingChoice:medicationActivityTiming];
 
             if (medChoiceIndex == 0) {
                 point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
             } else if (medChoiceIndex == NSNotFound) {
-                pointColorGray = YES;
+                pointColorGray = self.usesMedicationTiming;
                 point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
             }
             else {
