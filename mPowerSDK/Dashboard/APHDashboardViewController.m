@@ -40,16 +40,20 @@
 #import "APHMedicationTrackerTask.h"
 #import "APHMedicationTrackerViewController.h"
 #import "APHSpatialSpanMemoryGameViewController.h"
-#import "APHScatterGraphView.h"
 #import "APHTableViewDashboardGraphItem.h"
 #import "APHScoring.h"
 #import "APHTremorTaskViewController.h"
 #import "APHWalkingTaskViewController.h"
 #import "APHAppDelegate.h"
+#import "APHCorrelationsSelectorViewController.h"
+#import "APHGraphViewController.h"
+#import "APHLineGraphView.h"
 #import "APHMedicationTrackerDataStore.h"
 #import "APHWebViewStepViewController.h"
 @import BridgeAppSDK;
 
+NSInteger const kNumberOfDaysToDisplayInDiscreteGraph = 6;
+NSInteger const kPaddingMagicNumber = 56; // For the cell height to make the dashboard look pretty.
 
 static NSString * const kAPCBasicTableViewCellIdentifier          = @"APCBasicTableViewCell";
 static NSString * const kAPCRightDetailTableViewCellIdentifier    = @"APCRightDetailTableViewCell";
@@ -62,25 +66,34 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 static NSString * const kAPHMonthlyReportTaskIdentifier        = @"Monthly Report";
 static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 
-@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, ORKTaskViewControllerDelegate>
+@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, ORKTaskViewControllerDelegate, APHDashboardGraphTableViewCellDelegate, APHCorrelationsSelectorDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *monthlyReportButton;
 
 @property (nonatomic, strong) NSArray *rowItemsOrder;
 
-@property (nonatomic, strong) APCScoring *tapRightScoring;
-@property (nonatomic, strong) APCScoring *tapLeftScoring;
-@property (nonatomic, strong) APCScoring *gaitScoring;
-@property (nonatomic, strong) APCScoring *stepScoring;
-@property (nonatomic, strong) APCScoring *memoryScoring;
-@property (nonatomic, strong) APCScoring *phonationScoring;
-@property (nonatomic, strong) APCScoring *tremorScoring;
-@property (nonatomic, strong) APCScoring *moodScoring;
-@property (nonatomic, strong) APCScoring *energyScoring;
-@property (nonatomic, strong) APCScoring *exerciseScoring;
-@property (nonatomic, strong) APCScoring *sleepScoring;
-@property (nonatomic, strong) APCScoring *cognitiveScoring;
-@property (nonatomic, strong) APCScoring *customScoring;
+// Array of scores to correlate. Current implementation and design can only correlate two scores.
+@property (nonatomic, strong) NSMutableArray<APHScoring *> *correlatedScores;
+
+// Array of scores able to be selected to correlate.
+@property (nonatomic, strong) NSArray<APHScoring *> *scoreArray;
+
+@property (nonatomic, strong) APHScoring *correlatedScoring;
+@property (nonatomic, strong) APHScoring *tapRightScoring;
+@property (nonatomic, strong) APHScoring *tapLeftScoring;
+@property (nonatomic, strong) APHScoring *gaitScoring;
+@property (nonatomic, strong) APHScoring *stepScoring;
+@property (nonatomic, strong) APHScoring *memoryScoring;
+@property (nonatomic, strong) APHScoring *phonationScoring;
+@property (nonatomic, strong) APHScoring *tremorScoring;
+@property (nonatomic, strong) APHScoring *moodScoring;
+@property (nonatomic, strong) APHScoring *energyScoring;
+@property (nonatomic, strong) APHScoring *exerciseScoring;
+@property (nonatomic, strong) APHScoring *sleepScoring;
+@property (nonatomic, strong) APHScoring *cognitiveScoring;
+@property (nonatomic, strong) APHScoring *customScoring;
+
+@property (nonatomic) NSInteger selectedCorrelationTimeTab;
 
 @end
 
@@ -100,9 +113,9 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
             
             [defaults setObject:[NSArray arrayWithArray:_rowItemsOrder] forKey:kAPCDashboardRowItemsOrder];
             [defaults synchronize];
-            
         }
         
+        self.selectedCorrelationTimeTab = 0;
         self.title = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TITLE", nil, APHLocaleBundle(), @"Dashboard", @"Title for the Dashboard view controller.");
     }
     
@@ -156,6 +169,15 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 }
 
 #pragma mark - Data
+
+- (NSArray<APHScoring *> *)scoreArray
+{
+    if (nil == _scoreArray) {
+        _scoreArray = @[self.tapRightScoring, self.tapLeftScoring, self.gaitScoring, self.stepScoring, self.memoryScoring, self.phonationScoring];
+    }
+    
+    return _scoreArray;
+}
 
 // list of all the valid row items, in what will be the default order until the user rearranges them
 - (NSArray<NSNumber *> *)allRowItems
@@ -225,31 +247,31 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 - (void)prepareScoringObjects
 {
     self.tapRightScoring = [[APHScoring alloc] initWithTask:APHTappingActivitySurveyIdentifier
-                                               numberOfDays:-kNumberOfDaysToDisplay
+                                               numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph
                                                    valueKey:APHRightSummaryNumberOfRecordsKey
                                                  latestOnly:NO];
     self.tapRightScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TAPPING_RIGHT_CAPTION", nil, APHLocaleBundle(), @"Tapping - Right", @"Dashboard caption for results of right hand tapping activity.");
 
     self.tapLeftScoring = [[APHScoring alloc] initWithTask:APHTappingActivitySurveyIdentifier
-                                              numberOfDays:-kNumberOfDaysToDisplay
+                                              numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph
                                                   valueKey:APHLeftSummaryNumberOfRecordsKey
                                                 latestOnly:NO];
     self.tapLeftScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TAPPING_LEFT_CAPTION", nil, APHLocaleBundle(), @"Tapping - Left", @"Dashboard caption for results of left hand tapping activity.");
     
     self.gaitScoring = [[APHScoring alloc] initWithTask:APHWalkingActivitySurveyIdentifier
-                                           numberOfDays:-kNumberOfDaysToDisplay
+                                           numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph
                                                valueKey:kGaitScoreKey
                                              latestOnly:NO];
     self.gaitScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_WALKING_CAPTION", nil, APHLocaleBundle(), @"Gait", @"Dashboard caption for results of walking activity.");
 
     self.memoryScoring = [[APHScoring alloc] initWithTask:APHMemoryActivitySurveyIdentifier
-                                             numberOfDays:-kNumberOfDaysToDisplay
+                                             numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph
                                                  valueKey:kSpatialMemoryScoreSummaryKey
                                                latestOnly:NO];
     self.memoryScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_MEMORY_CAPTION", nil, APHLocaleBundle(), @"Memory", @"Dashboard caption for results of memory activity.");
 
     self.phonationScoring = [[APHScoring alloc] initWithTask:APHVoiceActivitySurveyIdentifier
-                                                numberOfDays:-kNumberOfDaysToDisplay
+                                                numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph
                                                     valueKey:APHPhonationScoreSummaryOfRecordsKey
                                                   latestOnly:NO];
     self.phonationScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_VOICE_CAPTION", nil, APHLocaleBundle(), @"Voice", @"Dashboard caption for results of voice activity.");
@@ -257,11 +279,12 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
     HKQuantityType *hkQuantity = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
     self.stepScoring = [[APHScoring alloc] initWithHealthKitQuantityType:hkQuantity
                                                                     unit:[HKUnit countUnit]
-                                                            numberOfDays:-kNumberOfDaysToDisplay];
+                                                            numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph];
     self.stepScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_STEPS_CAPTION", nil, APHLocaleBundle(), @"Steps", @"Dashboard caption for results of steps score.");
+    self.stepScoring.shouldDiscardIncongruentCorrelationElements = YES;
     
     self.tremorScoring = [[APCScoring alloc] initWithTask:APHTremorActivitySurveyIdentifier
-                                             numberOfDays:-kNumberOfDaysToDisplay
+                                             numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph
                                                  valueKey:kTremorScoreKey];
     self.tremorScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TREMOR_CAPTION", nil, APHLocaleBundle(), @"Tremor", @"Dashboard caption for results of tremor score.");
     
@@ -295,35 +318,35 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
     self.customScoring.customMaximumPoint = 5.0;
     self.customScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DAILY_CUSTOM_CAPTION", nil, APHLocaleBundle(), @"Custom Question", @"Dashboard caption for daily user-defined custom question report");
 
-    if (!self.correlatedScoring) {
-        [self prepareCorrelatedScoring];
+    if (!self.correlatedScores) {
+        self.correlatedScores = [NSMutableArray arrayWithArray:@[self.tapRightScoring, self.tapLeftScoring]];
     }
+    [self prepareCorrelatedScoring];
 }
 
 - (APHScoring *)scoringForValueKey:(NSString *)valueKey
 {
     return [[APHScoring alloc] initWithTask:APHDailySurveyIdentifier
-                               numberOfDays:-kNumberOfDaysToDisplay
+                               numberOfDays:-kNumberOfDaysToDisplayInDiscreteGraph
                                    valueKey:valueKey
                                  latestOnly:NO];
 }
 
-- (void)prepareCorrelatedScoring{
-
-    self.correlatedScoring = [[APHScoring alloc] initWithTask:APHWalkingActivitySurveyIdentifier
-                                                 numberOfDays:-kNumberOfDaysToDisplay
-                                                     valueKey:kGaitScoreKey];
-    
-    HKQuantityType *hkQuantity = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
-    [self.correlatedScoring correlateWithScoringObject:[[APHScoring alloc] initWithHealthKitQuantityType:hkQuantity
-                                                                                                    unit:[HKUnit countUnit]
-                                                                                            numberOfDays:-kNumberOfDaysToDisplay]];
-    
-    self.correlatedScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
+- (void)prepareCorrelatedScoring
+{
+    self.correlatedScoring = nil;
+    self.correlatedScoring = self.correlatedScores.firstObject.copy;
+    [self.correlatedScoring correlateWithScoringObject:self.correlatedScores.lastObject.copy];
     
     //default series
-    self.correlatedScoring.series1Name = self.gaitScoring.caption;
-    self.correlatedScoring.series2Name = self.stepScoring.caption;
+    self.correlatedScoring.series1Name = self.correlatedScores.firstObject.caption;
+    self.correlatedScoring.series2Name = self.correlatedScores.lastObject.caption;
+    
+//    NSString *taskChoice = [self.correlatedScoring.activityTimingChoicesStrings objectAtIndex:self.selectedCorrelationTimeTab];
+    [self.correlatedScoring changeDataPointsWithTaskChoice:nil];
+    
+    // Commented out because it overwrites
+//    self.correlatedScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
 }
 
 - (void)prepareData
@@ -360,20 +383,40 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
             
             switch (rowType) {
                     
-                case kAPHDashboardItemTypeCorrelation:{
-                    
+                case kAPHDashboardItemTypeCorrelation:
+                {
                     APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = NSLocalizedStringWithDefaultValue(@"APH_DATA_CORRELATION_CAPTION", nil, APHLocaleBundle(), @"Data Correlation", @"Dashboard caption for data correlation.");
                     item.graphData = self.correlatedScoring;
-                    item.graphType = kAPCDashboardGraphTypeLine;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
-                    item.tintColor = [UIColor appTertiaryYellowColor];
+                    item.showCorrelationSelectorView = YES;
+                    item.hideTintBar = YES;
+                    item.tintColor = [UIColor appSecondaryColor2];
                     
                     NSString *infoFormat = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_CORRELATION_INFO", nil, APHLocaleBundle(), @"This chart plots the index of your %@ against the index of your %@. For more comparisons, click the series name.", @"Format of caption for correlation plot comparing indices of two series, to be filled in with the names of the series being compared.");
-                    item.info = [NSString stringWithFormat:infoFormat, self.correlatedScoring.series1Name, self.correlatedScoring.series2Name];
+                    item.info = [NSString stringWithFormat:infoFormat, self.correlatedScoring.series1Name, self.self.correlatedScoring.series2Name];
                     item.detailText = @"";
-                    item.legend = [APHTableViewDashboardGraphItem legendForSeries1:self.correlatedScoring.series1Name series2:self.correlatedScoring.series2Name];
+                    item.legend = [APHTableViewDashboardGraphItem legendForSeries1:self.correlatedScoring.series1Name
+                                                                           series2:self.correlatedScoring.series2Name
+                                                                   colorForSeries1:[self itemForScoring:self.correlatedScores[0]].tintColor
+                                                                   colorForSeries2:[self itemForScoring:self.correlatedScores[1]].tintColor];
+                    
+                    BOOL firstScoreIsSteps = [[self.correlatedScores[0] caption] isEqualToString:self.stepScoring.caption];
+                    BOOL secondScoreIsSteps = [[self.correlatedScores[1] caption] isEqualToString:self.stepScoring.caption];
+                    
+                    if (firstScoreIsSteps && secondScoreIsSteps) {
+                        item.showMedicationLegend = NO;
+                        item.showMedicationLegendCorrelation = NO;
+                    } else if (firstScoreIsSteps || secondScoreIsSteps) {
+                        item.showMedicationLegend = YES;
+                        item.showMedicationLegendCorrelation = NO;
+                    } else {
+                        item.showMedicationLegend = YES;
+                        item.showMedicationLegendCorrelation = YES;
+                    }
+                    
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
                     row.itemType = rowType;
@@ -390,11 +433,12 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.caption = tapScoring.caption;
                     item.taskId = APHTappingActivitySurveyIdentifier;
                     item.graphData = tapScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.hidesDetailText = YES;
                     
                     double avgValue = [[tapScoring averageDataPoint] doubleValue];
                     
-                    if (avgValue > 0) {
+                    if (!item.hidesDetailText && avgValue > 0) {
                         item.detailText = [NSString stringWithFormat:detailMinMaxFormat,
                                            APHLocalizedStringFromNumber([tapScoring minimumDataPoint]), APHLocalizedStringFromNumber([tapScoring maximumDataPoint])];
                     }
@@ -402,9 +446,10 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
-					item.showMedicationLegend = YES;
                 
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TAPPING_INFO", nil, APHLocaleBundle(), @"This plot shows your finger tapping speed each day as measured by the Tapping Interval Activity. The length and position of each vertical bar represents the range in the number of taps you made in 20 seconds for a given day. Any differences in length or position over time reflect variations and trends in your tapping speed, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Tapping in Parkinson");
+                    
+                    item.showMedicationLegend = YES;
                     
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
@@ -419,11 +464,12 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.caption = self.gaitScoring.caption;
                     item.taskId = APHWalkingActivitySurveyIdentifier;
                     item.graphData = self.gaitScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.hidesDetailText = YES;
                     
                     double avgValue = [[self.gaitScoring averageDataPoint] doubleValue];
                     
-                    if (avgValue > 0) {
+                    if (!item.hidesDetailText && avgValue > 0) {
                         item.detailText = [NSString stringWithFormat:detailMinMaxFormat,
                                            APHLocalizedStringFromNumber([self.gaitScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.gaitScoring maximumDataPoint])];
                     }
@@ -431,9 +477,10 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
-                    item.showMedicationLegend = YES;
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_WALKING_INFO", nil, APHLocaleBundle(), @"This plot combines several accelerometer-based measures for the Walking Activity. The length and position of each vertical bar represents the range of measures for a given day. Any differences in length or position over time reflect variations and trends in your Walking measure, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Gait in Parkinson");
+                    
+                    item.showMedicationLegend = YES;
                     
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
@@ -447,11 +494,12 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.caption = self.memoryScoring.caption;
                     item.taskId = APHMemoryActivitySurveyIdentifier;
                     item.graphData = self.memoryScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.hidesDetailText = YES;
                     
                     double avgValue = [[self.memoryScoring averageDataPoint] doubleValue];
                     
-                    if (avgValue > 0) {
+                    if (!item.hidesDetailText && avgValue > 0) {
                         item.detailText = [NSString stringWithFormat:detailMinMaxFormat,
                                            APHLocalizedStringFromNumber([self.memoryScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.memoryScoring maximumDataPoint])];
                     }
@@ -459,9 +507,10 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
-                    item.showMedicationLegend = YES;
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MEMORY_INFO", nil, APHLocaleBundle(), @"This plot shows the score you received each day for the Memory Game. The length and position of each vertical bar represents the range of scores for a given day. Any differences in length or position over time reflect variations and trends in your score, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Memory in Parkinson");
+                    
+                    item.showMedicationLegend = YES;
                     
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
@@ -475,11 +524,12 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.caption = self.phonationScoring.caption;
                     item.taskId = APHVoiceActivitySurveyIdentifier;
                     item.graphData = self.phonationScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = kAPCDashboardGraphTypeDiscrete;
+                    item.hidesDetailText = YES;
                     
                     double avgValue = [[self.phonationScoring averageDataPoint] doubleValue];
                     
-                    if (avgValue > 0) {
+                    if (!item.hidesDetailText && avgValue > 0) {
                         item.detailText = [NSString stringWithFormat:detailMinMaxFormat,
                                            APHLocalizedStringFromNumber([self.phonationScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.phonationScoring maximumDataPoint])];
                     }
@@ -487,9 +537,10 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
-                    item.showMedicationLegend = YES;
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_VOICE_INFO", nil, APHLocaleBundle(), @"This plot combines several microphone-based measures as a single score for the Voice Activity. The length and position of each vertical bar represents the range of measures for a given day. Any differences in length or position over time reflect variations and trends in your Voice measure, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Voice in Parkinson");
+                    
+                    item.showMedicationLegend = YES;
                     
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
@@ -526,13 +577,14 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     
                 case kAPHDashboardItemTypeTremor:
                 {
-                    APCTableViewDashboardGraphItem  *item = [APCTableViewDashboardGraphItem new];
+                    APHTableViewDashboardGraphItem  *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.tremorScoring.caption;
                     item.graphData = self.tremorScoring;
+                    item.hidesDetailText = YES;
                     
                     double avgValue = [[self.tremorScoring averageDataPoint] doubleValue];
                     
-                    if (avgValue > 0) {
+                    if (!item.hidesDetailText && avgValue > 0) {
                         item.detailText = [NSString stringWithFormat:detailAvgFormat,
                                            APHLocalizedStringFromNumber([self.tremorScoring averageDataPoint])];
                     }
@@ -542,6 +594,8 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.tintColor = [UIColor colorForTaskId:APHTremorActivitySurveyIdentifier];
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TREMOR_INFO", nil, APHLocaleBundle(), @"This plot shows the score you received each day for the Tremor Test.", @"Dashboard tooltip item info text for Tremor Test in Parkinson");
+                    
+                    item.showMedicationLegend = YES;
                     
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
@@ -766,20 +820,66 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         
         APHTableViewDashboardGraphItem *graphItem = (APHTableViewDashboardGraphItem *)[self itemForIndexPath:indexPath];
         
-        if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
-            graphItem.graphType = kAPHDashboardGraphTypeDiscrete;
-            ((APHScoring *)graphItem.graphData).latestOnly = YES;
-        }
-        
         CGRect initialFrame = [cell convertRect:cell.bounds toView:self.view.window];
         self.presentAnimator.initialFrame = initialFrame;
         
-        APCGraphViewController *graphViewController = [[UIStoryboard storyboardWithName:@"APCDashboard" bundle:[NSBundle appleCoreBundle]] instantiateViewControllerWithIdentifier:@"APCLineGraphViewController"];
+        APHGraphViewController *graphViewController = [[UIStoryboard storyboardWithName:@"APHDashboard" bundle:[NSBundle bundleForClass:[self class]]] instantiateViewControllerWithIdentifier:@"APHLineGraphViewController"];
+        graphViewController.shouldHideAverageLabel = YES;
+        graphViewController.shouldHideCorrelationSegmentControl = YES;
+        graphViewController.shouldHideMedicationLegend = !graphItem.showMedicationLegend;
+        graphViewController.tintColor = graphItem.tintColor;
+
+        if (graphItem.showCorrelationSelectorView) {
+            [((APHScoring *)graphItem.graphData) resetChanges];
+            
+            APHTableViewDashboardGraphItem *primaryCorrelatedItem = [self itemForScoring:self.correlatedScores[0]];
+            APHTableViewDashboardGraphItem *secondaryCorrelatedItem = [self itemForScoring:self.correlatedScores[1]];
+            
+            graphItem.legend =
+                [APHTableViewDashboardGraphItem legendForSeries1:self.correlatedScoring.series1Name
+                                                         series2:self.correlatedScoring.series2Name
+                                                 colorForSeries1:primaryCorrelatedItem.tintColor
+                                                 colorForSeries2:secondaryCorrelatedItem.tintColor];
+            
+            graphViewController.tintColor = primaryCorrelatedItem.tintColor;
+            graphViewController.secondaryTintColor = secondaryCorrelatedItem.tintColor;
+            graphViewController.selectedCorrelationTimeTab = self.selectedCorrelationTimeTab;
+            graphViewController.isForCorrelation = YES;
+        }
         
         graphViewController.graphItem = graphItem;
         graphItem.graphData.scoringDelegate = graphViewController;
         [self.navigationController presentViewController:graphViewController animated:YES completion:nil];
     }
+}
+
+#pragma mark - APHDashboardGraphTableViewCellDelegate
+
+- (void)dashboardTableViewCellDidTapCorrelationIndex:(int)index cell:(APCDashboardTableViewCell *)cell;
+{
+    APHCorrelationsSelectorViewController *correlationSelector = [[APHCorrelationsSelectorViewController alloc]initWithScoringObjects:self.scoreArray];
+    [correlationSelector setTitle:@"Correlation Selector"];
+    correlationSelector.delegate = self;
+    correlationSelector.selectedCorrelationIndex = index;
+    correlationSelector.selectedObject = self.correlatedScores[index];
+    correlationSelector.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    [self.tabBarController presentViewController:correlationSelector animated:NO completion:nil];
+}
+
+- (void)dashboardTableViewCellDidChangeCorrelationSegment:(NSInteger)selectedIndex
+{
+    self.selectedCorrelationTimeTab = selectedIndex;
+    [self prepareCorrelatedScoring];
+    [self prepareData];
+}
+
+#pragma mark - APHCorrelationsSelector Delegate
+
+- (void)didChangeCorrelatedScoringDataSourceForCorrelationIndex:(int)index withScoring:(APHScoring *)scoring
+{
+    self.correlatedScores[index] = scoring;
+    [self prepareCorrelatedScoring];
+    [self prepareData];
 }
 
 #pragma mark - CorrelationsSelector Delegate
@@ -801,57 +901,78 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         
         APHTableViewDashboardGraphItem *graphItem = (APHTableViewDashboardGraphItem *)dashboardItem;
         APHDashboardGraphTableViewCell *graphCell = (APHDashboardGraphTableViewCell *)cell;
-
-        graphCell.showMedicationLegend = graphItem.showMedicationLegend;
-        graphCell.scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
-        [graphCell.legendButton setAttributedTitle:graphItem.legend forState:UIControlStateNormal];
         
-        if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
-            graphCell.discreteGraphView.hidden = YES;
-            graphCell.lineGraphView.hidden = YES;
-            graphCell.scatterGraphView.hidden = NO;
-            graphCell.subTitleLabel.hidden = YES;
-            
-            [graphCell.legendButton setUserInteractionEnabled:graphItem.legend ? YES : NO];
-            
-            APHScatterGraphView *graphView = graphCell.scatterGraphView;
-            graphView.delegate = self;
-            graphView.tintColor = graphItem.tintColor;
-            graphView.axisColor = [UIColor appTertiaryGrayColor];
-            graphView.showsVerticalReferenceLines = YES;
-            graphView.panGestureRecognizer.delegate = self;
-            graphView.axisTitleFont = [UIFont appRegularFontWithSize:14.0f];
-            graphView.showsHorizontalReferenceLines = NO;
-            
-            graphView.maximumValueImage = graphItem.maximumImage;
-            graphView.minimumValueImage = graphItem.minimumImage;
-            
-            graphCell.averageImageView.image = graphItem.averageImage;
-            graphCell.title = graphItem.caption;
-            graphCell.subTitleLabel.text = graphItem.detailText;
-            
-            graphCell.tintColor = graphItem.tintColor;
-            graphCell.delegate = self;
-            
-            [graphView layoutSubviews];
-            
-            if (graphView != nil)
-            {
-                [self.lineCharts addObject:graphView];
-            }
+        [graphCell.legendButton setAttributedTitle:graphItem.legend forState:UIControlStateNormal];
+        graphCell.showMedicationLegend = graphItem.showMedicationLegend;
+        graphCell.showMedicationLegendCorrelation = graphItem.showMedicationLegendCorrelation;
+        graphCell.showCorrelationSelectorView = graphItem.showCorrelationSelectorView;
+        graphCell.showCorrelationSegmentControl = graphItem.showCorrelationSegmentControl;
+        graphCell.hideTintBar = graphItem.hideTintBar;
+        
+        graphCell.button1Title = self.correlatedScoring.series1Name;
+        graphCell.button2Title = self.correlatedScoring.series2Name;
+        graphCell.correlationButton1TitleColor = [UIColor appTertiaryRedColor];
+        graphCell.correlationButton2TitleColor = [UIColor appTertiaryYellowColor];
+        graphCell.correlationDelegate = self;
+        
+        if (graphCell.showCorrelationSelectorView && graphItem.graphType == kAPCDashboardGraphTypeLine) {
+            ((APHLineGraphView *)graphCell.lineGraphView).shouldDrawLastPoint = YES;
+            ((APHLineGraphView *)graphCell.lineGraphView).colorForFirstCorrelationLine = graphCell.correlationButton1TitleColor;
+            ((APHLineGraphView *)graphCell.lineGraphView).colorForSecondCorrelationLine = graphCell.correlationButton2TitleColor;
+            graphCell.lineGraphView.hidesDataPoints = YES;
         } else {
-            graphCell.scatterGraphView.hidden = YES;
-            graphCell.subTitleLabel.hidden = NO;
+            ((APHLineGraphView *)graphCell.lineGraphView).shouldDrawLastPoint = NO;
+            graphCell.lineGraphView.hidesDataPoints = NO;
         }
         
-        for (UIView *tintView in graphCell.tintViews) {
-            tintView.tintColor = graphItem.tintColor;
+        if (graphItem.graphType == kAPCDashboardGraphTypeDiscrete && [graphCell.discreteGraphView isKindOfClass:[APHDiscreteGraphView class]]) {
+            APHDiscreteGraphView *discreteGraphView = (APHDiscreteGraphView *)graphCell.discreteGraphView;
+            discreteGraphView.primaryLineColor = [UIColor colorWithRed:236.f / 255.f
+                                                                 green:237.f / 255.f
+                                                                  blue:237.f / 255.f
+                                                                 alpha:1.f];
+
+            discreteGraphView.showsHorizontalReferenceLines = NO;
+            discreteGraphView.shouldHighlightXaxisLastTitle = YES;
+
+            if (graphItem.showCorrelationSelectorView) {
+                APHTableViewDashboardGraphItem *primaryCorrelatedItem = [self itemForScoring:self.correlatedScores[0]];
+                APHTableViewDashboardGraphItem *secondaryCorrelatedItem = [self itemForScoring:self.correlatedScores[1]];
+                
+                graphCell.tintColor = primaryCorrelatedItem.tintColor;
+                graphCell.secondaryTintColor = secondaryCorrelatedItem.tintColor;
+                graphCell.correlationButton1TitleColor = primaryCorrelatedItem.tintColor;
+                graphCell.correlationButton2TitleColor = secondaryCorrelatedItem.tintColor;
+                
+                if ([primaryCorrelatedItem.caption isEqualToString:self.stepScoring.caption]) {
+                    graphCell.medicationLegendContainerView.tintColor = secondaryCorrelatedItem.tintColor;
+                }
+            } else {
+                graphCell.showCorrelationSegmentControl = NO;
+            }
         }
     }
 
 	((APCDashboardTableViewCell *)cell).titleLabel.textColor = [UIColor blackColor];
     
     return cell;
+}
+
+- (APHTableViewDashboardGraphItem * _Nullable)itemForScoring:(APHScoring *)scoring
+{
+    NSArray *rowItems = [[self.items.firstObject rows] valueForKey:NSStringFromSelector(@selector(item))];
+    
+    for (id item in rowItems.reverseObjectEnumerator) {
+        if (![item isKindOfClass:[APHTableViewDashboardGraphItem class]]) {
+            continue;
+        }
+        
+        if ([[item graphData].caption isEqualToString:scoring.caption]) {
+            return item;
+        }
+    }
+    
+    return nil;
 }
 
 
@@ -869,34 +990,16 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
             rowHeight += [APHDashboardGraphTableViewCell medicationLegendContainerHeight];
         }
         
+        if (graphItem.showCorrelationSegmentControl) {
+            rowHeight += [APHDashboardGraphTableViewCell correlationSelectorHeight];
+        }
+        
+        rowHeight += kPaddingMagicNumber;
+        
         return rowHeight;
     }
     
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
-}
-
-- (void)tableView:(UITableView *)__unused tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    APCTableViewItem *dashboardItem = [self itemForIndexPath:indexPath];
-    
-    if ([dashboardItem isKindOfClass:[APHTableViewDashboardGraphItem class]]){
-        APCTableViewDashboardGraphItem *graphItem = (APCTableViewDashboardGraphItem *)dashboardItem;
-        APHDashboardGraphTableViewCell *graphCell = (APHDashboardGraphTableViewCell *)cell;
-        
-        APCBaseGraphView *graphView;
-        
-        if (graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
-            graphView = (APHScatterGraphView *)graphCell.scatterGraphView;
-            
-            [graphView setNeedsLayout];
-            [graphView layoutIfNeeded];
-            [graphView refreshGraph];
-        } else {
-            [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
-        }
-    } else {
-        [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
-    }
 }
 
 #pragma mark - ORKTaskViewControllerDelegate

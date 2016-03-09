@@ -99,11 +99,14 @@ static NSString * const kItemKey                    = @"item";
         }
 
         NSString *medicationActivityTimingString = @"";
+        NSString *medicationMomentInDayString = @"";
         APHMedicationTrackerDataStore *medTrackerDataStore = [APHMedicationTrackerDataStore defaultStore];
         if (medTrackerDataStore.momentInDayResult) {
             for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {
                 if ([orkStepResult.identifier isEqualToString:@"medicationActivityTiming"]) {
                     medicationActivityTimingString = ((ORKChoiceQuestionResult *)orkStepResult.firstResult).choiceAnswers.firstObject ?: @"";
+                } else if ([orkStepResult.identifier isEqualToString:@"momentInDay"]) {
+                    medicationMomentInDayString = ((ORKChoiceQuestionResult *)orkStepResult.firstResult).choiceAnswers.firstObject ?: @"";
                 }
             }
         }
@@ -111,7 +114,8 @@ static NSString * const kItemKey                    = @"item";
         // Create the summary dictionary
         NSDictionary *summary = @{
             kSpatialMemoryScoreSummaryKey : @(memoryResults.score),
-            APHMedicationActivityTimingKey : medicationActivityTimingString
+            APHMedicationActivityTimingKey : medicationActivityTimingString,
+            APHMedicationMomentInDayKey : medicationMomentInDayString
         };
         
         NSError  *error = nil;

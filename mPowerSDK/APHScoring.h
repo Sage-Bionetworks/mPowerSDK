@@ -7,10 +7,16 @@
 //
 
 #import <APCAppCore/APCAppCore.h>
-#import "APHScatterGraphView.h"
+#import "APHDiscreteGraphView.h"
 
-@interface APHScoring : APCScoring <APHScatterGraphViewDataSource>
+@interface APHScoring : APCScoring <APHDiscreteGraphViewDataSource>
 
-@property (nonatomic) BOOL latestOnly;
+@property(nonatomic) NSArray *activityTimingChoicesStrings;
+@property(nonatomic) BOOL latestOnly;
+@property(nonatomic) BOOL providesAveragedPointData;
+@property(nonatomic) BOOL shouldDiscardIncongruentCorrelationElements;
+
+- (void)changeDataPointsWithTaskChoice:(NSString *)taskChoice;
+- (void)resetChanges;
 
 @end

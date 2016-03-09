@@ -78,6 +78,7 @@ extern NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier;
  * Exposes the text choices
  */
 - (NSArray <ORKTextChoice *> *) activityTimingChoices;
+- (NSArray <ORKTextChoice *> *) activityMomentInDayChoices;
 
 /**
  * Map the selected medication and frequency against the list of all possible answers

@@ -83,7 +83,8 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
                                                    APHLeftSummaryNumberOfRecordsKey:  @(0),
                                                    APHRightScoreSummaryOfRecordsKey:  @(0),
                                                    APHLeftScoreSummaryOfRecordsKey:   @(0),
-                                                   APHMedicationActivityTimingKey: @""
+                                                   APHMedicationActivityTimingKey: @"",
+                                                   APHMedicationMomentInDayKey: @""
                                                 } mutableCopy];
         
         // Use a block to morph the keys if a tapping result is found
@@ -120,6 +121,8 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
             for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {
                 if ([orkStepResult.identifier isEqualToString:@"medicationActivityTiming"]) {
                     summary[APHMedicationActivityTimingKey] = ((ORKChoiceQuestionResult *)orkStepResult.firstResult).choiceAnswers.firstObject ?: @"";
+                } else if ([orkStepResult.identifier isEqualToString:@"momentInDay"]) {
+                    summary[APHMedicationMomentInDayKey] = ((ORKChoiceQuestionResult *)orkStepResult.firstResult).choiceAnswers.firstObject ?: @"";
                 }
             }
         }
