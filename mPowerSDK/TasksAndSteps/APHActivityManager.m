@@ -154,7 +154,7 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
                                                                    intendedUseDescription:nil
                                                                                  duration:kTappingStepCountdownInterval
                                                                                   options:0
-                                                                              handOptions:APCTapHandOptionBoth];
+                                                                              handOptions:ORKPredefinedTaskHandOptionBoth];
     
     // Modify the first step to explain why this activity is valuable to the Parkinson's study
     ORKInstructionStep *firstStep = (ORKInstructionStep *)orkTask.steps.firstObject;
@@ -294,6 +294,7 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
                                  intendedUseDescription:nil
                                      activeStepDuration:kTremorAssessmentStepDuration
                                       activeTaskOptions:excludeTasks
+                                            handOptions:ORKPredefinedTaskHandOptionBoth
                                                 options:ORKPredefinedTaskOptionNone];
 }
 

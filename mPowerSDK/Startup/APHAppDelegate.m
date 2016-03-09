@@ -104,7 +104,10 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 
 - (NSDictionary * _Nonnull)appearanceInfo {
     return @{
-             kPrimaryAppColorKey : [UIColor purpleColor],
+             kPrimaryAppColorKey : [UIColor colorWithRed:88. / 255.
+                                                   green:55. / 255.
+                                                    blue:182. / 255.
+                                                   alpha:1.0],
              APHTappingActivitySurveyIdentifier : [UIColor appTertiaryPurpleColor],
              APHMemoryActivitySurveyIdentifier : [UIColor appTertiaryRedColor],
              APHVoiceActivitySurveyIdentifier : [UIColor appTertiaryBlueColor],
