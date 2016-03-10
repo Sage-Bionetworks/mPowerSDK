@@ -13,5 +13,17 @@
     "deviceMotion_walking.rest" : "deviceMotion_walking.rest",
     "momentInDayFormat" : "momentInDayFormat.json",
     "hasParkinsons" : "hasParkinsons.json",
-    "medicationSelection" : "medicationSelection.json"
+    "medicationSelection" : "medicationSelection.json",
+    "ac1_acc_tremor.handInLap.right" : "accel_tremor_handInLap_right.json",
+    "ac1_motion_tremor.handInLap.right" : "deviceMotion_tremor_handInLap_right.json",
+    "ac1_acc_tremor.handInLap.left" : "accel_tremor_handInLap_left.json",
+    "ac1_motion_tremor.handInLap.left" : "deviceMotion_tremor_handInLap_left.json",
+    "ac2_acc_tremor.handAtShoulderLength.right" : "accel_tremor_handAtShoulderLength_right.json",
+    "ac2_motion_tremor.handAtShoulderLength.right" : "deviceMotion_tremor_handAtShoulderLength_right.json",
+    "ac2_acc_tremor.handAtShoulderLength.left" : "accel_tremor_handAtShoulderLength_left.json",
+    "ac2_motion_tremor.handAtShoulderLength.left" : "deviceMotion_tremor_handAtShoulderLength_left.json",
+    "ac4_acc_tremor.handToNose.right" : "accel_tremor_handToNose_right.json",
+    "ac4_motion_tremor.handToNose.right" : "deviceMotion_tremor_handToNose_right.json",
+    "ac4_acc_tremor.handToNose.left" : "accel_tremor_handToNose_left.json",
+    "ac4_motion_tremor.handToNose.left" : "deviceMotion_tremor_handToNose_left.json"
 }
