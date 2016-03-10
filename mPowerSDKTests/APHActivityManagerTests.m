@@ -129,11 +129,12 @@
     APHMedicationTrackerTask *medTask = (APHMedicationTrackerTask *)[manager createTaskForSurveyId:APHTremorActivitySurveyIdentifier];
     ORKOrderedTask *task  = (ORKOrderedTask *)medTask.subTask;
     XCTAssertNotNil(task);
-    XCTAssertNotNil([task stepWithIdentifier:@"tremor.handInLap"]);
-    XCTAssertNotNil([task stepWithIdentifier:@"tremor.handAtShoulderLength"]);
-    //XCTAssertNotNil([task stepWithIdentifier:@"tremor.handAtShoulderLengthWithElbowBent"]);
-    XCTAssertNotNil([task stepWithIdentifier:@"tremor.handToNose"]);
-    //XCTAssertNotNil([task stepWithIdentifier:@"tremor.handQueenWave"]);
+    XCTAssertNotNil([task stepWithIdentifier:@"tremor.handInLap.right"]);
+    XCTAssertNotNil([task stepWithIdentifier:@"tremor.handAtShoulderLength.right"]);
+    XCTAssertNotNil([task stepWithIdentifier:@"tremor.handToNose.right"]);
+    XCTAssertNotNil([task stepWithIdentifier:@"tremor.handInLap.left"]);
+    XCTAssertNotNil([task stepWithIdentifier:@"tremor.handAtShoulderLength.left"]);
+    XCTAssertNotNil([task stepWithIdentifier:@"tremor.handToNose.left"]);
     
     // Check that the final step uses the expected language
     ORKStep *finalStep = task.steps.lastObject;

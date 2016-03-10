@@ -206,7 +206,8 @@
 
 - (void)loadPDFToPage {
     // If the pdf URL is different from the display URL then add a hidden webview for the printing
-    self.pdfWebView = [[UIWebView alloc] init];
+    CGRect bounds = [SBAPDFPrintPageRenderer defaultBounds];
+    self.pdfWebView = [[UIWebView alloc] initWithFrame:bounds];
     self.pdfWebView.delegate = self;
     NSString *urlString = [self.displayURLString stringByAppendingString:self.pdfURLSuffix];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
