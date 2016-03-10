@@ -551,25 +551,18 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
             NSDictionary *taskResult = [rawDataPoint valueForKey:@"datasetTaskResult"];
             id medicationActivityTiming = taskResult[@"MedicationActivityTiming"];
             
-            APHRegularShapeView *point;
-            BOOL pointColorGray = NO;
-            
-            NSUInteger medChoiceIndex = [medTrackerTask indexForMedicationActivityTimingChoice:medicationActivityTiming];
-
-            if (medChoiceIndex == 0) {
-                point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
-            } else if (medChoiceIndex == NSNotFound) {
-                pointColorGray = self.usesMedicationTiming;
-                point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
+            APHRegularShapeView *point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
+        
+            // If the delegate responds to the selector to setup the shape, then defer to the delegate to setup the shape
+            UIColor *tintColor = (plotIndex == 0) ? self.tintColor : self.secondaryTintColor;
+            if ([self.delegate respondsToSelector:@selector(setupShape:legendIndex:tintColor:)]) {
+                NSUInteger legendIndex = self.usesMedicationTiming ? [medTrackerTask indexForMedicationActivityTimingChoice:medicationActivityTiming] : 0;
+                [(id)self.delegate setupShape:point legendIndex:legendIndex tintColor:tintColor];
             }
             else {
-                int numSides = (int)medChoiceIndex + 2;
-                point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:numSides];
+                // otherwise, just set the tint
+                point.tintColor = tintColor;
             }
-            
-            point.tintColor = plotIndex == 0 ?
-                pointColorGray ?
-                    [UIColor appTertiaryGrayColor] : self.tintColor : self.secondaryTintColor;
             
             point.center = CGPointMake(positionOnXAxis, [[rawDataPoint valueForKey:kDatasetValueKey] floatValue]);
             [self.plotsView.layer addSublayer:point.layer];

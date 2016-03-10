@@ -48,6 +48,7 @@
 #import "APHAppDelegate.h"
 #import "APHMedicationTrackerDataStore.h"
 #import "APHWebViewStepViewController.h"
+#import "APHRegularShapeView.h"
 @import BridgeAppSDK;
 
 
@@ -62,7 +63,7 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 static NSString * const kAPHMonthlyReportTaskIdentifier        = @"Monthly Report";
 static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 
-@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, ORKTaskViewControllerDelegate>
+@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, ORKTaskViewControllerDelegate, APHScatterGraphViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *monthlyReportButton;
 
@@ -848,14 +849,36 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
             graphCell.subTitleLabel.hidden = NO;
         }
         
-        for (UIView *tintView in graphCell.tintViews) {
-            tintView.tintColor = graphItem.tintColor;
+        // Setup the legend
+        if (graphItem.showMedicationLegend) {
+            [graphCell.tintViews enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [self setupShape:obj legendIndex:idx tintColor:graphItem.tintColor];
+            }];
         }
     }
 
 	((APCDashboardTableViewCell *)cell).titleLabel.textColor = [UIColor blackColor];
     
     return cell;
+}
+
+- (void)setupShape:(APHRegularShapeView *)shape legendIndex:(NSUInteger)legendIndex tintColor:(UIColor *)tintColor
+{
+    if ((legendIndex == APHMedicationTimingChoiceBefore) || [self medicationTrackingHidden]) { 
+        shape.tintColor = tintColor;
+        shape.fillColor = [UIColor clearColor];
+        shape.numberOfSides = 0;
+    }
+    else if (legendIndex == APHMedicationTimingChoiceAfter) {
+        shape.tintColor = tintColor;
+        shape.fillColor = tintColor;
+        shape.numberOfSides = 0;
+    }
+    else {
+        shape.tintColor = [UIColor appTertiaryGrayColor];
+        shape.fillColor = [UIColor clearColor];
+        shape.numberOfSides = 0;
+    }
 }
 
 

@@ -51,6 +51,12 @@ extern NSString * const APHMedicationTrackerActivityTimingStepIdentifier;
 extern NSString * const APHMedicationTrackerMomentInDayStepIdentifier;
 extern NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier;
 
+typedef NS_ENUM(NSUInteger, APHMedicationTimingChoice) {
+    APHMedicationTimingChoiceBefore = 0,
+    APHMedicationTimingChoiceAfter = 1,
+    APHMedicationTimingChoiceOther = NSNotFound
+};
+
 @interface APHMedicationTrackerTask : NSObject <ORKTask, ORKTaskResultSource, NSSecureCoding, NSCopying>
 
 + (NSDictionary*)defaultMapping;

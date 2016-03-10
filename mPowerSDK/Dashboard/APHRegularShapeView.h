@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+IB_DESIGNABLE
 @interface APHRegularShapeView : UIView
 
-@property(nonatomic) UIColor *tintColor;
-@property(nonatomic) UIColor *fillColor;
-@property(nonatomic) int numberOfSides;
+@property(nonatomic) IBInspectable UIColor *fillColor;
+@property(nonatomic) IBInspectable int numberOfSides;
+
 @property(nonatomic) CGFloat value;
 
 - (instancetype)initWithFrame:(CGRect)frame andNumberOfSides:(int)sides;
