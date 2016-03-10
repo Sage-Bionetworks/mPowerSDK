@@ -32,6 +32,7 @@
 //
 
 #import "APHDiscreteGraphView.h"
+#import "APHBaseGraphView.h"
 
 static CGFloat const kAPCGraphLeftPadding = 10.f;
 static CGFloat const kAxisMarkingRulerLength = 8.0f;
@@ -93,6 +94,11 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
         rulerLayer.path = rulerPath.CGPath;
         [self.xAxisView.layer addSublayer:rulerLayer];
     }
+}
+
+- (CGFloat)plotPointDiameter {
+    CGFloat scale = [[UIScreen mainScreen] scale];
+    return [APHBaseGraphView plotPointDiameter:self.isLandscapeMode] / scale;
 }
 
 

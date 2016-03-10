@@ -1,6 +1,6 @@
 //
-//  APHScatterGraphView.h
-//  APCAppCore
+//  APHBaseGraphView.m
+//  mPowerSDK
 //
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved.
 //
@@ -31,43 +31,16 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-@import APCAppCore;
 #import "APHBaseGraphView.h"
 
-@protocol APHScatterGraphViewDataSource;
-@class APHRegularShapeView;
+@implementation APHBaseGraphView
 
-@interface APHScatterGraphView : APHBaseGraphView
++ (CGFloat)plotPointDiameter:(BOOL)isLandscapeMode {
+    return isLandscapeMode ? 25.0f : 20.0f;
+}
 
-@property (weak, nonatomic) id <APHScatterGraphViewDataSource> dataSource;
-@property (nonatomic) BOOL usesMedicationTiming;
-
-@end
-
-@protocol APHScatterGraphViewDelegate <APCBaseGraphViewDelegate>
-
-- (void)setupShape:(APHRegularShapeView *)shape legendIndex:(NSUInteger)legendIndex tintColor:(UIColor *)tintColor;
-
-@end
-
-@protocol APHScatterGraphViewDataSource <NSObject>
-
-@required
-
-- (NSInteger)scatterGraph:(APHScatterGraphView *)graphView numberOfPointsInPlot:(NSInteger)plotIndex;
-
-- (NSDictionary *)scatterGraph:(APHScatterGraphView *)graphView plot:(NSInteger)plotIndex valueForPointAtIndex:(NSInteger)pointIndex;
-
-@optional
-
-- (NSInteger)numberOfPlotsInScatterGraph:(APHScatterGraphView *)graphView;
-
-- (NSInteger)numberOfDivisionsInXAxisForGraph:(APHScatterGraphView *)graphView;
-
-- (CGFloat)maximumValueForScatterGraph:(APHScatterGraphView *)graphView;
-
-- (CGFloat)minimumValueForScatterGraph:(APHScatterGraphView *)graphView;
-
-- (NSString *)scatterGraph:(APHScatterGraphView *)graphView titleForXAxisAtIndex:(NSInteger)pointIndex;
+- (CGFloat)plotPointDiameter {
+    return [[self class] plotPointDiameter:self.isLandscapeMode];
+}
 
 @end

@@ -32,6 +32,7 @@
 //
 
 #import "APHLineGraphView.h"
+#import "APHBaseGraphView.h"
 
 static CGFloat const kAPCGraphLeftPadding = 10.f;
 static CGFloat const kAxisMarkingRulerLength = 8.0f;
@@ -43,6 +44,11 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
 @end
 
 @implementation APHLineGraphView
+
+- (CGFloat)plotPointDiameter {
+    CGFloat scale = [[UIScreen mainScreen] scale];
+    return [APHBaseGraphView plotPointDiameter:self.isLandscapeMode] / scale;
+}
 
 - (void)drawXAxis
 {

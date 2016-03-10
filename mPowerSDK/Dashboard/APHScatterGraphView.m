@@ -533,10 +533,9 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
     [self drawPointCirclesForPlotIndex:plotIndex];
 }
 
-
 - (void)drawPointCirclesForPlotIndex:(NSInteger)plotIndex
 {
-    CGFloat pointSize = self.isLandscapeMode ? 25.0f : 20.0f;
+    CGFloat pointSize = [self plotPointDiameter];
     
     for (NSUInteger i=0 ; i<self.yAxisPoints.count; i++) {
         
