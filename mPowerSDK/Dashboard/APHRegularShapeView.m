@@ -12,9 +12,14 @@
 
 #pragma mark - Init
 
+- (instancetype)initWithFrame:(CGRect)frame {
+    // default to a circle
+    return [self initWithFrame:frame andNumberOfSides:0];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame andNumberOfSides:(int)sides {
 	if (self = [super initWithFrame:frame]) {
-		self.numberOfSides = sides;
+		_numberOfSides = sides;
 		[self setupPolygon];
 	}
 
@@ -25,16 +30,12 @@
 	if (self = [super initWithCoder:aDecoder]) {
 		[self setupPolygon];
 	}
-
 	return self;
 }
 
 - (void)setupPolygon {
 	self.backgroundColor = [UIColor clearColor];
-
-	self.shapeLayer.lineWidth = 2.f;
-	self.fillColor = [UIColor whiteColor];
-	self.shapeLayer.path = [self layoutPath].CGPath;
+    _fillColor = [UIColor clearColor];
 }
 
 #pragma mark - Polygon Methods
@@ -90,21 +91,25 @@
 - (void)layoutSubviews {
 	[super layoutSubviews];
 
+    self.shapeLayer.lineWidth = 2.f;
+    self.shapeLayer.strokeColor = self.tintColor.CGColor;
+    self.shapeLayer.fillColor = self.fillColor.CGColor;
 	self.shapeLayer.path = [self layoutPath].CGPath;
 }
 
 #pragma mark - Setter methods
 
-- (void)setTintColor:(UIColor *)tintColor {
-	_tintColor = tintColor;
-
-	self.shapeLayer.strokeColor = _tintColor.CGColor;
+- (void)tintColorDidChange {
+	self.shapeLayer.strokeColor = self.tintColor.CGColor;
 }
 
 - (void)setFillColor:(UIColor *)fillColor {
 	_fillColor = fillColor;
+    [self fillColorDidChange];
+}
 
-	self.shapeLayer.fillColor = fillColor.CGColor;
+- (void)fillColorDidChange {
+	self.shapeLayer.fillColor = self.fillColor.CGColor;
 }
 
 @end

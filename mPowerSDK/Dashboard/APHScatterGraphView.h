@@ -9,11 +9,18 @@
 @import APCAppCore;
 
 @protocol APHScatterGraphViewDataSource;
+@class APHRegularShapeView;
 
 @interface APHScatterGraphView : APCBaseGraphView
 
 @property (weak, nonatomic) id <APHScatterGraphViewDataSource> dataSource;
 @property (nonatomic) BOOL usesMedicationTiming;
+
+@end
+
+@protocol APHScatterGraphViewDelegate <APCBaseGraphViewDelegate>
+
+- (void)setupShape:(APHRegularShapeView *)shape legendIndex:(NSUInteger)legendIndex tintColor:(UIColor *)tintColor;
 
 @end
 

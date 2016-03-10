@@ -8,7 +8,7 @@
 
 #import "APHDashboardGraphTableViewCell.h"
 
-const CGFloat kMedicationLegendContainerHeight = 66.f;
+const CGFloat kMedicationLegendContainerHeight = 80.f;
 
 @interface APHDashboardGraphTableViewCell ()
 
