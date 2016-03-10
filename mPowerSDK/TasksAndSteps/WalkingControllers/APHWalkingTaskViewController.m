@@ -38,7 +38,7 @@
 #import "APHAppDelegate.h"
 #import "APHLocalization.h"
 #import "APHActivityManager.h"
-#import "APHMedicationTrackerDataStore.h"
+#import "APHMedicationTrackerTask.h"
 
     //
     //        Step Identifiers
@@ -87,6 +87,7 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
 - (NSString *)createResultSummary
 {
     ORKTaskResult  *taskResults = self.result;
+    id timingChoice = [self.medicationTrackerTask timingChoiceFromTaskResult:taskResults] ?: @(NSNotFound);
     
     APHWalkingTaskViewController  *weakSelf = self;
     
@@ -130,16 +131,6 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
             }
         }
 
-        NSString *medicationActivityTimingString = @"";
-        APHMedicationTrackerDataStore *medTrackerDataStore = [APHMedicationTrackerDataStore defaultStore];
-        if (medTrackerDataStore.momentInDayResult) {
-            for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {
-                if ([orkStepResult.identifier isEqualToString:@"medicationActivityTiming"]) {
-                    medicationActivityTimingString = ((ORKChoiceQuestionResult *)orkStepResult.firstResult).choiceAnswers.firstObject ?: @"";
-                }
-            }
-        }
-
         /***********/
         
         NSDictionary  *summary = @{
@@ -147,7 +138,7 @@ static const NSInteger kWalkingActivitySchemaRevision         = 5;
                                    kScoreForwardGainRecordsKey    : @(forwardScores),
                                    kScorePostureRecordsKey        : @(postureScores),
                                    kNumberOfStepsTotalOnReturnKey : walkingResults == nil ? @0 : [walkingResults objectForKey:kNumberOfStepsTotalOnReturn],
-                                   APHMedicationActivityTimingKey : medicationActivityTimingString
+                                   APHMedicationActivityTimingKey : timingChoice
                                   };
         
         NSError  *error = nil;

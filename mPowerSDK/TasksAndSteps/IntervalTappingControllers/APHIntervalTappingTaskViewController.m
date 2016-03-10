@@ -37,7 +37,7 @@
 #import "APHDataKeys.h"
 #import "APHLocalization.h"
 #import "APHActivityManager.h"
-#import "APHMedicationTrackerDataStore.h"
+#import "APHMedicationTrackerTask.h"
 
     //
     //        Step Identifiers
@@ -76,6 +76,7 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
 - (NSString *)createResultSummary
 {
     ORKTaskResult  *taskResults = self.result;
+    id timingChoice = [self.medicationTrackerTask timingChoiceFromTaskResult:taskResults] ?: @(NSNotFound);
     self.createResultSummaryBlock = ^(NSManagedObjectContext * context) {
 
         // Start with a dictionary that has all the required keys preset to zero
@@ -115,14 +116,8 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
             }
         }
         
-        APHMedicationTrackerDataStore *medTrackerDataStore = [APHMedicationTrackerDataStore defaultStore];
-        if (medTrackerDataStore.momentInDayResult) {
-            for (ORKStepResult *orkStepResult in medTrackerDataStore.momentInDayResult) {
-                if ([orkStepResult.identifier isEqualToString:@"medicationActivityTiming"]) {
-                    summary[APHMedicationActivityTimingKey] = ((ORKChoiceQuestionResult *)orkStepResult.firstResult).choiceAnswers.firstObject ?: @"";
-                }
-            }
-        }
+        // Add the timing choice
+        summary[APHMedicationActivityTimingKey] = timingChoice;
 
         // Convert the dictionary into json serializaed data and then to UTF8 string
         NSError  *error = nil;

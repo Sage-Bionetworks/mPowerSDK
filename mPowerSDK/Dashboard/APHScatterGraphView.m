@@ -545,33 +545,28 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
             continue;
         }
         
+        APHMedicationTrackerTask *medTrackerTask = [[APHMedicationTrackerTask alloc] init];
+        
         for (NSDictionary *rawDataPoint in rawDataPoints) {
             NSDictionary *taskResult = [rawDataPoint valueForKey:@"datasetTaskResult"];
-            NSString *medicationActivityTiming = nil;
-            
-            if (taskResult) {
-                medicationActivityTiming = taskResult[@"MedicationActivityTiming"];
-            }
+            id medicationActivityTiming = taskResult[@"MedicationActivityTiming"];
             
             APHRegularShapeView *point;
             BOOL pointColorGray = NO;
+            
+            NSUInteger medChoiceIndex = [medTrackerTask indexForMedicationActivityTimingChoice:medicationActivityTiming];
 
-            APHMedicationTrackerTask *medTrackerTask = [[APHMedicationTrackerTask alloc] init];
-            NSArray<ORKTextChoice *> *choices = medTrackerTask.activityTimingChoices;
-
-            if ([medicationActivityTiming isEqualToString:((ORKTextChoice *)choices[0]).text]) {
+            if (medChoiceIndex == 0) {
                 point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
-            } else if ([medicationActivityTiming isEqualToString:((ORKTextChoice *)choices[1]).text]) {
-                point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:3];
-            } else if ([medicationActivityTiming isEqualToString:((ORKTextChoice *)choices[2]).text]) {
-                point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:4];
-            } else if ([medicationActivityTiming isEqualToString:((ORKTextChoice *)choices[3]).text]) {
-                point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:5];
-            } else {
-                pointColorGray = YES;
+            } else if (medChoiceIndex == NSNotFound) {
+                pointColorGray = self.usesMedicationTiming;
                 point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:0];
             }
-
+            else {
+                int numSides = (int)medChoiceIndex + 2;
+                point = [[APHRegularShapeView alloc] initWithFrame:pointFrame andNumberOfSides:numSides];
+            }
+            
             point.tintColor = plotIndex == 0 ?
                 pointColorGray ?
                     [UIColor appTertiaryGrayColor] : self.tintColor : self.secondaryTintColor;

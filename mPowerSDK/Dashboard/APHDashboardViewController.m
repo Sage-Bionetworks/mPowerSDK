@@ -134,10 +134,13 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
     [self prepareScoringObjects];
     [self prepareData];
     
-    
-    // Hide the monthly reports button if this is a control group or the user does not take a tracked medication
+    self.monthlyReportButton.hidden = [self medicationTrackingHidden];
+}
+
+// Hide if this is a control group or the user does not take a tracked medication
+- (BOOL)medicationTrackingHidden {
     APCDataGroupsManager *dataGroupsManager = [[APHAppDelegate sharedAppDelegate] dataGroupsManagerForUser:nil];
-    self.monthlyReportButton.hidden = (dataGroupsManager.isStudyControlGroup || [[APHMedicationTrackerDataStore defaultStore] hasNoTrackedMedication]);
+    return (dataGroupsManager.isStudyControlGroup || [[APHMedicationTrackerDataStore defaultStore] hasNoTrackedMedication]);
 }
 
 - (void)updateVisibleRowsInTableView:(NSNotification *) __unused notification
@@ -402,7 +405,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
-					item.showMedicationLegend = YES;
+					item.showMedicationLegend = ![self medicationTrackingHidden];
                 
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_TAPPING_INFO", nil, APHLocaleBundle(), @"This plot shows your finger tapping speed each day as measured by the Tapping Interval Activity. The length and position of each vertical bar represents the range in the number of taps you made in 20 seconds for a given day. Any differences in length or position over time reflect variations and trends in your tapping speed, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Tapping in Parkinson");
                     
@@ -431,7 +434,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
-                    item.showMedicationLegend = YES;
+                    item.showMedicationLegend = ![self medicationTrackingHidden];
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_WALKING_INFO", nil, APHLocaleBundle(), @"This plot combines several accelerometer-based measures for the Walking Activity. The length and position of each vertical bar represents the range of measures for a given day. Any differences in length or position over time reflect variations and trends in your Walking measure, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Gait in Parkinson");
                     
@@ -459,7 +462,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
-                    item.showMedicationLegend = YES;
+                    item.showMedicationLegend = ![self medicationTrackingHidden];
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MEMORY_INFO", nil, APHLocaleBundle(), @"This plot shows the score you received each day for the Memory Game. The length and position of each vertical bar represents the range of scores for a given day. Any differences in length or position over time reflect variations and trends in your score, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Memory in Parkinson");
                     
@@ -487,7 +490,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor colorForTaskId:item.taskId];
-                    item.showMedicationLegend = YES;
+                    item.showMedicationLegend = ![self medicationTrackingHidden];
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_VOICE_INFO", nil, APHLocaleBundle(), @"This plot combines several microphone-based measures as a single score for the Voice Activity. The length and position of each vertical bar represents the range of measures for a given day. Any differences in length or position over time reflect variations and trends in your Voice measure, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Voice in Parkinson");
                     
@@ -804,6 +807,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 
         graphCell.showMedicationLegend = graphItem.showMedicationLegend;
         graphCell.scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
+        graphCell.scatterGraphView.usesMedicationTiming = graphItem.showMedicationLegend;
         [graphCell.legendButton setAttributedTitle:graphItem.legend forState:UIControlStateNormal];
         
         if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {

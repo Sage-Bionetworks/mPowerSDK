@@ -13,6 +13,7 @@
 @interface APHScatterGraphView : APCBaseGraphView
 
 @property (weak, nonatomic) id <APHScatterGraphViewDataSource> dataSource;
+@property (nonatomic) BOOL usesMedicationTiming;
 
 @end
 
