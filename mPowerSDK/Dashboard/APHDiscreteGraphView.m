@@ -267,13 +267,16 @@ static CGFloat const kSnappingClosenessFactor = 0.3f;
             }
             
             point.center = CGPointMake(positionOnXAxis, [[rawDataPoint valueForKey:kDatasetValueKey] floatValue]);
-            [self.plotsView.layer addSublayer:point.layer];
-            
-            if (self.shouldAnimate) {
-                point.alpha = 0;
-            }
-            
-            [self.dots addObject:point];
+
+			if (point.center.y < self.plotsView.height) {
+				[self.plotsView.layer addSublayer:point.layer];
+
+				if (self.shouldAnimate) {
+					point.alpha = 0;
+				}
+
+				[self.dots addObject:point];
+			}
         }
     }
 }
