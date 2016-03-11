@@ -116,7 +116,7 @@
      {
          "sectionType" : "overview",
          "sectionTitle" : "Welcome",
-         "sectionSummary" : "This overview explains the research study. After you learn about the study, you can choose if you would like to participate.",
+         "sectionSummary" : "This overview explains the research study. After you learn about the study, you can choose if you would like to participate. This may take about 20 minutes to complete.",
          "sectionLearnMoreButtonTitle" : "Learn more",
          "sectionHtmlContent" : "consent_1welcome"
      },
