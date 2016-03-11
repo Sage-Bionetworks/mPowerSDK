@@ -1,5 +1,5 @@
 //
-//  APHTableViewDashboardGraphItem.h
+//  NSDictionary+APHExtensions.m
 //  mPowerSDK
 //
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved.
@@ -31,15 +31,18 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <APCAppCore/APCAppCore.h>
+#import "NSDictionary+APHExtensions.h"
 
-typedef NS_ENUM(NSUInteger, APHDashboardGraphType) {
-    APHDashboardGraphTypeLine = kAPCDashboardGraphTypeLine,
-    APHDashboardGraphTypeDiscrete = kAPCDashboardGraphTypeDiscrete,
-};
+@implementation NSDictionary (APHExtensions)
 
-@interface APHTableViewDashboardGraphItem : APCTableViewDashboardGraphItem
-
-@property (nonatomic) BOOL showMedicationLegend;
+- (id)objectForKey:(NSString *)key class:(Class)objectClass {
+    id obj = self[key];
+    if ([obj isKindOfClass:objectClass]) {
+        return obj;
+    }
+    else {
+        return nil;
+    }
+}
 
 @end

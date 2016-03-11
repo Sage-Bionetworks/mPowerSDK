@@ -1,5 +1,5 @@
 //
-//  APHTableViewDashboardGraphItem.h
+//  APHBaseGraphView.h
 //  mPowerSDK
 //
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved.
@@ -33,13 +33,8 @@
 
 #import <APCAppCore/APCAppCore.h>
 
-typedef NS_ENUM(NSUInteger, APHDashboardGraphType) {
-    APHDashboardGraphTypeLine = kAPCDashboardGraphTypeLine,
-    APHDashboardGraphTypeDiscrete = kAPCDashboardGraphTypeDiscrete,
-};
+@interface APHBaseGraphView : APCBaseGraphView
 
-@interface APHTableViewDashboardGraphItem : APCTableViewDashboardGraphItem
-
-@property (nonatomic) BOOL showMedicationLegend;
++ (CGFloat)plotPointDiameter:(BOOL)isLandscapeMode;
 
 @end
