@@ -1,6 +1,6 @@
 //
-//  APHRegularShapeView.h
-//  APCAppCore
+//  NSDictionary+APHExtensions.m
+//  mPowerSDK
 //
 // Copyright (c) 2015, Sage Bionetworks. All rights reserved.
 //
@@ -31,17 +31,18 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <UIKit/UIKit.h>
+#import "NSDictionary+APHExtensions.h"
 
-IB_DESIGNABLE
-@interface APHRegularShapeView : UIView
+@implementation NSDictionary (APHExtensions)
 
-@property(nonatomic) IBInspectable UIColor *fillColor;
-@property(nonatomic) IBInspectable int numberOfSides;
-
-@property(nonatomic) CGFloat value;
-
-- (instancetype)initWithFrame:(CGRect)frame andNumberOfSides:(int)sides;
-- (CAShapeLayer *)shapeLayer;
+- (id)objectForKey:(NSString *)key class:(Class)objectClass {
+    id obj = self[key];
+    if ([obj isKindOfClass:objectClass]) {
+        return obj;
+    }
+    else {
+        return nil;
+    }
+}
 
 @end

@@ -34,9 +34,8 @@
 #import <APCAppCore/APCAppCore.h>
 
 typedef NS_ENUM(NSUInteger, APHDashboardGraphType) {
-    kAPHDashboardGraphTypeLine = kAPCDashboardGraphTypeLine,
-    kAPHDashboardGraphTypeDiscrete = kAPCDashboardGraphTypeDiscrete,
-    kAPHDashboardGraphTypeScatter,
+    APHDashboardGraphTypeLine = kAPCDashboardGraphTypeLine,
+    APHDashboardGraphTypeDiscrete = kAPCDashboardGraphTypeDiscrete,
 };
 
 @interface APHTableViewDashboardGraphItem : APCTableViewDashboardGraphItem

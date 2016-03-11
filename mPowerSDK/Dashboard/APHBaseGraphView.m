@@ -36,11 +36,17 @@
 @implementation APHBaseGraphView
 
 + (CGFloat)plotPointDiameter:(BOOL)isLandscapeMode {
-    return isLandscapeMode ? 25.0f : 20.0f;
+    return isLandscapeMode ? 12.0f : 10.0f;
 }
 
 - (CGFloat)plotPointDiameter {
     return [[self class] plotPointDiameter:self.isLandscapeMode];
 }
+
+@end
+
+@protocol APHGraphViewDelegate <APCBaseGraphViewDelegate>
+
+- (void)setupPlotPoint:(APCCircleView *)shape legendIndex:(NSUInteger)legendIndex tintColor:(UIColor *)tintColor;
 
 @end

@@ -2,11 +2,38 @@
 //  APHScoring.m
 //  mPowerSDK
 //
-//  Created by Jake Krog on 2016-02-28.
-//  Copyright © 2016 Sage Bionetworks. All rights reserved.
+// Copyright (c) 2016, Sage Bionetworks. All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without modification,
+// are permitted provided that the following conditions are met:
+//
+// 1.  Redistributions of source code must retain the above copyright notice, this
+// list of conditions and the following disclaimer.
+//
+// 2.  Redistributions in binary form must reproduce the above copyright notice,
+// this list of conditions and the following disclaimer in the documentation and/or
+// other materials provided with the distribution.
+//
+// 3.  Neither the name of the copyright holder(s) nor the names of any contributors
+// may be used to endorse or promote products derived from this software without
+// specific prior written permission. No license is granted to the trademarks of
+// the copyright holders even if such marks are included in this software.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+// FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+// DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+// SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+// CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+// OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
 #import "APHScoring.h"
+#import "APHDataKeys.h"
+#import "NSDictionary+APHExtensions.h"
 
 @interface APCScoring (Private)
 @property (nonatomic) APHTimelineGroups groupBy;
@@ -75,7 +102,7 @@
         
         NSMutableDictionary *entry = [[self generateDataPointForDate:key withValue:@(dayAverage) noDataValue:YES] mutableCopy];
         entry[@"datasetRangeValueKey"] = rangePoint;
-        entry[@"datasetRawDataPoints"] = filteredDataPoints;
+        entry[kDatasetRawDataPointsKey] = filteredDataPoints;
         
         if (rawData) {
             entry[kDatasetRawDataKey] = rawData;
@@ -87,82 +114,30 @@
     return summarizedDataset;
 }
 
-
-#pragma mark - APHScatterGraphViewDataSource
-
-- (NSInteger)scatterGraph:(APHScatterGraphView *)graphView numberOfPointsInPlot:(NSInteger)plotIndex
+- (APCRangePoint *)discreteGraph:(APCDiscreteGraphView *) __unused graphView plot:(NSInteger) plotIndex valueForPointAtIndex:(NSInteger) pointIndex
 {
-    return self.dataPoints.count;
-}
+    APCRangePoint *value = [super discreteGraph:graphView plot:plotIndex valueForPointAtIndex:pointIndex];
 
-- (NSDictionary *)scatterGraph:(APHScatterGraphView *)graphView plot:(NSInteger)plotIndex valueForPointAtIndex:(NSInteger)pointIndex
-{
-    NSDictionary *dataPointValue = [NSDictionary new];
-    
     if (plotIndex == 0) {
-        dataPointValue = [self.dataPoints objectAtIndex:pointIndex];
-    }
-    
-    return dataPointValue;
-}
-
-- (NSInteger)numberOfPlotsInScatterGraph:(APHScatterGraphView *)graphView
-{
-    return [self numberOfPlotsInGraph];
-}
-
-- (NSInteger)numberOfDivisionsInXAxisForGraph:(APHScatterGraphView *)graphView
-{
-    return [self numberOfDivisionsInXAxis];
-}
-
-- (NSString *)scatterGraph:(APHScatterGraphView *)graphView titleForXAxisAtIndex:(NSInteger)pointIndex
-{
-    NSDate *titleDate = nil;
-    NSInteger numOfTitles = [self numberOfDivisionsInXAxisForGraph:graphView];
-    
-    NSInteger actualIndex = ((self.dataPoints.count - 1)/numOfTitles + 1) * pointIndex;
-    
-    titleDate = [[self.dataPoints objectAtIndex:actualIndex] valueForKey:kDatasetDateKey];
-    
-    switch (self.groupBy) {
-            
-        case APHTimelineGroupMonth:
-        case APHTimelineGroupYear:
-            [self.dateFormatter setDateFormat:@"MMM"];
-            break;
-            
-        case APHTimelineGroupWeek:
-        case APHTimelineGroupDay:
-        default:
-            if (actualIndex == 0) {
-                [self.dateFormatter setDateFormat:@"MMM d"];
-            } else {
-                [self.dateFormatter setDateFormat:@"d"];
+        NSDictionary *dataPointValue = [self.dataPoints objectAtIndex:pointIndex];
+        NSArray *rawDataPoints = [dataPointValue objectForKey:kDatasetRawDataPointsKey class:[NSArray class]];
+        NSMutableArray <APCDiscretePoint *> *discretePoints = [NSMutableArray new];
+        for (NSDictionary *rawDataPoint in rawDataPoints) {
+            NSDictionary *taskResult = [rawDataPoint objectForKey:kDatasetTaskResultKey class:[NSDictionary class]];
+            NSNumber *medicationActivityTiming = [taskResult objectForKey:APHMedicationActivityTimingKey class:[NSNumber class]];
+            if (medicationActivityTiming || (discretePoints.count > 0)) {
+                APCDiscretePoint *point = [[APCDiscretePoint alloc] init];
+                point.value = [[rawDataPoint objectForKey:kDatasetValueKey class:[NSNumber class]] floatValue];
+                point.legendIndex = [medicationActivityTiming unsignedIntegerValue];
+                [discretePoints addObject:point];
             }
-            break;
+        }
+        if (discretePoints.count > 0) {
+            value.discreteValues = [discretePoints copy];
+        }
     }
     
-    NSString *xAxisTitle = [self.dateFormatter stringFromDate:titleDate] ? [self.dateFormatter stringFromDate:titleDate] : @"";
-    
-    return xAxisTitle;
+    return value;
 }
-
-- (CGFloat)minimumValueForScatterGraph:(APHScatterGraphView *)graphView
-{
-    CGFloat factor = 0.2;
-    CGFloat maxDataPoint = (self.customMaximumPoint == CGFLOAT_MAX) ? [[self maximumDataPoint] doubleValue] : self.customMaximumPoint;
-    CGFloat minDataPoint = (self.customMinimumPoint == CGFLOAT_MIN) ? [[self minimumDataPoint] doubleValue] : self.customMinimumPoint;
-    
-    CGFloat minValue = (minDataPoint - factor*maxDataPoint)/(1-factor);
-    
-    return minValue;
-}
-
-- (CGFloat)maximumValueForScatterGraph:(APHScatterGraphView *)graphView
-{
-    return (self.customMaximumPoint == CGFLOAT_MAX) ? [[self maximumDataPoint] doubleValue] : self.customMaximumPoint;
-}
-
 
 @end

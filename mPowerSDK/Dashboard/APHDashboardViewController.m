@@ -40,7 +40,6 @@
 #import "APHMedicationTrackerTask.h"
 #import "APHMedicationTrackerViewController.h"
 #import "APHSpatialSpanMemoryGameViewController.h"
-#import "APHScatterGraphView.h"
 #import "APHTableViewDashboardGraphItem.h"
 #import "APHScoring.h"
 #import "APHTremorTaskViewController.h"
@@ -48,7 +47,6 @@
 #import "APHAppDelegate.h"
 #import "APHMedicationTrackerDataStore.h"
 #import "APHWebViewStepViewController.h"
-#import "APHRegularShapeView.h"
 @import BridgeAppSDK;
 
 
@@ -63,19 +61,19 @@ static NSString * const kAPHDashboardGraphTableViewCellIdentifier = @"APHDashboa
 static NSString * const kAPHMonthlyReportTaskIdentifier        = @"Monthly Report";
 static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 
-@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, ORKTaskViewControllerDelegate, APHScatterGraphViewDelegate>
+@interface APHDashboardViewController ()<UIViewControllerTransitioningDelegate, APCCorrelationsSelectorDelegate, ORKTaskViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *monthlyReportButton;
 
 @property (nonatomic, strong) NSArray *rowItemsOrder;
 
-@property (nonatomic, strong) APCScoring *tapRightScoring;
-@property (nonatomic, strong) APCScoring *tapLeftScoring;
-@property (nonatomic, strong) APCScoring *gaitScoring;
+@property (nonatomic, strong) APHScoring *tapRightScoring;
+@property (nonatomic, strong) APHScoring *tapLeftScoring;
+@property (nonatomic, strong) APHScoring *gaitScoring;
 @property (nonatomic, strong) APCScoring *stepScoring;
-@property (nonatomic, strong) APCScoring *memoryScoring;
-@property (nonatomic, strong) APCScoring *phonationScoring;
-@property (nonatomic, strong) APCScoring *tremorScoring;
+@property (nonatomic, strong) APHScoring *memoryScoring;
+@property (nonatomic, strong) APHScoring *phonationScoring;
+@property (nonatomic, strong) APHScoring *tremorScoring;
 @property (nonatomic, strong) APCScoring *moodScoring;
 @property (nonatomic, strong) APCScoring *energyScoring;
 @property (nonatomic, strong) APCScoring *exerciseScoring;
@@ -264,7 +262,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                                                             numberOfDays:-kNumberOfDaysToDisplay];
     self.stepScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_STEPS_CAPTION", nil, APHLocaleBundle(), @"Steps", @"Dashboard caption for results of steps score.");
     
-    self.tremorScoring = [[APCScoring alloc] initWithTask:APHTremorActivitySurveyIdentifier
+    self.tremorScoring = [[APHScoring alloc] initWithTask:APHTremorActivitySurveyIdentifier
                                              numberOfDays:-kNumberOfDaysToDisplay
                                                  valueKey:kTremorScoreKey];
     self.tremorScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_TREMOR_CAPTION", nil, APHLocaleBundle(), @"Tremor", @"Dashboard caption for results of tremor score.");
@@ -394,7 +392,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.caption = tapScoring.caption;
                     item.taskId = APHTappingActivitySurveyIdentifier;
                     item.graphData = tapScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = APHDashboardGraphTypeDiscrete;
                     
                     double avgValue = [[tapScoring averageDataPoint] doubleValue];
                     
@@ -423,7 +421,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.caption = self.gaitScoring.caption;
                     item.taskId = APHWalkingActivitySurveyIdentifier;
                     item.graphData = self.gaitScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = APHDashboardGraphTypeDiscrete;
                     
                     double avgValue = [[self.gaitScoring averageDataPoint] doubleValue];
                     
@@ -451,7 +449,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.caption = self.memoryScoring.caption;
                     item.taskId = APHMemoryActivitySurveyIdentifier;
                     item.graphData = self.memoryScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = APHDashboardGraphTypeDiscrete;
                     
                     double avgValue = [[self.memoryScoring averageDataPoint] doubleValue];
                     
@@ -479,7 +477,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.caption = self.phonationScoring.caption;
                     item.taskId = APHVoiceActivitySurveyIdentifier;
                     item.graphData = self.phonationScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = APHDashboardGraphTypeDiscrete;
                     
                     double avgValue = [[self.phonationScoring averageDataPoint] doubleValue];
                     
@@ -518,7 +516,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryGreenColor];
-                    item.showMedicationLegend = ![self medicationTrackingHidden];
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_STEPS_INFO", nil, APHLocaleBundle(), @"This graph shows how many steps you took each day, according to your phone's motion sensors. Remember that for this number to be accurate, you should have the phone on you as frequently as possible.", @"Dashboard tooltip item info text for Steps in Parkinson");
                     
@@ -534,7 +531,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     APCTableViewDashboardGraphItem  *item = [APCTableViewDashboardGraphItem new];
                     item.caption = self.tremorScoring.caption;
                     item.graphData = self.tremorScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = APHDashboardGraphTypeDiscrete;
                     
                     double avgValue = [[self.tremorScoring averageDataPoint] doubleValue];
                     
@@ -564,7 +561,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.graphType = kAPCDashboardGraphTypeDiscrete;
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
                     item.tintColor = [UIColor appTertiaryYellowColor];
                     
                     item.minimumImage = [UIImage imageNamed:@"MoodSurveyMood-5g"];
@@ -592,7 +588,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.energyScoring.caption;
                     item.graphData = self.energyScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = APHDashboardGraphTypeDiscrete;
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryGreenColor];
@@ -623,7 +619,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.exerciseScoring.caption;
                     item.graphData = self.exerciseScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = APHDashboardGraphTypeDiscrete;
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryYellowColor];
@@ -654,7 +650,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.sleepScoring.caption;
                     item.graphData = self.sleepScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = APHDashboardGraphTypeDiscrete;
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryPurpleColor];
@@ -684,7 +680,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.cognitiveScoring.caption;
                     item.graphData = self.cognitiveScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = APHDashboardGraphTypeDiscrete;
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryRedColor];
@@ -717,7 +713,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
                     item.caption = self.customScoring.caption;
                     item.graphData = self.customScoring;
-                    item.graphType = kAPHDashboardGraphTypeScatter;
+                    item.graphType = APHDashboardGraphTypeDiscrete;
                     item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
                     item.editable = YES;
                     item.tintColor = [UIColor appTertiaryBlueColor];
@@ -773,11 +769,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         
         APHTableViewDashboardGraphItem *graphItem = (APHTableViewDashboardGraphItem *)[self itemForIndexPath:indexPath];
         
-        if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
-            graphItem.graphType = kAPHDashboardGraphTypeDiscrete;
-            ((APHScoring *)graphItem.graphData).latestOnly = YES;
-        }
-        
         CGRect initialFrame = [cell convertRect:cell.bounds toView:self.view.window];
         self.presentAnimator.initialFrame = initialFrame;
         
@@ -810,52 +801,14 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         APHDashboardGraphTableViewCell *graphCell = (APHDashboardGraphTableViewCell *)cell;
 
         graphCell.showMedicationLegend = graphItem.showMedicationLegend;
-        graphCell.scatterGraphView.dataSource = (APHScoring *)graphItem.graphData;
-        graphCell.scatterGraphView.usesMedicationTiming = graphItem.showMedicationLegend;
+        graphCell.discreteGraphView.usesLegend = graphItem.showMedicationLegend;
         [graphCell.legendButton setAttributedTitle:graphItem.legend forState:UIControlStateNormal];
-        
-        if ((APHDashboardGraphType)graphItem.graphType == kAPHDashboardGraphTypeScatter) {
-            graphCell.discreteGraphView.hidden = YES;
-            graphCell.lineGraphView.hidden = YES;
-            graphCell.scatterGraphView.hidden = NO;
-            graphCell.subTitleLabel.hidden = YES;
-            
-            [graphCell.legendButton setUserInteractionEnabled:graphItem.legend ? YES : NO];
-            
-            APHScatterGraphView *graphView = graphCell.scatterGraphView;
-            graphView.delegate = self;
-            graphView.tintColor = graphItem.tintColor;
-            graphView.axisColor = [UIColor appTertiaryGrayColor];
-            graphView.showsVerticalReferenceLines = YES;
-            graphView.panGestureRecognizer.delegate = self;
-            graphView.axisTitleFont = [UIFont appRegularFontWithSize:14.0f];
-            graphView.showsHorizontalReferenceLines = NO;
-            
-            graphView.maximumValueImage = graphItem.maximumImage;
-            graphView.minimumValueImage = graphItem.minimumImage;
-            
-            graphCell.averageImageView.image = graphItem.averageImage;
-            graphCell.title = graphItem.caption;
-            graphCell.subTitleLabel.text = graphItem.detailText;
-            
-            graphCell.tintColor = graphItem.tintColor;
-            graphCell.delegate = self;
-            
-            [graphView layoutSubviews];
-            
-            if (graphView != nil)
-            {
-                [self.lineCharts addObject:graphView];
-            }
-        } else {
-            graphCell.scatterGraphView.hidden = YES;
-            graphCell.subTitleLabel.hidden = NO;
-        }
+        graphCell.subTitleLabel.hidden = NO;
         
         // Setup the legend
         if (graphItem.showMedicationLegend) {
             [graphCell.tintViews enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                [self setupShape:obj legendIndex:idx tintColor:graphItem.tintColor];
+                [self setupPlotPoint:obj legendIndex:idx tintColor:graphItem.tintColor];
             }];
         }
     }
@@ -865,22 +818,17 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
     return cell;
 }
 
-- (void)setupShape:(APHRegularShapeView *)shape legendIndex:(NSUInteger)legendIndex tintColor:(UIColor *)tintColor
+- (void)setupPlotPoint:(APCCircleView *)shape legendIndex:(NSUInteger)legendIndex tintColor:(UIColor *)tintColor
 {
     if ((legendIndex == APHMedicationTimingChoiceBefore) || [self medicationTrackingHidden]) { 
         shape.tintColor = tintColor;
-        shape.fillColor = [UIColor clearColor];
-        shape.numberOfSides = 0;
     }
     else if (legendIndex == APHMedicationTimingChoiceAfter) {
+        shape.solidDot = YES;
         shape.tintColor = tintColor;
-        shape.fillColor = tintColor;
-        shape.numberOfSides = 0;
     }
     else {
         shape.tintColor = [UIColor appTertiaryGrayColor];
-        shape.fillColor = [UIColor clearColor];
-        shape.numberOfSides = 0;
     }
 }
 
@@ -903,30 +851,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
     }
     
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
-}
-
-- (void)tableView:(UITableView *)__unused tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    APCTableViewItem *dashboardItem = [self itemForIndexPath:indexPath];
-    
-    if ([dashboardItem isKindOfClass:[APHTableViewDashboardGraphItem class]]){
-        APCTableViewDashboardGraphItem *graphItem = (APCTableViewDashboardGraphItem *)dashboardItem;
-        APHDashboardGraphTableViewCell *graphCell = (APHDashboardGraphTableViewCell *)cell;
-        
-        APCBaseGraphView *graphView;
-        
-        if (graphItem.graphType == (APCDashboardGraphType)kAPHDashboardGraphTypeScatter) {
-            graphView = (APHScatterGraphView *)graphCell.scatterGraphView;
-            
-            [graphView setNeedsLayout];
-            [graphView layoutIfNeeded];
-            [graphView refreshGraph];
-        } else {
-            [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
-        }
-    } else {
-        [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
-    }
 }
 
 #pragma mark - ORKTaskViewControllerDelegate

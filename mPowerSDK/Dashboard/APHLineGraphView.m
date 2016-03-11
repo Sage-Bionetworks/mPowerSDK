@@ -45,9 +45,9 @@ static CGFloat const kAxisMarkingRulerLength = 8.0f;
 
 @implementation APHLineGraphView
 
-- (CGFloat)plotPointDiameter {
-    CGFloat scale = [[UIScreen mainScreen] scale];
-    return [APHBaseGraphView plotPointDiameter:self.isLandscapeMode] / scale;
+- (CGFloat)plotPointDiameter
+{
+    return [APHBaseGraphView plotPointDiameter:self.isLandscapeMode];
 }
 
 - (void)drawXAxis
