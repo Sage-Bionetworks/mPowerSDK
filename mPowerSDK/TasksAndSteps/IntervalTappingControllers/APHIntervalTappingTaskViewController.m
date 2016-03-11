@@ -45,6 +45,8 @@
 static NSString *const kIntroductionStepIdentifier    = @"instruction";
 static NSString *const kInstruction1StepIdentifier    = @"instruction1";
 static NSString *const kConclusionStepIdentifier      = @"conclusion";
+static NSString *const kRightHandIdentifier           = @"right";
+static NSString *const kTappingIdentifier             = @"tapping";
 
 static NSString * const kItemKey                    = @"item";
 static NSString * const kIdentifierKey              = @"identifier";
@@ -100,7 +102,7 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
             
             NSUInteger  numberOfSamples = allSamples.count - tapSamples.count;
             
-            BOOL rightHand = [tapsterResults.identifier hasSuffix:APCRightHandIdentifier];
+            BOOL rightHand = [tapsterResults.identifier hasSuffix:kRightHandIdentifier];
             NSString *numRecordsKey = rightHand ? APHRightSummaryNumberOfRecordsKey : APHLeftSummaryNumberOfRecordsKey;
             NSString *scoreKey = rightHand ? APHRightScoreSummaryOfRecordsKey : APHLeftScoreSummaryOfRecordsKey;
             summary[numRecordsKey] = @(numberOfSamples);
@@ -140,7 +142,7 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
 
 
 - (BOOL)preferStatusBarShouldBeHiddenForStep:(ORKStep*)step {
-    return [step.identifier hasPrefix:APCTapTappingStepIdentifier];
+    return [step.identifier hasPrefix:kTappingIdentifier];
 }
 
 
