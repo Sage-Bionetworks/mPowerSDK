@@ -32,6 +32,7 @@
 //
 
 #import "APHWebViewStepViewController.h"
+#import "APHAppDelegate.h"
 @import BridgeAppSDK;
 
 @interface APHWebViewStepViewController () <UIWebViewDelegate>
@@ -110,6 +111,9 @@
 }
 
 - (IBAction)doneTapped:(id __unused)sender {
+    
+    // reset the preferred orientation mask before dismissing
+    [[APHAppDelegate sharedAppDelegate] setPreferredOrientationMask:0];
     
     // stop loading and disconnect
     [self.webview stopLoading];

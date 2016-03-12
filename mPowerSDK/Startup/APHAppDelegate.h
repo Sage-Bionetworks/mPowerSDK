@@ -47,6 +47,7 @@
 @property  (nonatomic, readonly) NSArray <APCTaskReminder *> * _Nonnull allTaskReminders;
 @property  (nonatomic, readonly) NSDictionary * _Nonnull appearanceInfo;
 @property  (nonatomic, strong)  APHProfileExtender * _Nullable profileExtender;
+@property  (nonatomic) UIInterfaceOrientationMask preferredOrientationMask;
 
 - (NSBundle * _Nonnull)storyboardBundle;
 
