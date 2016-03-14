@@ -37,6 +37,7 @@
 #import "APHDataKeys.h"
 #import "APHLocalization.h"
 #import "APHOnboardingManager.h"
+#import "APHWebViewStepViewController.h"
 
 static NSString *const kMyThoughtsSurveyIdentifier                  = @"mythoughts";
 static NSString *const kEnrollmentSurveyIdentifier                  = @"EnrollmentSurvey";
@@ -828,6 +829,19 @@ static NSDate *determineConsentDate(id object)
     scene.bundle = [self storyboardBundle];
     
     return scenes;
+}
+
+
+/*********************************************************************************/
+#pragma mark - supported orientations
+/*********************************************************************************/
+
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+{
+    if (self.preferredOrientationMask == 0) {
+        self.preferredOrientationMask = [application supportedInterfaceOrientationsForWindow:window];
+    }
+    return self.preferredOrientationMask;
 }
 
 @end

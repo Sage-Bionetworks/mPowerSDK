@@ -879,6 +879,9 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         NSString *sessionToken = isStaging ? @"aaa" : [[[[APHAppDelegate sharedAppDelegate] dataSubstrate] currentUser] sessionToken];
         NSString *javascriptCall = [NSString stringWithFormat:@"window.display(\"%@\")", sessionToken];
         
+        // Set the allowed orientation mask to allow landscape
+        [[APHAppDelegate sharedAppDelegate] setPreferredOrientationMask:UIInterfaceOrientationMaskAllButUpsideDown];
+        
         APHWebViewStepViewController *vc = [APHWebViewStepViewController instantiateWithURLString:displayURLString pdfURLSuffix:pdfURLSuffix javascriptCall:javascriptCall];
         vc.step = step;
 
