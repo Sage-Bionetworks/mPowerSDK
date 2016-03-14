@@ -308,13 +308,36 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
         stepViewController.backButtonItem = nil;
     }
     
-    if (![stepViewController.step isKindOfClass:[ORKRegistrationStep class]]) {
+    if ([stepViewController.step.identifier isEqualToString:kAPCSignInStepIdentifier]) {
+        
+        APCSignInViewController *signInVC = nil;
+        if ([stepViewController isKindOfClass:[APCSignInViewController class]]) {
+            signInVC = (APCSignInViewController*)stepViewController;
+        }
+        else if ([stepViewController isKindOfClass:[APCContainerStepViewController class]] &&
+                 [((APCContainerStepViewController*)stepViewController).childViewController isKindOfClass:[APCSignInViewController class]]) {
+            signInVC = (APCSignInViewController*)((APCContainerStepViewController*)stepViewController).childViewController;
+        }
+        if (signInVC) {
+            stepViewController.backButtonItem = [[UIBarButtonItem alloc] initWithTitle:ORKLocalizedString(@"BUTTON_CANCEL", nil)
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:stepViewController
+                                                                                action:@selector(onboardingCancelAction)];
+            stepViewController.cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:ORKLocalizedString(@"BUTTON_NEXT", nil)
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:signInVC
+                                                                                action:@selector(signIn)];
+        }
+        
+    }
+    else if (![stepViewController.step isKindOfClass:[ORKRegistrationStep class]]) {
         // Override the cancel button (but only if not the registration step which has no other button to tie into)
         stepViewController.cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:ORKLocalizedString(@"BUTTON_CANCEL", nil)
                                                                                style:UIBarButtonItemStylePlain
                                                                               target:stepViewController
                                                                             action:@selector(onboardingCancelAction)];
     }
+    
     
     // Do not allow back button for certain steps
     NSArray *noBackButton = @[APHConsentCompletionStepIdentifier,
