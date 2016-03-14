@@ -772,7 +772,8 @@ static NSDate *determineConsentDate(id object)
 
 - (NSArray *)healthKitQuantityTypesToWrite
 {
-    return @[];
+    return @[HKQuantityTypeIdentifierHeight,
+             HKQuantityTypeIdentifierBodyMass];
 }
 
 - (NSArray *)healthKitQuantityTypesToRead
