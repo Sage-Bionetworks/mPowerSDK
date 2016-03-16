@@ -142,7 +142,9 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
     else {
         [task.steps.lastObject setTitle:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Thank You!", @"Main text shown to participant upon completion of an activity.")];
     }
-    [task.steps.lastObject setText:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_DETAIL", nil, APHLocaleBundle(), @"The results of this activity can be viewed on the dashboard.", @"Detail text shown to participant upon completion of an activity.")];
+    if (![surveyId isEqualToString:APHTremorActivitySurveyIdentifier]) {
+        [task.steps.lastObject setText:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_DETAIL", nil, APHLocaleBundle(), @"The results of this activity can be viewed on the dashboard.", @"Detail text shown to participant upon completion of an activity.")];
+    }
     
     // Create a medication tracker task with this as a subtask
     return [[APHMedicationTrackerTask alloc] initWithDictionaryRepresentation:nil subTask:task];
@@ -288,14 +290,22 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
 - (ORKOrderedTask *)createCustomTremorTask
 {
     ORKTremorActiveTaskOption excludeTasks =
-        ORKTremorActiveTaskOptionExcludeHandAtShoulderHeightElbowBent | ORKTremorActiveTaskOptionExcludeQueenWave;
+    ORKTremorActiveTaskOptionExcludeHandAtShoulderHeightElbowBent | ORKTremorActiveTaskOptionExcludeQueenWave;
     
-    return [ORKOrderedTask tremorTestTaskWithIdentifier:kTremorAssessmentTitleIdentifier
-                                 intendedUseDescription:nil
-                                     activeStepDuration:kTremorAssessmentStepDuration
-                                      activeTaskOptions:excludeTasks
-                                            handOptions:ORKPredefinedTaskHandOptionBoth
-                                                options:ORKPredefinedTaskOptionNone];
+    ORKOrderedTask *tremorTask = [ORKOrderedTask tremorTestTaskWithIdentifier:kTremorAssessmentTitleIdentifier
+                                                       intendedUseDescription:nil
+                                                           activeStepDuration:kTremorAssessmentStepDuration
+                                                            activeTaskOptions:excludeTasks
+                                                                  handOptions:ORKPredefinedTaskHandOptionBoth
+                                                                      options:ORKPredefinedTaskOptionNone];
+    
+    // fix the text on the Thank You! step to not say it'll show up in the dashboard.
+    ORKStep *lastStep = [tremorTask.steps lastObject];
+    if ([lastStep isKindOfClass:[ORKCompletionStep class]]) {
+        lastStep.text = NSLocalizedStringWithDefaultValue(@"APH_TREMOR_CONCLUSION_DETAIL", nil, APHLocaleBundle(), @"Your data will be analyzed alongside data from other participants to select features that can be included in the dashboard in a future version of mPower.", @"Detail text shown to participant upon completion of the Tremor activity.");
+    }
+    
+    return tremorTask;
 }
 
 @end
