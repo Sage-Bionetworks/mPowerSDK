@@ -164,7 +164,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 {
     NSMutableArray<NSNumber *> *allRowItems =
     [@[
-      @(kAPHDashboardItemTypeCorrelation),
+      //@(kAPHDashboardItemTypeCorrelation), // Hide correlation BRIDGE-1214 syoung 03/16/2016
       @(kAPHDashboardItemTypeSteps),
       @(kAPHDashboardItemTypeIntervalTappingRight),
       @(kAPHDashboardItemTypeIntervalTappingLeft),
