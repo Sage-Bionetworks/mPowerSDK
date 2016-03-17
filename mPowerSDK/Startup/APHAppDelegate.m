@@ -832,17 +832,4 @@ static NSDate *determineConsentDate(id object)
     return scenes;
 }
 
-
-/*********************************************************************************/
-#pragma mark - supported orientations
-/*********************************************************************************/
-
-- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
-{
-    if (self.preferredOrientationMask == 0) {
-        self.preferredOrientationMask = [application supportedInterfaceOrientationsForWindow:window];
-    }
-    return self.preferredOrientationMask;
-}
-
 @end

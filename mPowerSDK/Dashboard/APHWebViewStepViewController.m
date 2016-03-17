@@ -113,7 +113,7 @@
 - (IBAction)doneTapped:(id __unused)sender {
     
     // reset the preferred orientation mask before dismissing
-    [[APHAppDelegate sharedAppDelegate] setPreferredOrientationMask:0];
+    [[APHAppDelegate sharedAppDelegate] resetPreferredOrientationMask];
     
     // stop loading and disconnect
     [self.webview stopLoading];
