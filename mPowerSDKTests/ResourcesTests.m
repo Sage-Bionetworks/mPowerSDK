@@ -31,13 +31,36 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <XCTest/XCTest.h>
+#import "ResourcesTests.h"
 #import <APCAppCore/APCAppCore.h>
 #import <mPowerSDK/mPowerSDK.h>
 @import BridgeAppSDK;
 
-@interface ResourcesTests : XCTestCase
+@implementation ResourcesTestCase
 
+- (id)jsonForResource:(NSString*)resourceName
+{
+    APHAppDelegate *appDelegate = [[APHAppDelegate alloc] init];
+    NSString *path = [appDelegate pathForResource:resourceName ofType:@"json"];
+    
+    NSData *jsonData = [NSData dataWithContentsOfFile:path];
+    XCTAssertNotNil(jsonData);
+    
+    if (jsonData) {
+        NSError *parseError;
+        id json = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&parseError];
+        XCTAssertNil(parseError);
+        XCTAssertNotNil(json);
+        
+        return json;
+    }
+    
+    return nil;
+}
+
+@end
+
+@interface ResourcesTests : ResourcesTestCase
 @end
 
 @implementation ResourcesTests
@@ -169,26 +192,6 @@
 {
     id json = [self jsonForResource:@"EligibilityRequirements"];
     XCTAssertTrue([json isKindOfClass:[NSDictionary class]]);
-}
-
-- (id)jsonForResource:(NSString*)resourceName
-{
-    APHAppDelegate *appDelegate = [[APHAppDelegate alloc] init];
-    NSString *path = [appDelegate pathForResource:resourceName ofType:@"json"];
-    
-    NSData *jsonData = [NSData dataWithContentsOfFile:path];
-    XCTAssertNotNil(jsonData);
-    
-    if (jsonData) {
-        NSError *parseError;
-        id json = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&parseError];
-        XCTAssertNil(parseError);
-        XCTAssertNotNil(json);
-        
-        return json;
-    }
-    
-    return nil;
 }
 
 @end

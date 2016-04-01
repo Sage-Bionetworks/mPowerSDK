@@ -34,10 +34,10 @@
 #import "APHMedicationTrackerTask.h"
 #import <APCAppCore/APCAppCore.h>
 #import "APHMedicationTrackerDataStore.h"
-#import "APHMedication.h"
 #import "APHLocalization.h"
 #import "NSArray+APHExtensions.h"
 #import "NSNull+APHExtensions.h"
+@import BridgeAppSDK;
 
 // Identifiers used by this task
 NSString * const APHInstruction0StepIdentifier                      = @"instruction";
@@ -100,7 +100,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
         _mappingDictionary = [dictionary copy] ?: [[self class] defaultMapping];
         NSMutableArray *meds = [NSMutableArray new];
         for (NSDictionary * dictionary in _mappingDictionary[@"items"]) {
-            [meds addObject:[[APHMedication alloc] initWithDictionaryRepresentation:dictionary]];
+            [meds addObject:[[SBAMedication alloc] initWithDictionaryRepresentation:dictionary]];
         }
         _medications = [meds copy];
         
@@ -110,6 +110,13 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
             ORKStep *step = [self createStepFromMappingDictionary:dictionary];
             if (step) {
                 [medSteps addObject:step];
+            }
+        }
+        for (NSDictionary * dictionary in _mappingDictionary[@"activitySteps"]) {
+            ORKStep *step = [self createStepFromMappingDictionary:dictionary];
+            if (step) {
+                // Insert before the conclusion step
+                [medSteps insertObject:step atIndex:medSteps.count - 1];
             }
         }
         _medicationTrackerSteps = [medSteps copy];
@@ -181,16 +188,15 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 - (ORKStep*)createIntroductionStepWithTitle:(NSString*)title text:(NSString*)text
 {
     ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:APHMedicationTrackerIntroductionStepIdentifier];
-    step.title = title ?: NSLocalizedStringWithDefaultValue(@"APH_MEDICATION_TRACKER_INTRO_TITLE", nil, APHLocaleBundle(), @"Medication Survey", @"Title for introduction to the medication tracking survey.");
-    step.text = text ?: NSLocalizedStringWithDefaultValue(@"APH_MEDICATION_TRACKER_INTRO", nil, APHLocaleBundle(), @"We are refining our understanding of how certain medications may affect the activities tracked in this app and need more information from all study participants. In some cases, we will ask you to answer questions you may have answered previously.", @"Introduction text for the medication tracking survey.");
+    step.title = title;
+    step.text = text;
     return step;
 }
 
 - (ORKStep*)createMedicationChangedStepWithTitle:(NSString*)title text:(NSString*)text optional:(BOOL)optional {
     
     // Create the question
-    NSString *stepText = text ?: NSLocalizedStringWithDefaultValue(@"APH_MEDS_CHANGED_QUESTION", nil, APHLocaleBundle(),
-                                                                    @"Has your medical diagnosis or medication changed?", @"Default medication tracking diagnosis or medication changed question text.");
+    NSString *stepText = text;
     ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerChangedStepIdentifier title:title text:stepText];
     step.optional = optional;
 
@@ -208,14 +214,13 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 - (ORKStep*)createMedicationSelectionStepWithTitle:(NSString*)title text:(NSString*)text optional:(BOOL)optional {
     
     // Create the question
-    NSString *questionText = text ?: NSLocalizedStringWithDefaultValue(@"APH_SELECT_MEDS_QUESTION", nil, APHLocaleBundle(),
-                                                               @"Do you take any of these medications?\n(Please select all that apply)", @"Medication tracking survey question text.");
+    NSString *questionText = text;
     ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerSelectionStepIdentifier title:title text:questionText];
     step.optional = NO;
     
     // Add the list of medications
     NSMutableArray *choices = [NSMutableArray new];
-    for (APHMedication *med in self.medications) {
+    for (SBAMedication *med in self.medications) {
         [choices addObject:[ORKTextChoice choiceWithText:med.text value:med.identifier]];
     }
     
@@ -245,7 +250,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 }
 
 - (ORKStep*)createFrequencyStepWithTitle:(NSString*)title text:(NSString*)text optional:(BOOL)optional {
-    NSString *questionText = text ?: NSLocalizedStringWithDefaultValue(@"APH_MEDS_FREQENCY_INTRO", nil, APHLocaleBundle(), @"How many times a day do you take each of the following medications?", @"Medication tracking survey fequency selection text.");
+    NSString *questionText = text;
     ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerFrequencyStepIdentifier
                                                           title:title
                                                            text:questionText];
@@ -254,7 +259,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 }
 
 - (ORKStep*)createMomentInDayStepWithTitle:(NSString*)title text:(NSString*)text optional:(BOOL)optional {
-    NSString *introText = text ?: NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_INTRO", nil, APHLocaleBundle(), @"We would like to understand how your performance on this activity could be affected by the timing of your medication.", @"Explanation of purpose of pre-activity medication timing survey.");
+    NSString *introText = text;
     ORKFormStep *step = [[ORKFormStep alloc] initWithIdentifier:APHMedicationTrackerMomentInDayStepIdentifier title:title text:introText];
     
     NSString *justBefore = NSLocalizedStringWithDefaultValue(@"APH_MOMENT_IN_DAY_BEFORE_CHOICE", nil, APHLocaleBundle(), @"Immediately before taking Parkinson medication", @"Choice for doing activity before taking medication.");
@@ -297,8 +302,8 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 {
     ORKInstructionStep *step = [ORKInstructionStep completionStep];
     // Replace the language in the last step
-    step.title = title ?: [APHLocalization localizedStringWithKey:@"APH_ACTIVITY_CONCLUSION_TEXT"];
-    step.text = text ?: @"";
+    step.title = title;
+    step.text = text;
     return step;
 }
 
@@ -338,7 +343,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     
     // Add the list of medications
     NSMutableArray *items = [NSMutableArray new];
-    for (APHMedication *med in self.dataStore.selectedMedications) {
+    for (SBAMedication *med in self.dataStore.selectedMedications) {
         if (!med.injection) {
             ORKAnswerFormat *answerFormat = [[ORKScaleAnswerFormat alloc] initWithMaximumValue:12 minimumValue:1 defaultValue:0 step:1];
             ORKFormItem  *item = [[ORKFormItem alloc] initWithIdentifier:med.identifier
@@ -538,12 +543,12 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
         NSPredicate *idPredicate = [NSPredicate predicateWithFormat:@"%K IN %@", NSStringFromSelector(@selector(identifier)), selectedMedIds];
         NSPredicate *frequencyPredicate = [NSPredicate predicateWithFormat:@"%K > 0", NSStringFromSelector(@selector(frequency))];
         NSPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[frequencyPredicate, idPredicate]];
-        NSArray <APHMedication *> *previousMeds = [previousMedication filteredArrayUsingPredicate:predicate];
+        NSArray <SBAMedication *> *previousMeds = [previousMedication filteredArrayUsingPredicate:predicate];
         if (previousMeds.count > 0) {
             // If there are frequency results to map, then map them into the returned results
             // (which may be a different object from the med list in the data store)
-            for (APHMedication *med in selectedMeds) {
-                APHMedication *previousMed = [previousMeds objectWithIdentifier:med.identifier];
+            for (SBAMedication *med in selectedMeds) {
+                SBAMedication *previousMed = [previousMeds objectWithIdentifier:med.identifier];
                 med.frequency = previousMed.frequency;
             }
         }
@@ -559,7 +564,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
         
         // If there are frequency results to map, then map them into the returned results
         // (which may be a different object from the med list in the data store)
-        for (APHMedication *med in selectedMedication) {
+        for (SBAMedication *med in selectedMedication) {
             ORKScaleQuestionResult *result = (ORKScaleQuestionResult *)[frequencyResult resultForIdentifier:med.identifier];
             if ([result isKindOfClass:[ORKScaleQuestionResult class]]) {
                 med.frequency = [result.scaleAnswer unsignedIntegerValue];
@@ -788,7 +793,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     }
     else if ([stepIdentifier isEqualToString:APHMedicationTrackerFrequencyStepIdentifier]) {
         NSMutableArray *results = [NSMutableArray new];
-        for (APHMedication *med in self.dataStore.selectedMedications) {
+        for (SBAMedication *med in self.dataStore.selectedMedications) {
             if (med.frequency > 0) {
                 ORKScaleQuestionResult *result = [[ORKScaleQuestionResult alloc] initWithIdentifier:med.identifier];
                 result.scaleAnswer = @(med.frequency);

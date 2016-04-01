@@ -139,7 +139,7 @@
     // Check that the final step uses the expected language
     ORKStep *finalStep = task.steps.lastObject;
     XCTAssertEqualObjects(finalStep.title, @"Thank You!");
-    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard.");
+
 }
 
 @end

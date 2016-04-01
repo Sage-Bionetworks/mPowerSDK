@@ -34,10 +34,9 @@
 #import <Foundation/Foundation.h>
 #import <ResearchKit/ResearchKit.h>
 #import <APCAppCore/APCAppCore.h>
+@import BridgeAppSDK;
 
 NS_ASSUME_NONNULL_BEGIN
-
-@class APHMedication;
 
 @interface APHMedicationTrackerDataStore : NSObject
 
@@ -46,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSDate * _Nullable lastCompletionDate;
 @property (nonatomic, copy) NSArray <ORKStepResult *> * _Nullable momentInDayResult;
 @property (nonatomic, copy) NSDate * _Nullable lastMedicationSurveyDate;
-@property (nonatomic, copy) NSArray <APHMedication*> * _Nullable selectedMedications;
+@property (nonatomic, copy) NSArray <SBAMedication*> * _Nullable selectedMedications;
 @property (nonatomic) BOOL skippedSelectMedicationsSurveyQuestion;
 
 @property (nonatomic, readonly) NSArray <NSString*> * _Nullable trackedMedications;
@@ -66,6 +65,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)commitChanges;
 - (void)reset;
 
+@end
+
+@interface APHMedicationTrackerKeyedUnarchiver : NSKeyedUnarchiver
 @end
 
 NS_ASSUME_NONNULL_END

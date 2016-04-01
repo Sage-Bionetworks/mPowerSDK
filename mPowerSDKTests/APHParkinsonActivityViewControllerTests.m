@@ -37,6 +37,7 @@
 #import "MockAPHMedicationTrackerTask.h"
 #import "MockAPCUser.h"
 #import "MockAPCTaskResultArchiver.h"
+@import BridgeAppSDK;
 
 @interface APHParkinsonActivityViewControllerTests : XCTestCase
 
@@ -316,7 +317,7 @@
     if (trackedMedications != nil) {
         NSMutableArray *meds = [NSMutableArray new];
         for (NSString *name in trackedMedications) {
-            APHMedication *med = [APHMedication new];
+            SBAMedication *med = [[SBAMedication alloc] initWithIdentifier:name];
             med.name = name;
             med.tracking = YES;
             [meds addObject:med];

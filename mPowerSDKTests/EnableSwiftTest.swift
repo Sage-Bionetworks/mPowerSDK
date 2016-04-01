@@ -1,8 +1,8 @@
 //
-//  APHMedication.h
+//  EnableSwiftTest.swift
 //  mPowerSDK
 //
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved.
+//  Copyright © 2016 Sage Bionetworks. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
@@ -31,22 +31,30 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <Foundation/Foundation.h>
+import XCTest
 
-@interface APHMedication : NSObject <NSSecureCoding, NSCopying>
+class EnableSwiftTest: XCTestCase {
 
-@property (nonatomic, copy) NSString * _Nonnull identifier;
-@property (nonatomic, copy) NSString * _Nonnull name;
-@property (nonatomic, copy) NSString * _Nullable detail;
-@property (nonatomic, copy) NSString * _Nullable brand;
-@property (nonatomic) NSUInteger frequency;
-@property (nonatomic) BOOL tracking;
-@property (nonatomic) BOOL injection;
+    override func setUp() {
+        super.setUp()
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+    
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+    }
 
-@property (nonatomic, readonly) NSString * _Nonnull text;
-@property (nonatomic, readonly) NSString * _Nonnull shortText;
+    func testExample() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    }
 
-- (instancetype _Nonnull)initWithDictionaryRepresentation:(NSDictionary * _Nonnull)dictionary;
-- (NSDictionary * _Nonnull)dictionaryRepresentation;
+    func testPerformanceExample() {
+        // This is an example of a performance test case.
+        self.measureBlock {
+            // Put the code you want to measure the time of here.
+        }
+    }
 
-@end
+}

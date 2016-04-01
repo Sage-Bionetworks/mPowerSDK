@@ -33,7 +33,8 @@
 
 #import <XCTest/XCTest.h>
 #import <Foundation/Foundation.h>
-#import <mPowerSDK/mPowerSDK.h>
+@import mPowerSDK;
+@import BridgeAppSDK;
 
 #import "MockAPHMedicationTrackerTask.h"
 #import "MockORKTask.h"
@@ -55,19 +56,6 @@
 }
 
 #pragma mark - Test step creation methods
-
-- (void)testCreateIntroductionStep_Default_English
-{
-    [APHLocalization setLocalization:@"en"];
-    
-    APHMedicationTrackerTask *task = [self createTask];
-
-    ORKStep *step = [task createStepFromMappingDictionary:@{@"identifier" : APHMedicationTrackerIntroductionStepIdentifier}];
-    XCTAssertNotNil(step);
-    
-    XCTAssertEqualObjects(step.title,  @"Medication Survey");
-    XCTAssertNotNil(step.text);
-}
 
 - (void)testCreateIntroductionStep_Custom
 {
@@ -153,7 +141,10 @@
     
     APHMedicationTrackerTask *task = [self createTask];
     
-    ORKStep *step = [task createStepFromMappingDictionary:@{@"identifier" : APHMedicationTrackerSelectionStepIdentifier}];
+    ORKStep *step = [task createStepFromMappingDictionary:@{@"identifier" : APHMedicationTrackerSelectionStepIdentifier,
+                                                            @"type" : @"tracking.selection",
+                                                            @"text" : @"Pick your meds",
+                                                            }];
     XCTAssertNotNil(step);
     XCTAssertFalse(step.optional);
     XCTAssertNil(step.title);
@@ -173,9 +164,9 @@
     
     APHMedicationTrackerTask *task = [self createTask];
     
-    task.dataStore.selectedMedications = @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Levodopa",
+    task.dataStore.selectedMedications = @[[[SBAMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Levodopa",
                                                                                  @"tracking" : @(true)}],
-                                           [[APHMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Amantadine",
+                                           [[SBAMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Amantadine",
                                                                                 @"brand" : @"Symmetrel",
                                                                                 @"tracking" : @(true)}]];
     
@@ -428,14 +419,14 @@
     XCTAssertNil([task stepAfterStep:nextStep withResult:result]);
     
     // The selected medication list should now include the frequency
-    NSArray <APHMedication *> *selectedMeds = task.dataStore.selectedMedications;
-    APHMedication *levodopa = [selectedMeds objectWithIdentifier:@"Levodopa"];
+    NSArray <SBAMedication *> *selectedMeds = task.dataStore.selectedMedications;
+    SBAMedication *levodopa = [selectedMeds objectWithIdentifier:@"Levodopa"];
     XCTAssertNotNil(levodopa);
     XCTAssertEqual(levodopa.frequency, 4);
-    APHMedication *symmetrel = [selectedMeds objectWithIdentifier:@"Symmetrel"];
+    SBAMedication *symmetrel = [selectedMeds objectWithIdentifier:@"Symmetrel"];
     XCTAssertNotNil(symmetrel);
     XCTAssertEqual(symmetrel.frequency, 7);
-    APHMedication *apokyn = [selectedMeds objectWithIdentifier:@"Apokyn"];
+    SBAMedication *apokyn = [selectedMeds objectWithIdentifier:@"Apokyn"];
     XCTAssertNotNil(apokyn);
     XCTAssertEqual(apokyn.frequency, 0);
 }
@@ -750,7 +741,7 @@
     
     // Set the frequency for meds that aren't injection
     NSMutableArray *selectedMeds = [task.mockDataStore.selectedMedications mutableCopy];
-    for (APHMedication *med in selectedMeds) {
+    for (SBAMedication *med in selectedMeds) {
         if (!med.injection) {
             med.frequency = med.identifier.length;
         }

@@ -178,7 +178,7 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
     APHMedicationTrackerDataStore *dataStore = [self createDataStore];
     
     // Set the selected medications and moment in day
-    APHMedication *med = [[APHMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Levodopa",
+    SBAMedication *med = [[SBAMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Levodopa",
                                                                                   @"tracking" : @(YES)}];
     dataStore.selectedMedications = @[med];
     NSArray <ORKStepResult *> *momentInDayResult = [self createMomentInDayStepResult];
@@ -217,7 +217,7 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
 - (void)testShouldIncludeMomentInDayStep_LastCompletionNil
 {
     MockAPHMedicationTrackerDataStore *dataStore = [self createDataStore];
-    dataStore.selectedMedications = @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Levodopa",
+    dataStore.selectedMedications = @[[[SBAMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Levodopa",
                                                                                                 @"tracking" : @(YES)}]];
     dataStore.momentInDayResult = [self createMomentInDayStepResult];
     [dataStore commitChanges];
@@ -236,7 +236,7 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
 - (void)testShouldIncludeMomentInDayStep_StashNil
 {
     MockAPHMedicationTrackerDataStore *dataStore = [self createDataStore];
-    dataStore.selectedMedications = @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Levodopa",
+    dataStore.selectedMedications = @[[[SBAMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Levodopa",
                                                                                                 @"tracking" : @(YES)}]];
     [dataStore commitChanges];
     
@@ -254,7 +254,7 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
 - (void)testShouldIncludeMomentInDayStep_TakesMedication
 {
     MockAPHMedicationTrackerDataStore *dataStore = [self createDataStore];
-    dataStore.selectedMedications = @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Levodopa",
+    dataStore.selectedMedications = @[[[SBAMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Levodopa",
                                                                                                 @"tracking" : @(YES)}]];
     dataStore.momentInDayResult = [self createMomentInDayStepResult];
     [dataStore commitChanges];
@@ -276,7 +276,7 @@ NSString  *const kMomentInDayResultKey                          = @"momentInDayR
 - (void)testShouldIncludeMomentInDayStep_NoMedication
 {
     MockAPHMedicationTrackerDataStore *dataStore = [self createDataStore];
-    dataStore.selectedMedications = @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Carbidopa"}]];
+    dataStore.selectedMedications = @[[[SBAMedication alloc] initWithDictionaryRepresentation:@{@"name": @"Carbidopa"}]];
     [dataStore commitChanges];
     
     // Check assumptions

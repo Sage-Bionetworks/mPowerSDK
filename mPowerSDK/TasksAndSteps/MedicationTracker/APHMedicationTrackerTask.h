@@ -33,6 +33,7 @@
 
 #import <Foundation/Foundation.h>
 #import <ResearchKit/ResearchKit.h>
+@import BridgeAppSDK;
 
 @class APHMedication, APCDataGroupsManager, APHMedicationTrackerDataStore, APHTextChoice;
 
@@ -63,7 +64,7 @@ typedef NS_ENUM(NSUInteger, APHMedicationTimingChoice) {
 
 @property (nonatomic, readwrite) APCDataGroupsManager *dataGroupsManager;
 @property (nonatomic, readonly) APHMedicationTrackerDataStore *dataStore;
-@property (nonatomic, readonly) NSArray <APHMedication *> *medications;
+@property (nonatomic, readonly) NSArray <SBAMedication *> *medications;
 @property (nonatomic, readonly) NSArray <ORKStep *> *medicationTrackerSteps;
 @property (nonatomic, readonly) id <ORKTask> _Nullable subTask;
 

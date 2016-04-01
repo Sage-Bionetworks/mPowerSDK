@@ -33,7 +33,7 @@
 
 #import "APHMedicationTrackerTaskResultArchiver.h"
 #import "APHMedicationTrackerTask.h"
-#import "APHMedication.h"
+@import BridgeAppSDK;
 
 @implementation APHMedicationTrackerTaskResultArchiver
 
@@ -50,7 +50,7 @@
     // build the selection table
     NSArray *selectedMeds = [self.task selectedMedicationFromResult:result];
     NSMutableArray *items = [NSMutableArray new];
-    for (APHMedication *med in selectedMeds) {
+    for (SBAMedication *med in selectedMeds) {
         [items addObject:[med dictionaryRepresentation]];
     }
     NSDate *startDate = result.startDate ?: [NSDate date];

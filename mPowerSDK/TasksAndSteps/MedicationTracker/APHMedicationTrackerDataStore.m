@@ -33,7 +33,7 @@
 
 #import "APHMedicationTrackerDataStore.h"
 #import "APHMedicationTrackerTask.h"
-#import "APHMedication.h"
+@import BridgeAppSDK;
 
 NSString * kSelectedMedicationsKey;
 NSString * kSkippedSelectMedicationsSurveyQuestionKey;
@@ -53,6 +53,19 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowMomentInDaySurvey         = 20
 //    elapsed time delay before asking the user if their diagnosis or medication have changed
 //
 static  NSTimeInterval  kMinimumAmountOfTimeToShowMedChangedSurvey         = 30.0 * 24.0 * 60.0 * 60.0;
+
+@implementation APHMedicationTrackerKeyedUnarchiver
+
++ (Class)classForClassName:(NSString *)codedName {
+    if ([codedName isEqualToString:@"APHMedication"]) {
+        return [SBAMedication class];
+    }
+    else {
+        return [super classForClassName:codedName];
+    }
+}
+
+@end
 
 
 @interface APHMedicationTrackerDataStore ()
@@ -145,18 +158,18 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowMedChangedSurvey         = 30.
     return [trackedMeds valueForKey:NSStringFromSelector(@selector(shortText))];
 }
 
-- (NSArray<APHMedication *> *)selectedMedications {
+- (NSArray<SBAMedication *> *)selectedMedications {
     NSArray *result = self.changesDictionary[kSelectedMedicationsKey];
     if (result == nil) {
         NSData *data = [self.storedDefaults objectForKey:kSelectedMedicationsKey];
         if (data != nil) {
-            result = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+            result = [APHMedicationTrackerKeyedUnarchiver unarchiveObjectWithData:data];
         }
     }
     return result;
 }
 
-- (void)setSelectedMedications:(NSArray<APHMedication *> *)selectedMedications {
+- (void)setSelectedMedications:(NSArray<SBAMedication *> *)selectedMedications {
     [self.changesDictionary setValue:selectedMedications forKey:kSelectedMedicationsKey];
     [self.changesDictionary setValue:@(selectedMedications == nil) forKey:kSkippedSelectMedicationsSurveyQuestionKey];
 }
