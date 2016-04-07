@@ -73,7 +73,7 @@
     
         MockAPHMedicationTrackerTask *task = [[MockAPHMedicationTrackerTask alloc] init];
         APHParkinsonActivityViewController_Test *vc = [[APHParkinsonActivityViewController_Test alloc] initWithTask:task taskRunUUID:[NSUUID UUID]];
-        task.mockDataStore.skippedSelectMedicationsSurveyQuestion = YES;
+        task.mockDataStore.skippedSelectionSurveyQuestion = YES;
         [task.dataGroupsManager setSurveyAnswerWithStepResult:[MockPDResult new]];
         
         // verify assumptions
@@ -111,7 +111,7 @@
         
         MockAPHMedicationTrackerTask *task = [[MockAPHMedicationTrackerTask alloc] init];
         APHParkinsonActivityViewController_Test *vc = [[APHParkinsonActivityViewController_Test alloc] initWithTask:task taskRunUUID:[NSUUID UUID]];
-        task.mockDataStore.skippedSelectMedicationsSurveyQuestion = YES;
+        task.mockDataStore.skippedSelectionSurveyQuestion = YES;
         [task.dataGroupsManager setSurveyAnswerWithStepResult:[MockPDResult new]];
         
         // verify assumptions
@@ -322,7 +322,7 @@
             med.tracking = YES;
             [meds addObject:med];
         }
-        task.mockDataStore.selectedMedications = meds;
+        task.mockDataStore.selectedItems = meds;
         [task.mockDataStore commitChanges];
         task.mockDataGroupsManager.surveyStepResult = [MockPDResult new];
     }

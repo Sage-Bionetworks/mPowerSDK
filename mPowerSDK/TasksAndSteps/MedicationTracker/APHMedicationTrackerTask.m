@@ -33,7 +33,7 @@
 
 #import "APHMedicationTrackerTask.h"
 #import <APCAppCore/APCAppCore.h>
-#import "APHMedicationTrackerDataStore.h"
+#import "APHMedicationTracker.h"
 #import "APHLocalization.h"
 #import "NSArray+APHExtensions.h"
 #import "NSNull+APHExtensions.h"
@@ -47,9 +47,6 @@ NSString * const APHMedicationTrackerIntroductionStepIdentifier     = @"medicati
 NSString * const APHMedicationTrackerChangedStepIdentifier          = @"medicationChanged";
 NSString * const APHMedicationTrackerSelectionStepIdentifier        = @"medicationSelection";
 NSString * const APHMedicationTrackerFrequencyStepIdentifier        = @"medicationFrequency";
-NSString * const APHMedicationTrackerMomentInDayStepIdentifier      = @"momentInDay";
-NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier  = @"momentInDayFormat";
-NSString * const APHMedicationTrackerActivityTimingStepIdentifier   = @"medicationActivityTiming";
 NSString * const APHMedicationTrackerNoneAnswerIdentifier           = @"None";
 NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 
@@ -309,7 +306,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 
 - (BOOL)shouldUpdateAndIncludeStep:(ORKStep*)step {
     if ([step.identifier isEqualToString:APHMedicationTrackerChangedStepIdentifier]) {
-        return ![self shouldIncludeMedicationTrackingSteps] && [self.dataStore shouldIncludeMedicationChangedQuestion];
+        return ![self shouldIncludeMedicationTrackingSteps] && [self.dataStore shouldIncludeChangedQuestion];
     }
     else if ([step.identifier isEqualToString:APHMedicationTrackerFrequencyStepIdentifier]) {
         // Frequency step inclusion depends upon current state and will mutate accordingly
@@ -328,7 +325,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 - (BOOL)shouldIncludeMedicationTrackingSteps {
     if (self.subTask != nil) {
         // If there is a subtask then include only if the question has no answer and hasn't been skipped
-        return self.medicationChanged || self.dataStore.hasChanges || !self.dataStore.hasSelectedMedicationOrSkipped;
+        return self.medicationChanged || self.dataStore.hasChanges || !self.dataStore.hasSelectedOrSkipped;
     }
     return YES;
 }
@@ -343,7 +340,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     
     // Add the list of medications
     NSMutableArray *items = [NSMutableArray new];
-    for (SBAMedication *med in self.dataStore.selectedMedications) {
+    for (SBAMedication *med in self.dataStore.selectedItems) {
         if (!med.injection) {
             ORKAnswerFormat *answerFormat = [[ORKScaleAnswerFormat alloc] initWithMaximumValue:12 minimumValue:1 defaultValue:0 step:1];
             ORKFormItem  *item = [[ORKFormItem alloc] initWithIdentifier:med.identifier
@@ -371,7 +368,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     }
 
     // Get the medication list
-    NSArray *medList = self.dataStore.trackedMedications;
+    NSArray *medList = self.dataStore.trackedItems;
     if (medList.count == 0) {
         return NO;
     }
@@ -583,11 +580,11 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     }
     else if ([step.identifier isEqualToString:APHMedicationTrackerSelectionStepIdentifier]) {
         // If this is the selection step or the frequency step then store the result to the data store
-        self.dataStore.selectedMedications = [self selectedMedicationFromResult:result
-                                                             previousMedication:self.dataStore.selectedMedications];
+        self.dataStore.selectedItems = [self selectedMedicationFromResult:result
+                                                             previousMedication:self.dataStore.selectedItems];
     }
     else if ([step.identifier isEqualToString:APHMedicationTrackerFrequencyStepIdentifier]) {
-        self.dataStore.selectedMedications = [self updateMedicationFrequency:self.dataStore.selectedMedications
+        self.dataStore.selectedItems = [self updateMedicationFrequency:self.dataStore.selectedItems
                                                                   withResult:result];
     }
     else if ([step.identifier isEqualToString:APHMedicationTrackerChangedStepIdentifier]) {
@@ -784,7 +781,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
         return self.dataGroupsManager.stepResult;
     }
     else if ([stepIdentifier isEqualToString:APHMedicationTrackerSelectionStepIdentifier]) {
-        NSArray *selectedMeds = self.dataStore.selectedMedications;
+        NSArray *selectedMeds = self.dataStore.selectedItems;
         if (selectedMeds.count > 0) {
             ORKChoiceQuestionResult *result = [[ORKChoiceQuestionResult alloc] initWithIdentifier:APHMedicationTrackerSelectionStepIdentifier];
             result.choiceAnswers = [selectedMeds identifiers];
@@ -793,7 +790,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     }
     else if ([stepIdentifier isEqualToString:APHMedicationTrackerFrequencyStepIdentifier]) {
         NSMutableArray *results = [NSMutableArray new];
-        for (SBAMedication *med in self.dataStore.selectedMedications) {
+        for (SBAMedication *med in self.dataStore.selectedItems) {
             if (med.frequency > 0) {
                 ORKScaleQuestionResult *result = [[ORKScaleQuestionResult alloc] initWithIdentifier:med.identifier];
                 result.scaleAnswer = @(med.frequency);

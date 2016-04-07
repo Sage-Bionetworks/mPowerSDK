@@ -36,7 +36,7 @@
 #import "APHLocalization.h"
 #import "APHActivityManager.h"
 #import "APHMedicationTrackerTask.h"
-#import "APHMedicationTrackerDataStore.h"
+#import "APHMedicationTracker.h"
 #import "APHMedicationTrackerTaskResultArchiver.h"
 
 @interface APHParkinsonActivityViewController ()

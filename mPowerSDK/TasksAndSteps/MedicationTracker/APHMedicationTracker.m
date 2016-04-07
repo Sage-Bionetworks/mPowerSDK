@@ -1,8 +1,8 @@
 //
-//  mPowerSDK.h
+//  APHMedicationTrackerDataStore.m
 //  mPowerSDK
 //
-// Copyright (c) 2015, Sage Bionetworks. All rights reserved.
+// Copyright (c) 2016, Sage Bionetworks. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
@@ -31,31 +31,49 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <UIKit/UIKit.h>
+#import "APHMedicationTracker.h"
+#import <APCAppCore/APCAppCore.h>
 
-//! Project version number for mPowerSDK.
-FOUNDATION_EXPORT double mPowerSDKVersionNumber;
+NSString * const APHMedicationTrackerMomentInDayStepIdentifier      = @"momentInDay";
+NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier  = @"momentInDayFormat";
+NSString * const APHMedicationTrackerActivityTimingStepIdentifier   = @"medicationActivityTiming";
 
-//! Project version string for mPowerSDK.
-FOUNDATION_EXPORT const unsigned char mPowerSDKVersionString[];
+@implementation APHMedication
 
-#import <mPowerSDK/APHAppDelegate.h>
-#import <mPowerSDK/APHDataKeys.h>
-#import <mPowerSDK/APHLocalization.h>
-#import <mPowerSDK/APHProfileExtender.h>
-#import <mPowerSDK/APHScoreCalculator.h>
-#import <mPowerSDK/APHActivityManager.h>
-#import <mPowerSDK/APHParkinsonActivityViewController.h>
-#import <mPowerSDK/APHIntervalTappingTaskViewController.h>
-#import <mPowerSDK/APHPhonationTaskViewController.h>
-#import <mPowerSDK/APHSpatialSpanMemoryGameViewController.h>
-#import <mPowerSDK/APHWalkingTaskViewController.h>
-#import <mPowerSDK/APHMedicationTracker.h>
-#import <mPowerSDK/APHMedicationTrackerTask.h>
-#import <mPowerSDK/APHMedicationTrackerTaskResultArchiver.h>
-#import <mPowerSDK/APHMedicationTrackerViewController.h>
-#import <mPowerSDK/NSArray+APHExtensions.h>
-#import <mPowerSDK/APHOnboardingManager.h>
++ (Class)classForKeyedUnarchiver {
+    return [SBAMedication classForKeyedUnarchiver];
+}
+
+@end
 
 
+@implementation APHMedicationTrackerDataStore
 
++ (NSString *)lastTrackingSurveyDateKey {
+    return @"lastMedicationSurveyDate";
+}
+
++ (NSString *)selectedItemsKey {
+    return @"selectedMedications";
+}
+
++ (NSString *)noTrackedItemsAnswer {
+    return @"No Tracked Medication";
+}
+
+- (NSArray *)momentInDayResultDefaultIdMap {
+    // syoung 04/07/2016 TODO: refactor to not use hardcoded values
+    return @[@[APHMedicationTrackerMomentInDayStepIdentifier, APHMedicationTrackerMomentInDayFormItemIdentifier],
+             @[APHMedicationTrackerActivityTimingStepIdentifier, APHMedicationTrackerActivityTimingStepIdentifier]];
+}
+
+- (NSDate *)lastCompletionDate {
+    if (super.lastCompletionDate == nil) {
+        // Allow custom setting of last completion date and only access the app delegate the last
+        // completion date is not set.
+        super.lastCompletionDate = [[[[APCAppDelegate sharedAppDelegate] dataSubstrate] currentUser] taskCompletion];
+    }
+    return super.lastCompletionDate;
+}
+
+@end

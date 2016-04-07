@@ -1,5 +1,5 @@
 //
-//  APHMedicationTrackerDataStore.h
+//  APHMedicationTracker.h
 //  mPowerSDK
 //
 // Copyright (c) 2016, Sage Bionetworks. All rights reserved.
@@ -32,42 +32,20 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ResearchKit/ResearchKit.h>
-#import <APCAppCore/APCAppCore.h>
 @import BridgeAppSDK;
 
-NS_ASSUME_NONNULL_BEGIN
+// syoung 04/07/2016 In migrating the medication tracking into the BridgeAppSDK,
+// there are a few keys and overrides that remain significate to the Parkinson
+// App Medication tracking.
 
-@interface APHMedicationTrackerDataStore : NSObject
+extern NSString * const APHMedicationTrackerActivityTimingStepIdentifier;
+extern NSString * const APHMedicationTrackerMomentInDayStepIdentifier;
+extern NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier;
 
-+ (instancetype)defaultStore;
-
-@property (nonatomic, copy) NSDate * _Nullable lastCompletionDate;
-@property (nonatomic, copy) NSArray <ORKStepResult *> * _Nullable momentInDayResult;
-@property (nonatomic, copy) NSDate * _Nullable lastMedicationSurveyDate;
-@property (nonatomic, copy) NSArray <SBAMedication*> * _Nullable selectedMedications;
-@property (nonatomic) BOOL skippedSelectMedicationsSurveyQuestion;
-
-@property (nonatomic, readonly) NSArray <NSString*> * _Nullable trackedMedications;
-@property (nonatomic, readonly) BOOL hasNoTrackedMedication;
-@property (nonatomic, readonly) BOOL hasSelectedMedicationOrSkipped;
-@property (nonatomic, readonly) BOOL shouldIncludeMedicationChangedQuestion;
-@property (nonatomic, readonly) BOOL shouldIncludeMomentInDayStep;
-@property (nonatomic, readonly) BOOL hasChanges;
-
-@property (nonatomic, readonly) NSUserDefaults *storedDefaults;
-
-/**
- * Initialize with a user defaults that has a suite name (for sharing defaults across different apps)
- */
-- (instancetype)initWithUserDefaultsWithSuiteName:(NSString * _Nullable)suiteName;
-
-- (void)commitChanges;
-- (void)reset;
+@interface APHMedication : SBAMedication
 
 @end
 
-@interface APHMedicationTrackerKeyedUnarchiver : NSKeyedUnarchiver
-@end
+@interface APHMedicationTrackerDataStore : SBATrackedDataStore
 
-NS_ASSUME_NONNULL_END
+@end
