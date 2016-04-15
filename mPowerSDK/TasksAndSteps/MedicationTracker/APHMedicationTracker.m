@@ -69,7 +69,7 @@ NSString * const APHMedicationTrackerActivityTimingStepIdentifier   = @"medicati
 
 - (NSDate *)lastCompletionDate {
     if (super.lastCompletionDate == nil) {
-        // Allow custom setting of last completion date and only access the app delegate the last
+        // Allow custom setting if last completion date and only access the app delegate the last
         // completion date is not set.
         super.lastCompletionDate = [[[[APCAppDelegate sharedAppDelegate] dataSubstrate] currentUser] taskCompletion];
     }

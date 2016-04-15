@@ -35,7 +35,7 @@
 @import BridgeAppSDK;
 
 // syoung 04/07/2016 In migrating the medication tracking into the BridgeAppSDK,
-// there are a few keys and overrides that remain significate to the Parkinson
+// there are a few keys and overrides that remain significant to the Parkinson
 // App Medication tracking.
 
 extern NSString * const APHMedicationTrackerActivityTimingStepIdentifier;
