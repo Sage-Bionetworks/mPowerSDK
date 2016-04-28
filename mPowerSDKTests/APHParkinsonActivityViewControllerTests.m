@@ -37,6 +37,7 @@
 #import "MockAPHMedicationTrackerTask.h"
 #import "MockAPCUser.h"
 #import "MockAPCTaskResultArchiver.h"
+@import BridgeAppSDK;
 
 @interface APHParkinsonActivityViewControllerTests : XCTestCase
 
@@ -72,7 +73,7 @@
     
         MockAPHMedicationTrackerTask *task = [[MockAPHMedicationTrackerTask alloc] init];
         APHParkinsonActivityViewController_Test *vc = [[APHParkinsonActivityViewController_Test alloc] initWithTask:task taskRunUUID:[NSUUID UUID]];
-        task.mockDataStore.skippedSelectMedicationsSurveyQuestion = YES;
+        task.mockDataStore.skippedSelectionSurveyQuestion = YES;
         [task.dataGroupsManager setSurveyAnswerWithStepResult:[MockPDResult new]];
         
         // verify assumptions
@@ -110,7 +111,7 @@
         
         MockAPHMedicationTrackerTask *task = [[MockAPHMedicationTrackerTask alloc] init];
         APHParkinsonActivityViewController_Test *vc = [[APHParkinsonActivityViewController_Test alloc] initWithTask:task taskRunUUID:[NSUUID UUID]];
-        task.mockDataStore.skippedSelectMedicationsSurveyQuestion = YES;
+        task.mockDataStore.skippedSelectionSurveyQuestion = YES;
         [task.dataGroupsManager setSurveyAnswerWithStepResult:[MockPDResult new]];
         
         // verify assumptions
@@ -316,12 +317,12 @@
     if (trackedMedications != nil) {
         NSMutableArray *meds = [NSMutableArray new];
         for (NSString *name in trackedMedications) {
-            APHMedication *med = [APHMedication new];
+            SBAMedication *med = [[SBAMedication alloc] initWithIdentifier:name];
             med.name = name;
             med.tracking = YES;
             [meds addObject:med];
         }
-        task.mockDataStore.selectedMedications = meds;
+        task.mockDataStore.selectedItems = meds;
         [task.mockDataStore commitChanges];
         task.mockDataGroupsManager.surveyStepResult = [MockPDResult new];
     }

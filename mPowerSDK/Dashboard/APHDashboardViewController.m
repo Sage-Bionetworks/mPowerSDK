@@ -45,7 +45,7 @@
 #import "APHTremorTaskViewController.h"
 #import "APHWalkingTaskViewController.h"
 #import "APHAppDelegate.h"
-#import "APHMedicationTrackerDataStore.h"
+#import "APHMedicationTracker.h"
 #import "APHWebViewStepViewController.h"
 @import BridgeAppSDK;
 
@@ -139,7 +139,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 // Hide if this is a control group or the user does not take a tracked medication
 - (BOOL)medicationTrackingHidden {
     APCDataGroupsManager *dataGroupsManager = [[APHAppDelegate sharedAppDelegate] dataGroupsManagerForUser:nil];
-    return (dataGroupsManager.isStudyControlGroup || [[APHMedicationTrackerDataStore defaultStore] hasNoTrackedMedication]);
+    return (dataGroupsManager.isStudyControlGroup || [[APHMedicationTrackerDataStore defaultStore] hasNoTrackedItems]);
 }
 
 - (void)updateVisibleRowsInTableView:(NSNotification *) __unused notification

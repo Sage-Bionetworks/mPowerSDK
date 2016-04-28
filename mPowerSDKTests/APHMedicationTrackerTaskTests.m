@@ -33,7 +33,8 @@
 
 #import <XCTest/XCTest.h>
 #import <Foundation/Foundation.h>
-#import <mPowerSDK/mPowerSDK.h>
+@import mPowerSDK;
+@import BridgeAppSDK;
 
 #import "MockAPHMedicationTrackerTask.h"
 #import "MockORKTask.h"
@@ -55,19 +56,6 @@
 }
 
 #pragma mark - Test step creation methods
-
-- (void)testCreateIntroductionStep_Default_English
-{
-    [APHLocalization setLocalization:@"en"];
-    
-    APHMedicationTrackerTask *task = [self createTask];
-
-    ORKStep *step = [task createStepFromMappingDictionary:@{@"identifier" : APHMedicationTrackerIntroductionStepIdentifier}];
-    XCTAssertNotNil(step);
-    
-    XCTAssertEqualObjects(step.title,  @"Medication Survey");
-    XCTAssertNotNil(step.text);
-}
 
 - (void)testCreateIntroductionStep_Custom
 {
@@ -153,7 +141,10 @@
     
     APHMedicationTrackerTask *task = [self createTask];
     
-    ORKStep *step = [task createStepFromMappingDictionary:@{@"identifier" : APHMedicationTrackerSelectionStepIdentifier}];
+    ORKStep *step = [task createStepFromMappingDictionary:@{@"identifier" : APHMedicationTrackerSelectionStepIdentifier,
+                                                            @"type" : @"tracking.selection",
+                                                            @"text" : @"Pick your meds",
+                                                            }];
     XCTAssertNotNil(step);
     XCTAssertFalse(step.optional);
     XCTAssertNil(step.title);
@@ -173,9 +164,9 @@
     
     APHMedicationTrackerTask *task = [self createTask];
     
-    task.dataStore.selectedMedications = @[[[APHMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Levodopa",
+    task.dataStore.selectedItems = @[[[SBAMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Levodopa",
                                                                                  @"tracking" : @(true)}],
-                                           [[APHMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Amantadine",
+                                           [[SBAMedication alloc] initWithDictionaryRepresentation:@{@"name" : @"Amantadine",
                                                                                 @"brand" : @"Symmetrel",
                                                                                 @"tracking" : @(true)}]];
     
@@ -340,9 +331,9 @@
     XCTAssertEqualObjects(nextStep.identifier, APHMedicationTrackerConclusionStepIdentifier);
     
     // And the results from the selection should be stored back to the data store
-    XCTAssertEqual(task.dataStore.selectedMedications.count, 0);
+    XCTAssertEqual(task.dataStore.selectedItems.count, 0);
     XCTAssertTrue(task.dataStore.hasChanges);
-    XCTAssertFalse(task.dataStore.skippedSelectMedicationsSurveyQuestion);
+    XCTAssertFalse(task.dataStore.skippedSelectionSurveyQuestion);
     
     // Step after the thank you should be nil
     XCTAssertNil([task stepAfterStep:nextStep withResult:result]);
@@ -362,9 +353,9 @@
     XCTAssertEqualObjects(nextStep.identifier, APHMedicationTrackerConclusionStepIdentifier);
     
     // And the results from the selection should be stored back to the data store
-    XCTAssertEqual(task.dataStore.selectedMedications.count, 0);
+    XCTAssertEqual(task.dataStore.selectedItems.count, 0);
     XCTAssertTrue(task.dataStore.hasChanges);
-    XCTAssertTrue(task.dataStore.skippedSelectMedicationsSurveyQuestion);
+    XCTAssertTrue(task.dataStore.skippedSelectionSurveyQuestion);
     
     // Step after the thank you should be nil
     XCTAssertNil([task stepAfterStep:nextStep withResult:result]);
@@ -383,8 +374,8 @@
     XCTAssertEqualObjects(nextStep.identifier, APHMedicationTrackerConclusionStepIdentifier);
     
     // And the results from the selection should be stored back to the data store
-    XCTAssertEqual(task.dataStore.selectedMedications.count, 1);
-    XCTAssertEqualObjects(task.dataStore.selectedMedications.firstObject.identifier, @"Apokyn");
+    XCTAssertEqual(task.dataStore.selectedItems.count, 1);
+    XCTAssertEqualObjects(task.dataStore.selectedItems.firstObject.identifier, @"Apokyn");
     XCTAssertTrue(task.dataStore.hasChanges);
     
     // Step after the thank you should be nil
@@ -407,7 +398,7 @@
     XCTAssertEqual(frequencyStep.formItems.count, 2);
     
     // And the results from the selection should be stored back to the data store
-    XCTAssertEqual(task.dataStore.selectedMedications.count, 3);
+    XCTAssertEqual(task.dataStore.selectedItems.count, 3);
     XCTAssertTrue(task.dataStore.hasChanges);
     
     // Add frequency question result
@@ -428,14 +419,14 @@
     XCTAssertNil([task stepAfterStep:nextStep withResult:result]);
     
     // The selected medication list should now include the frequency
-    NSArray <APHMedication *> *selectedMeds = task.dataStore.selectedMedications;
-    APHMedication *levodopa = [selectedMeds objectWithIdentifier:@"Levodopa"];
+    NSArray <SBAMedication *> *selectedMeds = task.dataStore.selectedItems;
+    SBAMedication *levodopa = [selectedMeds objectWithIdentifier:@"Levodopa"];
     XCTAssertNotNil(levodopa);
     XCTAssertEqual(levodopa.frequency, 4);
-    APHMedication *symmetrel = [selectedMeds objectWithIdentifier:@"Symmetrel"];
+    SBAMedication *symmetrel = [selectedMeds objectWithIdentifier:@"Symmetrel"];
     XCTAssertNotNil(symmetrel);
     XCTAssertEqual(symmetrel.frequency, 7);
-    APHMedication *apokyn = [selectedMeds objectWithIdentifier:@"Apokyn"];
+    SBAMedication *apokyn = [selectedMeds objectWithIdentifier:@"Apokyn"];
     XCTAssertNotNil(apokyn);
     XCTAssertEqual(apokyn.frequency, 0);
 }
@@ -493,7 +484,7 @@
     ORKTaskResult *taskResult = [self createTaskResultWithAnswers:nil];
     
     // Setup to need to ask about changed meds
-    task.dataStore.lastMedicationSurveyDate = [NSDate dateWithTimeIntervalSinceNow:-32*24*60*60];
+    task.dataStore.lastTrackingSurveyDate = [NSDate dateWithTimeIntervalSinceNow:-32*24*60*60];
     
     // If there is a subtask then the first step should be the step from the subtask
     ORKStep *preStep =[task stepAfterStep:nil withResult:taskResult];
@@ -521,7 +512,7 @@
     ORKTaskResult *taskResult = [self createTaskResultWithAnswers:nil];
     
     // Setup to need to ask about changed meds
-    task.dataStore.lastMedicationSurveyDate = [NSDate dateWithTimeIntervalSinceNow:-32*24*60*60];
+    task.dataStore.lastTrackingSurveyDate = [NSDate dateWithTimeIntervalSinceNow:-32*24*60*60];
     
     // If there is a subtask then the first step should be the step from the subtask
     ORKStep *preStep =[task stepAfterStep:nil withResult:taskResult];
@@ -630,7 +621,7 @@
     
     // Check assumptions
     XCTAssertFalse(task.dataStore.hasChanges);
-    XCTAssertTrue(task.dataStore.hasSelectedMedicationOrSkipped);
+    XCTAssertTrue(task.dataStore.hasSelectedOrSkipped);
     
     // The first step should be the intro step from the inputTask
     ORKTaskResult *taskResult = [self createTaskResult];
@@ -657,7 +648,7 @@
     
     // Check assumptions
     XCTAssertFalse(task.dataStore.hasChanges);
-    XCTAssertTrue(task.dataStore.hasSelectedMedicationOrSkipped);
+    XCTAssertTrue(task.dataStore.hasSelectedOrSkipped);
     
     // If the user indicates that they are *not* taking any tracked medication, then
     // all the medication tracking questions should be excluded
@@ -749,13 +740,13 @@
     MockAPHMedicationTrackerTask *task = [self createTaskWithSubTask:nil trackedMedications:answers surveyStepResult:[MockPDResult new]];
     
     // Set the frequency for meds that aren't injection
-    NSMutableArray *selectedMeds = [task.mockDataStore.selectedMedications mutableCopy];
-    for (APHMedication *med in selectedMeds) {
+    NSMutableArray *selectedMeds = [task.mockDataStore.selectedItems mutableCopy];
+    for (SBAMedication *med in selectedMeds) {
         if (!med.injection) {
             med.frequency = med.identifier.length;
         }
     }
-    task.dataStore.selectedMedications = selectedMeds;
+    task.dataStore.selectedItems = selectedMeds;
     [task.dataStore commitChanges];
     
     ORKStepResult *result = [task stepResultForStepIdentifier:APHMedicationTrackerFrequencyStepIdentifier];
@@ -803,7 +794,7 @@
     
     // If the tracked meds is non-nil, then set the value to the data store
     if (trackedMedications) {
-        task.mockDataStore.selectedMedications = [task.medications filteredArrayWithIdentifiers:trackedMedications];
+        task.mockDataStore.selectedItems = [task.medications filteredArrayWithIdentifiers:trackedMedications];
         [task.mockDataStore commitChanges];
     }
     
