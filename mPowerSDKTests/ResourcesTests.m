@@ -125,7 +125,7 @@
     id json = [self jsonForResource:@"APHConsentSection"];
     XCTAssertTrue([json isKindOfClass:[NSDictionary class]]);
     
-    NSArray <ORKStep *> *steps = [[[SBASurveyFactory alloc] initWithDictionary:json] steps];
+    NSArray <ORKStep *> *steps = [[[SBAConsentDocumentFactory alloc] initWithDictionary:json] steps];
     XCTAssertNotNil(steps);
     
     NSArray *expectedIdentifiers = @[@"reconsentIntroduction",
