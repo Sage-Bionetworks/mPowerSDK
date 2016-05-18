@@ -36,6 +36,7 @@
 #import "APHLocalization.h"
 #import "APHMedicationTrackerTask.h"
 @import ResearchKit;
+@import BridgeAppSDK;
 
 //
 //    keys for the extra step ('Pre-Survey') that;'s injected
@@ -99,6 +100,8 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
 
 @interface APHActivityManager ()
 
+@property (nonatomic) SBABridgeInfoPList *bridgeInfo;
+
 @end
 
 @implementation APHActivityManager
@@ -111,6 +114,20 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
         __manager = [[self alloc] init];
     });
     return __manager;
+}
+
+- (instancetype)init {
+    if (self = [super init]) {
+        _bridgeInfo = [[SBABridgeInfoPList alloc] init];
+    }
+    return self;
+}
+
+- (NSNumber *)schemaRevisionForSchemaIdentifier:(NSString *)schemaIdentifier {
+    NSPredicate *schemaFilter = [NSPredicate predicateWithFormat:@"schemaIdentifier = %@", schemaIdentifier];
+    NSDictionary *schema = [[self.bridgeInfo.schemaMap filteredArrayUsingPredicate:schemaFilter] firstObject];
+    NSNumber *schemaRevision = schema[@"schemaRevision"];
+    return schemaRevision ?: @(1);
 }
 
 #pragma mark - task manipulation

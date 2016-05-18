@@ -52,8 +52,6 @@ static  NSString *const kCountdownStepIdentifier              = @"countdown";
 static  NSString *const kAudioStepIdentifier                  = @"audio";
 static  NSString *const kConclusionStepIdentifier             = @"conclusion";
 
-static const NSInteger kPhonationActivitySchemaRevision       = 3;
-
 @interface APHPhonationTaskViewController ( )  <ORKTaskViewControllerDelegate>
 
 @property (nonatomic, getter=isTooLoud) BOOL tooLoud;
@@ -204,13 +202,6 @@ static const NSInteger kPhonationActivitySchemaRevision       = 3;
 
 - (APCSignUpPermissionsType)requiredPermission {
     return kAPCSignUpPermissionsTypeMicrophone;
-}
-
-- (void) updateSchemaRevision
-{
-    if (self.scheduledTask) {
-        self.scheduledTask.taskSchemaRevision = [NSNumber numberWithInteger:kPhonationActivitySchemaRevision];
-    }
 }
 
 

@@ -40,6 +40,7 @@
 
 @interface APHAppDelegate : APCAppDelegate <SBABridgeAppSDKDelegate>
 
+@property  (nonatomic, readonly) SBABridgeInfoPList * _Nonnull bridgeInfo;
 @property  (nonatomic, readonly) NSString * _Nonnull studyIdentifier;
 @property  (nonatomic, readonly) NSString * _Nonnull appPrefix;
 @property  (nonatomic, readonly) HKUpdateFrequency updateFrequency;

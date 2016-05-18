@@ -43,8 +43,6 @@
 
 @end
 
-const NSInteger APHMedicationTrackerSchemaRevision = 8;
-
 static  NSString *const kSecondInstructionStepIdentifier    = @"instruction1";
 
     //
@@ -220,7 +218,9 @@ static  NSString *const kSecondInstructionStepIdentifier    = @"instruction1";
     if (medicationTrackerTaskResult) {
         
         // Create an archive for the medication survey
-        self.medicationTrackerArchive = [[APCDataArchive alloc] initWithReference:APHMedicationTrackerTaskIdentifier schemaRevision:@(APHMedicationTrackerSchemaRevision)];
+        NSNumber *schemaRevision = [[APHActivityManager defaultManager] schemaRevisionForSchemaIdentifier:APHMedicationTrackerTaskIdentifier];
+
+        self.medicationTrackerArchive = [[APCDataArchive alloc] initWithReference:APHMedicationTrackerTaskIdentifier schemaRevision:schemaRevision];
         [self appendArchive:self.medicationTrackerArchive withTaskResult:medicationTrackerTaskResult];
         
         // Look for a scheduled task and update that task if need be
@@ -266,6 +266,14 @@ static  NSString *const kSecondInstructionStepIdentifier    = @"instruction1";
     // Because the data store is a shared singleton, it needs to be reset if the results of this survey
     // should not be saved.
     [self.dataStore reset];
+}
+
+
+- (void) updateSchemaRevision
+{
+    if (self.scheduledTask && self.task) {
+        self.scheduledTask.taskSchemaRevision = [[APHActivityManager defaultManager] schemaRevisionForSchemaIdentifier:self.task.identifier];
+    }
 }
 
 @end
