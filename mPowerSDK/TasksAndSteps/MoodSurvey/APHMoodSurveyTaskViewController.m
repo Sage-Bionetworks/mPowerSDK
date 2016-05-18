@@ -57,8 +57,6 @@ static NSInteger const kFontSize = 17;
 
 static NSInteger const kNumberOfCompletionsUntilDisplayingCustomSurvey = 7;
 
-static const NSInteger APHMoodSurveySchemaRevision = 2;
-
 @interface APHMoodSurveyTaskViewController () <UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) NSMutableDictionary *previousCachedAnswer;
@@ -118,13 +116,6 @@ static const NSInteger APHMoodSurveySchemaRevision = 2;
     APHDynamicMoodSurveyTask *task = [[APHDynamicMoodSurveyTask alloc] initAddingSteps];
     
     return task;
-}
-
-- (void) updateSchemaRevision
-{
-    if (self.scheduledTask) {
-        self.scheduledTask.taskSchemaRevision = @(APHMoodSurveySchemaRevision);
-    }
 }
 
 /*********************************************************************************/

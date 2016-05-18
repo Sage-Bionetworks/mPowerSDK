@@ -71,12 +71,20 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 
 #pragma mark - Private repo Overrides
 
-- (NSString * _Nonnull)studyIdentifier {
-    return @"studyname";
+@synthesize bridgeInfo = _bridgeInfo;
+- (SBABridgeInfoPList *)bridgeInfo {
+    if (_bridgeInfo == nil) {
+        _bridgeInfo = [[SBABridgeInfoPList alloc] init];
+    }
+    return _bridgeInfo;
 }
 
 - (NSString * _Nonnull)appPrefix {
-    return @"studyname";
+    return self.bridgeInfo.studyIdentifier;
+}
+
+- (NSString * _Nonnull)studyIdentifier {
+    return @"Parkinson's";
 }
 
 - (HKUpdateFrequency)updateFrequency {

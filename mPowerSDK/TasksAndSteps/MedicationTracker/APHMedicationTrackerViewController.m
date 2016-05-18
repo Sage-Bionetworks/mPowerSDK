@@ -40,11 +40,6 @@
     return  [APHMedicationTrackerTask new];
 }
 
-- (void) updateSchemaRevision
-{
-    if (self.scheduledTask) {
-        self.scheduledTask.taskSchemaRevision = @(APHMedicationTrackerSchemaRevision);
-    }
-}
+
 
 @end

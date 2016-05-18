@@ -54,9 +54,6 @@ static NSString * const kStartDateKey               = @"startDate";
 static NSString * const kEndDateKey                 = @"endDate";
 static NSString * const kUserInfoKey                = @"userInfo";
 
-
-static const NSInteger kTappingActivitySchemaRevision = 9;
-
 @interface APHIntervalTappingTaskViewController  ( ) <NSObject>
 
 
@@ -168,13 +165,5 @@ static const NSInteger kTappingActivitySchemaRevision = 9;
 #pragma mark - Add Task-Specific Results — Interval Tapping
 /*********************************************************************************/
 
-
-
-- (void) updateSchemaRevision
-{
-    if (self.scheduledTask) {
-        self.scheduledTask.taskSchemaRevision = [NSNumber numberWithInteger:kTappingActivitySchemaRevision];
-    }
-}
 
 @end

@@ -47,6 +47,8 @@ extern NSString * const kMomentInDayStepIdentifier;
 
 - (id <ORKTask> _Nullable)createTaskForSurveyId:(NSString *)surveyId;
 
+- (NSNumber *)schemaRevisionForSchemaIdentifier:(NSString *)schemaIdentifier;
+
 @end
 
 NS_ASSUME_NONNULL_END
