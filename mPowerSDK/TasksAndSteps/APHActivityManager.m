@@ -35,6 +35,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "APHLocalization.h"
 #import "APHMedicationTrackerTask.h"
+#import "APHAppDelegate.h"
 @import ResearchKit;
 @import BridgeAppSDK;
 
@@ -100,8 +101,6 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
 
 @interface APHActivityManager ()
 
-@property (nonatomic) SBABridgeInfoPList *bridgeInfo;
-
 @end
 
 @implementation APHActivityManager
@@ -116,16 +115,11 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
     return __manager;
 }
 
-- (instancetype)init {
-    if (self = [super init]) {
-        _bridgeInfo = [[SBABridgeInfoPList alloc] init];
-    }
-    return self;
-}
-
 - (NSNumber *)schemaRevisionForSchemaIdentifier:(NSString *)schemaIdentifier {
+    
+    SBABridgeInfoPList *bridgeInfo = [[APHAppDelegate sharedAppDelegate] bridgeInfoPList];
     NSPredicate *schemaFilter = [NSPredicate predicateWithFormat:@"schemaIdentifier = %@", schemaIdentifier];
-    NSDictionary *schema = [[self.bridgeInfo.schemaMap filteredArrayUsingPredicate:schemaFilter] firstObject];
+    NSDictionary *schema = [[bridgeInfo.schemaMap filteredArrayUsingPredicate:schemaFilter] firstObject];
     NSNumber *schemaRevision = schema[@"schemaRevision"];
     return schemaRevision ?: @(1);
 }

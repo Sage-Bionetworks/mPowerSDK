@@ -71,8 +71,8 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 
 #pragma mark - Private repo Overrides
 
-@synthesize bridgeInfo = _bridgeInfo;
-- (SBABridgeInfoPList *)bridgeInfo {
+@synthesize bridgeInfoPList = _bridgeInfo;
+- (SBABridgeInfoPList *)bridgeInfoPList {
     if (_bridgeInfo == nil) {
         _bridgeInfo = [[SBABridgeInfoPList alloc] init];
     }
@@ -80,7 +80,7 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 }
 
 - (NSString * _Nonnull)appPrefix {
-    return self.bridgeInfo.studyIdentifier;
+    return self.bridgeInfoPList.studyIdentifier;
 }
 
 - (NSString * _Nonnull)studyIdentifier {

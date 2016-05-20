@@ -111,6 +111,7 @@
 		FF2D8BDD1C497D4D004EC642 /* APHMedicationTrackerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D8BDB1C497D4D004EC642 /* APHMedicationTrackerViewController.m */; };
 		FF346CED1C5BE762006D9AC9 /* NSArray+APHExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = FF346CEB1C5BE762006D9AC9 /* NSArray+APHExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF346CEE1C5BE762006D9AC9 /* NSArray+APHExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FF346CEC1C5BE762006D9AC9 /* NSArray+APHExtensions.m */; };
+		FF4F077B1CEFB760007BD273 /* BridgeInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF4F077A1CEFB760007BD273 /* BridgeInfo.plist */; };
 		FF51E5D11C2A05BD0091E1A0 /* APCAppCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */; };
 		FF51E5D31C2A05C60091E1A0 /* BridgeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */; };
 		FF5842C11C517D3100C85C2E /* APHMedicationTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = FF5842BF1C517D3100C85C2E /* APHMedicationTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -278,6 +279,7 @@
 		FF2D8BDB1C497D4D004EC642 /* APHMedicationTrackerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHMedicationTrackerViewController.m; sourceTree = "<group>"; };
 		FF346CEB1C5BE762006D9AC9 /* NSArray+APHExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+APHExtensions.h"; sourceTree = "<group>"; };
 		FF346CEC1C5BE762006D9AC9 /* NSArray+APHExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+APHExtensions.m"; sourceTree = "<group>"; };
+		FF4F077A1CEFB760007BD273 /* BridgeInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = BridgeInfo.plist; path = ../../Parkinson/BridgeInfo.plist; sourceTree = "<group>"; };
 		FF51E5CE1C2A05B40091E1A0 /* libPDScores.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPDScores.a; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/libPDScores.a"; sourceTree = "<group>"; };
 		FF51E5D01C2A05BD0091E1A0 /* APCAppCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = APCAppCore.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/APCAppCore.framework"; sourceTree = "<group>"; };
 		FF51E5D21C2A05C60091E1A0 /* BridgeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BridgeSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Parkinson-dphbgsbdqdzhcbeketqhdiecbfyz/Build/Products/Debug-iphoneos/BridgeSDK.framework"; sourceTree = "<group>"; };
@@ -627,6 +629,7 @@
 		FF6410E91CAF17F4007FB9E1 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
+				FF4F077A1CEFB760007BD273 /* BridgeInfo.plist */,
 				FFFA243C1C2351D600727DA8 /* Info.plist */,
 				FF6410E71CAF17EA007FB9E1 /* EnableSwiftTest.swift */,
 				FF6410E61CAF17E9007FB9E1 /* mPowerSDKTests-Bridging-Header.h */,
@@ -979,6 +982,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF4F077B1CEFB760007BD273 /* BridgeInfo.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
