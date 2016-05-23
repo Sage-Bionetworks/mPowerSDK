@@ -40,7 +40,7 @@
 
 @interface APHAppDelegate : APCAppDelegate <SBABridgeAppSDKDelegate>
 
-@property  (nonatomic, readonly) SBABridgeInfoPList * _Nonnull bridgeInfo;
+@property  (nonatomic, readonly) SBABridgeInfoPList * _Nonnull bridgeInfoPList;
 @property  (nonatomic, readonly) NSString * _Nonnull studyIdentifier;
 @property  (nonatomic, readonly) NSString * _Nonnull appPrefix;
 @property  (nonatomic, readonly) HKUpdateFrequency updateFrequency;
@@ -49,7 +49,12 @@
 @property  (nonatomic, readonly) NSDictionary * _Nonnull appearanceInfo;
 @property  (nonatomic, strong)  APHProfileExtender * _Nullable profileExtender;
 
+- (NSArray <NSNumber *> * _Nonnull)signUpPermissionsTypes;
+
 - (NSBundle * _Nonnull)storyboardBundle;
 
 @end
 
+@interface APHAppDelegate (APCAppDelegateExtension)
+- (void) showAppropriateVC;
+@end

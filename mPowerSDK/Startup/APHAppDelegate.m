@@ -71,8 +71,8 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 
 #pragma mark - Private repo Overrides
 
-@synthesize bridgeInfo = _bridgeInfo;
-- (SBABridgeInfoPList *)bridgeInfo {
+@synthesize bridgeInfoPList = _bridgeInfo;
+- (SBABridgeInfoPList *)bridgeInfoPList {
     if (_bridgeInfo == nil) {
         _bridgeInfo = [[SBABridgeInfoPList alloc] init];
     }
@@ -80,7 +80,7 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 }
 
 - (NSString * _Nonnull)appPrefix {
-    return self.bridgeInfo.studyIdentifier;
+    return self.bridgeInfoPList.studyIdentifier;
 }
 
 - (NSString * _Nonnull)studyIdentifier {
@@ -109,6 +109,10 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
              [[APCTaskReminder alloc] initWithTaskID:kMyThoughtsSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_MY_THOUGHTS_LABEL", nil, APHLocaleBundle(), @"My Thoughts", @"Task reminder label for the my thoughts survey.")],
              [[APCTaskReminder alloc] initWithTaskID:kEnrollmentSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_ENROLLMENT_SURVEY_LABEL", nil, APHLocaleBundle(), @"Enrollment Survey", @"Task reminder label for the enrollment survey.")],
              [[APCTaskReminder alloc] initWithTaskID:kStudyFeedbackSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_STUDY_FEEDBACK_LABEL", nil, APHLocaleBundle(), @"Study Feedback", @"Task reminder label for study feedback.")]];
+}
+
+- (id<SBATaskReminderManagerProtocol>)taskReminderManager{
+    return nil;
 }
 
 - (NSDictionary * _Nonnull)appearanceInfo {
@@ -798,7 +802,7 @@ static NSDate *determineConsentDate(id object)
              ];
 }
 
-- (NSArray *)signUpPermissionsTypes
+- (NSArray <NSNumber *> *)signUpPermissionsTypes
 {
     return @[
              @(kAPCSignUpPermissionsTypeLocation),
