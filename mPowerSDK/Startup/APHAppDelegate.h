@@ -49,7 +49,12 @@
 @property  (nonatomic, readonly) NSDictionary * _Nonnull appearanceInfo;
 @property  (nonatomic, strong)  APHProfileExtender * _Nullable profileExtender;
 
+- (NSArray <NSNumber *> * _Nonnull)signUpPermissionsTypes;
+
 - (NSBundle * _Nonnull)storyboardBundle;
 
 @end
 
+@interface APHAppDelegate (APCAppDelegateExtension)
+- (void) showAppropriateVC;
+@end

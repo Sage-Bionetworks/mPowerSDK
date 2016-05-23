@@ -111,6 +111,10 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
              [[APCTaskReminder alloc] initWithTaskID:kStudyFeedbackSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_STUDY_FEEDBACK_LABEL", nil, APHLocaleBundle(), @"Study Feedback", @"Task reminder label for study feedback.")]];
 }
 
+- (id<SBATaskReminderManagerProtocol>)taskReminderManager{
+    return nil;
+}
+
 - (NSDictionary * _Nonnull)appearanceInfo {
     return @{
              kPrimaryAppColorKey : [UIColor colorWithRed:88. / 255.
@@ -798,7 +802,7 @@ static NSDate *determineConsentDate(id object)
              ];
 }
 
-- (NSArray *)signUpPermissionsTypes
+- (NSArray <NSNumber *> *)signUpPermissionsTypes
 {
     return @[
              @(kAPCSignUpPermissionsTypeLocation),
