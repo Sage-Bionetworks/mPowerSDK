@@ -33,7 +33,9 @@
 
 #import <APCAppCore/APCAppCore.h>
 
-@interface APHOnboardingManager : APCOnboardingManager
+extern NSString * const APHConsentTaskIdentifier;
+
+@interface APHOnboardingManager : APCOnboardingManager <ORKTaskViewControllerDelegate, ORKPasscodeDelegate>
 
 - (ORKTaskViewController *)instantiateOnboardingTaskViewController:(BOOL)signUp;
 - (ORKTaskViewController *)instantiateConsentViewController;

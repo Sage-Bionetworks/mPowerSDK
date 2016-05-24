@@ -59,7 +59,7 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 
 @end
 
-@interface APHOnboardingManager () <ORKTaskViewControllerDelegate, ORKPasscodeDelegate>
+@interface APHOnboardingManager () 
 
 @end
 
