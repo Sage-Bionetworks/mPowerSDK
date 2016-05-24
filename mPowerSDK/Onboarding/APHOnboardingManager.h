@@ -38,4 +38,9 @@
 - (ORKTaskViewController *)instantiateOnboardingTaskViewController:(BOOL)signUp;
 - (ORKTaskViewController *)instantiateConsentViewController;
 
+// @protected
+- (NSMutableArray <ORKStep *> *)buildSteps:(BOOL)signUp;
+- (ORKStep *)passcodeStep;
+- (NSArray <ORKStep *> *)profileSteps;
+
 @end
