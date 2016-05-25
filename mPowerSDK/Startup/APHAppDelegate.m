@@ -312,9 +312,13 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
     return self.parkinsonOnboardingManager;
 }
 
+- (Class)onboardingManagerClass {
+    return [APHOnboardingManager class];
+}
+
 - (APHOnboardingManager *)parkinsonOnboardingManager {
     if (_parkinsonOnboardingManager == nil) {
-        _parkinsonOnboardingManager = [[APHOnboardingManager alloc] initWithProvider:self user:self.dataSubstrate.currentUser];
+        _parkinsonOnboardingManager = [[[self onboardingManagerClass] alloc] initWithProvider:self user:self.dataSubstrate.currentUser];
     }
     return _parkinsonOnboardingManager;
 }
