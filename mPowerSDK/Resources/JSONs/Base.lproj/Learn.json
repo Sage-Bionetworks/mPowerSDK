@@ -26,7 +26,7 @@
                           },
                           {
                           "title":"Who Is Running This Study",
-                          "details":"whoisrunning",
+                          "details":"whoisrunning_intro",
                           "icon_image":"stethescope_icon",
                           "tint_color" : "yellow"
                           },
