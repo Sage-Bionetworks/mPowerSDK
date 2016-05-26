@@ -33,16 +33,35 @@
 
 #import <APCAppCore/APCAppCore.h>
 
+extern NSString * const APHOnboardingSignUpTaskIdentifier;
+extern NSString * const APHOnboardingSignInTaskIdentifier;
 extern NSString * const APHConsentTaskIdentifier;
+extern NSString * const APHOnboardingVerificationTaskIdentifier;
+extern NSString * const APHOnboardingReconsentTaskIdentifier;
+
+extern NSString * const APHInclusionCriteriaStepIdentifier;
+extern NSString * const APHIneligibleStepIdentifier;
+extern NSString * const APHEligibleStepIdentifier;
+extern NSString * const APHReconsentIntroductionStepIdentifier;
+extern NSString * const APHConsentCompletionStepIdentifier;
+extern NSString * const APHPasscodeStepIdentifier;
+extern NSString * const APHVerificationStepIdentifier;
+extern NSString * const APHPermissionsIntroStepIdentifier;
 
 @interface APHOnboardingManager : APCOnboardingManager <ORKTaskViewControllerDelegate, ORKPasscodeDelegate>
 
 - (ORKTaskViewController *)instantiateOnboardingTaskViewController:(BOOL)signUp;
 - (ORKTaskViewController *)instantiateConsentViewController;
 
-// @protected
+// protected - Exposed publicly so that the target app can override
 - (NSMutableArray <ORKStep *> *)buildSteps:(BOOL)signUp;
-- (ORKStep *)passcodeStep;
+- (NSArray <ORKStep *> *)signInSteps;
+- (NSArray <ORKStep *> *)eligibilitySteps;
+- (NSArray <ORKStep *> *)consentSteps:(BOOL)isReconsent;
+- (NSArray <ORKStep *> *)registrationSteps;
+- (NSArray <ORKStep *> *)passcodeSteps;
+- (NSArray <ORKStep *> *)verificationSteps;
 - (NSArray <ORKStep *> *)profileSteps;
+- (APCScene *)sceneForStep:(ORKStep *)step;
 
 @end
