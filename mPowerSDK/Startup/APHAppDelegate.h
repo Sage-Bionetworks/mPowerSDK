@@ -50,6 +50,7 @@
 @property  (nonatomic, strong)  APHProfileExtender * _Nullable profileExtender;
 
 - (NSArray <NSNumber *> * _Nonnull)signUpPermissionsTypes;
+- (NSArray <NSNumber *> * _Nonnull)userInfoItemTypes;
 - (NSArray * _Nonnull)healthKitCharacteristicTypesToRead;
 - (NSArray * _Nonnull)healthKitQuantityTypesToWrite;
 - (NSArray * _Nonnull)healthKitQuantityTypesToRead;
