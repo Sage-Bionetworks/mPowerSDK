@@ -33,7 +33,6 @@
 
 #import <APCAppCore/APCAppCore.h>
 
-extern NSString * const APHConsentTaskIdentifier;
 extern NSString * const APHOnboardingSignUpTaskIdentifier;
 extern NSString * const APHOnboardingSignInTaskIdentifier;
 extern NSString * const APHConsentTaskIdentifier;
