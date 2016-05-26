@@ -115,7 +115,7 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     // Beginning steps are different depending upon whether or not this is an
     // initial registration and/or reconsent
     if (!signUp) {
-        [steps addObject:[self signInStep]];
+        [steps addObjectsFromArray:[self signInSteps]];
     }
     else {
         if (!self.user.isSignedUp) {
@@ -128,20 +128,24 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
         }
         if (!self.user.isSignedUp) {
             // Next is registration for the user who is *not* signed up
-            [steps addObject:[self registrationStep]];
+            [steps addObjectsFromArray:[self registrationSteps]];
         }
     }
     
     // If the user does not have an ORKpasscode, then add one
     if (!self.hasORKPasscode) {
-        if (self.user.isSignedIn && !self.user.isUserConsented) {
-            // If the user is signed in but needs to reconsent then
-            // insert passcode before final step
-            [steps insertObject:[self passcodeStep] atIndex:steps.count-1];
-        }
-        else {
-            // Then following registration, we ask the user to add a passcode
-            [steps addObject:[self passcodeStep]];
+        NSArray *passcodeSteps = [self passcodeSteps];
+        if (passcodeSteps.count > 0) {
+            if (self.user.isSignedIn && !self.user.isUserConsented) {
+                // If the user is signed in but needs to reconsent then
+                // insert passcode before final step
+                NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(steps.count-1, passcodeSteps.count)];
+                [steps insertObjects:passcodeSteps atIndexes:indexSet];
+            }
+            else {
+                // Then following registration, we ask the user to add a passcode
+                [steps addObjectsFromArray:passcodeSteps];
+            }
         }
     }
     
@@ -150,7 +154,7 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
         // If the user is signed up but *not* verified (signed in) then
         // show the email verification and finish profile setup
         if (signUp) {
-            [steps addObject:[self verificationStep]];
+            [steps addObjectsFromArray:[self verificationSteps]];
         }
         // The profile and permission steps need to be added to the flow b/c this
         // is a new device/user.
@@ -177,7 +181,7 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     return steps;
 }
 
-- (ORKStep *)registrationStep {
+- (NSArray <ORKStep *> *)registrationSteps {
     NSString *title = NSLocalizedStringWithDefaultValue(@"APH_REGISTRATION_TITLE", nil, APHLocaleBundle(), @"Registration", @"Title for registration view");
     NSString *text = NSLocalizedStringWithDefaultValue(@"APH_REGISTRATION_TEXT", nil, APHLocaleBundle(), @"Sage Bionetworks, a non-profit biomedical research institute, is helping to collect data for this study and distribute it to the study investigators and other researchers. Please provide a unique email address and password to create a secure account.", @"Text for registration view");
     ORKRegistrationStepOption options = ORKRegistrationStepDefault |
@@ -185,22 +189,22 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
                                         ORKRegistrationStepIncludeFamilyName |
                                         ORKRegistrationStepIncludeGender |
                                         ORKRegistrationStepIncludeDOB;
-    return [[ORKRegistrationStep alloc] initWithIdentifier:kAPCSignUpGeneralInfoStepIdentifier title:title text:text options:options];
+    return @[[[ORKRegistrationStep alloc] initWithIdentifier:kAPCSignUpGeneralInfoStepIdentifier title:title text:text options:options]];
 }
 
-- (ORKStep *)passcodeStep {
+- (NSArray <ORKStep *> *)passcodeSteps {
     ORKPasscodeStep *step = [[ORKPasscodeStep alloc] initWithIdentifier:APHPasscodeStepIdentifier];
     step.title = NSLocalizedStringWithDefaultValue(@"APH_PASSCODE_TITLE", nil, APHLocaleBundle(), @"Identification", @"Title for passcode view");
     step.text = NSLocalizedStringWithDefaultValue(@"APH_PASSCODE_TEXT", nil, APHLocaleBundle(), @"Select a 4-digit passcode. Setting up a passcode will help provide quick and secure access to this application.", @"Text for passcode view");
-    return step;
+    return @[step];
 }
 
-- (ORKStep *)verificationStep {
-    return [[ORKStep alloc] initWithIdentifier:APHVerificationStepIdentifier];
+- (NSArray <ORKStep *> *)verificationSteps {
+    return @[[[ORKStep alloc] initWithIdentifier:APHVerificationStepIdentifier]];
 }
 
-- (ORKStep *)signInStep {
-    return [[ORKStep alloc] initWithIdentifier:kAPCSignInStepIdentifier];
+- (NSArray <ORKStep *> *)signInSteps {
+    return @[[[ORKStep alloc] initWithIdentifier:kAPCSignInStepIdentifier]];
 }
 
 - (NSArray <ORKStep *> *)profileSteps {
