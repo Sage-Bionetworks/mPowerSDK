@@ -63,5 +63,6 @@ extern NSString * const APHPermissionsIntroStepIdentifier;
 - (NSArray <ORKStep *> *)verificationSteps;
 - (NSArray <ORKStep *> *)profileSteps;
 - (APCScene *)sceneForStep:(ORKStep *)step;
+- (BOOL)shouldCheckConsentResultForTaskViewController:(ORKTaskViewController *)taskViewController nextStep:(ORKStep *)nextStep;
 
 @end
