@@ -571,7 +571,8 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     
                     if ([[self.moodScoring averageDataPoint] doubleValue] > 0 && scoringObjects.count > 1) {
                         item.averageImage = [UIImage imageNamed:[NSString stringWithFormat:@"MoodSurveyMood-%0.0fg", (double) 6 - [[self.moodScoring averageDataPoint] doubleValue]]];
-                        item.detailText = [NSString stringWithFormat: NSLocalizedString(@"Average : ", nil)];
+                        item.detailText = [NSString stringWithFormat:detailAvgFormat,
+                                           APHLocalizedStringFromNumber([self.moodScoring averageDataPoint])];
                     }
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_DAILY_MOOD_INFO", nil, APHLocaleBundle(), @"This graph shows your answers to the daily check-in questions for mood each day. ", @"Dashboard tooltip item info text for daily check-in Mood in Parkinson");
@@ -601,7 +602,8 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     
                     if ([[self.energyScoring averageDataPoint] doubleValue] > 0 && scoringObjects.count > 1) {
                         item.averageImage = [UIImage imageNamed:[NSString stringWithFormat:@"MoodSurveyEnergy-%0.0fg", (double) 6 - [[self.energyScoring averageDataPoint] doubleValue]]];
-                        item.detailText = [NSString stringWithFormat:NSLocalizedString(@"Average : ", nil)];
+                        item.detailText = [NSString stringWithFormat:detailAvgFormat,
+                                           APHLocalizedStringFromNumber([self.energyScoring averageDataPoint])];
                     }
                     
                     
@@ -632,7 +634,8 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     
                     if ([[self.exerciseScoring averageDataPoint] doubleValue] > 0 && scoringObjects.count > 1) {
                         item.averageImage = [UIImage imageNamed:[NSString stringWithFormat:@"MoodSurveyExercise-%0.0fg", (double) 6 - [[self.exerciseScoring averageDataPoint] doubleValue]]];
-                        item.detailText = [NSString stringWithFormat:NSLocalizedString(@"Average : ", nil)];
+                        item.detailText = [NSString stringWithFormat:detailAvgFormat,
+                                           APHLocalizedStringFromNumber([self.exerciseScoring averageDataPoint])];
                     }
                     
                     
@@ -663,7 +666,8 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     
                     if ([[self.sleepScoring averageDataPoint] doubleValue] > 0 && scoringObjects.count > 1) {
                         item.averageImage = [UIImage imageNamed:[NSString stringWithFormat:@"MoodSurveySleep-%0.0fg", (double) 6 - [[self.sleepScoring averageDataPoint] doubleValue]]];
-                        item.detailText = [NSString stringWithFormat:NSLocalizedString(@"Average : ", nil)];
+                        item.detailText = [NSString stringWithFormat:detailAvgFormat,
+                                           APHLocalizedStringFromNumber([self.sleepScoring averageDataPoint])];
                     }
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_DAILY_SLEEP_INFO", nil, APHLocaleBundle(), @"This graph shows your answers to the daily check-in questions for sleep each day.", @"Dashboard tooltip item info text for daily check-in Sleep in Parkinson");
@@ -694,7 +698,8 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     if ([[self.cognitiveScoring averageDataPoint] doubleValue] > 0 && moodScoringObjects.count > 1) {
                         
                         item.averageImage = [UIImage imageNamed:[NSString stringWithFormat:@"MoodSurveyClarity-%0.0fg", (double) 6 - [[self.cognitiveScoring averageDataPoint] doubleValue]]];
-                        item.detailText = [NSString stringWithFormat:NSLocalizedString(@"Average : ", nil)];
+                        item.detailText = [NSString stringWithFormat:detailAvgFormat,
+                                           APHLocalizedStringFromNumber([self.cognitiveScoring averageDataPoint])];
                     }
                     
                     
@@ -725,7 +730,8 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     
                     if ([[self.customScoring averageDataPoint] doubleValue] > 0 && scoringObjects.count > 1) {
                         item.averageImage = [UIImage imageNamed:[NSString stringWithFormat:@"MoodSurveyCustom-%0.0fg", (double) 6 - [[self.customScoring averageDataPoint] doubleValue]]];
-                        item.detailText = [NSString stringWithFormat:NSLocalizedString(@"Average : ", @"Average: ")];
+                        item.detailText = [NSString stringWithFormat:detailAvgFormat,
+                                           APHLocalizedStringFromNumber([self.customScoring averageDataPoint])];
                     }
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_DAILY_CUSTOM_INFO", nil, APHLocaleBundle(), @"This graph shows your answers to the custom question that you created as part of your daily check-in questions.", @"Dashboard tooltip item info text for daily check-in Custom in Parkinson");
