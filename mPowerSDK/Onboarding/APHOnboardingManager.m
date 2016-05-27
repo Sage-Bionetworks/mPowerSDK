@@ -297,12 +297,16 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     return [[self sceneForStep:step] instantiateStepViewController];
 }
 
+- (BOOL)shouldCheckConsentResultForTaskViewController:(ORKTaskViewController *)taskViewController nextStep:(ORKStep *)nextStep {
+    return [nextStep.identifier isEqualToString:APHConsentCompletionStepIdentifier];
+}
+
 - (void)taskViewController:(ORKTaskViewController *)taskViewController stepViewControllerWillAppear:(ORKStepViewController *)stepViewController {
     
     // Tracking of data is handled by associating onboarding step identifiers
     self.onboarding.currentStep = stepViewController.step;
     
-    if ([stepViewController.step.identifier isEqualToString:APHConsentCompletionStepIdentifier]) {
+    if ([self shouldCheckConsentResultForTaskViewController:taskViewController nextStep: stepViewController.step]) {
         if (![self checkForConsentWithTaskViewController:taskViewController]) {
             [self userDeclinedConsent];
             [self taskViewController:taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
