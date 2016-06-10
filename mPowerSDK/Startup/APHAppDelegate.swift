@@ -35,7 +35,7 @@ import Foundation
 import BridgeAppSDK
 import APCAppCore
 
-extension APHAppDelegate : SBASharedAppDelegate {
+extension APHAppDelegate : SBAAppInfoDelegate {
     
     public var currentUser: SBAUserWrapper {
         return self.dataSubstrate.currentUser
@@ -45,21 +45,14 @@ extension APHAppDelegate : SBASharedAppDelegate {
         return self.bridgeInfoPList
     }
     
-    public var requiredPermissions: [SBAPermissionsType] {
-        return self.signUpPermissionsTypes().mapAndFilter({ SBAPermissionsType(rawValue: $0.unsignedLongValue) })
-    }
-    
-    public func showAppropriateViewController(animated: Bool) {
-        showAppropriateVC()
-    }
-    
-    public func createLocalNotifications() -> [UILocalNotification] {
-        // TODO: syoung 05/23/2016 Notification handling needs to be reworked to allow for a more flexible
-        // design that is applicable to mPower.
+    public var requiredPermissions: SBAPermissionsType {
         assertionFailure("Not implemented")
-        return []
+        return SBAPermissionsType.None
     }
     
+}
+
+extension APHAppDelegate : SBASharedAppDelegate {
 }
 
 extension APCUser : SBAConsentSignatureWrapper {
