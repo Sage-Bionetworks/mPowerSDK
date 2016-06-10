@@ -323,6 +323,10 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
     return _parkinsonOnboardingManager;
 }
 
+- (void)showAppropriateViewController:(BOOL)animated {
+    [self showAppropriateVC];
+}
+
 - (void)showOnBoarding
 {
     [super showOnBoarding];

@@ -263,7 +263,7 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
         // If this step will fall through to an ORKFormStepViewController then
         // create a scene so it will *not* show the step with the results prefilled
         // for the consent quiz.
-        else if ([step isKindOfClass:[ORKFormStep class]]) {
+        else if ([step isKindOfClass:[ORKFormStep class]] && ![step isKindOfClass:[ORKConsentReviewStep class]]) {
             scene = [[APCScene alloc] initWithStep:step];
         }
     }
