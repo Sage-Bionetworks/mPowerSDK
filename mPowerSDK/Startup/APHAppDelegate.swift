@@ -52,9 +52,6 @@ extension APHAppDelegate : SBAAppInfoDelegate {
     
 }
 
-extension APHAppDelegate : SBASharedAppDelegate {
-}
-
 extension APCUser : SBAConsentSignatureWrapper {
     
     public var signatureBirthdate: NSDate? {
