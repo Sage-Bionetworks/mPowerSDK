@@ -190,6 +190,7 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
                                                 shortSpeechInstruction:nil
                                                               duration:kGetSoundingAaahhhInterval
                                                      recordingSettings:audioSettings
+                                                       checkAudioLevel:NO
                                                                options:0];
 
     NSString *localizedTaskName = NSLocalizedStringWithDefaultValue(@"APH_PHONATION_STEP_TITLE", nil, APHLocaleBundle(),  @"Voice", @"Title for Voice activity");
