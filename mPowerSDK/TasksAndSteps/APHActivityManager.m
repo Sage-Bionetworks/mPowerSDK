@@ -166,8 +166,8 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
     ORKOrderedTask  *orkTask = [ORKOrderedTask twoFingerTappingIntervalTaskWithIdentifier:kIntervalTappingTitleIdentifier
                                                                    intendedUseDescription:nil
                                                                                  duration:kTappingStepCountdownInterval
-                                                                                  options:0
-                                                                              handOptions:ORKPredefinedTaskHandOptionBoth];
+                                                                              handOptions:ORKPredefinedTaskHandOptionBoth
+                                                                                  options:0];
     
     // Modify the first step to explain why this activity is valuable to the Parkinson's study
     ORKInstructionStep *firstStep = (ORKInstructionStep *)orkTask.steps.firstObject;
