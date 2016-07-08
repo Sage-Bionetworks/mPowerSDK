@@ -297,7 +297,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 
 - (ORKStep*)createConclusionStepWithTitle:(NSString*)title text:(NSString*)text
 {
-    ORKInstructionStep *step = [ORKInstructionStep completionStep];
+    ORKInstructionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:APHMedicationTrackerConclusionStepIdentifier];
     // Replace the language in the last step
     step.title = title;
     step.text = text;
@@ -506,70 +506,10 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     return [choices copy];
 }
 
-- (NSArray <APHMedication*> *)selectedMedicationFromResult:(ORKTaskResult*)result {
-    NSArray *meds = [self selectedMedicationFromResult:result previousMedication:nil];
-    return [self updateMedicationFrequency:meds withResult:result];
-}
-
-- (NSArray <APHMedication*> *)selectedMedicationFromResult:(ORKTaskResult*)result
-                                        previousMedication:(NSArray <APHMedication*> *)previousMedication {
-
-    ORKStepResult *stepResult = (ORKStepResult *)[result resultForIdentifier:APHMedicationTrackerSelectionStepIdentifier];
-    ORKChoiceQuestionResult *selectionResult = (ORKChoiceQuestionResult *)[stepResult.results firstObject];
-
-    if (selectionResult == nil) {
-        return nil;
-    }
-    if (![selectionResult isKindOfClass:[ORKChoiceQuestionResult class]]) {
-        NSAssert(NO, @"The Medication selection result was not of the expected class of ORKChoiceQuestionResult");
-        return nil;
-    }
-    // If skipped return nil
-    if ((selectionResult.choiceAnswers == nil) ||
-        ([selectionResult.choiceAnswers isEqualToArray:@[APHMedicationTrackerSkipAnswerIdentifier]])) {
-        return nil;
-    }
-    
-    // Get the selected ids
-    NSArray *selectedMedIds = selectionResult.choiceAnswers;
-
-    // Get the selected meds by filtering this list
-    NSArray *selectedMeds = [self.medications filteredArrayWithIdentifiers:selectedMedIds];
-    if (selectedMeds.count > 0) {
-        // Map frequency from the previously stored results
-        NSPredicate *idPredicate = [NSPredicate predicateWithFormat:@"%K IN %@", NSStringFromSelector(@selector(identifier)), selectedMedIds];
-        NSPredicate *frequencyPredicate = [NSPredicate predicateWithFormat:@"%K > 0", NSStringFromSelector(@selector(frequency))];
-        NSPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[frequencyPredicate, idPredicate]];
-        NSArray <SBAMedication *> *previousMeds = [previousMedication filteredArrayUsingPredicate:predicate];
-        if (previousMeds.count > 0) {
-            // If there are frequency results to map, then map them into the returned results
-            // (which may be a different object from the med list in the data store)
-            for (SBAMedication *med in selectedMeds) {
-                SBAMedication *previousMed = [previousMeds objectWithIdentifier:med.identifier];
-                med.frequency = previousMed.frequency;
-            }
-        }
-    }
-
-    return  selectedMeds;
-}
-
-- (NSArray <APHMedication*> *)updateMedicationFrequency:(NSArray <APHMedication*> *)selectedMedication
-                                             withResult:(ORKTaskResult*)result {
-    ORKStepResult *frequencyResult = (ORKStepResult *)[result resultForIdentifier:APHMedicationTrackerFrequencyStepIdentifier];
-    if (frequencyResult != nil) {
-        
-        // If there are frequency results to map, then map them into the returned results
-        // (which may be a different object from the med list in the data store)
-        for (SBAMedication *med in selectedMedication) {
-            ORKScaleQuestionResult *result = (ORKScaleQuestionResult *)[frequencyResult resultForIdentifier:med.identifier];
-            if ([result isKindOfClass:[ORKScaleQuestionResult class]]) {
-                med.frequency = [result.scaleAnswer unsignedIntegerValue];
-            }
-        }
-    }
-    
-    return selectedMedication;
+- (NSArray *)selectedMedicationFromResult:(ORKTaskResult*)result {
+    [self.dataStore updateSelectedItems:self.medications stepIdentifier:APHMedicationTrackerSelectionStepIdentifier result:result];
+    [self.dataStore updateFrequencyForStepIdentifier:APHMedicationTrackerFrequencyStepIdentifier result:result];
+    return self.dataStore.selectedItems;
 }
 
 - (void)updateStateAfterStep:(nullable ORKStep *)step withResult:(ORKTaskResult *)result {
@@ -580,12 +520,11 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     }
     else if ([step.identifier isEqualToString:APHMedicationTrackerSelectionStepIdentifier]) {
         // If this is the selection step or the frequency step then store the result to the data store
-        self.dataStore.selectedItems = [self selectedMedicationFromResult:result
-                                                             previousMedication:self.dataStore.selectedItems];
+        [self.dataStore updateSelectedItems:self.medications stepIdentifier:step.identifier result:result];
     }
     else if ([step.identifier isEqualToString:APHMedicationTrackerFrequencyStepIdentifier]) {
-        self.dataStore.selectedItems = [self updateMedicationFrequency:self.dataStore.selectedItems
-                                                                  withResult:result];
+        // Update the frequency
+        [self.dataStore updateFrequencyForStepIdentifier:step.identifier result:result];
     }
     else if ([step.identifier isEqualToString:APHMedicationTrackerChangedStepIdentifier]) {
         ORKStepResult *stepResult = (ORKStepResult *)[result resultForIdentifier:APHMedicationTrackerChangedStepIdentifier];

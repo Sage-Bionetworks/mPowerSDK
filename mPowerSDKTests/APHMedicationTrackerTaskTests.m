@@ -339,28 +339,6 @@
     XCTAssertNil([task stepAfterStep:nextStep withResult:result]);
 }
 
-- (void)testFollowUpSteps_MedicationSkipped {
-    APHMedicationTrackerTask *task = [self createAndStepToSelectionWithSubTask:nil
-                                                              initialDataGroup:nil
-                                                             selectedDataGroup:[MockPDResult new]];
-    ORKStep *selectionStep = [task stepWithIdentifier:APHMedicationTrackerSelectionStepIdentifier];
-    
-    // For the case where there is no subtask and no medication was selected,
-    // the survey is complete
-    ORKTaskResult *result = [self createTaskResultWithAnswers:@[APHMedicationTrackerSkipAnswerIdentifier]];
-    ORKStep *nextStep = [task stepAfterStep:selectionStep withResult:result];
-    XCTAssertNotNil(nextStep);
-    XCTAssertEqualObjects(nextStep.identifier, APHMedicationTrackerConclusionStepIdentifier);
-    
-    // And the results from the selection should be stored back to the data store
-    XCTAssertEqual(task.dataStore.selectedItems.count, 0);
-    XCTAssertTrue(task.dataStore.hasChanges);
-    XCTAssertTrue(task.dataStore.skippedSelectionSurveyQuestion);
-    
-    // Step after the thank you should be nil
-    XCTAssertNil([task stepAfterStep:nextStep withResult:result]);
-}
-
 - (void)testFollowUpSteps_InjectionSelected {
     APHMedicationTrackerTask *task = [self createAndStepToSelectionWithSubTask:nil
                                                               initialDataGroup:nil
@@ -419,7 +397,7 @@
     XCTAssertNil([task stepAfterStep:nextStep withResult:result]);
     
     // The selected medication list should now include the frequency
-    NSArray <SBAMedication *> *selectedMeds = task.dataStore.selectedItems;
+    NSArray *selectedMeds = task.dataStore.selectedItems;
     SBAMedication *levodopa = [selectedMeds objectWithIdentifier:@"Levodopa"];
     XCTAssertNotNil(levodopa);
     XCTAssertEqual(levodopa.frequency, 4);

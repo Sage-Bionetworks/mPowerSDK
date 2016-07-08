@@ -89,32 +89,30 @@
     XCTAssertNotNil(selectedMeds);
     NSUInteger expectedCount = 3;
     XCTAssertEqual(selectedMeds.count, expectedCount);
-    if (selectedMeds.count == expectedCount) {
         
-        NSDictionary *levodopa = selectedMeds[0];
-        XCTAssertEqualObjects(levodopa[@"identifier"], @"Levodopa");
-        XCTAssertEqualObjects(levodopa[@"name"], @"Levodopa");
-        XCTAssertEqualObjects(levodopa[@"brand"], [NSNull null]);
-        XCTAssertEqualObjects(levodopa[@"tracking"], @YES);
-        XCTAssertEqualObjects(levodopa[@"injection"], @NO);
-        XCTAssertEqualObjects(levodopa[@"frequency"], @4);
-        
-        NSDictionary *symmetrel = selectedMeds[1];
-        XCTAssertEqualObjects(symmetrel[@"identifier"], @"Symmetrel");
-        XCTAssertEqualObjects(symmetrel[@"name"], @"Amantadine");
-        XCTAssertEqualObjects(symmetrel[@"brand"], @"Symmetrel");
-        XCTAssertEqualObjects(symmetrel[@"tracking"], @NO);
-        XCTAssertEqualObjects(symmetrel[@"injection"], @NO);
-        XCTAssertEqualObjects(symmetrel[@"frequency"], @7);
-        
-        NSDictionary *apokyn = selectedMeds[2];
-        XCTAssertEqualObjects(apokyn[@"identifier"], @"Apokyn");
-        XCTAssertEqualObjects(apokyn[@"name"], @"Apomorphine");
-        XCTAssertEqualObjects(apokyn[@"brand"], @"Apokyn");
-        XCTAssertEqualObjects(apokyn[@"tracking"], @NO);
-        XCTAssertEqualObjects(apokyn[@"injection"], @YES);
-        XCTAssertEqualObjects(apokyn[@"frequency"], @0);
-    }
+    NSDictionary *levodopa = [selectedMeds objectWithIdentifier:@"Levodopa"];
+    XCTAssertEqualObjects(levodopa[@"identifier"], @"Levodopa");
+    XCTAssertEqualObjects(levodopa[@"name"], @"Levodopa");
+    XCTAssertEqualObjects(levodopa[@"brand"], [NSNull null]);
+    XCTAssertEqualObjects(levodopa[@"tracking"], @YES);
+    XCTAssertEqualObjects(levodopa[@"injection"], @NO);
+    XCTAssertEqualObjects(levodopa[@"frequency"], @4);
+    
+    NSDictionary *symmetrel = [selectedMeds objectWithIdentifier:@"Symmetrel"];
+    XCTAssertEqualObjects(symmetrel[@"identifier"], @"Symmetrel");
+    XCTAssertEqualObjects(symmetrel[@"name"], @"Amantadine");
+    XCTAssertEqualObjects(symmetrel[@"brand"], @"Symmetrel");
+    XCTAssertEqualObjects(symmetrel[@"tracking"], @NO);
+    XCTAssertEqualObjects(symmetrel[@"injection"], @NO);
+    XCTAssertEqualObjects(symmetrel[@"frequency"], @7);
+    
+    NSDictionary *apokyn = [selectedMeds objectWithIdentifier:@"Apokyn"];
+    XCTAssertEqualObjects(apokyn[@"identifier"], @"Apokyn");
+    XCTAssertEqualObjects(apokyn[@"name"], @"Apomorphine");
+    XCTAssertEqualObjects(apokyn[@"brand"], @"Apokyn");
+    XCTAssertEqualObjects(apokyn[@"tracking"], @NO);
+    XCTAssertEqualObjects(apokyn[@"injection"], @YES);
+    XCTAssertEqualObjects(apokyn[@"frequency"], @0);
 }
 
 #pragma mark - helper method

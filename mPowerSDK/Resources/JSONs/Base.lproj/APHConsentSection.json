@@ -99,6 +99,7 @@
          {
              "identifier": "consentReview",
              "type": "consentReview",
+             "usesDeprecatedOnboarding" : true,
          },
          {
              "identifier": "consentCompletion",
