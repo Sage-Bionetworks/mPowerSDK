@@ -226,8 +226,8 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
                                                    minimumSpan:kMinimumSpan
                                                    maximumSpan:kMaximumSpan
                                                      playSpeed:kPlaySpeed
-                                                      maxTests:kMaximumTests
-                                        maxConsecutiveFailures:kMaxConsecutiveFailures
+                                                      maximumTests:kMaximumTests
+                                        maximumConsecutiveFailures:kMaxConsecutiveFailures
                                              customTargetImage:nil
                                         customTargetPluralName:nil
                                                requireReversal:kRequiresReversal

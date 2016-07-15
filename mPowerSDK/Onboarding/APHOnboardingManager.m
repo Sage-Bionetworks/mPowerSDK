@@ -327,11 +327,11 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
             signInVC = (APCSignInViewController*)((APCContainerStepViewController*)stepViewController).childViewController;
         }
         if (signInVC) {
-            stepViewController.backButtonItem = [[UIBarButtonItem alloc] initWithTitle:ORKLocalizedString(@"BUTTON_CANCEL", nil)
+            stepViewController.backButtonItem = [[UIBarButtonItem alloc] initWithTitle:[Localization buttonCancel]
                                                                                  style:UIBarButtonItemStylePlain
                                                                                 target:stepViewController
                                                                                 action:@selector(onboardingCancelAction)];
-            stepViewController.cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:ORKLocalizedString(@"BUTTON_NEXT", nil)
+            stepViewController.cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:[Localization buttonNext]
                                                                                  style:UIBarButtonItemStylePlain
                                                                                 target:signInVC
                                                                                 action:@selector(signIn)];
@@ -340,7 +340,7 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     }
     else if (![stepViewController.step isKindOfClass:[ORKRegistrationStep class]]) {
         // Override the cancel button (but only if not the registration step which has no other button to tie into)
-        stepViewController.cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:ORKLocalizedString(@"BUTTON_CANCEL", nil)
+        stepViewController.cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:[Localization buttonCancel]
                                                                                style:UIBarButtonItemStylePlain
                                                                               target:stepViewController
                                                                             action:@selector(onboardingCancelAction)];
