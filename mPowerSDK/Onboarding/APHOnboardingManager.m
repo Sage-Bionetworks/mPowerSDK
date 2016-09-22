@@ -371,7 +371,7 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
     if (![self usesLearnMoreViewControllerForStep:step]) {
         return;
     }
-    NSString *htmlContent = ((SBADirectNavigationStep *)step).learnMoreHTMLContent;
+    NSString *htmlContent = ((SBAInstructionStep *)step).learnMoreHTMLContent;
     APHWebViewStepViewController *vc = [APHWebViewStepViewController instantiateWithHTMLContent:htmlContent];
     UINavigationController *navVc = [[UINavigationController alloc] initWithRootViewController:vc];
     navVc.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -379,8 +379,8 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 }
 
 - (BOOL)usesLearnMoreViewControllerForStep:(ORKStep *)step  {
-    return [step isKindOfClass:[SBADirectNavigationStep class]] &&
-    (((SBADirectNavigationStep*)step).learnMoreHTMLContent != nil);
+    return [step isKindOfClass:[SBAInstructionStep class]] &&
+    (((SBAInstructionStep*)step).learnMoreHTMLContent != nil);
 }
 
 #pragma mark - passcode handling

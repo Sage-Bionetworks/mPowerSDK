@@ -35,8 +35,5 @@
 
 @implementation APHCustomSurveyTableViewCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
 
 @end

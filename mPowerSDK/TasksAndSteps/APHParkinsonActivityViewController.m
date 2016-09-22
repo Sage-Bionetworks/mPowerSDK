@@ -122,7 +122,6 @@ static  NSString *const kSecondInstructionStepIdentifier    = @"instruction1";
     ORKStep *step = stepViewController.step;
     [[UIView appearance] setTintColor:[self tintColorForStep:step]];
     self.preferStatusBarShouldBeHidden = [self preferStatusBarShouldBeHiddenForStep:step];
-    [[UIApplication sharedApplication] setStatusBarHidden: self.preferStatusBarShouldBeHidden];
     
     // Modify the second instruction step continue button to override the logic that is introduced by the
     // Diagnosis and Medication survey.
