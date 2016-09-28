@@ -146,9 +146,9 @@
 
     
     ORKStep *subtaskStep = steps[2];
-    XCTAssertTrue([subtaskStep isKindOfClass:[SBASurveySubtaskStep class]]);
-    if ([subtaskStep isKindOfClass:[SBASurveySubtaskStep class]]) {
-        NSArray <ORKStep *> *substeps = [(ORKOrderedTask*)[(SBASurveySubtaskStep*)subtaskStep subtask] steps];
+    XCTAssertTrue([subtaskStep isKindOfClass:[SBANavigationSubtaskStep class]]);
+    if ([subtaskStep isKindOfClass:[SBANavigationSubtaskStep class]]) {
+        NSArray <ORKStep *> *substeps = [(ORKOrderedTask*)[(SBANavigationSubtaskStep*)subtaskStep subtask] steps];
         
         ORKStep *comprehensionStep = [substeps firstObject];
         XCTAssertEqualObjects(comprehensionStep.title, @"Comprehension");
@@ -174,9 +174,9 @@
     
     // Check that the navigation step returns to the start
     ORKStep *failedStep = steps[3];
-    XCTAssertTrue([failedStep isKindOfClass:[SBADirectNavigationStep class]]);
-    if ([failedStep isKindOfClass:[SBADirectNavigationStep class]]) {
-        NSString *nextIdentifier = [(SBADirectNavigationStep*)failedStep nextStepIdentifier];
+    XCTAssertTrue([failedStep isKindOfClass:[SBAInstructionStep class]]);
+    if ([failedStep isKindOfClass:[SBAInstructionStep class]]) {
+        NSString *nextIdentifier = [(SBAInstructionStep*)failedStep nextStepIdentifier];
         XCTAssertEqualObjects(nextIdentifier, @"consentVisual");
     }
     

@@ -47,14 +47,14 @@ extension APHAppDelegate : SBAAppInfoDelegate {
     
     public var requiredPermissions: SBAPermissionsType {
         assertionFailure("Not implemented")
-        return SBAPermissionsType.None
+        return []
     }
     
 }
 
 extension APCUser : SBAConsentSignatureWrapper {
     
-    public var signatureBirthdate: NSDate? {
+    public var signatureBirthdate: Date? {
         get { return birthDate }
         set(newValue) { birthDate = newValue }
     }
@@ -75,7 +75,7 @@ extension APCUser : SBAConsentSignatureWrapper {
         }
     }
     
-    public var signatureDate: NSDate? {
+    public var signatureDate: Date? {
         get { return consentSignatureDate }
         set(newValue) { consentSignatureDate = newValue }
     }
@@ -83,26 +83,26 @@ extension APCUser : SBAConsentSignatureWrapper {
 }
 
 extension APCUser : SBAUserWrapper {
-    
+
     public var bridgeInfo: SBABridgeInfo? {
-        return APHAppDelegate.sharedAppDelegate().bridgeInfoPList
+        return APHAppDelegate.shared().bridgeInfoPList
     }
     
     public var consentSignature: SBAConsentSignatureWrapper? {
         get {
-            guard userConsented else { return nil }
+            guard isUserConsented else { return nil }
             return self
         }
         set(newValue) {
             if let signature = newValue {
-                userConsented = true
+                isUserConsented = true
                 self.signatureName = signature.signatureName
                 self.signatureImage = signature.signatureImage
                 self.signatureDate = signature.signatureDate
                 self.signatureBirthdate = signature.signatureBirthdate
             }
             else {
-                userConsented = false
+                isUserConsented = false
                 self.signatureName = nil
                 self.signatureImage = nil
                 self.signatureDate = nil
@@ -111,22 +111,22 @@ extension APCUser : SBAUserWrapper {
         }
     }
 
-    public var hasRegistered: Bool {   // signedUp
-        get { return signedUp }
-        set(newValue) { signedUp = newValue }
+    public var isRegistered: Bool {   // signedUp
+        get { return isSignedUp }
+        set(newValue) { isSignedUp = newValue }
     }
     
-    public var loginVerified: Bool {    // signedIn
-        get { return signedIn }
-        set(newValue) { signedIn = newValue }
+    public var isLoginVerified: Bool {    // signedIn
+        get { return isSignedIn }
+        set(newValue) { isSignedIn = newValue }
     }
 
-    public var consentVerified: Bool {    // consented
-        get { return consented }
-        set(newValue) { consented = newValue }
+    public var isConsentVerified: Bool {    // consented
+        get { return isConsented }
+        set(newValue) { isConsented = newValue }
     }
     
-    public var dataSharingEnabled: Bool {
+    public var isDataSharingEnabled: Bool {
         get {
             // Sharing is enabled if the saved sharing scope is nil
             return (savedSharingScope == nil)
@@ -136,7 +136,7 @@ extension APCUser : SBAUserWrapper {
                 savedSharingScope = nil
             }
             else {
-                savedSharingScope = NSNumber(long:APCUserConsentSharingScope.None.rawValue)
+                savedSharingScope = NSNumber(value: APCUserConsentSharingScope.none.rawValue as Int)
             }
         }
     }
@@ -144,22 +144,22 @@ extension APCUser : SBAUserWrapper {
     public var dataSharingScope: SBBUserDataSharingScope {
         get {
             switch self.sharingScope {
-            case .All:
-                return .All
-            case .Study:
-                return .Study
+            case .all:
+                return .all
+            case .study:
+                return .study
             default:
-                return .None
+                return .none
             }
         }
         set (newValue) {
             switch newValue {
-            case .All:
-                sharedOptionSelection = NSNumber(long:APCUserConsentSharingScope.All.rawValue)
-            case .Study:
-                sharedOptionSelection = NSNumber(long:APCUserConsentSharingScope.Study.rawValue)
+            case .all:
+                sharedOptionSelection = NSNumber(value: APCUserConsentSharingScope.all.rawValue as Int)
+            case .study:
+                sharedOptionSelection = NSNumber(value: APCUserConsentSharingScope.study.rawValue as Int)
             default:
-                sharedOptionSelection = NSNumber(long:APCUserConsentSharingScope.None.rawValue)
+                sharedOptionSelection = NSNumber(value: APCUserConsentSharingScope.none.rawValue as Int)
             }
         }
     }
@@ -175,10 +175,32 @@ extension APCUser : SBAUserWrapper {
         }
     }
     
+    public var gender: HKBiologicalSex {
+        get {
+            return self.biologicalSex
+        }
+        set(newValue) {
+            self.biologicalSex = newValue
+        }
+    }
+    
+    public var birthdate: Date? {
+        get {
+            return self.consentSignature?.signatureBirthdate
+        }
+        set(newValue) {
+            self.consentSignature?.signatureBirthdate = newValue
+        }
+    }
+    
+    public func resetStoredUserData() {
+        logout()
+    }
+
     public func logout() {
-        signedUp = false
-        signedIn = false
-        APCKeychainStore.removeValueForKey(kPasswordKey);
+        isSignedUp = false
+        isSignedIn = false
+        APCKeychainStore.removeValue(forKey: kPasswordKey);
     }
     
 }

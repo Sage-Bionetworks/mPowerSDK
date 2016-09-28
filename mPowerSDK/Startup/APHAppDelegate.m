@@ -111,10 +111,6 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
              [[APCTaskReminder alloc] initWithTaskID:kStudyFeedbackSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_STUDY_FEEDBACK_LABEL", nil, APHLocaleBundle(), @"Study Feedback", @"Task reminder label for study feedback.")]];
 }
 
-- (id<SBATaskReminderManagerProtocol>)taskReminderManager{
-    return nil;
-}
-
 - (NSDictionary * _Nonnull)appearanceInfo {
     return @{
              kPrimaryAppColorKey : [UIColor colorWithRed:88. / 255.
@@ -560,8 +556,8 @@ static NSDate *determineConsentDate(id object)
         NSString*           healthKitType       = qtySample.quantityType.identifier;
         NSNumber*           quantityValue       = @([qtySample.quantity doubleValueForUnit:unit]);
         NSString*           quantityUnit        = unit.unitString;
-        NSString*           sourceIdentifier    = qtySample.source.bundleIdentifier;
-        NSString*           quantitySource      = qtySample.source.name;
+        NSString*           sourceIdentifier    = qtySample.sourceRevision.source.bundleIdentifier;
+        NSString*           quantitySource      = qtySample.sourceRevision.source.name;
 
         quantitySource = determineQuantitySource(quantitySource);
 
@@ -589,8 +585,8 @@ static NSDate *determineConsentDate(id object)
         double      totalDistanceConsumedValue  = [sample.totalDistance doubleValueForUnit:[HKUnit meterUnit]];
         NSString*   totalDistance               = [NSString stringWithFormat:@"%f", totalDistanceConsumedValue];
         NSString*   distanceUnit                = [HKUnit meterUnit].description;
-        NSString*   sourceIdentifier            = sample.source.bundleIdentifier;
-        NSString*   quantitySource              = sample.source.name;
+        NSString*   sourceIdentifier            = sample.sourceRevision.source.bundleIdentifier;
+        NSString*   quantitySource              = sample.sourceRevision.source.name;
 
         quantitySource = determineQuantitySource(quantitySource);
 
@@ -644,8 +640,8 @@ static NSDate *determineConsentDate(id object)
             }
 
             NSString*           quantityUnit        = [[HKUnit secondUnit] unitString];
-            NSString*           sourceIdentifier    = catSample.source.bundleIdentifier;
-            NSString*           quantitySource      = catSample.source.name;
+            NSString*           sourceIdentifier    = catSample.sourceRevision.source.bundleIdentifier;
+            NSString*           quantitySource      = catSample.sourceRevision.source.name;
 
             quantitySource = determineQuantitySource(quantitySource);
 
