@@ -125,7 +125,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 }
 
 - (APHMedicationTrackerDataStore *)dataStore {
-    return [APHMedicationTrackerDataStore defaultStore];
+    return [APHMedicationTrackerDataStore sharedStore];
 }
 
 - (APCDataGroupsManager *)dataGroupsManager {
@@ -325,7 +325,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 - (BOOL)shouldIncludeMedicationTrackingSteps {
     if (self.subTask != nil) {
         // If there is a subtask then include only if the question has no answer and hasn't been skipped
-        return self.medicationChanged || self.dataStore.hasChanges || !self.dataStore.hasSelectedOrSkipped;
+        return self.medicationChanged || self.dataStore.hasChanges || !self.dataStore.hasSelected;
     }
     return YES;
 }
@@ -437,7 +437,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     ORKStepResult *stepResult = (ORKStepResult *)[result resultForIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
     if (stepResult == nil) {
         // if the step result isn't found then look in the cache
-        stepResult = [[[self.dataStore momentInDayResult] filteredArrayWithIdentifiers:@[APHMedicationTrackerMomentInDayStepIdentifier]] firstObject];
+        stepResult = [[[self.dataStore momentInDayResults] filteredArrayWithIdentifiers:@[APHMedicationTrackerMomentInDayStepIdentifier]] firstObject];
     }
     
     if ([stepResult isKindOfClass:[ORKStepResult class]]) {

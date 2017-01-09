@@ -86,7 +86,7 @@ static  NSString *const kSecondInstructionStepIdentifier    = @"instruction1";
 }
 
 - (APHMedicationTrackerDataStore*)dataStore {
-    return self.medicationTrackerTask.dataStore ?: [APHMedicationTrackerDataStore defaultStore];
+    return self.medicationTrackerTask.dataStore ?: [APHMedicationTrackerDataStore sharedStore];
 }
 
 @synthesize dataGroupsManager = _dataGroupsManager;
@@ -188,10 +188,10 @@ static  NSString *const kSecondInstructionStepIdentifier    = @"instruction1";
         NSPredicate *momentInDayFilter = [NSPredicate predicateWithFormat:@"%K IN %@", NSStringFromSelector(@selector(identifier)), momentInDaySteps];
         NSArray *momentInDayResults = [baseTaskResult.results filteredArrayUsingPredicate:momentInDayFilter];
         if (momentInDayResults.count == momentInDaySteps.count) {
-            self.dataStore.momentInDayResult = momentInDayResults;
+            self.dataStore.momentInDayResults = momentInDayResults;
         }
         else {
-            momentInDayResults = self.dataStore.momentInDayResult;
+            momentInDayResults = self.dataStore.momentInDayResults;
             NSAssert(momentInDayResults != nil, @"Cached MomentInDay result is missing.");
             if (momentInDayResults != nil) {
                 [baseResults insertObjects:momentInDayResults
