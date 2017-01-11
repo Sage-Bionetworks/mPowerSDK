@@ -139,7 +139,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 // Hide if this is a control group or the user does not take a tracked medication
 - (BOOL)medicationTrackingHidden {
     APCDataGroupsManager *dataGroupsManager = [[APHAppDelegate sharedAppDelegate] dataGroupsManagerForUser:nil];
-    return (dataGroupsManager.isStudyControlGroup || [[APHMedicationTrackerDataStore defaultStore] hasNoTrackedItems]);
+    return (dataGroupsManager.isStudyControlGroup || [[APHMedicationTrackerDataStore sharedStore] hasNoTrackedItems]);
 }
 
 - (void)updateVisibleRowsInTableView:(NSNotification *) __unused notification

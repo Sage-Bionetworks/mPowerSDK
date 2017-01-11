@@ -125,7 +125,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 }
 
 - (APHMedicationTrackerDataStore *)dataStore {
-    return [APHMedicationTrackerDataStore defaultStore];
+    return [APHMedicationTrackerDataStore sharedStore];
 }
 
 - (APCDataGroupsManager *)dataGroupsManager {
@@ -324,8 +324,8 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 
 - (BOOL)shouldIncludeMedicationTrackingSteps {
     if (self.subTask != nil) {
-        // If there is a subtask then include only if the question has no answer and hasn't been skipped
-        return self.medicationChanged || self.dataStore.hasChanges || !self.dataStore.hasSelectedOrSkipped;
+        // If there is a subtask then include only if the question has no selected answer 
+        return self.medicationChanged || self.dataStore.hasChanges || !self.dataStore.hasSelected;
     }
     return YES;
 }
@@ -368,7 +368,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     }
 
     // Get the medication list
-    NSArray *medList = self.dataStore.trackedItems;
+    NSArray *medList = [self.dataStore.trackedItems valueForKey:NSStringFromSelector(@selector(shortText))];
     if (medList.count == 0) {
         return NO;
     }
@@ -437,7 +437,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     ORKStepResult *stepResult = (ORKStepResult *)[result resultForIdentifier:APHMedicationTrackerMomentInDayStepIdentifier];
     if (stepResult == nil) {
         // if the step result isn't found then look in the cache
-        stepResult = [[[self.dataStore momentInDayResult] filteredArrayWithIdentifiers:@[APHMedicationTrackerMomentInDayStepIdentifier]] firstObject];
+        stepResult = [[[self.dataStore momentInDayResults] filteredArrayWithIdentifiers:@[APHMedicationTrackerMomentInDayStepIdentifier]] firstObject];
     }
     
     if ([stepResult isKindOfClass:[ORKStepResult class]]) {

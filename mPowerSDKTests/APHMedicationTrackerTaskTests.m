@@ -333,7 +333,6 @@
     // And the results from the selection should be stored back to the data store
     XCTAssertEqual(task.dataStore.selectedItems.count, 0);
     XCTAssertTrue(task.dataStore.hasChanges);
-    XCTAssertFalse(task.dataStore.skippedSelectionSurveyQuestion);
     
     // Step after the thank you should be nil
     XCTAssertNil([task stepAfterStep:nextStep withResult:result]);
@@ -599,7 +598,7 @@
     
     // Check assumptions
     XCTAssertFalse(task.dataStore.hasChanges);
-    XCTAssertTrue(task.dataStore.hasSelectedOrSkipped);
+    XCTAssertTrue(task.dataStore.hasSelected);
     
     // The first step should be the intro step from the inputTask
     ORKTaskResult *taskResult = [self createTaskResult];
@@ -626,7 +625,7 @@
     
     // Check assumptions
     XCTAssertFalse(task.dataStore.hasChanges);
-    XCTAssertTrue(task.dataStore.hasSelectedOrSkipped);
+    XCTAssertTrue(task.dataStore.hasSelected);
     
     // If the user indicates that they are *not* taking any tracked medication, then
     // all the medication tracking questions should be excluded

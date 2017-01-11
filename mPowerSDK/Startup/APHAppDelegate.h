@@ -38,7 +38,7 @@
 @class APHProfileExtender;
 @class APHScoreCalculator;
 
-@interface APHAppDelegate : APCAppDelegate <SBABridgeAppSDKDelegate>
+@interface APHAppDelegate : APCAppDelegate 
 
 @property  (nonatomic, readonly) SBABridgeInfoPList * _Nonnull bridgeInfoPList;
 @property  (nonatomic, readonly) NSString * _Nonnull studyIdentifier;

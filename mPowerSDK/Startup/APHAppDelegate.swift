@@ -35,7 +35,7 @@ import Foundation
 import BridgeAppSDK
 import APCAppCore
 
-extension APHAppDelegate : SBAAppInfoDelegate {
+extension APHAppDelegate : SBABridgeAppSDKDelegate {
     
     public var currentUser: SBAUserWrapper {
         return self.dataSubstrate.currentUser
@@ -45,9 +45,14 @@ extension APHAppDelegate : SBAAppInfoDelegate {
         return self.bridgeInfoPList
     }
     
-    public var requiredPermissions: SBAPermissionsType {
+    public func showAppropriateViewController(animated: Bool) {
         assertionFailure("Not implemented")
-        return []
+    }
+    
+    public func presentViewController(_ viewController: UIViewController,
+                               animated: Bool,
+                               completion: (() -> Void)?){
+        assertionFailure("Not implemented")
     }
     
 }
@@ -141,7 +146,7 @@ extension APCUser : SBAUserWrapper {
         }
     }
     
-    public var dataSharingScope: SBBUserDataSharingScope {
+    public var dataSharingScope: SBBParticipantDataSharingScope {
         get {
             switch self.sharingScope {
             case .all:

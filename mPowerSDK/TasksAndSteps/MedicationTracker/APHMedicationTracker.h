@@ -48,4 +48,16 @@ extern NSString * const APHMedicationTrackerMomentInDayFormItemIdentifier;
 
 @interface APHMedicationTrackerDataStore : SBATrackedDataStore
 
+@property (nonatomic, readonly) BOOL hasNoTrackedItems;
+@property (nonatomic, readonly) BOOL hasSelected;
+@property (nonatomic, readonly) BOOL shouldIncludeMomentInDayStep;
+@property (nonatomic, readonly) BOOL shouldIncludeChangedQuestion;
+
+- (void)updateSelectedItems:(NSArray<SBATrackedDataObject *> *)items
+             stepIdentifier:(NSString *)stepIdentifier
+                     result:(ORKTaskResult*)result;
+
+- (void)updateFrequencyForStepIdentifier:(NSString *)stepIdentifier
+                                  result:(ORKTaskResult *)result;
+
 @end
