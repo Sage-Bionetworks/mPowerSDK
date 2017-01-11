@@ -368,7 +368,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
     }
 
     // Get the medication list
-    NSArray *medList = self.dataStore.trackedItems;
+    NSArray *medList = [self.dataStore.trackedItems valueForKey:NSStringFromSelector(@selector(shortText))];
     if (medList.count == 0) {
         return NO;
     }
