@@ -324,7 +324,7 @@ NSString * const APHMedicationTrackerSkipAnswerIdentifier           = @"Skip";
 
 - (BOOL)shouldIncludeMedicationTrackingSteps {
     if (self.subTask != nil) {
-        // If there is a subtask then include only if the question has no answer and hasn't been skipped
+        // If there is a subtask then include only if the question has no selected answer 
         return self.medicationChanged || self.dataStore.hasChanges || !self.dataStore.hasSelected;
     }
     return YES;

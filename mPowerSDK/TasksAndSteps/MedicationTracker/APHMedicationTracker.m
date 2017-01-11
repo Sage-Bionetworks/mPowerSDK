@@ -114,7 +114,7 @@ static  NSTimeInterval  kMinimumAmountOfTimeToShowMedChangedSurvey         = 30.
 
 - (BOOL)shouldIncludeChangedQuestion {
     if (!self.hasSelected) {
-        // Chould not ask if there has been a change if the question has never been asked
+        // Should not ask if there has been a change if the question has never been asked
         return NO;
     }
     NSTimeInterval numberOfSecondsSinceTaskCompletion = [[NSDate date] timeIntervalSinceDate: self.lastTrackingSurveyDate];
