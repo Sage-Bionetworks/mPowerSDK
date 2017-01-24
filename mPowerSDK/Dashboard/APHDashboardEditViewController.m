@@ -81,16 +81,6 @@
                     [self.items addObject:item];
                 }
                     break;
-                case kAPHDashboardItemTypeSpatialMemory:{
-                    
-                    APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];
-                    item.caption = NSLocalizedStringWithDefaultValue(@"APH_MEMORY_CAPTION", nil, APHLocaleBundle(), @"Memory", @"Dashboard caption for results of memory activity.");
-                    item.taskId = APHMemoryActivitySurveyIdentifier;
-                    item.tintColor = [UIColor colorForTaskId:item.taskId];
-                    
-                    [self.items addObject:item];
-                }
-                    break;
                 case kAPHDashboardItemTypePhonation:{
                     
                     APCTableViewDashboardItem *item = [APCTableViewDashboardItem new];

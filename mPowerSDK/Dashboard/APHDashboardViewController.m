@@ -39,7 +39,6 @@
 #import "APHLocalization.h"
 #import "APHMedicationTrackerTask.h"
 #import "APHMedicationTrackerViewController.h"
-#import "APHSpatialSpanMemoryGameViewController.h"
 #import "APHTableViewDashboardGraphItem.h"
 #import "APHScoring.h"
 #import "APHTremorTaskViewController.h"
@@ -71,7 +70,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 @property (nonatomic, strong) APHScoring *tapLeftScoring;
 @property (nonatomic, strong) APHScoring *gaitScoring;
 @property (nonatomic, strong) APCScoring *stepScoring;
-@property (nonatomic, strong) APHScoring *memoryScoring;
 @property (nonatomic, strong) APHScoring *phonationScoring;
 @property (nonatomic, strong) APHScoring *tremorScoring;
 @property (nonatomic, strong) APCScoring *moodScoring;
@@ -168,7 +166,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
       @(kAPHDashboardItemTypeSteps),
       @(kAPHDashboardItemTypeIntervalTappingRight),
       @(kAPHDashboardItemTypeIntervalTappingLeft),
-      @(kAPHDashboardItemTypeSpatialMemory),
       @(kAPHDashboardItemTypePhonation),
       @(kAPHDashboardItemTypeGait),
       //@(kAPHDashboardItemTypeTremor), // Hide the tremor module until analyzed for scoring. syoung 03/03/2016
@@ -243,12 +240,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                                                valueKey:kGaitScoreKey
                                              latestOnly:NO];
     self.gaitScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_WALKING_CAPTION", nil, APHLocaleBundle(), @"Gait", @"Dashboard caption for results of walking activity.");
-
-    self.memoryScoring = [[APHScoring alloc] initWithTask:APHMemoryActivitySurveyIdentifier
-                                             numberOfDays:-kNumberOfDaysToDisplay
-                                                 valueKey:kSpatialMemoryScoreSummaryKey
-                                               latestOnly:NO];
-    self.memoryScoring.caption = NSLocalizedStringWithDefaultValue(@"APH_MEMORY_CAPTION", nil, APHLocaleBundle(), @"Memory", @"Dashboard caption for results of memory activity.");
 
     self.phonationScoring = [[APHScoring alloc] initWithTask:APHVoiceActivitySurveyIdentifier
                                                 numberOfDays:-kNumberOfDaysToDisplay
@@ -436,34 +427,6 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
                     item.showMedicationLegend = ![self medicationTrackingHidden];
                     
                     item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_WALKING_INFO", nil, APHLocaleBundle(), @"This plot combines several accelerometer-based measures for the Walking Activity. The length and position of each vertical bar represents the range of measures for a given day. Any differences in length or position over time reflect variations and trends in your Walking measure, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Gait in Parkinson");
-                    
-                    APCTableViewRow *row = [APCTableViewRow new];
-                    row.item = item;
-                    row.itemType = rowType;
-                    [rowItems addObject:row];
-                }
-                    break;
-                case kAPHDashboardItemTypeSpatialMemory:
-                {
-                    APHTableViewDashboardGraphItem *item = [APHTableViewDashboardGraphItem new];
-                    item.caption = self.memoryScoring.caption;
-                    item.taskId = APHMemoryActivitySurveyIdentifier;
-                    item.graphData = self.memoryScoring;
-                    item.graphType = APHDashboardGraphTypeDiscrete;
-                    
-                    double avgValue = [[self.memoryScoring averageDataPoint] doubleValue];
-                    
-                    if (avgValue > 0) {
-                        item.detailText = [NSString stringWithFormat:detailMinMaxFormat,
-                                           APHLocalizedStringFromNumber([self.memoryScoring minimumDataPoint]), APHLocalizedStringFromNumber([self.memoryScoring maximumDataPoint])];
-                    }
-                    
-                    item.reuseIdentifier = kAPHDashboardGraphTableViewCellIdentifier;
-                    item.editable = YES;
-                    item.tintColor = [UIColor colorForTaskId:item.taskId];
-                    item.showMedicationLegend = ![self medicationTrackingHidden];
-                    
-                    item.info = NSLocalizedStringWithDefaultValue(@"APH_DASHBOARD_MEMORY_INFO", nil, APHLocaleBundle(), @"This plot shows the score you received each day for the Memory Game. The length and position of each vertical bar represents the range of scores for a given day. Any differences in length or position over time reflect variations and trends in your score, which may reflect variations and trends in your symptoms.", @"Dashboard tooltip item info text for Memory in Parkinson");
                     
                     APCTableViewRow *row = [APCTableViewRow new];
                     row.item = item;
@@ -763,7 +726,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
 
 - (void)dashboardTableViewCellDidTapLegendTitle:(APCDashboardTableViewCell *)__unused cell
 {
-    APCCorrelationsSelectorViewController *correlationSelector = [[APCCorrelationsSelectorViewController alloc]initWithScoringObjects:@[self.tapRightScoring, self.tapLeftScoring, self.gaitScoring, self.stepScoring, self.memoryScoring, self.phonationScoring]];
+    APCCorrelationsSelectorViewController *correlationSelector = [[APCCorrelationsSelectorViewController alloc]initWithScoringObjects:@[self.tapRightScoring, self.tapLeftScoring, self.gaitScoring, self.stepScoring, self.phonationScoring]];
     correlationSelector.delegate = self;
     [self.navigationController pushViewController:correlationSelector animated:YES];
 }

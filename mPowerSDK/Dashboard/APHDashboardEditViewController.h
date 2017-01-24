@@ -36,7 +36,6 @@
 typedef NS_ENUM(APCTableViewItemType, APHDashboardItemType) {
     kAPHDashboardItemTypeIntervalTappingRight,
     kAPHDashboardItemTypeIntervalTappingLeft,
-    kAPHDashboardItemTypeSpatialMemory,
     kAPHDashboardItemTypeGait,
     kAPHDashboardItemTypePhonation,
     kAPHDashboardItemTypeSteps,

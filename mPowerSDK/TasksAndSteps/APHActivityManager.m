@@ -70,18 +70,6 @@ NSTimeInterval  const kGetSoundingAaahhhInterval            = 10.0;
 NSString       *const kCountdownStepIdentifier              = @"countdown";
 
 //
-// constants for setting up the memory activity
-//
-NSString       *const kMemorySpanTitleIdentifier            = @"Memory Activity";
-NSInteger       const kInitialSpan                          =  3;
-NSInteger       const kMinimumSpan                          =  2;
-NSInteger       const kMaximumSpan                          =  15;
-NSTimeInterval  const kPlaySpeed                            = 1.0;
-NSInteger       const kMaximumTests                         = 5;
-NSInteger       const kMaxConsecutiveFailures               = 3;
-BOOL            const kRequiresReversal                     = NO;
-
-//
 // constants for setting up the walking activity
 //
 static  NSString * const kWalkingOutboundStepIdentifier       = @"walking.outbound";
@@ -136,9 +124,6 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
     else if ([surveyId isEqualToString:APHVoiceActivitySurveyIdentifier]) {
         task = [self createCustomVoiceTask];
     }
-    else if ([surveyId isEqualToString:APHMemoryActivitySurveyIdentifier]) {
-        task = [self createCustomMemoryTask];
-    }
     else if ([surveyId isEqualToString:APHWalkingActivitySurveyIdentifier]) {
         task = [self createCustomWalkingTask];
     }
@@ -147,12 +132,8 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
     }
     
     // Replace the language in the last step
-    if ([surveyId isEqualToString:APHMemoryActivitySurveyIdentifier]) {
-        [task.steps.lastObject setTitle:NSLocalizedStringWithDefaultValue(@"APH_MEMORY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Good Job!", @"Main text shown to participant upon completion of memory activity.")];
-    }
-    else {
-        [task.steps.lastObject setTitle:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Thank You!", @"Main text shown to participant upon completion of an activity.")];
-    }
+    [task.steps.lastObject setTitle:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_TEXT", nil, APHLocaleBundle(), @"Thank You!", @"Main text shown to participant upon completion of an activity.")];
+
     if (![surveyId isEqualToString:APHTremorActivitySurveyIdentifier]) {
         [task.steps.lastObject setText:NSLocalizedStringWithDefaultValue(@"APH_ACTIVITY_CONCLUSION_DETAIL", nil, APHLocaleBundle(), @"The results of this activity can be viewed on the dashboard.", @"Detail text shown to participant upon completion of an activity.")];
     }
@@ -216,24 +197,6 @@ static NSTimeInterval kTremorAssessmentStepDuration         = 10.0;
     }
 
     return  orkTask;
-}
-
-- (ORKOrderedTask *)createCustomMemoryTask
-{
-    ORKOrderedTask *orkTask = [ORKOrderedTask spatialSpanMemoryTaskWithIdentifier:kMemorySpanTitleIdentifier
-                                        intendedUseDescription:nil
-                                                   initialSpan:kInitialSpan
-                                                   minimumSpan:kMinimumSpan
-                                                   maximumSpan:kMaximumSpan
-                                                     playSpeed:kPlaySpeed
-                                                      maximumTests:kMaximumTests
-                                        maximumConsecutiveFailures:kMaxConsecutiveFailures
-                                             customTargetImage:nil
-                                        customTargetPluralName:nil
-                                               requireReversal:kRequiresReversal
-                                                       options:ORKPredefinedTaskOptionNone];
-
-    return orkTask;
 }
 
 - (ORKOrderedTask *)createCustomWalkingTask

@@ -84,8 +84,6 @@
 		FF0B4AC61C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4AB51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m */; };
 		FF0B4AC71C29FCB800224EF7 /* APHPhonationTaskViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4AB81C29FCB800224EF7 /* APHPhonationTaskViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF0B4AC81C29FCB800224EF7 /* APHPhonationTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4AB91C29FCB800224EF7 /* APHPhonationTaskViewController.m */; };
-		FF0B4AC91C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4ABB1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FF0B4ACA1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4ABC1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m */; };
 		FF0B4ACB1C29FCB800224EF7 /* APHWalkingTaskViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF0B4ABE1C29FCB800224EF7 /* APHWalkingTaskViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF0B4ACC1C29FCB800224EF7 /* APHWalkingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0B4ABF1C29FCB800224EF7 /* APHWalkingTaskViewController.m */; };
 		FF2D34421C31B7DC0033838A /* APHLocalization.h in Headers */ = {isa = PBXBuildFile; fileRef = FF2D34401C31B7DC0033838A /* APHLocalization.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -256,8 +254,6 @@
 		FF0B4AB51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHIntervalTappingTaskViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FF0B4AB81C29FCB800224EF7 /* APHPhonationTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHPhonationTaskViewController.h; sourceTree = "<group>"; };
 		FF0B4AB91C29FCB800224EF7 /* APHPhonationTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHPhonationTaskViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		FF0B4ABB1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHSpatialSpanMemoryGameViewController.h; sourceTree = "<group>"; };
-		FF0B4ABC1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHSpatialSpanMemoryGameViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FF0B4ABE1C29FCB800224EF7 /* APHWalkingTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHWalkingTaskViewController.h; sourceTree = "<group>"; };
 		FF0B4ABF1C29FCB800224EF7 /* APHWalkingTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APHWalkingTaskViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FF2D34401C31B7DC0033838A /* APHLocalization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHLocalization.h; sourceTree = "<group>"; };
@@ -507,7 +503,6 @@
 				80DC1BC21C6A8F2500235C2E /* MoodSurvey */,
 				FF0B4AB31C29FCB800224EF7 /* IntervalTappingControllers */,
 				FF0B4AB71C29FCB800224EF7 /* PhonationControllers */,
-				FF0B4ABA1C29FCB800224EF7 /* SpatialSpanMemoryControllers */,
 				6B4108181C73E21D00A2FB7B /* TremorControllers */,
 				FF0B4ABD1C29FCB800224EF7 /* WalkingControllers */,
 			);
@@ -530,15 +525,6 @@
 				FF0B4AB91C29FCB800224EF7 /* APHPhonationTaskViewController.m */,
 			);
 			path = PhonationControllers;
-			sourceTree = "<group>";
-		};
-		FF0B4ABA1C29FCB800224EF7 /* SpatialSpanMemoryControllers */ = {
-			isa = PBXGroup;
-			children = (
-				FF0B4ABB1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.h */,
-				FF0B4ABC1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m */,
-			);
-			path = SpatialSpanMemoryControllers;
 			sourceTree = "<group>";
 		};
 		FF0B4ABD1C29FCB800224EF7 /* WalkingControllers */ = {
@@ -819,7 +805,6 @@
 				FFFA242F1C2351D600727DA8 /* mPowerSDK.h in Headers */,
 				6BED4D771C8550A600A4269D /* APHDashboardGraphTableViewCell.h in Headers */,
 				FF0B4AC01C29FCB800224EF7 /* APHParkinsonActivityViewController.h in Headers */,
-				FF0B4AC91C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.h in Headers */,
 				FFFA24911C236E9A00727DA8 /* APHProfileExtender.h in Headers */,
 				FF2D344E1C3207060033838A /* APHActivityManager.h in Headers */,
 				43FEA4A81C86E33C0005B38F /* APHDiscreteGraphView.h in Headers */,
@@ -1022,7 +1007,6 @@
 				FFF270A51C5BF483007059D2 /* NSNull+APHExtensions.m in Sources */,
 				FF0B4AC31C29FCB800224EF7 /* APHScoreCalculator.m in Sources */,
 				80DC1BDC1C6A8F2600235C2E /* APHCustomSurveyQuestionViewController.m in Sources */,
-				FF0B4ACA1C29FCB800224EF7 /* APHSpatialSpanMemoryGameViewController.m in Sources */,
 				FF2D34431C31B7DC0033838A /* APHLocalization.m in Sources */,
 				43FEA4A51C86DEC80005B38F /* APHLineGraphView.m in Sources */,
 				FF0B4AC11C29FCB800224EF7 /* APHParkinsonActivityViewController.m in Sources */,

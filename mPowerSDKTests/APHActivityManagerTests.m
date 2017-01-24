@@ -85,22 +85,6 @@
     XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard.");
 }
 
-- (void)testCreateOrderedTask_Memory_English
-{
-    [APHLocalization setLocalization:@"en"];
-    
-    APHActivityManager *manager = [[APHActivityManager alloc] init];
-    APHMedicationTrackerTask *medTask = (APHMedicationTrackerTask *)[manager createTaskForSurveyId:APHMemoryActivitySurveyIdentifier];
-    ORKOrderedTask *task  = (ORKOrderedTask *)medTask.subTask;
-    XCTAssertNotNil(task);
-    XCTAssertNotNil([task stepWithIdentifier:@"cognitive.memory.spatialspan"]);
-    
-    // Check that the final step uses the expected language
-    ORKStep *finalStep = task.steps.lastObject;
-    XCTAssertEqualObjects(finalStep.title, @"Good Job!");
-    XCTAssertEqualObjects(finalStep.text, @"The results of this activity can be viewed on the dashboard.");
-}
-
 - (void)testCreateOrderedTask_Walking_English
 {
     [APHLocalization setLocalization:@"en"];

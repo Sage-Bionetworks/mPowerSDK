@@ -48,7 +48,6 @@ FOUNDATION_EXPORT const unsigned char mPowerSDKVersionString[];
 #import <mPowerSDK/APHParkinsonActivityViewController.h>
 #import <mPowerSDK/APHIntervalTappingTaskViewController.h>
 #import <mPowerSDK/APHPhonationTaskViewController.h>
-#import <mPowerSDK/APHSpatialSpanMemoryGameViewController.h>
 #import <mPowerSDK/APHWalkingTaskViewController.h>
 #import <mPowerSDK/APHMedicationTracker.h>
 #import <mPowerSDK/APHMedicationTrackerTask.h>

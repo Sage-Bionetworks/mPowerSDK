@@ -100,7 +100,6 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
              [[APCTaskReminder alloc] initWithTaskID:APHWalkingActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_WALKING_ACTIVITY_LABEL", nil, APHLocaleBundle(), @"Walking Activity", @"Task reminder label for the walking activity.")],
              [[APCTaskReminder alloc] initWithTaskID:APHVoiceActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_VOICE_ACTIVITY_LABEL", nil, APHLocaleBundle(), @"Voice Activity", @"Task reminder label for the voice activity.")],
              [[APCTaskReminder alloc] initWithTaskID:APHTappingActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_TAPPING_ACTIVITY_LABEL", nil, APHLocaleBundle(), @"Tapping Activity", @"Task reminder label for the tapping activity.")],
-             [[APCTaskReminder alloc] initWithTaskID:APHMemoryActivitySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_MEMORY_ACTIVITY_LABEL", nil, APHLocaleBundle(), @"Memory Activity", @"Task reminder label for the memory activity.")],
              [[APCTaskReminder alloc] initWithTaskID:APHDailySurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_DAILY_SURVEY_LABEL", nil, APHLocaleBundle(), @"Daily Survey", @"Task reminder label for the daily check-in survey.")],
              [[APCTaskReminder alloc] initWithTaskID:kMyThoughtsSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_MY_THOUGHTS_LABEL", nil, APHLocaleBundle(), @"My Thoughts", @"Task reminder label for the my thoughts survey.")],
              [[APCTaskReminder alloc] initWithTaskID:kEnrollmentSurveyIdentifier reminderBody:NSLocalizedStringWithDefaultValue(@"APH_ENROLLMENT_SURVEY_LABEL", nil, APHLocaleBundle(), @"Enrollment Survey", @"Task reminder label for the enrollment survey.")],
@@ -114,7 +113,6 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
                                                     blue:182. / 255.
                                                    alpha:1.0],
              APHTappingActivitySurveyIdentifier : [UIColor appTertiaryPurpleColor],
-             APHMemoryActivitySurveyIdentifier : [UIColor appTertiaryRedColor],
              APHVoiceActivitySurveyIdentifier : [UIColor appTertiaryBlueColor],
              APHWalkingActivitySurveyIdentifier : [UIColor appTertiaryYellowColor],
              APHEnrollmentSurveyIdentifier: [UIColor lightGrayColor],
