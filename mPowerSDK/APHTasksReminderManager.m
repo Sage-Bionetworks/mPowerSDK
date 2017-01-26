@@ -13,6 +13,8 @@
 - (void) addNotificationCategoryIfNeeded;
 @end
 
+static const NSUInteger kMinMinutesBeforeNotification = 60;
+
 @implementation APHTasksReminderManager
 
 - (void)updateTasksReminder {
@@ -82,7 +84,7 @@
     NSDate* normalFireDate = [self randomDailyFireDate];
     
     // if the fire date is within an hour of current time, then skip for today
-    NSDate *hourFromNow = [[NSDate date] dateByAddingTimeInterval:[self oneMoreHour]];
+    NSDate *hourFromNow = [[NSDate date] dateByAddingTimeInterval:kMinMinutesBeforeNotification * 60];
     if ([normalFireDate isEarlierThanDate:hourFromNow]) {
         includeToday = NO;
     }
@@ -146,10 +148,6 @@
 
 - (NSTimeInterval)oneMoreDay {
     return (NSTimeInterval)60*60*24;
-}
-
-- (NSTimeInterval)oneMoreHour {
-    return (NSTimeInterval)60*60;
 }
 
 
