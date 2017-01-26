@@ -83,9 +83,9 @@ static const NSUInteger kMinMinutesBeforeNotification = 60;
     
     NSDate* normalFireDate = [self randomDailyFireDate];
     
-    // if the fire date is within an hour of current time, then skip for today
-    NSDate *hourFromNow = [[NSDate date] dateByAddingTimeInterval:kMinMinutesBeforeNotification * 60];
-    if ([normalFireDate isEarlierThanDate:hourFromNow]) {
+    // if the fire date is within our threshold to send reminder today, then skip for today
+    NSDate *minDate = [[NSDate date] dateByAddingTimeInterval:kMinMinutesBeforeNotification * 60];
+    if ([normalFireDate isEarlierThanDate:minDate]) {
         includeToday = NO;
     }
     
