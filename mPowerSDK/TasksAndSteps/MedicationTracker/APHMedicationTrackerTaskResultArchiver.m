@@ -61,7 +61,7 @@
     NSString *filename = [self filenameForFileResultIdentifier:APHMedicationTrackerSelectionStepIdentifier
                                                 stepIdentifier:nil
                                                      extension:@"json"];
-    [archive insertDictionaryIntoArchive:dictionary filename:filename];
+    [archive insertDictionaryIntoArchive:dictionary filename:filename createdOn:result.startDate];
 }
 
 - (BOOL)appendArchive:(APCDataArchive *)archive withResult:(ORKResult *)result forStepResult:(ORKStepResult *)stepResult {

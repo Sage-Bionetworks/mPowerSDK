@@ -192,7 +192,6 @@ static  NSString *const kSecondInstructionStepIdentifier    = @"instruction1";
         }
         else {
             momentInDayResults = self.dataStore.momentInDayResults;
-            NSAssert(momentInDayResults != nil, @"Cached MomentInDay result is missing.");
             if (momentInDayResults != nil) {
                 [baseResults insertObjects:momentInDayResults
                                  atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, momentInDayResults.count)]];
