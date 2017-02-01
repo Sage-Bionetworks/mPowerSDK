@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		031DB58A1E38276700CBD866 /* APHTasksReminderManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 031DB5881E38276700CBD866 /* APHTasksReminderManager.h */; };
+		031DB58B1E38276700CBD866 /* APHTasksReminderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 031DB5891E38276700CBD866 /* APHTasksReminderManager.m */; };
+		036356AF1E390F2900A36720 /* APHProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 036356AE1E390F2900A36720 /* APHProfile.storyboard */; };
+		036356B21E390F4900A36720 /* APHProfileViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 036356B01E390F4900A36720 /* APHProfileViewController.h */; };
+		036356B31E390F4900A36720 /* APHProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 036356B11E390F4900A36720 /* APHProfileViewController.m */; };
+		036356B61E390F7700A36720 /* APHSettingsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 036356B41E390F7700A36720 /* APHSettingsViewController.h */; };
+		036356B71E390F7700A36720 /* APHSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 036356B51E390F7700A36720 /* APHSettingsViewController.m */; };
 		43FEA4A41C86DEC80005B38F /* APHLineGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 43FEA4A21C86DEC80005B38F /* APHLineGraphView.h */; };
 		43FEA4A51C86DEC80005B38F /* APHLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FEA4A31C86DEC80005B38F /* APHLineGraphView.m */; };
 		43FEA4A81C86E33C0005B38F /* APHDiscreteGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = 43FEA4A61C86E33C0005B38F /* APHDiscreteGraphView.h */; };
@@ -177,6 +184,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		031DB5881E38276700CBD866 /* APHTasksReminderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHTasksReminderManager.h; sourceTree = "<group>"; };
+		031DB5891E38276700CBD866 /* APHTasksReminderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHTasksReminderManager.m; sourceTree = "<group>"; };
+		036356AE1E390F2900A36720 /* APHProfile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = APHProfile.storyboard; path = Profile/APHProfile.storyboard; sourceTree = "<group>"; };
+		036356B01E390F4900A36720 /* APHProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APHProfileViewController.h; path = Profile/APHProfileViewController.h; sourceTree = "<group>"; };
+		036356B11E390F4900A36720 /* APHProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APHProfileViewController.m; path = Profile/APHProfileViewController.m; sourceTree = "<group>"; };
+		036356B41E390F7700A36720 /* APHSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APHSettingsViewController.h; path = Profile/APHSettingsViewController.h; sourceTree = "<group>"; };
+		036356B51E390F7700A36720 /* APHSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APHSettingsViewController.m; path = Profile/APHSettingsViewController.m; sourceTree = "<group>"; };
 		43FEA4A21C86DEC80005B38F /* APHLineGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHLineGraphView.h; sourceTree = "<group>"; };
 		43FEA4A31C86DEC80005B38F /* APHLineGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHLineGraphView.m; sourceTree = "<group>"; };
 		43FEA4A61C86E33C0005B38F /* APHDiscreteGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHDiscreteGraphView.h; sourceTree = "<group>"; };
@@ -379,6 +393,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		036356AD1E390F0900A36720 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				036356AE1E390F2900A36720 /* APHProfile.storyboard */,
+				036356B01E390F4900A36720 /* APHProfileViewController.h */,
+				036356B11E390F4900A36720 /* APHProfileViewController.m */,
+				036356B41E390F7700A36720 /* APHSettingsViewController.h */,
+				036356B51E390F7700A36720 /* APHSettingsViewController.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
 		6B4108181C73E21D00A2FB7B /* TremorControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -701,8 +727,11 @@
 				FFFA242E1C2351D600727DA8 /* mPowerSDK.h */,
 				FFFA248B1C236AE700727DA8 /* APHDataKeys.h */,
 				FFFA248C1C236AE700727DA8 /* APHDataKeys.m */,
+				031DB5881E38276700CBD866 /* APHTasksReminderManager.h */,
+				031DB5891E38276700CBD866 /* APHTasksReminderManager.m */,
 				FFFA24701C23650900727DA8 /* Startup */,
 				FFFA24971C23773900727DA8 /* Onboarding */,
+				036356AD1E390F0900A36720 /* Profile */,
 				FFFA24BB1C237E1500727DA8 /* Dashboard */,
 				FF0B4AAD1C29FCB800224EF7 /* TasksAndSteps */,
 				FF346CE91C5BE6B3006D9AC9 /* Library */,
@@ -825,12 +854,15 @@
 				80DC1BD51C6A8F2500235C2E /* APHMoodSurveyIntroStepViewController.h in Headers */,
 				FF0B4ACB1C29FCB800224EF7 /* APHWalkingTaskViewController.h in Headers */,
 				FF0B4AC51C29FCB800224EF7 /* APHIntervalTappingTaskViewController.h in Headers */,
+				036356B61E390F7700A36720 /* APHSettingsViewController.h in Headers */,
 				80DC1BD81C6A8F2500235C2E /* APHCustomSurveyIntroViewController.h in Headers */,
+				031DB58A1E38276700CBD866 /* APHTasksReminderManager.h in Headers */,
 				FF346CED1C5BE762006D9AC9 /* NSArray+APHExtensions.h in Headers */,
 				FFF270A81C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.h in Headers */,
 				FF2D8BDC1C497D4D004EC642 /* APHMedicationTrackerViewController.h in Headers */,
 				FFF270A41C5BF483007059D2 /* NSNull+APHExtensions.h in Headers */,
 				FF0B4AC71C29FCB800224EF7 /* APHPhonationTaskViewController.h in Headers */,
+				036356B21E390F4900A36720 /* APHProfileViewController.h in Headers */,
 				FFFA24731C23657700727DA8 /* APHAppDelegate.h in Headers */,
 				FF7D6E441C91FCB900A0466D /* APHBaseGraphView.h in Headers */,
 				80DC1BDB1C6A8F2600235C2E /* APHCustomSurveyQuestionViewController.h in Headers */,
@@ -958,6 +990,7 @@
 				FBAE3D201C863AB3003CEC4A /* consent_report_1data.html in Resources */,
 				FBAE3D1A1C863A92003CEC4A /* MonthlyReport.json in Resources */,
 				FB4E477A1C7ED52E00CADC1F /* consent_3activities.html in Resources */,
+				036356AF1E390F2900A36720 /* APHProfile.storyboard in Resources */,
 				FB4E47A41C7ED56E00CADC1F /* consent_17data_sharing.html in Resources */,
 				FF2D34B21C3DBF100033838A /* FilenameTranslation.json in Resources */,
 				80DC1BDD1C6A8F2600235C2E /* APHCustomSurveyQuestionViewController.xib in Resources */,
@@ -1010,6 +1043,7 @@
 				FF2D34431C31B7DC0033838A /* APHLocalization.m in Sources */,
 				43FEA4A51C86DEC80005B38F /* APHLineGraphView.m in Sources */,
 				FF0B4AC11C29FCB800224EF7 /* APHParkinsonActivityViewController.m in Sources */,
+				036356B71E390F7700A36720 /* APHSettingsViewController.m in Sources */,
 				8032378A1C6BCF1A00208365 /* APHQuestionViewController.m in Sources */,
 				FF0B4AC81C29FCB800224EF7 /* APHPhonationTaskViewController.m in Sources */,
 				FF7D6E451C91FCB900A0466D /* APHBaseGraphView.m in Sources */,
@@ -1023,6 +1057,7 @@
 				A690D9371C7D08CD00DF6B74 /* APHStudyVideoCollectionViewCell.m in Sources */,
 				FFFA24921C236E9A00727DA8 /* APHProfileExtender.m in Sources */,
 				803237931C6BD0DB00208365 /* APHMoodLogDictionaryKeys.m in Sources */,
+				031DB58B1E38276700CBD866 /* APHTasksReminderManager.m in Sources */,
 				8032378F1C6BCFF700208365 /* APHCustomTextView.m in Sources */,
 				6BED4D781C8550A600A4269D /* APHDashboardGraphTableViewCell.m in Sources */,
 				6BED4D841C8595EC00A4269D /* APHTableViewDashboardGraphItem.m in Sources */,
@@ -1035,6 +1070,7 @@
 				FFFA24861C23664500727DA8 /* APHAppDelegate+APHMigration.m in Sources */,
 				FFFA24A01C23773900727DA8 /* APHInclusionCriteriaViewController.m in Sources */,
 				FF2D344F1C3207060033838A /* APHActivityManager.m in Sources */,
+				036356B31E390F4900A36720 /* APHProfileViewController.m in Sources */,
 				FFFA248E1C236AE700727DA8 /* APHDataKeys.m in Sources */,
 				FFF270A91C5BFDB6007059D2 /* APHMedicationTrackerTaskResultArchiver.m in Sources */,
 				FB4E467E1C7E675500CADC1F /* APHOnboardingManager.m in Sources */,

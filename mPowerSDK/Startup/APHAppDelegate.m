@@ -38,6 +38,7 @@
 #import "APHLocalization.h"
 #import "APHOnboardingManager.h"
 #import "APHWebViewStepViewController.h"
+#import "APHTasksReminderManager.h"
 
 static NSString *const kMyThoughtsSurveyIdentifier                  = @"mythoughts";
 static NSString *const kEnrollmentSurveyIdentifier                  = @"EnrollmentSurvey";
@@ -56,6 +57,10 @@ static NSString *const kJsonScheduleTaskIDKey           = @"taskID";
 static NSString *const kJsonSchedulesKey                = @"schedules";
 
 static NSString *const kAppStoreLink                    = @"https://appsto.re/us/GxN85.i";
+
+@interface APCAppDelegate ()
+- (void) doGeneralInitialization;
+@end
 
 @interface APHAppDelegate ()
 @property (nonatomic) APHOnboardingManager *parkinsonOnboardingManager;
@@ -386,6 +391,18 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
     allSetBlockOfText = @[@{kAllSetActivitiesTextAdditional: activitiesAdditionalText}];
 
     return allSetBlockOfText;
+}
+
+/*********************************************************************************/
+#pragma mark - General initialization
+/*********************************************************************************/
+- (void) doGeneralInitialization {
+    
+    [super doGeneralInitialization];
+    
+    // need to change reminder behavior as per https://sagebionetworks.jira.com/browse/BRIDGE-1660
+    // so using our subclass here instead
+    self.tasksReminder = [APHTasksReminderManager new];
 }
 
 /*********************************************************************************/
@@ -834,10 +851,18 @@ static NSDate *determineConsentDate(id object)
 {
     NSMutableArray *scenes = [super tabBarScenes];
     
+    // change Dashboard tab to our subclass
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %@", NSStringFromSelector(@selector(identifier)), kDashBoardStoryBoardKey];
     APCScene *scene = [[scenes filteredArrayUsingPredicate:predicate] firstObject];
     scene.storyboardName = @"APHDashboard";
     scene.bundle = [self storyboardBundle];
+    
+    // Change profile tab here to use our subclass for APCProfileViewController as per https://sagebionetworks.jira.com/browse/BRIDGE-1660
+    predicate = [NSPredicate predicateWithFormat:@"%K = %@", NSStringFromSelector(@selector(identifier)), kHealthProfileStoryBoardKey];
+    scene = [[scenes filteredArrayUsingPredicate:predicate] firstObject];
+    scene.storyboardName = @"APHProfile";
+    scene.bundle = [self storyboardBundle];
+
     
     return scenes;
 }
