@@ -54,6 +54,7 @@ static NSString *const kJsonScheduleStringKey           = @"scheduleString";
 static NSString *const kJsonTasksKey                    = @"tasks";
 static NSString *const kJsonScheduleTaskIDKey           = @"taskID";
 static NSString *const kJsonSchedulesKey                = @"schedules";
+static NSString *const kPrivacyPolicyUrlKey             = @"privacyPolicyUrlString";
 
 static NSString *const kAppStoreLink                    = @"https://appsto.re/us/GxN85.i";
 
@@ -81,6 +82,11 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
 
 - (NSString * _Nonnull)studyIdentifier {
     return @"Parkinson's";
+}
+
+- (NSURL *)privacyPolicyLinkURL
+{
+    return [NSURL URLWithString:self.bridgeInfoPList.privacyPolicyLinkURLString];
 }
 
 - (HKUpdateFrequency)updateFrequency {
