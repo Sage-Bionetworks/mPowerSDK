@@ -88,6 +88,11 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
     return @"Parkinson's";
 }
 
+- (NSURL *)privacyPolicyLinkURL
+{
+    return [NSURL URLWithString:self.bridgeInfoPList.privacyPolicyLinkURLString];
+}
+
 - (HKUpdateFrequency)updateFrequency {
     return HKUpdateFrequencyImmediate;
 }
