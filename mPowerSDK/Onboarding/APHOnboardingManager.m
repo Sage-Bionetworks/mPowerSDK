@@ -127,6 +127,9 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
             [steps addObjectsFromArray:[self consentSteps: self.user.isSignedUp]];
         }
         if (!self.user.isSignedUp) {
+            // Bridge-1623 add step to get referral code from user
+            [steps addObjectsFromArray:[self referralCodeSteps]];
+
             // Next is registration for the user who is *not* signed up
             [steps addObjectsFromArray:[self registrationSteps]];
         }
@@ -201,6 +204,10 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
 
 - (NSArray <ORKStep *> *)verificationSteps {
     return @[[[ORKStep alloc] initWithIdentifier:APHVerificationStepIdentifier]];
+}
+
+- (NSArray <ORKStep *> *)referralCodeSteps {
+    return @[[[ORKStep alloc] initWithIdentifier:kAPCReferralCodeStepIdentifier]];
 }
 
 - (NSArray <ORKStep *> *)signInSteps {
@@ -338,8 +345,8 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
         }
         
     }
-    else if (![stepViewController.step isKindOfClass:[ORKRegistrationStep class]]) {
-        // Override the cancel button (but only if not the registration step which has no other button to tie into)
+    else if (![stepViewController.step isKindOfClass:[ORKRegistrationStep class]] && ![stepViewController.step.identifier isEqualToString:kAPCReferralCodeStepIdentifier]) {
+        // Override the cancel button (but only if not the registration or referralCode steps, which don't have other button to tie into)
         stepViewController.cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:[Localization buttonCancel]
                                                                                style:UIBarButtonItemStylePlain
                                                                               target:stepViewController
