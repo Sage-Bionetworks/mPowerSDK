@@ -127,11 +127,11 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
             [steps addObjectsFromArray:[self consentSteps: self.user.isSignedUp]];
         }
         if (!self.user.isSignedUp) {
-            // Bridge-1623 add step to get referral code from user
-            [steps addObjectsFromArray:[self referralCodeSteps]];
-
             // Next is registration for the user who is *not* signed up
             [steps addObjectsFromArray:[self registrationSteps]];
+
+            // Bridge-1623 add step to get referral code from user
+            [steps addObjectsFromArray:[self referralCodeSteps]];
         }
     }
     
