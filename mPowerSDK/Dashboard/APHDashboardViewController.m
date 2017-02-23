@@ -842,7 +842,7 @@ static NSString * const kAPHMonthlyReportHTMLStepIdentifier    = @"report";
         [step.identifier isEqualToString:kAPHMonthlyReportHTMLStepIdentifier]) {
         
         // TODO: syoung 03/01/2016 Remove hardcoding and clean up architecture
-        NSString *displayURLString = @"http://parkinsonmpower.org/report/index.html";
+        NSString *displayURLString = @"https://parkinsonmpower.org/report/index.html";
         NSString *pdfURLSuffix = @"#pdf";
         BOOL isStaging = ([[APHAppDelegate sharedAppDelegate] environment] == SBBEnvironmentStaging);
         NSString *sessionToken = isStaging ? @"aaa" : [[[[APHAppDelegate sharedAppDelegate] dataSubstrate] currentUser] sessionToken];
