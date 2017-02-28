@@ -75,7 +75,8 @@ static  CGFloat    kDefaultHeightForExtraRows    = 64.0;
     //
 - (NSInteger)numberOfSectionsInTableView:(UITableView *) __unused tableView
 {
-    return  kDefaultNumberOfExtraSections;
+    return 0; // Currently removing the copyright section since there aren't any copyrights to display
+//    return  kDefaultNumberOfExtraSections;
 }
 
     //
