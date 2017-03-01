@@ -193,7 +193,7 @@
          "sectionSummary" : "If you participate in this study, your privacy may be at risk. There may be other risks to participating that we do not know about yet.",
          "sectionLearnMoreButtonTitle" : "Learn more",
          "sectionHtmlContent" : "consent_11potential_risk",
-         "sectionImage": "consent_hand"
+         "sectionImage": "consent_potentialRisks"
      },
      {
          "sectionType" : "custom",
