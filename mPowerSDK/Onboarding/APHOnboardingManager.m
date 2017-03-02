@@ -129,9 +129,6 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
         if (!self.user.isSignedUp) {
             // Next is registration for the user who is *not* signed up
             [steps addObjectsFromArray:[self registrationSteps]];
-
-            // Bridge-1623 add step to get referral code from user
-            [steps addObjectsFromArray:[self referralCodeSteps]];
         }
     }
     
@@ -158,7 +155,11 @@ NSString * const APHPermissionsIntroStepIdentifier = @"permissionsIntro";
         // show the email verification and finish profile setup
         if (signUp) {
             [steps addObjectsFromArray:[self verificationSteps]];
+            
+            // Bridge-1623 add step to get referral code from user
+            [steps addObjectsFromArray:[self referralCodeSteps]];
         }
+        
         // The profile and permission steps need to be added to the flow b/c this
         // is a new device/user.
         [steps addObjectsFromArray:[self profileSteps]];
