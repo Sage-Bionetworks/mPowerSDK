@@ -93,6 +93,11 @@ static NSString *const kAppStoreLink                    = @"https://appsto.re/us
     return [NSURL URLWithString:self.bridgeInfoPList.privacyPolicyLinkURLString];
 }
 
+- (BOOL)promptUserToContinueActivities
+{
+    return YES;
+}
+
 - (HKUpdateFrequency)updateFrequency {
     return HKUpdateFrequencyImmediate;
 }
